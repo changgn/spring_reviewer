@@ -11,6 +11,16 @@
 			classpath:mybatis.xml
 		</param-value>
 	</context-param>
+	<!-- SiteMesh 설정 파일인 sitemesh.xml파일의 경로를 지정한다. -->
+<!-- 	<context-param>                                     
+	    <param-name>sitemesh.configfile</param-name>
+	    <param-value>/WEB-INF/config/sitemesh/sitemesh.xml</param-value>
+	</context-param>
+	 
+	<filter>
+	    <filter-name>sitemesh</filter-name>
+	    <filter-class>com.opensymphony.module.sitemesh.filter.PageFilter</filter-class>
+	</filter> -->
 	
 	<filter>
 		<filter-name>encodingFilter</filter-name>
@@ -25,6 +35,11 @@
 		<filter-name>HiddenHttpMethodFilter</filter-name>
 		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
 	</filter>
+	
+<!-- 	<filter-mapping>
+	    <filter-name>sitemesh</filter-name>
+	    <url-pattern>/*</url-pattern>
+	</filter-mapping> -->
 	
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>

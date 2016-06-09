@@ -24,7 +24,6 @@ public class MainController {
 	}
 	
 	
-	//로그인 성공 후 메인화면
 	@RequestMapping(value="/login.do",method=RequestMethod.POST)
 	public String login(HttpServletRequest request,String id, String pass){
 		
@@ -39,14 +38,12 @@ public class MainController {
 		}
 		return "logon/loginPro";
 	}
-	//메인화면 페이지 요청
 	@RequestMapping("/main.do")
 	public String main(){
 
-		return "main";
+		return "main/main";
 	}
 	
-	//로그아웃 후 로그인 폼으로 이동
 	@RequestMapping("/logout.do")
 	public String logout(HttpServletRequest request){
 		HttpSession session = request.getSession();
