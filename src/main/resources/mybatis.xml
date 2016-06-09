@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+       					http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+       					http://www.springframework.org/schema/context
+						http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+						
+	<!-- properties 파일 로드 -->
+	<context:property-placeholder location="classpath:db.properties"/>
+	
+	<!-- 커넥션풀 생성 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
+		p:dataSource-ref="dataSource" p:mapperLocations="classpath:sql/*.xml" />
+	
+	<!-- DAO 빈 생성 및 sqlSession 연결 -->
+	<bean id="boardDao" class="dao.BoardDAO" p:sqlSessionFactory-ref="sqlSessionFactory" />
+	<bean id="CategoryDao" class="dao.CategoryDAO" p:sqlSessionFactory-ref="sqlSessionFactory" />
+	<bean id="CommentDao" class="dao.CommentDAO" p:sqlSessionFactory-ref="sqlSessionFactory" />
+	<bean id="MemberDao" class="dao.MemberDAO" p:sqlSessionFactory-ref="sqlSessionFactory" />
+	<bean id="PhotoDao" class="dao.PhotoDAO" p:sqlSessionFactory-ref="sqlSessionFactory" />
+	
+</beans> 

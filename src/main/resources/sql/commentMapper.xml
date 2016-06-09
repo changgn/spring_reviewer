@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="comment">
+	<insert id="add" parameterType="command.CommentCommand">
+		insert into coment values(SEQ_coment_coment_num.NEXTVAL,#{board_num},#{id},#{content},sysdate)
+	</insert>
+	<update id="modify" parameterType="command.CommentCommand">
+		<!-- 조건문 -->
+	</update>
+	<delete id="remove" parameterType="java.lang.String">
+		<!-- 조건문 -->
+	</delete>
+	<delete id="removeByCommentNum" parameterType="java.lang.Integer">
+		delete from coment where coment_num=#{coment_num}
+	</delete>
+	<select id="getlist" resultType="command.CommentCommand">
+		<!-- 조건문 -->
+	</select>
+	<select id="getListByBoardNum" parameterType="java.lang.Integer" resultType="command.CommentCommand">
+		select * from coment where board_num=#{board_num} order by write_date DESC
+	</select>
+	<select id="getCountByBoardNum" parameterType="java.lang.Integer" resultType="java.lang.String">
+		select count(coment_num) from coment where board_num=#{board_num}
+	</select>
+	<select id="find" parameterType="String" resultType="command.CommentCommand">
+		<!-- 조건문 -->
+	</select>
+	<select id="getInfo" parameterType="String" resultType="hashmap">
+		<!-- 조건문 -->
+	</select>
+</mapper>
