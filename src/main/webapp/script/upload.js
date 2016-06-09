@@ -297,7 +297,7 @@
          
         // Insert label
         MultiFile.list.append(
-         r.append(b, ' ', a)
+         r.append(a, ' ', b)
         );
         
         b
@@ -478,7 +478,7 @@
 		
 		// STRING: collection lets you show messages in different languages
 		STRING: {
-			remove:'x',
+			remove:'X',
 			denied:'You cannot select a $ext file.\nTry again...',
 			file:'$file',
 			selected:'File selected: $file',
