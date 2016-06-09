@@ -27,41 +27,44 @@ public class MemberController {
 	public void setMemberDao(MemberDAO memberDao) {
 		this.memberDao = memberDao;
 	}
-
-	@ModelAttribute("memberinfo")
+   
+	//회원 정보를 가져옴
+	@ModelAttribute("memberCommand")
 	public MemberCommand get(){
 		return new MemberCommand();
 	}
 	
-	@RequestMapping(value="/loginForm.do",method=RequestMethod.GET)
+	//로그인 페이지 요청
+	@RequestMapping(value="/login.do",method=RequestMethod.GET)
 	public String loginform(){
-		return "loginForm";
+		return "logon/loginForm";
 	}
-	
-	@RequestMapping("/modifyForm.do")
+
+	@RequestMapping(value="/modify.do", method=RequestMethod.GET)
 	public String form(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		String id = (String) session.getAttribute("memId");
 		
-		MemberCommand memberInfo = memberDao.modifyForm(id);
+		MemberCommand memberCommand = memberDao.modifyForm(id);
 		
-		request.setAttribute("memberInfo", memberInfo);
-		return "modifyForm";
+		request.setAttribute("member", memberCommand);
+		return "member/modifyForm";
 	}
 	
-	
-	@RequestMapping("/modifyPro.do")
-	public String submit(@ModelAttribute("memberinfo") MemberCommand memberInfo) {
+	//회원수정 후, 메인페이지로의 이동 요청
+	@RequestMapping(value="/modify.do", method=RequestMethod.POST)
+	public String submit(@ModelAttribute("memberCommand") MemberCommand memberCommand) {
 		
-		int updateSuccess = memberDao.modifyPro(memberInfo);
+		int updateSuccess = memberDao.modifyPro(memberCommand);
 		
 		if (updateSuccess>0) {
-			return "mainForm";
+			return "main/main";
 		}
-		return "modifyForm";
+		return "member/modifyForm";
 	}
 	
-	@RequestMapping("/deleteForm.do")
+	//회원삭제 페이지 요청
+	@RequestMapping(value="/delete.do", method=RequestMethod.GET)
 	public String deleteForm(HttpServletRequest request){
 		HttpSession session = request.getSession();
 		String id = (String) session.getAttribute("id");
@@ -71,26 +74,26 @@ public class MemberController {
 		request.setAttribute("id",id);
 		request.setAttribute("passwd", passwd);
 		
-		return "deleteForm";
+		return "member/deleteForm";
 	}
 
-	
-	@RequestMapping("/deletePro.do")
+    //회원 페이지 삭제 후 로그인 페이지로 이동요청	
+	@RequestMapping(value="/delete.do", method=RequestMethod.POST)
 	public String delete(HttpServletRequest request,String id,String passwd){
 		HttpSession session = request.getSession();
-		MemberCommand memInfo = memberDao.deleteCf(id);
+		MemberCommand memberCommand = memberDao.deleteCf(id);
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("id", id);
 		map.put("passwd", passwd);
 		
-		if ((memInfo.getPasswd()).equals(passwd)) {
+		if ((memberCommand.getPasswd()).equals(passwd)) {
 
 			session.invalidate();
 			memberDao.deleteCf(id);
-			return "loginForm";
+			return "logon/loginForm";
 		}
 		
-		return "deleteForm";
+		return "member/deleteForm";
 	}
 	
 	}

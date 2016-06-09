@@ -28,24 +28,24 @@ public class JoinController {
 	}
 	
 	
-	@ModelAttribute("memberInfo")
-	public MemberCommand memberInfo(){
+	@ModelAttribute("memberCommand")
+	public MemberCommand memberCommand(){
 		return new MemberCommand();
 	}
 	
-	@RequestMapping(value="/inputForm.do",method=RequestMethod.GET)
+	//회원가입 페이지 요청
+	@RequestMapping(value="/join.do",method=RequestMethod.GET)
 	public String regform(){
-		return "inputForm";
+		return "member/inputForm";
 	}
-	
-	@RequestMapping(value="/InputPro.do",method=RequestMethod.POST)
+	//회원 가입 성공 후, 로그인 페이지로 redirect
+	@RequestMapping(value="/join.do",method=RequestMethod.POST)
 	public String action(String id){
 		memberDao.loginPro(id);
-		return "inputPro";
+		return "member/inputPro";
 	}
 	
-	
-	//아이디 체크
+	//아이디 체크 페이지 요청 및 아이디 체크
 	@RequestMapping("/idCheckForm.do")
 	public ModelAndView idCheck(@RequestParam("id") String id){
 		ModelAndView mav = new ModelAndView("idCheckForm");

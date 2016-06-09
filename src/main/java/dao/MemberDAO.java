@@ -100,13 +100,62 @@ public class MemberDAO extends SqlSessionDaoSupport{
 			System.out.println(e.getMessage());
 		}
 	}
+	
+	//
+		public List<MemberCommand> getMemberListVo(){
+			List<MemberCommand> memberList = null;
+			
+			try{
+				memberList = getSqlSession().selectList("member.getList");
+				
+			}catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+			return memberList;
+		}
 		
+		// 수정 try - catch 지울 것
+		public List<Date> getRegDate(List<String> id){
+			List<Date> RegDateList = null;
+			
+			try{
+				
+				RegDateList = getSqlSession().selectList("member.getRegList", id);
+			}catch(Exception e){
+				System.out.println(e.getMessage());
+			}
+			return RegDateList;
+		}
+		
+		// 수정 try - catch 지울 것
+		public List<Integer> getRecommedNum(List<String> id){
+			List<Integer> RecommendNumList = null;
+			
+			try{
+				
+				RecommendNumList = getSqlSession().selectList("member.getRecList", id);
+				
+			}catch(Exception e){
+				System.out.println(e.getMessage());
+			}
+			return RecommendNumList;
+		}
+		
+		// 수정 try - catch 지울 것
 		public int count(){
-			return getSqlSession().selectOne("member.count");
+			
+			Integer count = null;
+			
+			try{
+				
+				count = getSqlSession().selectOne("member.count");
+				
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+			return count;
 		}
-		public List<MemberCommand> getList(){
-			return getSqlSession().selectList("member.getList");
-		}
+		
 		public String idCheck(String id){
 			String ch=null;
 			
