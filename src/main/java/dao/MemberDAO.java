@@ -100,60 +100,13 @@ public class MemberDAO extends SqlSessionDaoSupport{
 			System.out.println(e.getMessage());
 		}
 	}
-	
-	// 占쏙옙占� 회占쏙옙 占쏙옙占�
-		public List<MemberCommand> getMemberListVo(){
-			List<MemberCommand> memberList = null;
-			
-			try{
-				memberList = getSqlSession().selectList("member.getList");
-				
-			}catch (Exception e) {
-				System.out.println(e.getMessage());
-			}
-			return memberList;
-		}
-		
-		// 회占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙트 占싱깍옙
-		public List<Date> getRegDate(List<String> id){
-			List<Date> RegDateList = null;
-			
-			try{
-				
-				RegDateList = getSqlSession().selectList("member.getRegList", id);
-			}catch(Exception e){
-				System.out.println(e.getMessage());
-			}
-			return RegDateList;
-		}
-		
-		// 占쏙옙천占쏙옙 占쏙옙占쏙옙트 占싱깍옙
-		public List<Integer> getRecommedNum(List<String> id){
-			List<Integer> RecommendNumList = null;
-			
-			try{
-				
-				RecommendNumList = getSqlSession().selectList("member.getRecList", id);
-				
-			}catch(Exception e){
-				System.out.println(e.getMessage());
-			}
-			return RecommendNumList;
-		}
 		
 		public int count(){
-			Integer count = null;
-			
-			try{
-				
-				count = Integer.valueOf((String) getSqlSession().selectOne("member.count"));
-				
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
-			}
-			return count;
+			return getSqlSession().selectOne("member.count");
 		}
-		
+		public List<MemberCommand> getList(){
+			return getSqlSession().selectList("member.getList");
+		}
 		public String idCheck(String id){
 			String ch=null;
 			
