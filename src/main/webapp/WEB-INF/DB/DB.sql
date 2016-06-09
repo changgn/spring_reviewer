@@ -6,7 +6,7 @@ DROP TRIGGER TRI_board_recommend_num;
 
 /* Drop Tables */
 
-DROP TABLE comment CASCADE CONSTRAINTS;
+DROP TABLE comments CASCADE CONSTRAINTS;
 DROP TABLE notice CASCADE CONSTRAINTS;
 DROP TABLE photo CASCADE CONSTRAINTS;
 DROP TABLE recommend CASCADE CONSTRAINTS;
@@ -22,13 +22,13 @@ DROP TABLE members CASCADE CONSTRAINTS;
 
 /* Drop Sequences */
 
-DROP SEQUENCE SEQ_comment_comment_num;
-
+DROP SEQUENCE SEQ_comments_comment_num;
+DROP SEQUENCE SEQ_board_board_num;
 
 /* Create Sequences */
 
-CREATE SEQUENCE SEQ_comment_comment_num INCREMENT BY 1 START WITH 1;
-
+CREATE SEQUENCE SEQ_comments_comment_num INCREMENT BY 1 START WITH 1;
+CREATE SEQUENCE SEQ_board_board_num INCREMENT BY 1 START WITH 1;
 
 /* Create Tables */
 
@@ -57,7 +57,7 @@ CREATE TABLE category
 );
 
 
-CREATE TABLE comment
+CREATE TABLE comments
 (
 	comment_num number NOT NULL,
 	content_num number NOT NULL,
@@ -139,7 +139,7 @@ CREATE TABLE screp
 
 /* Create Foreign Keys */
 
-ALTER TABLE comment
+ALTER TABLE comments
 	ADD FOREIGN KEY (content_num)
 	REFERENCES board (board_num)
 	ON DELETE CASCADE
@@ -279,53 +279,4 @@ BEGIN
 END;
 
 /
-
-
-
-/* Comments */
-
-COMMENT ON COLUMN board.board_num IS '글번호';
-COMMENT ON COLUMN board.id IS '작성자';
-COMMENT ON COLUMN board.category_id IS '카테고리 분류 번호';
-COMMENT ON COLUMN board.content IS '본문내용';
-COMMENT ON COLUMN board.write_date IS '작성시간';
-COMMENT ON COLUMN board.recommend_num IS '추천수';
-COMMENT ON COLUMN board.report_num IS '신고수';
-COMMENT ON COLUMN board.screp IS '스크랩수';
-COMMENT ON COLUMN board.comment_num IS '댓글수';
-COMMENT ON COLUMN category.category_id IS '카테고리 번호';
-COMMENT ON COLUMN category.group1 IS '대분류';
-COMMENT ON COLUMN category.group2 IS '중분류';
-COMMENT ON COLUMN category.group3 IS '소분류';
-COMMENT ON COLUMN comment.comment_num IS '댓글번호';
-COMMENT ON COLUMN comment.content_num IS '본문내용 번호';
-COMMENT ON COLUMN comment.id IS '아이디';
-COMMENT ON COLUMN comment.content IS '글내용';
-COMMENT ON COLUMN comment.write_date IS '작성시간';
-COMMENT ON COLUMN follow.from_id IS '팔로우';
-COMMENT ON COLUMN follow.to_id IS '팔로잉';
-COMMENT ON COLUMN members.id IS '아이디';
-COMMENT ON COLUMN members.passwd IS '패스워드';
-COMMENT ON COLUMN members.name IS '이름';
-COMMENT ON COLUMN members.birth IS '생년월일';
-COMMENT ON COLUMN members.email IS '이메일';
-COMMENT ON COLUMN members.phone_num IS '휴대폰번호';
-COMMENT ON COLUMN members.reg_date IS '가입시간';
-COMMENT ON COLUMN members.recommend_num IS '추천수';
-COMMENT ON COLUMN members_category.id IS '아이디';
-COMMENT ON COLUMN members_category.category_id IS '카테고리 번호';
-COMMENT ON COLUMN notice.id IS '아이디';
-COMMENT ON COLUMN notice.targetid IS '아이디';
-COMMENT ON COLUMN notice.board_num IS '글번호';
-COMMENT ON COLUMN photo.fileName IS '파일이름';
-COMMENT ON COLUMN photo.content_num IS '본문번호';
-COMMENT ON COLUMN photo.realPath IS '절대경로';
-COMMENT ON COLUMN recommend.id IS '아이디';
-COMMENT ON COLUMN recommend.recommend_num IS '글번호';
-COMMENT ON COLUMN report.id IS '아이디';
-COMMENT ON COLUMN report.report_num IS '글번호';
-COMMENT ON COLUMN screp.id IS '스크랩 아이디';
-COMMENT ON COLUMN screp.content_num IS '글번호';
-
-
 
