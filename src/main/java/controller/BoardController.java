@@ -54,12 +54,12 @@ public class BoardController {
 	}
 
 	//게시물 입력
-	@RequestMapping(value="/content/writeForm.do", method=RequestMethod.GET)
+	@RequestMapping(value="write/writeForm.do", method=RequestMethod.GET)
 	public String insertboard(){
-		return "content/writeForm";
+		return "write/writeForm";
 	}
 	
-	@RequestMapping(value="/content/writeForm.do", method=RequestMethod.POST)
+	@RequestMapping(value="/write/writeForm.do", method=RequestMethod.POST)
 	public String insertboard(MultipartHttpServletRequest mhsq, HttpServletRequest request, 
 			String addCategory, String boardContent)
 			throws IllegalStateException, IOException {

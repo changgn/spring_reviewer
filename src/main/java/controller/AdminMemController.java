@@ -23,10 +23,10 @@ public class AdminMemController {
 		ModelAndView mav = new ModelAndView();
 		/**	회웍 목록	*/
 		List<MemberCommand> member_list = null;
-		member_list = memberDAO.getList();
+		member_list = memberDAO.getList();  
 		mav.addObject("memberList", member_list);	
 		/**	전체 회원 수	*/
-		int count = 0;
+		int count = 0;      
 		count = memberDAO.count();
 		mav.addObject("count", count);
 		/**	view name 설정	*/
