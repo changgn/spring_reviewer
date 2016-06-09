@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="follow">
+	<!-- 팔로우, 팔로잉 추가 -->
+	<insert id="add" parameterType="command.FollowCommand">
+		insert into follow values(#{from_id}, #{to_id})
+	</insert>
+	<!-- 팔로우, 팔로잉 삭제 -->
+	<delete id="remove" parameterType="command.FollowCommand">
+		delete from follow where from_id=#{from_id} AND to_id=#{to_id}
+	</delete>
+	<!-- 팔로워 목록 -->
+	<select id="fromList" parameterType="java.lang.String" resultType="command.FollowCommand">
+		select from_id from follow where to_id=#{to_id}
+	</select>
+	<!-- 팔로잉 목록 -->
+	<select id="toList" parameterType="java.lang.String" resultType="command.FollowCommand">
+		select to_id from follow where from_id=#{from_id}
+	</select>
+	<!-- 팔로워 수 -->
+	<select id="countfrom" parameterType="command.FollowCommand" resultType="java.lang.Integer">
+		select count(from_id) from follow where to_id=#{to_id}
+	</select>
+	<!-- 팔로잉 수 -->
+	<select id="countto" parameterType="command.FollowCommand" resultType="java.lang.Integer">
+		select count(to_id) from follow where from_id=#{from_id}
+	</select>
+</mapper>
