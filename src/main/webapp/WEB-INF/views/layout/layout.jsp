@@ -65,12 +65,12 @@
 	<div id="header">
 	<!-- 헤더 -->
 		<h1 id="logo">
-			<a id="logo_btn" href="/reviewer/main/mainForm.do" title="Reviewer">Reviewer</a>
+			<a id="logo_btn" href="main.do" title="Reviewer">Reviewer</a>
 		</h1>
 		<span id="main_btn">
 
 			<c:if test="${login_status!=0 && login_status!=1}">
-				<a class="btn_gnb" href="/reviewer/logon/loginForm.do">
+				<a class="btn_gnb" href="login.do">
 					<span id="btn_login">로그인버튼</span>
 				</a>
 			</c:if>
