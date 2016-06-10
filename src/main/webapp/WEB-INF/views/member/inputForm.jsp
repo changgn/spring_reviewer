@@ -108,7 +108,7 @@ $(function(){
 </head>
 <body>
 <div id="join">
-	<form method="post" action="inputPro.do" name="inputForm" id="inputForm">
+	<form method="post" action="join.do" name="inputForm" id="inputForm">
 		<div class="size_long"><h1 class="title_find">회 원 가 입</h1></div>
 		<div class="size_long" id="divid">
 			<div id="join_text_id"><input class="text_login" type="text" name="id" id="id" maxlength="12" placeholder="아이디"></div>

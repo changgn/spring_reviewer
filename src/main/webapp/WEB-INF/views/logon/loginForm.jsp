@@ -11,7 +11,7 @@ $(function(){
 		check();
 	});
 	$("#btn_join").click(function(){
-		$(location).attr("href","inputForm.do");
+		$(location).attr("href","join.do");
 	});
 	$("#btn_find").click(function(){
 		$(location).attr("href","idpwSearchNew.do");

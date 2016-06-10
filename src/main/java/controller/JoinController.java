@@ -64,7 +64,7 @@ public class JoinController {
 	
 	@RequestMapping("/idCheckForm.do")
 	public ModelAndView idCheck(@RequestParam("id") String id){
-		ModelAndView mav = new ModelAndView("idCheckForm");
+		ModelAndView mav = new ModelAndView("member/idCheckForm");
 		String memId = memberDao.idCheck(id);
 		int check = 0;
 		if (memId != null) {

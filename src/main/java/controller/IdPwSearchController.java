@@ -34,7 +34,7 @@ public class IdPwSearchController {
 		String message = request.getParameter("message");
 		request.setAttribute("message", message);
 	
-		return "idpwSearchNew";
+		return "idpwSearch/idpwSearchNew";
 	}
 	@RequestMapping("/idSearch.do")
 	public String idSearch(HttpServletRequest request, HttpServletResponse response){
@@ -47,12 +47,12 @@ public class IdPwSearchController {
 		List<String> idList = memberDao.idSearch(phone_num);
 		if(idList.size()==0){
 			message="errorPhoneNum";
-			return "idSearch";
+			return "idpwSearch/idSearch";
 		}
 		request.setAttribute("message", message);
 		request.setAttribute("idList", idList);
 		
-		return "idSearch";
+		return "idpwSearch/idSearch";
 	}
 	@RequestMapping("/pwSearch.do")
 	public String pwSearch(HttpServletRequest request, HttpServletResponse response){
@@ -82,7 +82,7 @@ public class IdPwSearchController {
 		request.setAttribute("passwd", passwd);
 		request.setAttribute("message", message);
 		
-		return "pwSearch";
+		return "idpwSearch/pwSearch";
 	}
 	
 }

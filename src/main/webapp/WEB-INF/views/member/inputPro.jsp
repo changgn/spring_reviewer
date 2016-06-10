@@ -24,7 +24,7 @@
 	<div class="join_message size_long text_long">
 		${fmessage}
 	</div>
-	<%response.sendRedirect("inputForm.do"); %>
+	<%response.sendRedirect("join.do"); %>
 </c:if>
 </body>
 </html>
