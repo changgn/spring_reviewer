@@ -3,9 +3,19 @@
 <decorators defaultdir="/decorators">
 	 
 	<decorator name="layout" page="/WEB-INF/views/layout/layout.jsp">
-		<pattern>/*</pattern> 
+		<pattern>/write/*</pattern>
+		<pattern>/main/*</pattern>
+		<pattern>/categorySet/*</pattern>
+		<pattern>/search/*</pattern>
+		<pattern>/content/contentForm.do</pattern>
+		<pattern>/content/contentPro.do</pattern>
+		<pattern>/administrator/*</pattern>
+		<pattern>/follow/*</pattern>
+		<pattern>/logon/modifyForm.do</pattern>
+		<pattern>/logon/deleteForm.do</pattern>
+		<pattern>/profile/*</pattern>
+		<pattern>/administrator/*</pattern>
 	</decorator> 
-	
 	
 	<decorator name="logon" page="/WEB-INF/views/layout/logon_layout.jsp">
 		<pattern>/logon/loginForm.do</pattern>
