@@ -42,7 +42,7 @@ $(function(){
 		$("form")[0].reset();
 	});
 	$("#modify_btn_cancel").click(function(){
-		$(location).attr("href","/reviewer/logon/loginForm.do");
+		$(location).attr("href","logon/loginForm.do");
 	});
 	$("#modify_btn_modify").click(function(){
 		if($("#id").val()==""){
@@ -84,14 +84,14 @@ $(function(){
 		$("#modifyForm").submit();
 	});
 	$("#modify_btn_remove").click(function(){
-		$(location).attr("href","/reviewer/logon/deleteForm.do");
+		$(location).attr("href","member/delete.do");
 	});
 });
 </script>
 </head>
 <body>
 <div id="modify">
-	<form method="post" action="modifyPro.do" name="modifyForm" id="modifyForm">
+	<form method="post" action="main/modify.do" name="modifyForm" id="modifyForm">
 		<div class="size_long"><h1 class="title_find">회 원 정 보 수 정</h1></div>
 		<div class="size_long" id="divid">
 			<div id="join_text_id"><input class="text_login" type="text" name="id" id="id" maxlength="12" readonly value="${m.id}" placeholder="아이디"></div>

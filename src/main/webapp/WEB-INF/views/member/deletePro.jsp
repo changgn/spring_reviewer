@@ -9,7 +9,7 @@
 </head>
 <body>
 <c:if test="${errorPasswd==null}">
-<% response.sendRedirect("/loginForm.do"); %>
+<% response.sendRedirect("/logon/login.do"); %>
 </c:if>
 <c:if test="${errorPasswd!=null}">
 	<script>

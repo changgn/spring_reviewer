@@ -8,7 +8,7 @@
 <body>
 	<script>
 		alert("회원 정보를 수정 하였습니다");
-		location.href="mainForm.do";
+		location.href="main.do";
 	</script>
 </body>
 </html>

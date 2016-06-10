@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 
@@ -8,7 +8,7 @@
 </head>
 <body>
 <c:if test="${ message == null}">
-	<c:redirect url="main.do"/>
+	<c:redirect url="/main/main.do"/>
 </c:if>
 <c:if test="${ message != null}">
 	<c:if test="${ message == 'errID'}">

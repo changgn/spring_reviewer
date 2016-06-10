@@ -17,7 +17,7 @@ $(function(){
 			$("#idchin").focus();
 			return false;
 		}
-		var url = "idCheckForm.do?id=" + $("#idchin").val();
+		var url = "/member/idCheckForm.do?id=" + $("#idchin").val();
 		$(location).attr("href", url);
 	});
 });

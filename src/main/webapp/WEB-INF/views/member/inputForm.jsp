@@ -1,4 +1,4 @@
-f<%@ page contentType="text/html; charset=UTF-8"%>
+f<%@ page contentType="text/html; charset=UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
@@ -13,7 +13,7 @@ $(function(){
 			$("#id").focus();
 			return false;
 		}
-		var url = "idCheckForm.do?id=" + $("#id").val();
+		var url = "/member/idCheckForm.do?id=" + $("#id").val();
 		window.open(url, "_blank", "width=500,height=100");
 	}); 
 	$("#man").click(function(){
@@ -47,7 +47,7 @@ $(function(){
 		$("form")[0].reset();
 	});
 	$("#join_btn_cancel").click(function(){
-		$(location).attr("href","loginForm.do");
+		$(location).attr("href","logon/login.do");
 	});
 	$("#join_btn_join").click(function(){
 		if($("#id").val()==""){
@@ -108,7 +108,7 @@ $(function(){
 </head>
 <body>
 <div id="join">
-	<form method="post" action="join.do" name="inputForm" id="inputForm">
+	<form method="post" action="/member/join.do" name="inputForm" id="inputForm">
 		<div class="size_long"><h1 class="title_find">회 원 가 입</h1></div>
 		<div class="size_long" id="divid">
 			<div id="join_text_id"><input class="text_login" type="text" name="id" id="id" maxlength="12" placeholder="아이디"></div>

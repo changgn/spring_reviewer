@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
@@ -11,10 +11,10 @@ $(function(){
 		check();
 	});
 	$("#btn_join").click(function(){
-		$(location).attr("href","join.do");
+		$(location).attr("href","/member/join.do");
 	});
 	$("#btn_find").click(function(){
-		$(location).attr("href","idpwSearchNew.do");
+		$(location).attr("href","idpwSearch/idpwSearchNew.do");
 	});
     $("#passwd").keyup(function(e){
         if(e.keyCode == 13){
@@ -22,7 +22,7 @@ $(function(){
         }
     });
     $("#login_logo").click(function(){
-    	$(location).attr("href","mainForm.do");
+    	$(location).attr("href","main.do");
     });
     
 });
@@ -48,13 +48,13 @@ function check() {
 </head>
 <body>
 <c:if test="${login_status!=2}">
-	<%response.sendRedirect("/main.do"); %>
+	<%response.sendRedirect("/main/main.do"); %>
 </c:if>
 <c:if test="${message!=null}">
 	<script>alert("아이디 또는 패스워드가 일치하지 않습니다");</script>
 </c:if>
 <div id="logon">  
-	<form method="post" action="loginPro.do" name="loginFrom" id="loginForm">
+	<form method="post" action="/logon/login.do" name="loginFrom" id="loginForm">
 		<div id="loginForm">
 			<div id="login_logo"><a href="#"><img src="../image/reviewer_gray.png" ></a></div>
 			<div id="div_id" class="size_long"><input type="text" class="text_login" id="id" name="id" placeholder="아이디" ></div>

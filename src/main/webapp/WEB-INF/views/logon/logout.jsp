@@ -4,7 +4,7 @@
 <title>로그아웃 페이지</title>
 </head>
 <body>
-<%response.sendRedirect("/loginForm.do"); %>
+<%response.sendRedirect("logon/loginout.do"); %>
 
 </body>
 </html>

@@ -47,11 +47,11 @@
 				}
 			});
 			$("#btn_newsfeed").click(function(){
-				$(location).attr("href", "main.do");
+				$(location).attr("href", "/main/main.do");
 			});
 
 			$("#btn_my").click(function(){
-				if($("#btn_my a").attr("href")=="loginForm.do"){
+				if($("#btn_my a").attr("href")=="/logon/login.do"){
 					alert("로그인이 필요합니다");
 				}
 				$(location).attr("href", $("#btn_my a").attr("href"));
@@ -65,12 +65,12 @@
 	<div id="header">
 	<!-- 헤더 -->
 		<h1 id="logo">
-			<a id="logo_btn" href="main.do" title="Reviewer">Reviewer</a>
+			<a id="logo_btn" href="/main/main.do" title="Reviewer">Reviewer</a>
 		</h1>
 		<span id="main_btn">
 
 			<c:if test="${login_status!=0 && login_status!=1}">
-				<a class="btn_gnb" href="login.do">
+				<a class="btn_gnb" href="/logon/login.do">
 					<span id="btn_login">로그인버튼</span>
 				</a>
 			</c:if>
@@ -79,7 +79,7 @@
 					<span id="btn_user">계정설정</span>
 				</a>
 			</c:if>
-			<a class="btn_gnb" href="searchForm.do">
+			<a class="btn_gnb" href="/searchForm.do">
 				<span id="btn_search">검색버튼</span>
 			</a>
 			<a class="btn_gnb btn_alarm_toggle" href="#">
@@ -94,8 +94,8 @@
 					<c:if test="${login_status==0}">
 						<li><a href="/reviewer/administrator/adminForm.do">관리자 페이지</a></li>
 					</c:if>
-					<li><a href="/reviewer/logon/modifyForm.do">회원정보 수정</a></li>
-					<li><a href="/reviewer/logon/logout.do">로그아웃</a></li>
+					<li><a href="modify.do">회원정보 수정</a></li>
+					<li><a href="logout.do">로그아웃</a></li>
 				</ul>
 			</div>
 		</c:if>
@@ -120,7 +120,7 @@
 			<li>
 				<div id="btn_my">
 					<c:if test="${login_status!=0 && login_status!=1}">
-						<a href="loginForm.do" class="nav_btn">M&nbsp;&nbsp;&nbsp;Y</a>
+						<a href="/logon/login.do" class="nav_btn">M&nbsp;&nbsp;&nbsp;Y</a>
 					</c:if>
 					<c:if test="${login_status==0 || login_status==1}">
 						<a href="myProfile.do?id=${sessionScope.id }" class="nav_btn">M&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y</a>

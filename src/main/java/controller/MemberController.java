@@ -35,12 +35,13 @@ public class MemberController {
 	}
 	
 	//로그인 페이지 요청
-	@RequestMapping(value="/login.do",method=RequestMethod.GET)
-	public String loginform(){
+	@RequestMapping(value="/logon/login.do",method=RequestMethod.GET)
+	public String loginform(HttpSession session){
+		session.setAttribute("login_status", 2);
 		return "logon/loginForm";
 	}
 
-	@RequestMapping(value="/modify.do", method=RequestMethod.GET)
+	@RequestMapping(value="/main/modify.do", method=RequestMethod.GET)
 	public String form(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		String id = (String) session.getAttribute("memId");
@@ -52,7 +53,7 @@ public class MemberController {
 	}
 	
 	//회원수정 후, 메인페이지로의 이동 요청
-	@RequestMapping(value="/modify.do", method=RequestMethod.POST)
+	@RequestMapping(value="/main/modify.do", method=RequestMethod.POST)
 	public String submit(@ModelAttribute("memberCommand") MemberCommand memberCommand) {
 		
 		int updateSuccess = memberDao.modifyPro(memberCommand);
@@ -64,7 +65,7 @@ public class MemberController {
 	}
 	
 	//회원삭제 페이지 요청
-	@RequestMapping(value="/delete.do", method=RequestMethod.GET)
+	@RequestMapping(value="/main/delete.do", method=RequestMethod.GET)
 	public String deleteForm(HttpServletRequest request){
 		HttpSession session = request.getSession();
 		String id = (String) session.getAttribute("id");
@@ -78,7 +79,7 @@ public class MemberController {
 	}
 
     //회원 페이지 삭제 후 로그인 페이지로 이동요청	
-	@RequestMapping(value="/delete.do", method=RequestMethod.POST)
+	@RequestMapping(value="/main/delete.do", method=RequestMethod.POST)
 	public String delete(HttpServletRequest request,String id,String passwd){
 		HttpSession session = request.getSession();
 		MemberCommand memberCommand = memberDao.deleteCf(id);

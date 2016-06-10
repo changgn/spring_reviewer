@@ -46,7 +46,7 @@ $(function(){
 	</c:if>
 </c:if>
 <div id="find">
-	<form action="idSearch.do" method="post" name="idSearch" id="idSearch" >
+	<form action="main/idSearch.do" method="post" name="idSearch" id="idSearch" >
 		<div id="find_id">
 			<div class="size_long"><h1 class="title_find">아이디 찾기</h1></div>
 			<div class="size_long" id="text_phone_num"><input type="text" class="text_login" id="phone_num" name="phone_num" maxlength="12" placeholder="핸드폰 번호(01012345678)"></div>
@@ -54,7 +54,7 @@ $(function(){
 		</div>
 	</form>
 	<br><br>
-	<form action="pwSearch.do" method="post" name="pwSearch" id="pwSearch">
+	<form action="main/idpwSearch/pwSearch.do" method="post" name="pwSearch" id="pwSearch">
 		<div id="find_pwd">
 			<div class="size_long"><h1 class="title_find">비밀번호 찾기</h1></div>
 			<div class="size_long" id="divid"><input type="text" class="text_login" id="id" name="id" placeholder="아이디"></div>

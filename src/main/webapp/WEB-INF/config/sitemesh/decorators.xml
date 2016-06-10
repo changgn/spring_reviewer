@@ -11,16 +11,13 @@
 		<pattern>/content/contentPro.do</pattern>
 		<pattern>/administrator/*</pattern>
 		<pattern>/follow/*</pattern>
-		<pattern>/logon/modifyForm.do</pattern>
-		<pattern>/logon/deleteForm.do</pattern>
+		<pattern>/logon/*</pattern>
 		<pattern>/profile/*</pattern>
 		<pattern>/administrator/*</pattern>
 	</decorator> 
 	
 	<decorator name="logon" page="/WEB-INF/views/layout/logon_layout.jsp">
-		<pattern>/logon/loginForm.do</pattern>
-		<pattern>/logon/inputForm.do</pattern>
-		<pattern>/logon/inputPro.do</pattern>
+		<pattern>/member/*</pattern>
 		<pattern>/idpwSearch/*</pattern>
 	</decorator>
 	<excludes>
