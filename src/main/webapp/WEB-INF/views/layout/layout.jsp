@@ -47,11 +47,11 @@
 				}
 			});
 			$("#btn_newsfeed").click(function(){
-				$(location).attr("href", "/reviewer/main/mainForm.do");
+				$(location).attr("href", "main.do");
 			});
 
 			$("#btn_my").click(function(){
-				if($("#btn_my a").attr("href")=="/reviewer/logon/loginForm.do"){
+				if($("#btn_my a").attr("href")=="loginForm.do"){
 					alert("로그인이 필요합니다");
 				}
 				$(location).attr("href", $("#btn_my a").attr("href"));
@@ -79,13 +79,13 @@
 					<span id="btn_user">계정설정</span>
 				</a>
 			</c:if>
-			<a class="btn_gnb" href="/reviewer/search/searchForm.do">
+			<a class="btn_gnb" href="searchForm.do">
 				<span id="btn_search">검색버튼</span>
 			</a>
-<!-- 		<a class="btn_gnb btn_alarm_toggle" href="#">
+			<a class="btn_gnb btn_alarm_toggle" href="#">
 				<span id="btn_alarm">알림버튼</span>
 			</a> 
--->
+
 		</span>
 		<c:if test="${login_status==0 || login_status==1}">
 			<div id="user">
@@ -115,15 +115,15 @@
 	<!-- 네비게이션 -->
 		<ul id="list_nav">
 			<li>
-				<div id="btn_newsfeed"><a href="/reviewer/main/mainForm.do" class="nav_btn">뉴&nbsp;&nbsp;스&nbsp;&nbsp;피&nbsp;&nbsp;드</a></div>
+				<div id="btn_newsfeed"><a href="main.do" class="nav_btn">뉴&nbsp;&nbsp;스&nbsp;&nbsp;피&nbsp;&nbsp;드</a></div>
 			</li>
 			<li>
 				<div id="btn_my">
 					<c:if test="${login_status!=0 && login_status!=1}">
-						<a href="/reviewer/logon/loginForm.do" class="nav_btn">M&nbsp;&nbsp;&nbsp;Y</a>
+						<a href="loginForm.do" class="nav_btn">M&nbsp;&nbsp;&nbsp;Y</a>
 					</c:if>
 					<c:if test="${login_status==0 || login_status==1}">
-						<a href="/reviewer/profile/myProfile.do?id=${sessionScope.id }" class="nav_btn">M&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y</a>
+						<a href="myProfile.do?id=${sessionScope.id }" class="nav_btn">M&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y</a>
 					</c:if>
 				</div>
 			</li>

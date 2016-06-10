@@ -39,7 +39,7 @@ $(function(){
 
 </head>
 <body>
-<%-- <c:forEach var="board" items="${allBoardList}"> --%>
+<c:forEach var="board" items="${allBoardList}">
 	<div class="content_wrap">
 		<div class="content_first">	
 			<div class="cont_writer">
@@ -103,14 +103,14 @@ $(function(){
 					<span class="u_ico_coment">댓글</span>
 					<span class="text_num">${board.commentCount}</span>				
 				</a>
-<!-- 				<a href="#" class="btns_screp" >
+				<a href="#" class="btns_screp" >
 					<span class="u_ico_screp">스크렙</span>
 					<span class="text_num">19</span>
-					</a> -->
+				</a>
        		</div>
        	</div>
 	</div>
-<%-- </c:forEach> --%>
+</c:forEach>
 	<c:if test="${login_status==0 || login_status==1}">
 		<div class="btn_posting_wrap">
 			<a href="/reviewer/write/writeForm.do" class="btn_posting">

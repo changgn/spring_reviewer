@@ -5,4 +5,15 @@
 	<decorator name="layout" page="/WEB-INF/views/layout/layout.jsp">
 		<pattern>/*</pattern> 
 	</decorator> 
+	
+	
+	<decorator name="logon" page="/WEB-INF/views/layout/logon_layout.jsp">
+		<pattern>/logon/loginForm.do</pattern>
+		<pattern>/logon/inputForm.do</pattern>
+		<pattern>/logon/inputPro.do</pattern>
+		<pattern>/idpwSearch/*</pattern>
+	</decorator>
+	<excludes>
+		<pattern>/content/reportPro.do</pattern>
+	</excludes>
 </decorators>

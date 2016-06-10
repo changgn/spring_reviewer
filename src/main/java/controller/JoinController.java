@@ -1,9 +1,9 @@
 package controller;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import dao.MemberDAO;
 import command.MemberCommand;
+import dao.MemberDAO;
 
 
 @Controller
@@ -21,31 +21,47 @@ public class JoinController {
 	@Autowired
 	private MemberDAO memberDao;
 	
-	
-	
 	public void setMemberDao(MemberDAO memberDao) {
 		this.memberDao = memberDao;
 	}
 	
+	@RequestMapping(value="/login.do",method=RequestMethod.POST)
+	public String login(HttpServletRequest request,String id, String pass){
+		
+		HttpSession session = request.getSession();
+		
+		MemberCommand memberInfo = memberDao.loginPro(id);
+		
+		if (memberInfo!=null) {
+			if ((memberInfo.getPasswd()).equals(pass)) {
+				session.setAttribute("memId", id);
+			}
+		}
+		return "logon/loginPro";
+	}
+	
+	@RequestMapping("/logout.do")
+	public String logout(HttpServletRequest request){
+		HttpSession session = request.getSession();
+		session.invalidate();
+		return "logon/loginForm";
+	}
 	
 	@ModelAttribute("memberCommand")
 	public MemberCommand memberCommand(){
 		return new MemberCommand();
 	}
 	
-	//회원가입 페이지 요청
 	@RequestMapping(value="/join.do",method=RequestMethod.GET)
 	public String regform(){
 		return "member/inputForm";
 	}
-	//회원 가입 성공 후, 로그인 페이지로 redirect
 	@RequestMapping(value="/join.do",method=RequestMethod.POST)
 	public String action(String id){
 		memberDao.loginPro(id);
 		return "member/inputPro";
 	}
 	
-	//아이디 체크 페이지 요청 및 아이디 체크
 	@RequestMapping("/idCheckForm.do")
 	public ModelAndView idCheck(@RequestParam("id") String id){
 		ModelAndView mav = new ModelAndView("idCheckForm");
@@ -58,6 +74,5 @@ public class JoinController {
 		mav.addObject("check", check);
 		return mav;
 	}
-	
 		
 }
