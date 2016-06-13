@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class CommentCommand {
 	
-	private int coment_num;
+	private int comment_num;
 	private int board_num;
 	private String id;
 	private String content;
@@ -14,9 +14,9 @@ public class CommentCommand {
 		
 	}
 	
-	public CommentCommand(int coment_num, int board_num, String id, String content, Date write_date) {
+	public CommentCommand(int comment_num, int board_num, String id, String content, Date write_date) {
 		super();
-		this.coment_num = coment_num;
+		this.comment_num = comment_num;
 		this.board_num = board_num;
 		this.id = id;
 		this.content = content;
@@ -24,12 +24,12 @@ public class CommentCommand {
 		
 	}
 
-	public int getComent_num() {
-		return coment_num;
+	public int getcomment_num() {
+		return comment_num;
 	}
 
-	public void setComent_num(int coment_num) {
-		this.coment_num = coment_num;
+	public void setcomment_num(int comment_num) {
+		this.comment_num = comment_num;
 	}
 
 	public int getBoard_num() {
