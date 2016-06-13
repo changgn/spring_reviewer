@@ -28,6 +28,7 @@
 	<bean id="CommentDao" class="dao.CommentDAO" p:sqlSessionFactory-ref="sqlSessionFactory" />
 	<bean id="FollowDao" class="dao.FollowDAO" p:sqlSessionFactory-ref="sqlSessionFactory" />
 	<bean id="MemberDao" class="dao.MemberDAO" p:sqlSessionFactory-ref="sqlSessionFactory" />
+	<bean id="MemberCategoryDao" class="dao.MemberCategoryDAO" p:sqlSessionFactory-ref="sqlSessionFactory" />
 	<bean id="PhotoDao" class="dao.PhotoDAO" p:sqlSessionFactory-ref="sqlSessionFactory" />
 	
 </beans> 
