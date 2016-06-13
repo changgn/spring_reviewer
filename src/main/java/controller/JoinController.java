@@ -35,7 +35,7 @@ public class JoinController {
 		String message = null;
 		if (memberInfo!=null) {
 			if ((memberInfo.getPasswd()).equals(pass)) {
-				session.setAttribute("memId", id);
+				session.setAttribute("id", id);
 			}
 			else 
 			{
@@ -46,7 +46,8 @@ public class JoinController {
 		else {
 			message = "errID";
 		}
-		
+
+		session.setAttribute("login_status", "1");
 		model.addAttribute("message", message);
 		return "logon/loginPro";
 	}
@@ -85,8 +86,7 @@ public class JoinController {
 		mav.addObject("check", check);
 		mav.addObject("idch", ch);
 		
-		
-		return mav;
+		return mav;      
 	}
 		
 }

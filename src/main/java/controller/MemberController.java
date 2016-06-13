@@ -37,7 +37,7 @@ public class MemberController {
 	//로그인 페이지 요청
 	@RequestMapping(value="/logon/login.do",method=RequestMethod.GET)
 	public String loginform(HttpSession session){
-		session.setAttribute("login_status", 2);
+		session.setAttribute("login_status", "2");
 		return "logon/loginForm";
 	}
 
@@ -76,7 +76,7 @@ public class MemberController {
 		request.setAttribute("passwd", passwd);
 		
 		return "member/deleteForm";
-	}
+	}       
 
     //회원 페이지 삭제 후 로그인 페이지로 이동요청	
 	@RequestMapping(value="/main/delete.do", method=RequestMethod.POST)
