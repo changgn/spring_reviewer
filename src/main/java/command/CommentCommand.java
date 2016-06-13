@@ -63,7 +63,6 @@ public class CommentCommand {
 	public void setWrite_date(Date write_date) {
 		this.write_date = write_date;
 	}
-	
 
 }
 
