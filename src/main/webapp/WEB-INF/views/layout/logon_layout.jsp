@@ -19,7 +19,7 @@
 		</h1>
 		<span id="main_btn">
 			<a class="btn_gnb" href="/search/search.do">
-				<span id="btn_search">검색버튼</span>
+				<span id="btn_search">검색 버튼</span>
 			</a>
 		</span>
 	</div>
