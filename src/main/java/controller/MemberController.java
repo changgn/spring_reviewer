@@ -48,8 +48,7 @@ public class MemberController {
 		
 		MemberCommand memberInfo = memberDao.loginPro(id);
 		String message = null;
-		System.out.println((memberInfo.getPasswd()));
-		System.out.println(passwd);
+		
 		if (memberInfo!=null) {
 			if ((memberInfo.getPasswd()).equals(passwd)) {
 				
