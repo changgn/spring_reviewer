@@ -71,7 +71,7 @@
 
 			<c:if test="${login_status!=0 && login_status!=1}">
 				<a class="btn_gnb" href="/logon/login.do">
-					<span id="btn_login">로그인버튼</span>
+					<span id="btn_login">로그인 버튼</span>
 				</a>
 			</c:if>
 			<c:if test="${login_status==0 || login_status==1}">
