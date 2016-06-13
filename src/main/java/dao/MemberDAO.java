@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import command.MemberCommand;
 
+
 @Repository
 public class MemberDAO extends SqlSessionDaoSupport{
 
@@ -90,13 +91,13 @@ public class MemberDAO extends SqlSessionDaoSupport{
 		return n;
 	}
 	
+	
+	
 	public void inputPro(MemberCommand memberInfo) {
-
 		
 		try {
-			int n = getSqlSession().insert("member.add", memberInfo);
-
-		} catch (Exception e) {
+			getSqlSession().insert("member.add", memberInfo);
+			} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
@@ -104,6 +105,7 @@ public class MemberDAO extends SqlSessionDaoSupport{
 	public int count(){
 		return getSqlSession().selectOne("member.count");
 	}
+	
 	public List<MemberCommand> getList(){
 		return getSqlSession().selectList("member.getList");
 	}
@@ -121,7 +123,10 @@ public class MemberDAO extends SqlSessionDaoSupport{
 			}
 
 			return ch;
+			
 		}
+		
+		
 		
 		private static MemberDAO instance = new MemberDAO();
 		

@@ -7,14 +7,17 @@
 <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 <script>
 $(function(){
+	//로그인 버튼
 	$("#btn_login_submit").click(function(){
 		check();
 	});
+	
+	//회원 가입버튼
 	$("#btn_join").click(function(){
 		$(location).attr("href","/member/join.do");
-	});
+	}); //아이디 비밀번호 찾기 버튼
 	$("#btn_find").click(function(){
-		$(location).attr("href","idpwSearch/idpwSearchNew.do");
+		$(location).attr("href","/idpwSearch/idpwSearchNew.do");
 	});
     $("#passwd").keyup(function(e){
         if(e.keyCode == 13){

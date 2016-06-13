@@ -28,7 +28,7 @@ public class IdPwSearchController {
 	}
 	
 	
-	@RequestMapping("/main/idpwSearch/idpwSearchNew.do")
+	@RequestMapping("/idpwSearch/idpwSearchNew.do")
 	public String IdpwSearch(HttpServletRequest request,HttpServletResponse response){
 	
 		String message = request.getParameter("message");
@@ -36,7 +36,7 @@ public class IdPwSearchController {
 	
 		return "idpwSearch/idpwSearchNew";
 	}
-	@RequestMapping("main/idSearch.do")
+	@RequestMapping("/idpwSearch/idSearch.do")
 	public String idSearch(HttpServletRequest request, HttpServletResponse response){
 		
 		MemberDAO memberDao = new MemberDAO();
@@ -54,7 +54,7 @@ public class IdPwSearchController {
 		
 		return "idpwSearch/idSearch";
 	}
-	@RequestMapping("main/idpwSearch/pwSearch.do")
+	@RequestMapping("/idpwSearch/pwSearch.do")
 	public String pwSearch(HttpServletRequest request, HttpServletResponse response){
 		
 		MemberDAO memberDao = new MemberDAO();

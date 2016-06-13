@@ -1,12 +1,13 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page isELIgnored="false" %>
 
 <!DOCTYPE html>
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="../css/style.css">
 <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
-<script type="text/javascript">
+<script>
 $(document).ready(function(){
 		$("#idchin").focus();
 	});
@@ -37,7 +38,7 @@ $(function(){
 </head>
 <body>
 
-<c:if test="${ idch == null}">
+<c:if test="${idch == null}">
 	<script>
 		alert("사용 가능한 아이디 입니다.");
 		opener.document.getElementById("input_check").value = "check";
@@ -46,7 +47,7 @@ $(function(){
 		self.close();
 	</script>
 </c:if>
-<c:if test="${ idch != null}">
+<c:if test="${idch != null}">
 	<script>
 		alert("이미 사용중인 아이디 입니다.");
 	</script>

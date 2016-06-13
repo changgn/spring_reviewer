@@ -18,7 +18,7 @@
 			<a id="logo_btn" href="/logon/login.do" title="Reviewer">Reviewer</a>
 		</h1>
 		<span id="main_btn">
-			<a class="btn_gnb" href="searchForm.do">
+			<a class="btn_gnb" href="/idpwSearch/idpwSearchNew.do">
 				<span id="btn_search">검색버튼</span>
 			</a>
 		</span>

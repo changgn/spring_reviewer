@@ -68,21 +68,24 @@ public class JoinController {
 		return "member/inputForm";
 	}
 	@RequestMapping(value="/member/join.do",method=RequestMethod.POST)
-	public String action(String id){
-		memberDao.loginPro(id);
+	public String action(MemberCommand memberInfo){
+		memberDao.inputPro(memberInfo);
 		return "member/inputPro";
 	}
 	
 	@RequestMapping("/member/idCheckForm.do")
-	public ModelAndView idCheck(@RequestParam("id") String id){
+	public ModelAndView idCheck(String id){
 		ModelAndView mav = new ModelAndView("member/idCheckForm");
-		String memId = memberDao.idCheck(id);
+		String ch = memberDao.idCheck(id);
 		int check = 0;
-		if (memId != null) {
+		if (ch != null) {
 			check = 1;
 		}
-		mav.addObject("id", memId);
+		mav.addObject("id", id); // 아이디 구분을 할 필요성!!
 		mav.addObject("check", check);
+		mav.addObject("idch", ch);
+		
+		
 		return mav;
 	}
 		
