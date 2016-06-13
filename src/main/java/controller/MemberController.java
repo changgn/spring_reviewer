@@ -42,14 +42,17 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/logon/login.do",method=RequestMethod.POST)
-	public String login(HttpServletRequest request,String id, String pass,Model model){
+	public String login(HttpServletRequest request,String id, String passwd,Model model){
 		
 		HttpSession session = request.getSession();
 		
 		MemberCommand memberInfo = memberDao.loginPro(id);
 		String message = null;
+		System.out.println((memberInfo.getPasswd()));
+		System.out.println(passwd);
 		if (memberInfo!=null) {
-			if ((memberInfo.getPasswd()).equals(pass)) {
+			if ((memberInfo.getPasswd()).equals(passwd)) {
+				
 				session.setAttribute("id", id);
 			}
 			else 
@@ -64,7 +67,9 @@ public class MemberController {
 
 		session.setAttribute("login_status", "1");
 		model.addAttribute("message", message);
+		
 		System.out.println(message);
+		
 		return "logon/loginPro";
 	}
 
@@ -93,8 +98,8 @@ public class MemberController {
 	
 	//회원삭제 페이지 요청
 	@RequestMapping(value="/main/delete.do", method=RequestMethod.GET)
-	public String deleteForm(HttpServletRequest request){
-		HttpSession session = request.getSession();
+	public String deleteForm(HttpServletRequest request,HttpSession session){
+		session = request.getSession();
 		String id = (String) session.getAttribute("id");
 		String passwd = (String) session.getAttribute("passwd");
 		
