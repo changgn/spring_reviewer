@@ -62,7 +62,7 @@ public class BoardController {
 	@RequestMapping(value="/write/writeForm.do", method=RequestMethod.POST)
 	public String insertboard(MultipartHttpServletRequest mhsq, HttpServletRequest request, 
 			String addCategory, String boardContent)
-			throws IllegalStateException, IOException {
+			throws IOException {
 	
 		//게시물 작성자 = 로그인한 ID값 받아오기
 		String id = (String)request.getSession().getAttribute("id");

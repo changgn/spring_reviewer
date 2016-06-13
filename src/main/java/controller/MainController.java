@@ -18,6 +18,7 @@ import command.PhotoCommand;
 import dao.BoardDAO;
 import dao.CategoryDAO;
 import dao.CommentDAO;
+import dao.MemberCategoryDAO;
 import dao.PhotoDAO;
 
 
@@ -31,6 +32,8 @@ public class MainController {
 	private CommentDAO commentDao;
 	@Autowired
 	private CategoryDAO categoryDao;
+	@Autowired
+	private MemberCategoryDAO memberCategoryDao;
 	
 	
 	public void setBoardDao(BoardDAO boardDao) {
@@ -48,38 +51,41 @@ public class MainController {
 	public void setCategoryDao(CategoryDAO categoryDao) {
 		this.categoryDao = categoryDao;
 	}
-
+	public void setMemberCategoryDao(MemberCategoryDAO memberCategoryDao) {
+		this.memberCategoryDao = memberCategoryDao;
+	}
 	@RequestMapping("/main/main.do")
 	public String main(HttpServletRequest request, HttpServletResponse response, Model model){
 		
-		String id = (String)request.getSession().getAttribute("id"); // 로그인 한 id
-		String login_status = (String)request.getSession().getAttribute("login_status");	//로그인 상태
+		String id = (String)request.getSession().getAttribute("id"); // 濡쒓렇�씤 �븳 id
+		String login_status = (String)request.getSession().getAttribute("login_status");	//濡쒓렇�씤 �긽�깭
 		
 		List<BoardCommand> boardList = null;
 		List<HashMap> allBoardList = new ArrayList<HashMap>();
 		List<String> categoryIdList = null;
 		
 		if(login_status==null){
-			login_status = "2";	// 로그인 안된 상태
+			login_status = "2";	// 濡쒓렇�씤 �븞�맂 �긽�깭
 			request.getSession().setAttribute("login_status", login_status);
 		}
-		if(login_status.equals("2")){ // 로그인 안된 경우
+		if(login_status.equals("2")){ // 濡쒓렇�씤 �븞�맂 寃쎌슦
 			
-			//모든 게시글을 가져온다
+			//紐⑤뱺 寃뚯떆湲��쓣 媛��졇�삩�떎
 			boardList = boardDao.getList();
 			
-		}else { // 로그인 된 경우
-			// 로그인 한 아이디의 카테고리 정보를 가져온다
-			//categoryIdList = membersCategoryDao.getCategoryIdById(id);
+		}else { // 濡쒓렇�씤 �맂 寃쎌슦
+			// 濡쒓렇�씤 �븳 �븘�씠�뵒�쓽 移댄뀒怨좊━ �젙蹂대�� 媛��졇�삩�떎
+			System.out.println(id);
+			categoryIdList = memberCategoryDao.getCategoryIdById(id);
 			
-			if(categoryIdList.size() == 0){ // 로그인 한 아이디의 카테고리 정보가 없을 경우
+			if(categoryIdList.size() == 0){ // 濡쒓렇�씤 �븳 �븘�씠�뵒�쓽 移댄뀒怨좊━ �젙蹂닿� �뾾�쓣 寃쎌슦
 				
-				//모든 게시글을 가져온다
+				//紐⑤뱺 寃뚯떆湲��쓣 媛��졇�삩�떎
 				boardList = boardDao.getList();
-			} else { // 로그인 한 아이디의 카테고리 정보가 있을 경우
+			} else { // 濡쒓렇�씤 �븳 �븘�씠�뵒�쓽 移댄뀒怨좊━ �젙蹂닿� �엳�쓣 寃쎌슦
 				
-				//카테고리 정보에 따른 게시글을 가져온다
-				//boardList = boardDao.getListByCategoryId(categoryIdList);
+				//移댄뀒怨좊━ �젙蹂댁뿉 �뵲瑜� 寃뚯떆湲��쓣 媛��졇�삩�떎
+				boardList = boardDao.getListByCategoryId(categoryIdList);
 			}
 		}
 		if(boardList!=null)	{

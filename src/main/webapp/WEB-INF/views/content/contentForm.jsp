@@ -4,11 +4,21 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
 
+<%
+	String cp = request.getContextPath();
+%>
     
 <html>
 <head>
 <title>게시글</title>
 <script>
+
+$(function(){
+	var url = "<%=cp%>/content/contentPro";
+
+	
+})
+
 
 $(function(){
 	$(".cont_menu_option").click(function(){
@@ -40,9 +50,50 @@ $(function(){
 			alert("댓글을 입력해 주세요");
 			return false;
 		} else {
-			$("#content_comment_write_form").submit();
+			// 시도테이블의 리스트 가져오기
+			var url="<%=cp%>/content/contentPro.do";
+			var params="comment_textarea="+$("#content_comment_write").value()
+				params += "&board_num="+"${board_num}";
+				alert(params);
+			/* $.ajax({
+				type:"post"		// 전송할 data type -> 포스트방식
+				,url:url		// url 주소 -> /sidoList.do
+				,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
+				,dataType:"json" 
+				,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
+					var write = "";
+					write += "<div id='content_comment_wirted_area'>";
+					write += "<div id='content_comment_info'>";
+					write += "작성자 : <a href="/profile/myProfile.do?id=${comment.id}">${comment.id}</a>&nbsp;&nbsp;&nbsp; 작성시간 : <fmt:formatDate value="${comment.write_date}" pattern="yyyy-MM-dd HH:mm"/>";
+					write += "</div>";
+					write += "<div id='content_comment_wirted_area'>";
+					write += '<textarea id="content_comment_writed" readonly>${comment.content}</textarea>';
+					write += "</div>";
+					write += "</div>";
+					write += '<div id="comment_btn_delete" class="btn_short">';
+					write += '<c:if test="${comment.id==id}">';
+					write += '<a href="/content/contentPro.do?board_num=${board_num}&comment_num=${comment.coment_num}">삭&nbsp;&nbsp;&nbsp;제</a>';
+					write += '</c:if>';
+					write += '<c:if test="${comment.id!=id}">';
+					write += '<a href="#" id="noDelete">삭&nbsp;&nbsp;&nbsp;제</a>';
+					write += '</c:if>';
+					write += "</div>";
+					 for(var idx=0; idx<args.data.length; idx++) {
+						 $("#writed_comment").append("<option value='"+args.data[idx]+"'>"+args.data[idx]+"</option>");
+						 //id가 sido인 요소선택
+						 //append로 기존 셀렉터로 선택된 요소 다음에 다음내용이 들어감
+						 //<option value='0'>서울</option> 이런식으로 sido의 요소안에 자식으로 들어감
+		   // args.data[idx] : args 는 function(args)의 인자. data는 controller.java에서 json객체에 넣어준 key(여기서는 list가 값이 된다). [idx]는 list의 몇번쨰 데이터를 가져올지 배열을 나타냄
+					 }
+				}
+			    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+			    	alert(e.responseText);
+			    }
+			});
+			$("#content_comment_write_form").submit(); */
 		}
 	});
+	
 	$("#noDelete").click(function(){
 		alert("댓글 작성자만 삭제할 수 있습니다");
 		var top = $("#content_comment_area").offset().top;
@@ -128,7 +179,7 @@ $(function(){
 		<div class="size_content">
 			<form id="content_comment_write_form" method="post" action="/content/contentPro.do?board_num=${board_num}">
 				<div id="content_comment_wirte_area">
-					<textarea id="content_comment_write" name="comment_textarea"></textarea>
+					<textarea id="content_comment_write" name="comment_textarea" ></textarea>
 				</div>
 			</form>
 			<div id="content_btn_comment_write" class="btn_short"><a href="#">작&nbsp;&nbsp;&nbsp;성</a></div>

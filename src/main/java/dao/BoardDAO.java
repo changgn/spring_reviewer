@@ -45,4 +45,8 @@ public class BoardDAO extends SqlSessionDaoSupport{
 	public List<BoardCommand> getListByContent(String content) {
 		return getSqlSession().selectList("board.getListByContent", content);
 	}
+	public List<BoardCommand> getListByCategoryId(List<String> categoryIdList) {
+		return getSqlSession().selectList("board.getListByCategoryId", categoryIdList);
+	}
+	
 }
