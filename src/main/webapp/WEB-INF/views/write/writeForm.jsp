@@ -16,6 +16,7 @@
 <style>
 
 </style>
+
 <script>
 $(function(){	
 	$("#btn_write").click(function(){
@@ -29,9 +30,14 @@ $(function(){
 				alert("카테고리를 선택해 주세요");
 			}
 		}
+		
 	});
+	$("#join_btn_cancel").click(function(){
+		$(location).attr("href",document.referrer);
+	});	
 });
 </script>
+
 </head>
 <body>
 <div id="writeForm">
@@ -378,6 +384,7 @@ $(function(){
 		</div>
 		<div id="write_area">
 			<div id="btn_write" class="btn_long"><a href="#">작&nbsp; 성&nbsp; 완&nbsp; 료</a></div>
+			<div id="join_btn_cancel" class="btn_long"><a href="#" >취&nbsp;  소</a></div>
 		</div>
 	</form>
 </div>

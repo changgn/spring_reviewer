@@ -12,13 +12,13 @@ public class BoardCommand {
 	private int recommend_num;
 	private int report_num;
 	private int screp;
-	private int coment_num;
+	private int comment_num;
 	
 	public BoardCommand(){
 		
 	}
 	
-	public BoardCommand(int board_num, String id, String category_id, String content, Date write_date, int recommend_num,int report_num, int screp, int coment_num){
+	public BoardCommand(int board_num, String id, String category_id, String content, Date write_date, int recommend_num,int report_num, int screp, int comment_num){
 		super();
 		this.board_num = board_num;
 		this.id = id;
@@ -28,7 +28,7 @@ public class BoardCommand {
 		this.recommend_num = recommend_num;
 		this.report_num = report_num;
 		this.screp = screp;
-		this.coment_num = coment_num;
+		this.comment_num = comment_num;
 	}
 
 	public int getBoard_num() {
@@ -95,12 +95,12 @@ public class BoardCommand {
 		this.screp = screp;
 	}
 
-	public int getComent_num() {
-		return coment_num;
+	public int getComment_num() {
+		return comment_num;
 	}
 
-	public void setComent_num(int coment_num) {
-		this.coment_num = coment_num;
+	public void setComment_num(int comment_num) {
+		this.comment_num = comment_num;
 	}
 	
 	
