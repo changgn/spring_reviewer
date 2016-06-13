@@ -79,7 +79,7 @@
 					<span id="btn_user">계정설정</span>
 				</a>
 			</c:if>
-			<a class="btn_gnb" href="/searchForm.do">
+			<a class="btn_gnb" href="/search/search.do">
 				<span id="btn_search">검색버튼</span>
 			</a>
 			<a class="btn_gnb btn_alarm_toggle" href="#">
