@@ -26,31 +26,7 @@ public class JoinController {
 		this.memberDao = memberDao;
 	}
 	
-	@RequestMapping(value="/logon/login.do",method=RequestMethod.POST)
-	public String login(HttpServletRequest request,String id, String pass,Model model){
-		
-		HttpSession session = request.getSession();
-		
-		MemberCommand memberInfo = memberDao.loginPro(id);
-		String message = null;
-		if (memberInfo!=null) {
-			if ((memberInfo.getPasswd()).equals(pass)) {
-				session.setAttribute("id", id);
-			}
-			else 
-			{
-				message = "errPwd";
-			}
 	
-		}
-		else {
-			message = "errID";
-		}
-
-		session.setAttribute("login_status", "1");
-		model.addAttribute("message", message);
-		return "logon/loginPro";
-	}
 	
 	@RequestMapping("/logon/logout.do")
 	public String logout(HttpServletRequest request){
@@ -69,8 +45,14 @@ public class JoinController {
 		return "member/inputForm";
 	}
 	@RequestMapping(value="/member/join.do",method=RequestMethod.POST)
-	public String action(MemberCommand memberInfo){
-		memberDao.inputPro(memberInfo);
+	public String action(MemberCommand memberInfo, Model model){
+		int n = memberDao.inputPro(memberInfo);
+		if(n>1){
+			model.addAttribute("smessage", "susccess");
+		}
+		else {
+			model.addAttribute("fmessage", "fail");
+		}
 		return "member/inputPro";
 	}
 	
@@ -83,8 +65,8 @@ public class JoinController {
 			check = 1;
 		}
 		mav.addObject("id", id); // 아이디 구분을 할 필요성!!
-		mav.addObject("check", check);
-		mav.addObject("idch", ch);
+		mav.addObject("idch", check);
+		System.out.println(check);
 		
 		return mav;      
 	}

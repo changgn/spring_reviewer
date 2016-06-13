@@ -93,13 +93,13 @@ public class MemberDAO extends SqlSessionDaoSupport{
 	
 	
 	
-	public void inputPro(MemberCommand memberInfo) {
+	public int inputPro(MemberCommand memberInfo) {
 		
-		try {
-			getSqlSession().insert("member.add", memberInfo);
-			} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+		
+		return getSqlSession().insert("member.add", memberInfo);
+			
+		
+		
 	}
 	
 	public int count(){

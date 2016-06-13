@@ -38,7 +38,7 @@ $(function(){
 </head>
 <body>
 
-<c:if test="${idch == null}">
+<c:if test="${idch == 0}">
 	<script>
 		alert("사용 가능한 아이디 입니다.");
 		opener.document.getElementById("input_check").value = "check";
@@ -47,7 +47,7 @@ $(function(){
 		self.close();
 	</script>
 </c:if>
-<c:if test="${idch != null}">
+<c:if test="${idch == 1}">
 	<script>
 		alert("이미 사용중인 아이디 입니다.");
 	</script>

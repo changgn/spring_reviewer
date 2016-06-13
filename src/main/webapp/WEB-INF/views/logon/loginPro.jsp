@@ -1,5 +1,6 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8"  %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page isELIgnored="false" %>
 <!DOCTYPE html>
 
 <html>
@@ -7,10 +8,10 @@
 <title>로그인중</title>
 </head>
 <body>
-<c:if test="${ message == null}">
+<c:if test="${message == null}">
 	<c:redirect url="/main/main.do"/>
 </c:if>
-<c:if test="${ message != null}">
+<c:if test="${message != null}">
 	<c:if test="${ message == 'errID'}">
 		<script>
 			alert("없는 아이디 입니다");

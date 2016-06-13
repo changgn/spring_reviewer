@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page isELIgnored="false" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,14 +18,14 @@
 <c:if test="${smessage!=null}">
 	<div class="join_message size_long text_long">${smessage}</div><br>
 	2초 후 로그인 페이지로 이동합니다.
-	<%-- <%response.sendRedirect("/reviewer/logon/logonForm.do"); %> --%>
-	<meta http-equiv="Refresh" content="2;url=logon/login.do">
+	<%response.sendRedirect("/logon/login.do"); %> --%>
+	<!-- <meta http-equiv="Refresh" content="2; url=logon/login.do"> -->
 </c:if>
 <c:if test="${fmesaage!=null}">
 	<div class="join_message size_long text_long">
 		${fmessage}
 	</div>
-	<%response.sendRedirect("join.do"); %>
+	<%response.sendRedirect("/logon/login.do"); %>
 </c:if>
 </body>
 </html>

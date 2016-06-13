@@ -40,6 +40,33 @@ public class MemberController {
 		session.setAttribute("login_status", "2");
 		return "logon/loginForm";
 	}
+	
+	@RequestMapping(value="/logon/login.do",method=RequestMethod.POST)
+	public String login(HttpServletRequest request,String id, String pass,Model model){
+		
+		HttpSession session = request.getSession();
+		
+		MemberCommand memberInfo = memberDao.loginPro(id);
+		String message = null;
+		if (memberInfo!=null) {
+			if ((memberInfo.getPasswd()).equals(pass)) {
+				session.setAttribute("id", id);
+			}
+			else 
+			{
+				message = "errPwd";
+			}
+	
+		}
+		else {
+			message = "errID";
+		}
+
+		session.setAttribute("login_status", "1");
+		model.addAttribute("message", message);
+		System.out.println(message);
+		return "logon/loginPro";
+	}
 
 	@RequestMapping(value="/main/modify.do", method=RequestMethod.GET)
 	public String form(HttpServletRequest request) {
