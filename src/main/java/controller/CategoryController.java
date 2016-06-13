@@ -37,6 +37,7 @@ public class CategoryController {
 		
 		// 로그인한 id값 가져오기
 		String id = (String) request.getSession().getAttribute("id");
+		id="val";
 		int CategoryListSize = 0;
 
 		// Vo들을 담기위한 list 변수생성
