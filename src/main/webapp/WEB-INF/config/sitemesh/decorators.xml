@@ -18,6 +18,7 @@
 	
 	<decorator name="logon" page="/WEB-INF/views/layout/logon_layout.jsp">
 		<pattern>/member/*</pattern>
+		<pattern>/logon/*</pattern>
 		<pattern>/idpwSearch/*</pattern>
 	</decorator>
 	<excludes>
