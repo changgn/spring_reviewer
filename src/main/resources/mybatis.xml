@@ -7,7 +7,7 @@
        					http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
        					http://www.springframework.org/schema/context
 						http://www.springframework.org/schema/context/spring-context-4.2.xsd">
-						
+	
 	<!-- properties 파일 로드 -->
 	<context:property-placeholder location="classpath:db.properties"/>
 	
@@ -28,6 +28,7 @@
 	<bean id="CommentDao" class="dao.CommentDAO" p:sqlSessionFactory-ref="sqlSessionFactory" />
 	<bean id="FollowDao" class="dao.FollowDAO" p:sqlSessionFactory-ref="sqlSessionFactory" />
 	<bean id="MemberDao" class="dao.MemberDAO" p:sqlSessionFactory-ref="sqlSessionFactory" />
+	<bean id="MemberCategoryDao" class="dao.MemberCategoryDAO" p:sqlSessionFactory-ref="sqlSessionFactory" />
 	<bean id="PhotoDao" class="dao.PhotoDAO" p:sqlSessionFactory-ref="sqlSessionFactory" />
 	
 </beans> 

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="membercategory">
+	<insert id="add" parameterType="command.MemberCategoryCommand">
+		insert into members_category values(#{id},#{category_id})
+	</insert>
+	<update id="modify" parameterType="command.MemberCategoryCommand">
+		<!-- 조건문 -->
+	</update>
+	<delete id="remove" parameterType="command.MemberCategoryCommand">
+		delete from members_category where id=#{id} and category_id=#{category_id}
+	</delete>
+	<select id="getlist" resultType="command.MemberCategoryCommand">
+		<!-- 조건문 -->
+	</select>
+	<select id="find" parameterType="java.lang.String" resultType="command.MemberCategoryCommand">
+		<!-- 조건문 -->
+	</select>
+	<select id="getlistById" parameterType="java.lang.String" resultType="command.MemberCategoryCommand">
+		select * from members_category where id=#{id}
+	</select>
+	<select id="getCategoryIdById" parameterType="java.lang.String" resultType="java.lang.String">
+		select category_id from members_category where id=#{id}
+	</select>
+</mapper>

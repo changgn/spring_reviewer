@@ -26,7 +26,6 @@ $(document).ready(function(){
 	if("${error}"=="error") {
 		$(location).attr("href", "/main/mainForm.do");
 	}
-
 });
 $(window).load(function(){
 	if("${comment}"=="true") {

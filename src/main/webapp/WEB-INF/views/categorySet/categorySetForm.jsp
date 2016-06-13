@@ -2,46 +2,14 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page isELIgnored="false" %>
-
 <html>
 <head>
-<script src='http://jquery-multifile-plugin.googlecode.com/svn/trunk/jquery.form.js' type="text/javascript"></script>
-<script src='http://jquery-multifile-plugin.googlecode.com/svn/trunk/jquery.MetaData.js' type="text/javascript"></script>
-<script src='http://jquery-multifile-plugin.googlecode.com/svn/trunk/jquery.MultiFile.js' type="text/javascript"></script>
-<script src='http://jquery-multifile-plugin.googlecode.com/svn/trunk/jquery.blockUI.js' type="text/javascript"></script> 
-<script src="../script/categoryMenu_write.js" type="text/javascript"></script>
-<script src="../script/upload.js" type="text/javascript"></script>
-<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
-<title>글쓰기</title>
-<style>
-
-</style>
-
-<script>
-$(function(){	
-	$("#btn_write").click(function(){
-		if($("#text_content").val()=="") {
-			alert("내용을 입력해 주세요");
-			$("#text_content").focus();
-		} else {
-			if($("input[name='addCategory']").attr("name")=="addCategory"){
-				$("#writeBoard").submit();
-			} else {
-				alert("카테고리를 선택해 주세요");
-			}
-		}
-		
-	});
-	$("#join_btn_cancel").click(function(){
-		$(location).attr("href",document.referrer);
-	});	
-});
-</script>
-
+<title>카테고리 설정</title>
+<script src="../script/categoryMenu.js"></script>
 </head>
 <body>
-<div id="writeForm">
 	<div class="category_add">
+		<div class="size_long"><h1 class="title_find">카 테 고 리 설 정</h1></div>
 		<div id="group">
 			<div id="group1" class="size_long category_setting">
 				<div class="btn_group1"><a id="group1_1" href="#">가&nbsp;&nbsp;전</a></div>
@@ -374,19 +342,26 @@ $(function(){
 			</div>
 		</div>
 		<div class="category_added"></div>
+		<form action="/categorySet/categorySet.do" id="addCategory" method="post"></form>
+		<div id="btn_add" class="btn_long"><a href="#">카 테 고 리&nbsp;&nbsp;&nbsp;추 가</a></div>
 	</div>
-	<form action="/write/writeForm.do" id="writeBoard" method="post" enctype="multipart/form-data">
-		<div id="content_area">
-			<textarea id="text_content" name="boardContent" rows="20" cols="auto"></textarea>
+	<div class="category_save">
+		<div class="category_all">
+			<c:if test="${CategoryListSize!=0}">
+				<c:forEach var="Category" items="${CategoryList}">
+					<div class="category_set size_long">
+						<div id="add_${Category.category_id}" class="size_short">
+							${Category.group1}, ${Category.group2}, ${Category.group3}
+						</div>
+						<div id="del_${Category.category_id}" class="del_category btn_short"><a href="#">삭&nbsp;&nbsp;&nbsp;제</a></div>
+					</div>
+				</c:forEach>
+				<form action="/categorySet/categorySet.do" id="delCategory" method="post"></form>
+			</c:if>
+			<c:if test="${CategoryListSize==0 || CategoryListSize==null}">
+			<div class="size_long category_text"><h1 class="text_sub">카테고리를 추가해 주세요</h1></div>
+			</c:if>
 		</div>
-		<div id="upload_area">
-			<input type="file" id="afile" name="afile" class="multi" maxlength="5">
-		</div>
-		<div id="write_area">
-			<div id="btn_write" class="btn_long"><a href="#">작&nbsp; 성&nbsp; 완&nbsp; 료</a></div>
-			<div id="join_btn_cancel" class="btn_long"><a href="#" >취&nbsp;  소</a></div>
-		</div>
-	</form>
-</div>
+	</div>
 </body>
 </html>

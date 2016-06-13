@@ -1,46 +1,46 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
-
 <html>
 <head>
-<script src='http://jquery-multifile-plugin.googlecode.com/svn/trunk/jquery.form.js' type="text/javascript"></script>
-<script src='http://jquery-multifile-plugin.googlecode.com/svn/trunk/jquery.MetaData.js' type="text/javascript"></script>
-<script src='http://jquery-multifile-plugin.googlecode.com/svn/trunk/jquery.MultiFile.js' type="text/javascript"></script>
-<script src='http://jquery-multifile-plugin.googlecode.com/svn/trunk/jquery.blockUI.js' type="text/javascript"></script> 
-<script src="../script/categoryMenu_write.js" type="text/javascript"></script>
-<script src="../script/upload.js" type="text/javascript"></script>
-<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
-<title>글쓰기</title>
-<style>
-
-</style>
-
+<title>검색</title>
+<script src="../script/categoryMenu.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
-$(function(){	
-	$("#btn_write").click(function(){
-		if($("#text_content").val()=="") {
-			alert("내용을 입력해 주세요");
-			$("#text_content").focus();
-		} else {
-			if($("input[name='addCategory']").attr("name")=="addCategory"){
-				$("#writeBoard").submit();
-			} else {
-				alert("카테고리를 선택해 주세요");
-			}
-		}
-		
+$(document).ready(function() {
+	$("#search_content").focus();
+});
+$(function(){
+	var top = 0;
+	$(".cont_menu_option").click(function(){
+		var a = $("#menu_" + $(this).attr("id"));
+		top = a.offset().top;
+		$("body").css({
+			top: -top,
+			position: "fixed",
+			width: "100%",
+			height: "auto"
+		});
+		a.css({
+	    }).show();
 	});
-	$("#join_btn_cancel").click(function(){
-		$(location).attr("href",document.referrer);
+	$(".cont_btn_option").click(function(){
+		$("body").removeAttr("style");
+		$('html, body').scrollTop(top);
+		$(this).hide();
 	});	
+
 });
 </script>
-
 </head>
 <body>
-<div id="writeForm">
+<div id="search">
+	<div id="search_area">
+		<input id="search_content" type="text" placeholder="검색할 내용을 입력해 주세요" />
+		<div id="btn_content_search" class="btn_short"><a href="#">검&nbsp;&nbsp;&nbsp;색</a></div>
+	</div>
 	<div class="category_add">
 		<div id="group">
 			<div id="group1" class="size_long category_setting">
@@ -374,19 +374,97 @@ $(function(){
 			</div>
 		</div>
 		<div class="category_added"></div>
+		<form action="/search/search.do" id="addCategory" method="post"></form>
 	</div>
-	<form action="/write/writeForm.do" id="writeBoard" method="post" enctype="multipart/form-data">
-		<div id="content_area">
-			<textarea id="text_content" name="boardContent" rows="20" cols="auto"></textarea>
-		</div>
-		<div id="upload_area">
-			<input type="file" id="afile" name="afile" class="multi" maxlength="5">
-		</div>
-		<div id="write_area">
-			<div id="btn_write" class="btn_long"><a href="#">작&nbsp; 성&nbsp; 완&nbsp; 료</a></div>
-			<div id="join_btn_cancel" class="btn_long"><a href="#" >취&nbsp;  소</a></div>
-		</div>
-	</form>
+	<div id="search_content_area">
+		<c:if test="${firstCheck==0}">
+			<div id="first_search_page" class="searched_board">카테고리를 이용해 검색하세요</div>
+		</c:if>
+		<c:if test="${firstCheck==1}">
+			<div class="searched_board">
+				<c:if test="${searchCount==0}">
+					<div id="search_result_0" class="search_result">검색 결과 없음</div>
+				</c:if>
+				<c:if test="${searchCount!=0}">
+					<div id="search_result">
+						<c:forEach var="board" items="${allBoardList}">
+							<div class="content_wrap">
+								<div class="content_first">	
+									<div class="cont_writer">
+										<a href="/reviewer/profile/myProfile.do?id=${board.board.id}" class="cont_writer_id">${board.board.id}</a>
+										<div class="cont_wdate">
+											<fmt:formatDate value="${board.board.write_date}" pattern="yyyy-MM-dd HH:mm"/>
+										</div>
+										<div class="cont_menu">
+											<a href="#" id="${board.board.board_num}" class="cont_menu_option">
+												<span id="cont_btn_menu">옵션</span>						
+											</a>
+											<div id="menu_${board.board.board_num}" class="cont_btn_option">
+												<div class="ly_dimmed"></div>
+												<ul class="cont_popup">
+													<li>
+														<a href="/reviewer/content/reportPro.do?board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 신고</a>
+													</li>
+												<c:if test="${board.board.id == id}">						
+													<li>
+														<a href="/reviewer/content/deleteContent.do?id=${board.board.id}&board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
+													</li>
+												</c:if>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="content_second">
+									<span class="content_view">
+										<span><pre>${board.board.content}</pre>
+											<c:if test="${board.contentFlag == true}">
+												<span class="cont_theview">
+														<span>...</span>
+														<a href="/reviewer/content/contentForm.do?board_num=${board.board.board_num}" class="btn_view_more">더보기</a>
+													
+												</span>
+											</c:if>
+										</span>
+									</span>
+								</div>
+								<c:if test="${board.photo.realPath != null}">
+							   		<a href="/reviewer/content/contentForm.do?board_num=${board.board.board_num}" class="item_info_wrap">
+								        <span class="item_cont" title="컨텐츠 상세페이지">
+								            <span class="item_thumb">
+								                <img class="list_photo" src="${board.photo.realPath}">
+								                <span class="thumb_mask_bottom"></span>
+								            </span>
+								      	</span>
+							       	</a>
+						       	</c:if>
+						       	<div class="cont_category_info">
+						       		<p id="cont_category_info_f">${board.category.group1}> ${board.category.group2}> ${board.category.group3}</p>
+						       	</div>
+						       	<div class="cont_btns">
+						       		<div class="cont_btns_wrap">
+										<div class="btns_re">
+											<a href="/reviewer/recommend/recommendPro.do?board_num=${board.board.board_num}" class="btns_re_item">
+						                		<span class="u_ico"></span><em class="u_txt">좋아요</em><em class="u_cnt"> ${board.board.recommend_num}</em>
+						                 	</a>
+										</div>
+										<a href="/Reveiwer/content/contentForm.do?board_num=${board.board.board_num}&comment=true" class="btns_coment" >
+											<span class="u_ico_coment">댓글</span>
+											<span class="text_num">${board.commentCount}</span>				
+										</a>
+						<!-- 				<a href="#" class="btns_screp" >
+											<span class="u_ico_screp">스크렙</span>
+											<span class="text_num">19</span>
+										</a> -->
+						       		</div>
+						       	</div>
+							</div>
+						</c:forEach>
+					</div>
+				</c:if>
+			</div>
+		</c:if>
+	</div>
 </div>
 </body>
 </html>
