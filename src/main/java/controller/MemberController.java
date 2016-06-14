@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import dao.MemberDAO;
@@ -81,17 +82,37 @@ public class MemberController {
 	@RequestMapping(value="/main/modify.do", method=RequestMethod.GET)
 	public String form(HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		String id = (String) session.getAttribute("memId");
-		
+		String id = (String) session.getAttribute("id");
+		MemberDAO memberDao = new MemberDAO();
 		MemberCommand memberCommand = memberDao.modifyForm(id);
 		
-		request.setAttribute("member", memberCommand);
+		request.setAttribute("m", memberCommand);
 		return "member/modifyForm";
 	}
 	
 	//ȸ������ ��, �������������� �̵� ��û
 	@RequestMapping(value="/main/modify.do", method=RequestMethod.POST)
-	public String submit(@ModelAttribute("memberCommand") MemberCommand memberCommand) {
+	public String submit(@ModelAttribute("memberCommand") MemberCommand memberCommand, HttpServletRequest request) {
+		
+		String id = request.getParameter("id");
+		String passwd = request.getParameter("passwd");
+		String name=request.getParameter("name");
+		String birth=request.getParameter("birth");
+		String gender=request.getParameter("gender");
+		String email=request.getParameter("email");
+		String phone_num=request.getParameter("phone_num");
+		
+		MemberDAO memberDao = new MemberDAO();
+		MemberCommand m = new MemberCommand();
+		
+		m.setId(id);
+		m.setPasswd(passwd);
+		m.setName(name);
+		m.setBirth(birth);
+		m.setGender(gender);
+		m.setEmail(email);
+		m.setPhone_num(phone_num);
+		
 		
 		int updateSuccess = memberDao.modifyPro(memberCommand);
 		
