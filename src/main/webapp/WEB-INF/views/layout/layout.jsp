@@ -94,7 +94,7 @@
 					<c:if test="${login_status==0}">
 						<li><a href="/administrator/adminForm.do">관리자 페이지</a></li>
 					</c:if>
-					<li><a href="modify.do">회원정보 수정</a></li>
+					<li><a href="/member/modify.do">회원정보 수정</a></li>
 					<li><a href="/logon/logout.do">로그아웃</a></li>
 				</ul>
 			</div>

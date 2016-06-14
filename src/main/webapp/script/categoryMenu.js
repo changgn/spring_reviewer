@@ -1640,35 +1640,40 @@ $(function(){
 		{
 			alert("카테고리를 선택해 주세요.");
 		} else {
-			var url="<%=request.getContextPath()%>/categorySet/categorySet.do";
+			var url="categorySet.do";
 			var params = "addcount=" + addcount;
 			for(var i=1; i<=addcount; i++) {
 				var addcategory = "add" + i;
 				var addcategoryVal = document.getElementsByName(addcategory);
 			    params += "&" + addcategory + "=" + addcategoryVal[0].value;
 			}
-			alert(url);
-/*			$.ajax({
+			$.ajax({
 				type:"post"		// 포스트방식
 				,url:url		// url 주소
 				,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
 				,dataType:"json"
 				,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
-					 for(var idx=0; idx<args.data.length; idx++) {
-						 $("#sido").append("<option value='"+args.data[idx]+"'>"+args.data[idx]+"</option>");
-						
+					 for(var idx=0; idx<args.categoryList.length; idx++) {
+						 var str = "";
+						 str += '<div class="category_set size_long">';
+						 str += '<div id="add_' + args.categoryList[idx].category_id + '" class="size_short">';
+						 str += args.categoryList[idx].group1 + "," + args.categoryList[idx].group2 + "," + args.categoryList[idx].group3 + "</div>";
+						 str += '<div id="del_' + args.categoryList[idx].category_id + '" class="del_category btn_short"><a href="#">삭&nbsp;&nbsp;&nbsp;제</a></div></div>'
+						 $("#category_added_all").append(str);
 					 }
 				}
 			    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+			    	alert("f");
 			    	alert(e.responseText);
 			    }
 			});
 			
 			
 			
-			addtag = "<input type='hidden' name='addcount' value='" + addcount +"'>"
+/*			addtag = "<input type='hidden' name='addcount' value='" + addcount +"'>"
 			$("#addCategory").append(addtag);
-			$("#addCategory").submit();*/
+			$("#addCategory").submit();
+*/
 		}
 	});
 	

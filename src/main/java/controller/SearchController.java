@@ -51,25 +51,25 @@ public class SearchController {
 		List<BoardCommand> boardList = null;
 		int firstCheck = 0;
 		
-		// °Ë»öÇÒ Ä«Å×°í¸® °¹¼ö °¡Á®¿À±â
+		// ê²€ìƒ‰í•  ì¹´í…Œê³ ë¦¬ ê°¯ìˆ˜ ê°€ì ¸ì˜¤ê¸°
 		if(addcount == null) {addcount = "0";}
 		int addcount_int = Integer.parseInt(addcount);
 		
 		int searchCount = 0;
 
 		if(searchContent != null) {
-			// Ã³À½ ½ÇÇàÀÌ ¾Æ´Ò ½Ã
+			// ì²˜ìŒ ì‹¤í–‰ì´ ì•„ë‹ ì‹œ
 			firstCheck = 1;
-			if(addcount_int != 0) {	// Ä«Å×°í¸®¸¦ ¼±ÅÃÇßÀ» ¶§
+			if(addcount_int != 0) {	// ì¹´í…Œê³ ë¦¬ë¥¼ ì„ íƒí–ˆì„ ë•Œ
 				
 				List<String> categoryIdList = new ArrayList<String>();
 				
 				for(int i=1; i<addcount_int+1; i++) {
 					String addname = "add" + i;
-					// °Ë»öÇÒ Ä«Å×°í¸® ID °¡Á®¿À±â
+					// ê²€ìƒ‰í•  ì¹´í…Œê³ ë¦¬ ID ê°€ì ¸ì˜¤ê¸°
 					String category_id = request.getParameter(addname);
 					categoryIdList.add(category_id);
-					System.out.println("°Ë»öÇÒ Ä«Å×°í¸® id : " + category_id);
+					System.out.println("ê²€ìƒ‰í•  ì¹´í…Œê³ ë¦¬ id : " + category_id);
 				}
 				
 				HashMap<String, Object> categoryIdContentMap = new HashMap<String, Object>();
@@ -77,14 +77,14 @@ public class SearchController {
 				categoryIdContentMap.put("content", searchContent);
 				
 				boardList = boardDao.getListByCategoryIdContent(categoryIdContentMap);
-				System.out.println("°Ë»öÇÒ Ä«Å×°í¸® ¼ö : " + addcount_int);
-				System.out.println("°Ë»öÇÒ ³»¿ë : " + searchContent);
+				System.out.println("ê²€ìƒ‰í•  ì¹´í…Œê³ ë¦¬ ìˆ˜ : " + addcount_int);
+				System.out.println("ê²€ìƒ‰í•  ë‚´ìš© : " + searchContent);
 				
-			} else { // Ä«Å×°í¸®¸¦ ¼±ÅÃÇÏÁö ¾Ê¾ÒÀ» ¶§
+			} else { // ì¹´í…Œê³ ë¦¬ë¥¼ ì„ íƒí•˜ì§€ ì•Šì•˜ì„ ë•Œ
 
 				boardList = boardDao.getListByContent(searchContent);
-				System.out.println("°Ë»öÇÒ Ä«Å×°í¸® ¼ö : " + addcount_int);
-				System.out.println("°Ë»öÇÒ ³»¿ë : " + searchContent);
+				System.out.println("ê²€ìƒ‰í•  ì¹´í…Œê³ ë¦¬ ìˆ˜ : " + addcount_int);
+				System.out.println("ê²€ìƒ‰í•  ë‚´ìš© : " + searchContent);
 			}
 			if(boardList==null) {
 				searchCount = 0;
@@ -111,7 +111,7 @@ public class SearchController {
 				model.addAttribute("allBoardList", allBoardList);
 				searchCount = boardList.size();
 			}
-			System.out.println("°Ë»öµÈ °Ô½Ã±Û ¼ö : " + searchCount);
+			System.out.println("ê²€ìƒ‰ëœ ê²Œì‹œê¸€ ìˆ˜ : " + searchCount);
 		}
 		
 		
