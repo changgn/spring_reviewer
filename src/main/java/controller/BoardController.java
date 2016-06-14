@@ -54,7 +54,6 @@ public class BoardController {
 		this.boarddao = boarddao;
 	}
 
-	//게시물 입력
 	@RequestMapping(value="write/writeForm.do", method=RequestMethod.GET)
 	public String insertboard(){
 		return "write/writeForm";
@@ -65,7 +64,7 @@ public class BoardController {
 			String addCategory, String boardContent)
 			throws IOException {
 	
-		//게시물 작성자 = 로그인한 ID값 받아오기
+
 		String id = (String)request.getSession().getAttribute("id");
 		String savePath = "/fileSave";
 		
@@ -78,11 +77,10 @@ public class BoardController {
 		
 		int board_num = boarddao.getRecentBoardNumById(id).intValue();
 
-		//filenames에 업로드된 파일의 이름 목록을 제공한다.
 	
 		Iterator<String> filenames = mhsq.getFileNames();
 		while (filenames.hasNext()) {
-			//name 값으로 하나씩 file정보를 구한다.
+		
 			MultipartFile file = mhsq.getFile(filenames.next());
 			
 			String genId = UUID.randomUUID().toString(); 
@@ -111,20 +109,20 @@ public class BoardController {
 	}
 
 	
-	//게시물 내용 보기
+	
 	@RequestMapping(value="/content/contentForm.do")
 	public String selectcontent(String board_num, String comment, Model model){
-		// 변수 생성
+	
 		List<PhotoCommand> photoList = null;
 		List<CommentCommand> commentList = null;
 		BoardCommand board = null;
 		
-		// 게시물 번호로 정보 가져오기
+		
 		board = boarddao.selectContent(Integer.parseInt(board_num));
 		photoList = photodao.getListByBoardNum(Integer.parseInt(board_num));
 		commentList = commentdao.getListByBoardNum(Integer.parseInt(board_num));
 		
-		if(board != null) { // 가져온 게시글 정보가 있다면	
+		if(board != null) {
 			CategoryCommand category = categorydao.getOne(board.getCategory_id());
 			model.addAttribute("board", board);
 			model.addAttribute("category", category);
@@ -132,10 +130,10 @@ public class BoardController {
 		} else {
 			model.addAttribute("error", "error");
 		}
-		if(photoList != null) { // 가져온 사진 정보가 있다면
+		if(photoList != null) {
 			model.addAttribute("photoList", photoList);
 		}
-		if(commentList != null) { // 가져온 댓글 정보가 있다면
+		if(commentList != null) { 
 			model.addAttribute("commentList", commentList);
 			model.addAttribute("commentCount", commentList.size());
 		}	
@@ -144,13 +142,12 @@ public class BoardController {
 		
 	}
 	
-	//게시글 삭제하기
 	@RequestMapping(value="/content/deleteContent.do")
 	public String delete(HttpSession session, Model model, String board_num, @RequestParam("id") String writer){
 
 		String id = (String)session.getAttribute("id");
 		
-		if(id.equals(writer)) { // 작성자와 로그인한 아이디가 같으면
+		if(id.equals(writer)) { 
 			boarddao.deleteContent(Integer.parseInt(board_num));
 			
 		} else {

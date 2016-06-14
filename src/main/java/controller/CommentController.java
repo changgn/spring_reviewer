@@ -29,7 +29,6 @@ public class CommentController {
 	public void Comment(HttpServletResponse resp, CommentCommand command, int board_num, HttpSession session,
 				@RequestParam("comment_textarea") String content ) throws Exception{
 		
-		// ÆÄ¶ó¹ÌÅÍ °ª ¹Ş¾Æ¿À±â
 		String id = (String)session.getAttribute("id");
 
 		command.setBoard_num(board_num);
@@ -39,9 +38,9 @@ public class CommentController {
 		
 		int check = commentdao.insert(command);
 		if(check>0) {
-			System.out.println("´ñ±Û ÀúÀå ¿Ï·á");
+			System.out.println("ëŒ“ê¸€ ì €ì¥ ì™„ë£Œ");
 		} else {
-			System.out.println("´ñ±Û ÀúÀå ½ÇÆĞ");
+			System.out.println("ëŒ“ê¸€ ì €ì¥ ì‹¤íŒ¨");
 		}
 		
 		JSONObject jso = new JSONObject();
@@ -57,7 +56,7 @@ public class CommentController {
 				@RequestParam("comment_textarea") String content,
 				@RequestParam("comment_num") String comment_num_str ){
 		
-		// ÆÄ¶ó¹ÌÅÍ °ª ¹Ş¾Æ¿À±â
+
 		String id = (String)session.getAttribute("id");
 		
 		Integer comment_num = null;
@@ -65,13 +64,13 @@ public class CommentController {
 			comment_num = Integer.parseInt(comment_num_str);
 		}
 				
-		//removeByCommentNum -> comment_num°ªÀ¸·Î comment »èÁ¦
+	
 		if(comment_num!=null) {
 			int check = commentdao.removeByCommentNum(comment_num);
 			if(check>0) {
-				System.out.println("´ñ±Û »èÁ¦ ¿Ï·á");
+				System.out.println("ëŒ“ê¸€ ì €ì¥ ì™„ë£Œ");
 			} else {
-				System.out.println("´ñ±Û »èÁ¦ ½ÇÆĞ");
+				System.out.println("ëŒ“ê¸€ ì €ì¥ ì‹¤íŒ¨");
 			}
 		} else {
 			command.setBoard_num(board_num);
@@ -81,9 +80,9 @@ public class CommentController {
 			
 			int check = commentdao.insert(command);
 			if(check>0) {
-				System.out.println("´ñ±Û ÀúÀå ¿Ï·á");
+				System.out.println("ëŒ“ê¸€ ì €ì¥ ì™„ë£Œ");
 			} else {
-				System.out.println("´ñ±Û ÀúÀå ½ÇÆĞ");
+				System.out.println("ëŒ“ê¸€ ì €ì¥ ì‹¤íŒ¨");
 			}
 		}
 
