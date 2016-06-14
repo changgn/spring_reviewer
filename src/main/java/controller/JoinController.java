@@ -41,11 +41,13 @@ public class JoinController {
 	@RequestMapping(value="/member/join.do",method=RequestMethod.POST)
 	public String action(MemberCommand memberInfo, Model model){
 		int n = memberDao.inputPro(memberInfo);
-		if(n>1){
-			model.addAttribute("smessage", "susccess");
+		if(n != 0 ){
+			String smessage="회원 가입에 성공하셨습니다.";
+			model.addAttribute("smessage", smessage);
 		}
 		else {
-			model.addAttribute("fmessage", "fail");
+			String fmessage="회원 가입에 실패하셨습니다.";
+			model.addAttribute("fmessage", fmessage);
 		}
 		return "member/inputPro";
 	}
