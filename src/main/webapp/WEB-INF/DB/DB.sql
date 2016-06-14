@@ -60,7 +60,7 @@ CREATE TABLE category
 CREATE TABLE comments
 (
 	comment_num number NOT NULL,
-	content_num number NOT NULL,
+	board_num number NOT NULL,
 	id varchar2(20) NOT NULL,
 	content varchar2(4000) NOT NULL,
 	write_date date NOT NULL,
@@ -109,7 +109,7 @@ CREATE TABLE notice
 CREATE TABLE photo
 (
 	fileName varchar2(100) NOT NULL,
-	content_num number NOT NULL,
+	board_num number NOT NULL,
 	realPath varchar2(200) NOT NULL,
 	o_fileName varchar2(100) NOT NULL
 );
@@ -132,7 +132,7 @@ CREATE TABLE report
 CREATE TABLE screp
 (
 	id varchar2(20) NOT NULL,
-	content_num number NOT NULL
+	board_num number NOT NULL
 );
 
 
@@ -140,7 +140,7 @@ CREATE TABLE screp
 /* Create Foreign Keys */
 
 ALTER TABLE comments
-	ADD FOREIGN KEY (content_num)
+	ADD FOREIGN KEY (board_num)
 	REFERENCES board (board_num)
 	ON DELETE CASCADE
 ;
@@ -154,7 +154,7 @@ ALTER TABLE notice
 
 
 ALTER TABLE photo
-	ADD FOREIGN KEY (content_num)
+	ADD FOREIGN KEY (board_num)
 	REFERENCES board (board_num)
 	ON DELETE CASCADE
 ;
@@ -175,7 +175,7 @@ ALTER TABLE report
 
 
 ALTER TABLE screp
-	ADD FOREIGN KEY (content_num)
+	ADD FOREIGN KEY (board_num)
 	REFERENCES board (board_num)
 	ON DELETE CASCADE
 ;
