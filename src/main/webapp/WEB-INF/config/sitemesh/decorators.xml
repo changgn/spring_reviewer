@@ -17,11 +17,12 @@
 	</decorator> 
 	
 	<decorator name="logon" page="/WEB-INF/views/layout/logon_layout.jsp">
-		<pattern>/member/*</pattern>
+		<pattern>/member/join.do</pattern>
 		<pattern>/logon/*</pattern>
 		<pattern>/idpwSearch/*</pattern>
 	</decorator>
 	<excludes>
 		<pattern>/content/reportPro.do</pattern>
+		<pattern>/member/idCheckForm.do</pattern>
 	</excludes>
 </decorators>

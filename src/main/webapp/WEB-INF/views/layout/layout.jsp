@@ -115,7 +115,7 @@
 	<!-- 네비게이션 -->
 		<ul id="list_nav">
 			<li>
-				<div id="btn_newsfeed"><a href="main.do" class="nav_btn">뉴&nbsp;&nbsp;스&nbsp;&nbsp;피&nbsp;&nbsp;드</a></div>
+				<div id="btn_newsfeed"><a href="/main/main.do" class="nav_btn">뉴&nbsp;&nbsp;스&nbsp;&nbsp;피&nbsp;&nbsp;드</a></div>
 			</li>
 			<li>
 				<div id="btn_my">
