@@ -65,7 +65,7 @@ public class MemberController {
 		else {
 			message = "errID";
 		}
-
+		
 		session.setAttribute("login_status", "1");
 		model.addAttribute("message", message);
 		
@@ -79,51 +79,34 @@ public class MemberController {
 		return "logon/loginForm";
 	}
 	
-	@RequestMapping(value="/main/modify.do", method=RequestMethod.GET)
-	public String form(HttpServletRequest request) {
+	@RequestMapping(value="/member/modify.do", method=RequestMethod.GET)
+	public String form(HttpServletRequest request, Model model) {
+		
 		HttpSession session = request.getSession();
 		String id = (String) session.getAttribute("id");
-		MemberDAO memberDao = new MemberDAO();
-		MemberCommand memberCommand = memberDao.modifyForm(id);
 		
-		request.setAttribute("m", memberCommand);
+		MemberCommand memberInfo = memberDao.modifyForm(id);
+		model.addAttribute("m", memberInfo);
+		
 		return "member/modifyForm";
 	}
 	
-	//ȸ������ ��, �������������� �̵� ��û
-	@RequestMapping(value="/main/modify.do", method=RequestMethod.POST)
-	public String submit(@ModelAttribute("memberCommand") MemberCommand memberCommand, HttpServletRequest request) {
+	
+	@RequestMapping(value="/member/modify.do", method=RequestMethod.POST)
+	public String submit(@ModelAttribute("memberinfo") MemberCommand memberInfo) {
 		
-		String id = request.getParameter("id");
-		String passwd = request.getParameter("passwd");
-		String name=request.getParameter("name");
-		String birth=request.getParameter("birth");
-		String gender=request.getParameter("gender");
-		String email=request.getParameter("email");
-		String phone_num=request.getParameter("phone_num");
+		int updateSuccess = memberDao.modifyPro(memberInfo);
 		
-		MemberDAO memberDao = new MemberDAO();
-		MemberCommand m = new MemberCommand();
-		
-		m.setId(id);
-		m.setPasswd(passwd);
-		m.setName(name);
-		m.setBirth(birth);
-		m.setGender(gender);
-		m.setEmail(email);
-		m.setPhone_num(phone_num);
-		
-		
-		int updateSuccess = memberDao.modifyPro(memberCommand);
-		
-		if (updateSuccess>0) {
+		if (updateSuccess > 0) {
+			
 			return "main/main";
 		}
+		
 		return "member/modifyForm";
 	}
 	
-	//ȸ������ ������ ��û
-	@RequestMapping(value="/main/delete.do", method=RequestMethod.GET)
+	
+	@RequestMapping(value="/member/delete.do", method=RequestMethod.GET)
 	public String deleteForm(HttpServletRequest request,HttpSession session){
 		session = request.getSession();
 		String id = (String) session.getAttribute("id");
@@ -136,21 +119,30 @@ public class MemberController {
 		return "member/deleteForm";
 	}       
 
-    //ȸ�� ������ ���� �� �α��� �������� �̵���û	
-	@RequestMapping(value="/main/delete.do", method=RequestMethod.POST)
-	public String delete(HttpServletRequest request,String id,String passwd){
+    	
+	@RequestMapping(value="/member/delete.do", method=RequestMethod.POST)
+	public String delete(HttpServletRequest request,String id,String passwd, Model model){
 		HttpSession session = request.getSession();
-		MemberCommand memberCommand = memberDao.deleteCf(id);
+		MemberCommand memberInfo = memberDao.deleteCf(id);
 		HashMap<String, String> map = new HashMap<String, String>();
+		
 		map.put("id", id);
 		map.put("passwd", passwd);
 		
-		if ((memberCommand.getPasswd()).equals(passwd)) {
+		System.out.println(map);
+		String errormessage = null;
+		
+		if ((memberInfo.getPasswd()).equals(passwd)) {
 
 			session.invalidate();
 			memberDao.deleteCf(id);
 			return "logon/loginForm";
 		}
+		else 
+		{
+			errormessage = "errorPwd";
+		}
+		model.addAttribute("errormessage", errormessage);
 		
 		return "member/deleteForm";
 	}

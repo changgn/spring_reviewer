@@ -28,7 +28,7 @@ $(function(){
 </head>
 <body>
 <div id="remove">
-	<form action="main/delete.do" method="post" name="deleteForm" id="deleteForm">
+	<form action="/member/delete.do" method="post" name="deleteForm" id="deleteForm">
 		<div class="size_long text_long">회 원 탈 퇴</div>
 		<div class="size_long" id="divpasswd"><input type="password" class="text_login" id="passwd" name="passwd" maxlength="15" placeholder="비밀번호"> </div>
 		<div id="remove_btn_remove" class="btn_long"><a href="#" >회 원 탈 퇴</a></div>

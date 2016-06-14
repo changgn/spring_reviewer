@@ -95,11 +95,8 @@ public class MemberDAO extends SqlSessionDaoSupport{
 	
 	public int inputPro(MemberCommand memberInfo) {
 		
-		
-		return getSqlSession().insert("member.add", memberInfo);
+	return getSqlSession().insert("member.add", memberInfo);
 			
-		
-		
 	}
 	
 	public int count(){
