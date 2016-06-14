@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Iterator;
@@ -66,7 +67,7 @@ public class BoardController {
 	
 		//게시물 작성자 = 로그인한 ID값 받아오기
 		String id = (String)request.getSession().getAttribute("id");
-		String savePath = "fileSave";
+		String savePath = "/fileSave";
 		
 		
 		BoardCommand command = new BoardCommand();
@@ -87,8 +88,9 @@ public class BoardController {
 			String genId = UUID.randomUUID().toString(); 
 			String o_fileName = file.getOriginalFilename();
 			String fileName = genId + "_" + o_fileName;
-			String realPath =  request.getContextPath() + "/" + savePath + "/" + URLEncoder.encode(fileName, "UTF-8");
+			String realPath =  savePath + "/" + fileName;
 			
+			System.out.println(realPath);
 			PhotoCommand pcommand = new PhotoCommand(); 
 			pcommand.setboard_num(board_num);
 			pcommand.setO_fileName(o_fileName);
@@ -97,9 +99,11 @@ public class BoardController {
 			
 			if(!o_fileName.equals("")){
 				photodao.insert(pcommand);
+				File f = new File(request.getSession().getServletContext().getRealPath(savePath));
+				File f2 = new File(f, fileName);
+				file.transferTo(f2);
 			}
 			
-			System.out.println("저장할 파일명 : " + o_fileName);
 		}
 		
 	/*	boarddao.insertBoard(command);*/

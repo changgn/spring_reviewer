@@ -51,7 +51,7 @@ $(function(){
 			var params="comment_textarea="+$("#content_comment_write").value()
 				params += "&board_num="+"${board_num}";
 				alert(params);
-			/* $.ajax({
+			 $.ajax({
 				type:"post"		// 전송할 data type -> 포스트방식
 				,url:url		// url 주소 -> /sidoList.do
 				,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
