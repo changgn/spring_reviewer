@@ -15,10 +15,7 @@
 
 $(function(){
 	var url = "<%=cp%>/content/contentPro";
-
-	
 })
-
 
 $(function(){
 	$(".cont_menu_option").click(function(){
@@ -29,7 +26,6 @@ $(function(){
 		$(this).hide();
 	});
 });
-
 </script>
 <script>
 $(document).ready(function(){
@@ -86,7 +82,7 @@ $(function(){
 		   // args.data[idx] : args 는 function(args)의 인자. data는 controller.java에서 json객체에 넣어준 key(여기서는 list가 값이 된다). [idx]는 list의 몇번쨰 데이터를 가져올지 배열을 나타냄
 					 }
 				}
-			    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+			    error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
 			    	alert(e.responseText);
 			    }
 			});

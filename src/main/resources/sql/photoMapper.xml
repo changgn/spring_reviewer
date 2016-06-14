@@ -4,7 +4,7 @@
 
 <mapper namespace="photo">
 	<insert id="add" parameterType="command.PhotoCommand">
-		insert into photo values(#{fileName},#{board_num},#{realPath})
+		insert into photo values(#{fileName},#{board_num},#{realPath},#{o_fileName})
 	</insert>
 	<update id="modify" parameterType="command.PhotoCommand">
 		<!-- 조건문 -->
@@ -16,8 +16,8 @@
 		select * from photo
 	</select>
 	<select id="getOneByBoardNum" parameterType="java.lang.Integer" resultType="command.PhotoCommand">
-		select fileName, board_num, realPath from 
-		(select rownum rn, fileName, board_num, realPath from photo where board_num=#{board_num}) 
+		select fileName, board_num, realPath, o_fileName from 
+		(select rownum rn, fileName, board_num, realPath, o_fileName from photo where board_num=#{board_num}) 
 		where rn=1
 	</select>
 	<select id="getListByBoardNum" parameterType="java.lang.Integer" resultType="command.PhotoCommand">

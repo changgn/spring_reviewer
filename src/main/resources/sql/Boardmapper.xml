@@ -31,7 +31,7 @@
  </delete>
 
 <!-- 게시물 삭제 -->
- <delete parameterType="java.lang.String" id="removeByBoardNum">
+ <delete parameterType="java.lang.Integer" id="removeByBoardNum">
   delete from board where board_num=#{board_num} 
  </delete>
 
