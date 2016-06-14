@@ -28,13 +28,14 @@ public class MemberController {
 		this.memberDao = memberDao;
 	}
    
-	//È¸¿ø Á¤º¸¸¦ °¡Á®¿È
+	//È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@ModelAttribute("memberCommand")
 	public MemberCommand get(){
 		return new MemberCommand();
 	}
 	
-	//·Î±×ÀÎ ÆäÀÌÁö ¿äÃ»
+	
+	//ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»
 	@RequestMapping(value="/logon/login.do",method=RequestMethod.GET)
 	public String loginform(HttpSession session){
 		session.setAttribute("login_status", "2");
@@ -67,11 +68,16 @@ public class MemberController {
 		session.setAttribute("login_status", "1");
 		model.addAttribute("message", message);
 		
-		System.out.println(message);
-		
 		return "logon/loginPro";
 	}
 
+	@RequestMapping("/logon/logout.do")
+	public String logout(HttpServletRequest request){
+		HttpSession session = request.getSession();
+		session.invalidate();
+		return "logon/loginForm";
+	}
+	
 	@RequestMapping(value="/main/modify.do", method=RequestMethod.GET)
 	public String form(HttpServletRequest request) {
 		HttpSession session = request.getSession();
@@ -83,7 +89,7 @@ public class MemberController {
 		return "member/modifyForm";
 	}
 	
-	//È¸¿ø¼öÁ¤ ÈÄ, ¸ÞÀÎÆäÀÌÁö·ÎÀÇ ÀÌµ¿ ¿äÃ»
+	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½Ã»
 	@RequestMapping(value="/main/modify.do", method=RequestMethod.POST)
 	public String submit(@ModelAttribute("memberCommand") MemberCommand memberCommand) {
 		
@@ -95,7 +101,7 @@ public class MemberController {
 		return "member/modifyForm";
 	}
 	
-	//È¸¿ø»èÁ¦ ÆäÀÌÁö ¿äÃ»
+	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»
 	@RequestMapping(value="/main/delete.do", method=RequestMethod.GET)
 	public String deleteForm(HttpServletRequest request,HttpSession session){
 		session = request.getSession();
@@ -109,7 +115,7 @@ public class MemberController {
 		return "member/deleteForm";
 	}       
 
-    //È¸¿ø ÆäÀÌÁö »èÁ¦ ÈÄ ·Î±×ÀÎ ÆäÀÌÁö·Î ÀÌµ¿¿äÃ»	
+    //È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½Ã»	
 	@RequestMapping(value="/main/delete.do", method=RequestMethod.POST)
 	public String delete(HttpServletRequest request,String id,String passwd){
 		HttpSession session = request.getSession();
@@ -128,7 +134,7 @@ public class MemberController {
 		return "member/deleteForm";
 	}
 	
-	}
+}
 
 
 

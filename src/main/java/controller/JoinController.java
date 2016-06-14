@@ -1,6 +1,7 @@
 package controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +28,6 @@ public class JoinController {
 	}
 	
 	
-	
-	@RequestMapping("/logon/logout.do")
-	public String logout(HttpServletRequest request){
-		HttpSession session = request.getSession();
-		session.invalidate();
-		return "logon/loginForm";
-	}
 	
 	@ModelAttribute("memberCommand")
 	public MemberCommand memberCommand(){
@@ -64,11 +58,10 @@ public class JoinController {
 		if (ch != null) {
 			check = 1;
 		}
-		mav.addObject("id", id); // ¾ÆÀÌµð ±¸ºÐÀ» ÇÒ ÇÊ¿ä¼º!!
+		mav.addObject("id", id); // ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ê¿ä¼º!!
 		mav.addObject("idch", check);
-		System.out.println(check);
 		
 		return mav;      
 	}
-		
+	
 }

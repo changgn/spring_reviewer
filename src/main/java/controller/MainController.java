@@ -75,7 +75,6 @@ public class MainController {
 			
 		}else { // 濡쒓렇�씤 �맂 寃쎌슦
 			// 濡쒓렇�씤 �븳 �븘�씠�뵒�쓽 移댄뀒怨좊━ �젙蹂대�� 媛��졇�삩�떎
-			System.out.println(id);
 			categoryIdList = memberCategoryDao.getCategoryIdById(id);
 			
 			if(categoryIdList.size() == 0){ // 濡쒓렇�씤 �븳 �븘�씠�뵒�쓽 移댄뀒怨좊━ �젙蹂닿� �뾾�쓣 寃쎌슦
