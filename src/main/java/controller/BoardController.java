@@ -88,7 +88,6 @@ public class BoardController {
 			String fileName = genId + "_" + o_fileName;
 			String realPath =  savePath + "/" + fileName;
 			
-			System.out.println(realPath);
 			PhotoCommand pcommand = new PhotoCommand(); 
 			pcommand.setboard_num(board_num);
 			pcommand.setO_fileName(o_fileName);
@@ -101,9 +100,7 @@ public class BoardController {
 				File f2 = new File(f, fileName);
 				file.transferTo(f2);
 			}
-			
 		}
-		
 	/*	boarddao.insertBoard(command);*/
 		return "redirect:/content/contentForm.do?board_num=" + board_num;
 	}
