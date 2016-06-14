@@ -151,8 +151,6 @@ public class BoardController {
 			model.addAttribute("errorId", "errorId");
 		}
 		return "content/deleteContent";
-		
-		
 	}
 }
 
