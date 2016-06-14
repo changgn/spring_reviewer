@@ -107,7 +107,6 @@ public class BoardController {
 	}
 
 	
-	
 	//게시물 내용 보기
 	@RequestMapping(value="/content/contentForm.do")
 	public String selectcontent(String board_num, String comment, Model model){
@@ -154,6 +153,8 @@ public class BoardController {
 			model.addAttribute("errorId", "errorId");
 		}
 		return "content/deleteContent";
+		
+		
 	}
 }
 

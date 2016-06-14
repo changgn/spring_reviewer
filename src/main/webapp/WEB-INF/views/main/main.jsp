@@ -43,7 +43,7 @@ $(function(){
 	<div class="content_wrap">
 		<div class="content_first">	
 			<div class="cont_writer">
-				<a href="/reviewer/profile/myProfile.do?id=${board.board.id}" class="cont_writer_id">${board.board.id}</a>
+				<a href="/profile/myProfile.do?id=${board.board.id}" class="cont_writer_id">${board.board.id}</a>
 				<div class="cont_wdate">
 					<fmt:formatDate value="${board.board.write_date}" pattern="yyyy-MM-dd HH:mm"/>
 				</div>
@@ -55,11 +55,11 @@ $(function(){
 						<div class="ly_dimmed"></div>
 						<ul class="cont_popup">
 							<li>
-								<a href="/reviewer/content/reportPro.do?board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 신고</a>
+								<a href="/content/reportPro.do?board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 신고</a>
 							</li>
 						<c:if test="${board.board.id == id}">						
 							<li>
-								<a href="/reviewer/content/deleteContent.do?id=${board.board.id}&board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
+								<a href="/content/deleteContent.do?id=${board.board.id}&board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
 							</li>
 						</c:if>
 						</ul>
@@ -73,14 +73,14 @@ $(function(){
 					<c:if test="${board.contentFlag == true}">
 						<span class="cont_theview">
 							<span>...</span>
-							<a href="/reviewer/content/contentForm.do?board_num=${board.board.board_num}" class="btn_view_more">더보기</a>
+							<a href="/content/contentForm.do?board_num=${board.board.board_num}" class="btn_view_more">더보기</a>
 						</span>
 					</c:if>
 				</span>
 			</span>
 		</div>
 		<c:if test="${board.photo.realPath != null}">
-	   		<a href="/reviewer/content/contentForm.do?board_num=${board.board.board_num}" class="item_info_wrap">
+	   		<a href="/content/contentForm.do?board_num=${board.board.board_num}" class="item_info_wrap">
 		        <span class="item_cont" title="컨텐츠 상세페이지">
 		            <span class="item_thumb">
 		                <img class="list_photo" src="${board.photo.realPath}">
@@ -95,11 +95,11 @@ $(function(){
        	<div class="cont_btns">
        		<div class="cont_btns_wrap">
 				<div class="btns_re">
-					<a href="/reviewer/recommend/recommendPro.do?board_num=${board.board.board_num}" class="btns_re_item">
+					<a href="/recommend/recommendPro.do?board_num=${board.board.board_num}" class="btns_re_item">
                 		<span class="u_ico"></span><em class="u_txt">좋아요</em><em class="u_cnt"> ${board.board.recommend_num}</em>
                  	</a>
 				</div>
-				<a href="/reviewer/content/contentForm.do?board_num=${board.board.board_num}&comment=true" class="btns_coment" >
+				<a href="/content/contentForm.do?board_num=${board.board.board_num}&comment=true" class="btns_coment" >
 					<span class="u_ico_coment">댓글</span>
 					<span class="text_num">${board.commentCount}</span>				
 				</a>

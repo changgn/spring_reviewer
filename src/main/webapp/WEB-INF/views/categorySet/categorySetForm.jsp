@@ -356,7 +356,7 @@
 						<div id="del_${Category.category_id}" class="del_category btn_short"><a href="#">삭&nbsp;&nbsp;&nbsp;제</a></div>
 					</div>
 				</c:forEach>
-				<form action="/categorySet/categorySet.do" id="delCategory" method="post"></form>
+				<form action="/categorySet/categorydel.do" id="delCategory" method="post"></form>
 			</c:if>
 			<c:if test="${CategoryListSize==0 || CategoryListSize==null}">
 			<div class="size_long category_text"><h1 class="text_sub">카테고리를 추가해 주세요</h1></div>

@@ -90,9 +90,9 @@
 		<c:if test="${login_status==0 || login_status==1}">
 			<div id="user">
 				<ul id="list_user">
-					<li><a href="/reviewer/categorySet/categorySetForm.do">카테고리 수정</a></li>
+					<li><a href="/categorySet/categorySet.do">카테고리 수정</a></li>
 					<c:if test="${login_status==0}">
-						<li><a href="/reviewer/administrator/adminForm.do">관리자 페이지</a></li>
+						<li><a href="/administrator/adminForm.do">관리자 페이지</a></li>
 					</c:if>
 					<li><a href="modify.do">회원정보 수정</a></li>
 					<li><a href="/logon/logout.do">로그아웃</a></li>
@@ -115,7 +115,7 @@
 	<!-- 네비게이션 -->
 		<ul id="list_nav">
 			<li>
-				<div id="btn_newsfeed"><a href="/main/main.do" class="nav_btn">뉴&nbsp;&nbsp;스&nbsp;&nbsp;피&nbsp;&nbsp;드</a></div>
+				<div id="btn_newsfeed"><a href="#" class="nav_btn">뉴&nbsp;&nbsp;스&nbsp;&nbsp;피&nbsp;&nbsp;드</a></div>
 			</li>
 			<li>
 				<div id="btn_my">
