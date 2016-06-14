@@ -1640,9 +1640,35 @@ $(function(){
 		{
 			alert("카테고리를 선택해 주세요.");
 		} else {
+			var url="<%=request.getContextPath()%>/categorySet/categorySet.do";
+			var params = "addcount=" + addcount;
+			for(var i=1; i<=addcount; i++) {
+				var addcategory = "add" + i;
+				var addcategoryVal = document.getElementsByName(addcategory);
+			    params += "&" + addcategory + "=" + addcategoryVal[0].value;
+			}
+			alert(url);
+/*			$.ajax({
+				type:"post"		// 포스트방식
+				,url:url		// url 주소
+				,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
+				,dataType:"json"
+				,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
+					 for(var idx=0; idx<args.data.length; idx++) {
+						 $("#sido").append("<option value='"+args.data[idx]+"'>"+args.data[idx]+"</option>");
+						
+					 }
+				}
+			    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+			    	alert(e.responseText);
+			    }
+			});
+			
+			
+			
 			addtag = "<input type='hidden' name='addcount' value='" + addcount +"'>"
 			$("#addCategory").append(addtag);
-			$("#addCategory").submit();
+			$("#addCategory").submit();*/
 		}
 	});
 	

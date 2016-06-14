@@ -6,6 +6,7 @@
 <head>
 <title>카테고리 설정</title>
 <script src="../script/categoryMenu.js"></script>
+
 </head>
 <body>
 	<div class="category_add">

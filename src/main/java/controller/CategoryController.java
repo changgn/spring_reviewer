@@ -1,9 +1,11 @@
 package controller;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import command.CategoryCommand;
 import command.MemberCategoryCommand;
 import dao.CategoryDAO;
 import dao.MemberCategoryDAO;
+import net.sf.json.JSONObject;
 
 @Controller
 public class CategoryController {
@@ -62,10 +65,13 @@ public class CategoryController {
 	}
 
 	@RequestMapping(value="/categorySet/categorySet.do",method=RequestMethod.POST)
-	public String categorySet(HttpServletRequest request, Model model, String addcount){
+	public void categorySet(HttpServletRequest request, HttpServletResponse response, Model model, String addcount)
+			 throws Exception{
 		// 로그인한 id값 가져오기
 		String id = (String) request.getSession().getAttribute("id");
 		
+		JSONObject jso = new JSONObject(); // JASON 객체생성
+
 		if(addcount != null) {
 			int addcount_int = Integer.parseInt(addcount);
 			if(addcount_int != 0) {
@@ -77,9 +83,14 @@ public class CategoryController {
 					addedcount += memberCategoryDao.insert(command);
 				}
 				System.out.println(id + "의 추가된 카테고리 갯수 : " + addedcount);
+				jso.put("addedcount", addedcount); // jason은 map구조(키,값), data라는 key로 list데이터를 주입했다.
 			}
 		}
-		return "redirect:/categorySet/categorySet.do";
+		
+
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.print(jso.toString());
 	}
 	@RequestMapping(value="/categorySet/categorydel.do",method=RequestMethod.POST)
 	public String categorydel(HttpServletRequest request, Model model, String delCategory){
