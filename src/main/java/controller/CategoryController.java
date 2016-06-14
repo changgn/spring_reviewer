@@ -38,18 +38,18 @@ public class CategoryController {
 	@RequestMapping(value="/categorySet/categorySet.do",method=RequestMethod.GET)
 	public String categorySetForm(HttpServletRequest request, Model model){
 		
-		// ·Î±×ÀÎÇÑ id°ª °¡Á®¿À±â
+		// ë¡œê·¸ì¸í•œ idê°’ ê°€ì ¸ì˜¤ê¸°
 		String id = (String) request.getSession().getAttribute("id");
 		int CategoryListSize = 0;
 
-		// VoµéÀ» ´ã±âÀ§ÇÑ list º¯¼ö»ı¼º
+		// Voë“¤ì„ ë‹´ê¸°ìœ„í•œ list ë³€ìˆ˜ìƒì„±
 		List<MemberCategoryCommand> membersCategoryList = null;
 		List<CategoryCommand> CategoryList = new ArrayList<CategoryCommand>();
 		
-		// ÇØ´ç idÀÇ Ä«Å×°í¸®id °¡Á®¿À±â
+		// í•´ë‹¹ idì˜ ì¹´í…Œê³ ë¦¬id ê°€ì ¸ì˜¤ê¸°
 		membersCategoryList = memberCategoryDao.getlistById(id);
 		
-		// Ä«Å×°í¸®id·Î Ä«Å×°í¸® °¡Á®¿À±â
+		// ì¹´í…Œê³ ë¦¬idë¡œ ì¹´í…Œê³ ë¦¬ ê°€ì ¸ì˜¤ê¸°
 		for(MemberCategoryCommand membersCategory : membersCategoryList) {
 			CategoryCommand Category = categoryDao.getOne(membersCategory.getCategory_id());
 			CategoryList.add(Category);
@@ -57,7 +57,7 @@ public class CategoryController {
 		
 		CategoryListSize = CategoryList.size();
 		
-		// ºä¿¡¼­ »ç¿ëÇÒ Attribute Ãß°¡
+		// ë·°ì—ì„œ ì‚¬ìš©í•  Attribute ì¶”ê°€
 		model.addAttribute("CategoryListSize", CategoryListSize);
 		model.addAttribute("CategoryList", CategoryList);
 
@@ -67,10 +67,10 @@ public class CategoryController {
 	@RequestMapping(value="/categorySet/categorySet.do",method=RequestMethod.POST)
 	public void categorySet(HttpServletRequest request, HttpServletResponse response, Model model, String addcount)
 			 throws Exception{
-		// ·Î±×ÀÎÇÑ id°ª °¡Á®¿À±â
+		// ë¡œê·¸ì¸í•œ idê°’ ê°€ì ¸ì˜¤ê¸°
 		String id = (String) request.getSession().getAttribute("id");
 		
-		JSONObject jso = new JSONObject(); // JASON °´Ã¼»ı¼º
+		JSONObject jso = new JSONObject(); // JASON ê°ì²´ìƒì„±
 
 		if(addcount != null) {
 			int addcount_int = Integer.parseInt(addcount);
@@ -82,8 +82,8 @@ public class CategoryController {
 					MemberCategoryCommand command = new MemberCategoryCommand(id, category_id);
 					addedcount += memberCategoryDao.insert(command);
 				}
-				System.out.println(id + "ÀÇ Ãß°¡µÈ Ä«Å×°í¸® °¹¼ö : " + addedcount);
-				jso.put("addedcount", addedcount); // jasonÀº map±¸Á¶(Å°,°ª), data¶ó´Â key·Î listµ¥ÀÌÅÍ¸¦ ÁÖÀÔÇß´Ù.
+				System.out.println(id + "ì˜ ì¶”ê°€ëœ ì¹´í…Œê³ ë¦¬ ê°¯ìˆ˜ : " + addedcount);
+				jso.put("addedcount", addedcount);
 			}
 		}
 		
@@ -96,18 +96,18 @@ public class CategoryController {
 	public String categorydel(HttpServletRequest request, Model model, String delCategory){
 		if(delCategory != null) {		
 			
-			// ·Î±×ÀÎÇÑ id°ª °¡Á®¿À±â
+			// ë¡œê·¸ì¸í•œ idê°’ ê°€ì ¸ì˜¤ê¸°
 			String id = (String) request.getSession().getAttribute("id");
 			
-			// add_ ºÎºĞ Á¦°Å
+			// add_ ë¶€ë¶„ ì œê±°
 			delCategory = delCategory.substring(4);
 			MemberCategoryCommand vo = new MemberCategoryCommand(id, delCategory);
 			int deleteOk = memberCategoryDao.delete(vo);
 			
 			if(deleteOk==0){
-				System.out.println("Ä«Å×°í¸® »èÁ¦ ½ÇÆĞ");
+				System.out.println("ì¹´í…Œê³ ë¦¬ ì‚­ì œ ì‹¤íŒ¨");
 			} else {
-				System.out.println(id + "ÀÇ " + delCategory + " Ä«Å×°í¸® »èÁ¦ ¼º°ø" );
+				System.out.println(id + "ì˜ " + delCategory + " ì¹´í…Œê³ ë¦¬ ì‚­ì œ ì„±ê³µ" );
 			}
 		}
 		return "redirect:/categorySet/categorySet.do";
