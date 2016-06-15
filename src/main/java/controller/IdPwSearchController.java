@@ -3,19 +3,19 @@ package controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import command.MemberCommand;
 import dao.MemberDAO;
 
 @Controller
 public class IdPwSearchController {
-
+ 
 	private MemberDAO memberDao;
 	
 	@Autowired
@@ -28,43 +28,37 @@ public class IdPwSearchController {
 	}
 	
 	
-	@RequestMapping("/idpwSearch/idpwSearchNew.do")
-	public String IdpwSearch(HttpServletRequest request,HttpServletResponse response){
+	@RequestMapping(value="/idpwSearch/idpwSearchNew.do", method=RequestMethod.GET)
+	public String IdpwSearch(HttpServletRequest request){
 	
 		String message = request.getParameter("message");
 		request.setAttribute("message", message);
 	
 		return "idpwSearch/idpwSearchNew";
 	}
-	@RequestMapping("/idpwSearch/idSearch.do")
-	public String idSearch(HttpServletRequest request, HttpServletResponse response){
-		
-		MemberDAO memberDao = new MemberDAO();
+	@RequestMapping(value="/idpwSearch/idSearch.do", method=RequestMethod.POST)
+	public String idSearch(HttpServletRequest request, String phone_num){
+	
 		String message = null;
-		String phone_num = request.getParameter("phone_num");
-		System.out.println("아이디를 찾을 핸드폰 번호: "+phone_num);
-		
-		List<String> idList = memberDao.idSearch(phone_num);
-		if(idList.size()==0){
-			message="errorPhoneNum";
-			return "idpwSearch/idSearch";
+		List<MemberCommand> idList = memberDao.idSearch(phone_num);
+		if(idList.size()==0) {
+			message = "errorPhoneNum";
 		}
 		request.setAttribute("message", message);
 		request.setAttribute("idList", idList);
 		
+		
 		return "idpwSearch/idSearch";
 	}
-	@RequestMapping("/idpwSearch/pwSearch.do")
-	public String pwSearch(HttpServletRequest request, HttpServletResponse response){
+	@RequestMapping(value="/idpwSearch/pwSearch.do", method=RequestMethod.POST)
+	public String pwSearch(HttpServletRequest request){
 		
-		MemberDAO memberDao = new MemberDAO();
-		
+		MemberDAO memberDao = new MemberDAO();	
 		String id = (String) request.getParameter("id");
 		String phone_num = (String) request.getParameter("phone_num2");
 		String email = (String) request.getParameter("email");
 		
-		MemberCommand member = new MemberCommand();
-		
+		MemberCommand member = new MemberCommand();	
 		member.setPhone_num(phone_num);
 		member.setId(id);
 		member.setEmail(email);
