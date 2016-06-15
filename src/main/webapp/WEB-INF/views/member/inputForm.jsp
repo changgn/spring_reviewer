@@ -48,7 +48,7 @@ $(function(){
 		$("form")[0].reset();
 	});
 	$("#join_btn_cancel").click(function(){
-		$(location).attr("href","logon/login.do");
+		$(location).attr("href","/logon/login.do");
 	});
 	$("#join_btn_join").click(function(){
 		if($("#id").val()==""){
