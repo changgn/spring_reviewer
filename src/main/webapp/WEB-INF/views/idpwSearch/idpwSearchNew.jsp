@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page isELIgnored="false" %>
 <html>
 <head>
 <title>아이디 찾기</title>
@@ -41,21 +42,14 @@
 
 	<c:if test="${message!=null}">
 		<c:if test="${message=='errorPhoneNum'}">
-			<script>
-				alert("일치하는 핸드폰 번호가 없습니다");
-				$("#phone_num").focus();
-			</script>
+			<script>alert("일치하는 핸드폰 번호가 없습니다"); $("#phone_num").focus();</script>
 		</c:if>
 		<c:if test="${message=='incorrect'}">
-			<script>
-				alert("일치하는 정보가 없습니다");
-				$("#id").focus();
-			</script>
+			<script>alert("일치하는 정보가 없습니다"); $("#id").focus();</script>
 		</c:if>
 	</c:if>
 	<div id="find">
-		<form action="/idpwSearch/idSearch.do" method="post" name="idSearch"
-			id="idSearch">
+		<form action="/idpwSearch/idSearch.do" method="post" name="idSearch" id="idSearch">
 			<div id="find_id">
 				<div class="size_long">
 					<h1 class="title_find">아이디 찾기</h1>
@@ -71,8 +65,7 @@
 		</form>
 		<br>
 		<br>
-		<form action="/idpwSearch/pwSearch.do" method="post" name="pwSearch"
-			id="pwSearch">
+		<form action="/idpwSearch/pwSearch.do" method="post" name="pwSearch" id="pwSearch">
 			<div id="find_pwd">
 				<div class="size_long">
 					<h1 class="title_find">비밀번호 찾기</h1>
