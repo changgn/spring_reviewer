@@ -70,7 +70,7 @@ $(function(){
 			<div class="content_wrap">
 				<div class="content_first">	
 					<div class="cont_writer">
-						<a href="/reviewer/profile/myProfile.do?id=${board.board.id}" class="cont_writer_id">${board.board.id}</a>
+						<a href="/profile/myProfile.do?id=${board.board.id}" class="cont_writer_id">${board.board.id}</a>
 						<div class="cont_wdate">
 							<fmt:formatDate value="${board.board.write_date}" pattern="yyyy-MM-dd HH:mm"/>
 						</div>

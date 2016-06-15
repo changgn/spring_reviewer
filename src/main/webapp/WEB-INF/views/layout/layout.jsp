@@ -123,7 +123,7 @@
 						<a href="/logon/login.do" class="nav_btn">M&nbsp;&nbsp;&nbsp;Y</a>
 					</c:if>
 					<c:if test="${login_status==0 || login_status==1}">
-						<a href="myProfile.do?id=${sessionScope.id }" class="nav_btn">M&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y</a>
+						<a href="/profile/myProfile.do?id=${sessionScope.id }" class="nav_btn">M&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y</a>
 					</c:if>
 				</div>
 			</li>

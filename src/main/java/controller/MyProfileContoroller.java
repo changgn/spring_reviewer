@@ -1,4 +1,6 @@
-/*
+
+
+
 package controller;
 
 import java.util.ArrayList;
@@ -71,9 +73,9 @@ public class MyProfileContoroller {
 		ScrepDao = screpDao;
 	}
 	
-	
-
-
-
-
-}*/
+	@RequestMapping(value="/profile/myProfile.do",method=RequestMethod.GET)
+	public String myProfileform(){
+		
+		return "/profile/myProfile";
+	}
+}
