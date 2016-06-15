@@ -4,10 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
 
-<%
-	String cp = request.getContextPath();
-%>
-    
 <html>
 <head>
 <title>게시글</title>
@@ -45,44 +41,42 @@ $(function(){
 			alert("댓글을 입력해 주세요");
 			return false;
 		} else {
-			var url="<%=cp%>/content/contentPro.do";
-			var params = "comment_textarea="+$("#content_comment_write").value()
-				params += "&board_num="+"${board_num}";
+ 			var url="contentPro.do";
+			var params = "comment_textarea="+$("#content_comment_write").val();
+				params += "&board_num="+'${board.board_num}';
 				
-				alert(params);
-			 $.ajax({
+				$.ajax({
 				type:"post"		// 전송할 data type -> 포스트방식
 				,url:url		// url 주소 -> /sidoList.do
 				,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
 				,dataType:"json" 
 				,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
-					var write = "";
-					write += "<div id='content_comment_wirted_area'>";
-					write += "<div id='content_comment_info'>";
-					write += "작성자 : <a href="/profile/myProfile.do?id=${comment.id}">${comment.id}</a>&nbsp;&nbsp;&nbsp; 작성시간 : <fmt:formatDate value="${comment.write_date}" pattern="yyyy-MM-dd HH:mm"/>";
-					write += "</div>";
-					write += "<div id='content_comment_wirted_area'>";
-					write += '<textarea id="content_comment_writed" readonly>${comment.content}</textarea>';
-					write += "</div>";
-					write += "</div>";
-					write += '<div id="comment_btn_delete" class="btn_short">';
-					write += '<c:if test="${comment.id==id}">';
-					write += '<a href="/content/contentPro.do?board_num=${board_num}&comment_num=${comment.coment_num}">삭&nbsp;&nbsp;&nbsp;제</a>';
-					write += '</c:if>';
-					write += '<c:if test="${comment.id!=id}">';
-					write += '<a href="#" id="noDelete">삭&nbsp;&nbsp;&nbsp;제</a>';
-					write += '</c:if>';
-					write += "</div>";
-/* 					 for(var idx=0; idx<args.data.length; idx++) {
-						 $("#writed_comment").append("<option value='"+args.data[idx]+"'>"+args.data[idx]+"</option>");	 */	
-						 $("#writed_comment").append(args);
-					 }
+	 				var writer = "";
+
+					writer += '<div id="writed_comment" class="size_content">';
+					writer += '<div id="content_comment_wirted_area" >';
+					writer += '<div id="content_comment_info">';
+					writer += '작성자 : <a href="/profile/myProfile.do?id=${comment.id}">${comment.id}</a>&nbsp;&nbsp;&nbsp; 작성시간 : <fmt:formatDate value="${comment.write_date}" pattern="yyyy-MM-dd HH:mm"/>';
+					writer += '</div>';
+					writer += '<div id="content_comment_wirted_area">';
+					writer += '<textarea id="content_comment_writed" readonly>${comment.content}</textarea>';
+					writer += '</div>';
+					writer += '</div>';
+					writer += '<div id="comment_btn_delete" class="btn_short">';
+					writer += '<c:if test="${comment.id==id}">';
+					writer += '<a href="//content/contentdel.do?board_num=${board_num}&comment_num=${comment.comment_num}">삭&nbsp;&nbsp;&nbsp;제</a>';
+					writer += '</c:if>';
+					writer += '<c:if test="${comment.id!=id}">';
+					writer += '<a href="#" id="noDelete">삭&nbsp;&nbsp;&nbsp;제</a>';
+					writer += '</c:if>';
+					writer += '</div>';
+					writer += '</div>';	
+					
+					$("#content_comment_area").append(args);
 				}
-			    ,error:function() {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
-			    	alert(댓글을 입력해 주세요);
-			    }
-			});
-			$("#content_comment_write_form").submit();
+				
+			}); 
+			/* $("#content_comment_write_form").submit(); */
 		}
 	});
 	
@@ -189,7 +183,7 @@ $(function(){
 			</div>
 			<div id="comment_btn_delete" class="btn_short">
 				<c:if test="${comment.id==id}">
-					<a href="/content/contentPro.do?board_num=${board_num}&comment_num=${comment.coment_num}">삭&nbsp;&nbsp;&nbsp;제</a>
+					<a href="/content/contentdel.do?board_num=${board_num}&comment_num=${comment.comment_num}">삭&nbsp;&nbsp;&nbsp;제</a>
 				</c:if>
 				<c:if test="${comment.id!=id}">
 					<a href="#" id="noDelete">삭&nbsp;&nbsp;&nbsp;제</a>
