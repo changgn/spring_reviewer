@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import command.CommentCommand;
 import dao.CommentDAO;
@@ -30,40 +32,33 @@ public class CommentController {
 		return "ajax/city";
 	}
 	
-	@RequestMapping(value="/contentPro.do", method = RequestMethod.POST)
-	public void Comment(HttpServletResponse resp, CommentCommand command, int board_num, HttpSession session,
+	@ResponseBody
+	@RequestMapping(value="/content/contentPro.do", method = RequestMethod.POST)
+	public String Comment(HttpServletResponse resp, CommentCommand command, int board_num, HttpSession session,
 				@RequestParam("comment_textarea") String content ) throws Exception{
 		
 		//session 에서 id값을 가지고 온다.
 		String id = (String)session.getAttribute("id");
-		System.out.println("ddddddd");
-		command.setBoard_num(board_num);
 		command.setId(id);
 		command.setContent(content);
-		System.out.println("dddddd2d");
-
-/*		int check = commentdao.insert(command);
-*/		JSONObject jso = new JSONObject();
+		JSONObject jso = new JSONObject();
 		 // jason은 map구조(키,값), data라는 key(이름)로 command데이터를 주입했다.
-		jso.put("data", commentdao.insert(command));
-		System.out.println("ddddd3dd");
-
-		resp.setContentType("text/html;charset=utf-8");
-		PrintWriter out = resp.getWriter();
-		// out.print 내용을 ajax의 dataType이 jason에게
-		// 데이터 쏴줌
-		out.print(jso.toString());
-/*		
+		int check = commentdao.insert(command);
 		if(check>0) {
 			System.out.println("댓글 저장 완료");
 		} else {
 			System.out.println("댓글 저장 실패");
-		}*/
-		
+		}
 
+		resp.setContentType("text/html;charset=utf-8");
+		PrintWriter out = resp.getWriter();
+		jso.put("data", commentdao.getRecentOne());
+
+		out.print(jso.toString());
+		return jso.toString();
 	}
 	
-	@RequestMapping(value="/contentdel.do")
+	@RequestMapping(value="/content/contentdel.do")
 	public void Commentdel(HttpServletResponse resp, CommentCommand command, Model model, int board_num,HttpSession session,
 				@RequestParam("comment_textarea") String content,
 				@RequestParam("comment_num") String comment_num_str ){
@@ -79,9 +74,9 @@ public class CommentController {
 		if(comment_num!=null) {
 			int check = commentdao.removeByCommentNum(comment_num);
 			if(check>0) {
-				System.out.println("댓글 저장 완료");
+				System.out.println("댓글 삭제료");
 			} else {
-				System.out.println("댓글 저장 실패");
+				System.out.println("댓글 삭제 실패");
 			}
 		} else {
 			command.setBoard_num(board_num);

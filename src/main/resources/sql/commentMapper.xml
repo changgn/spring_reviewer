@@ -4,7 +4,7 @@
 
 <mapper namespace="comment">
 	<insert id="add" parameterType="command.CommentCommand">
-		insert into comments values(SEQ_comment_comment_num.NEXTVAL,#{board_num},#{id},#{content},sysdate)
+		insert into comments values(SEQ_comments_comment_num.NEXTVAL, #{board_num}, #{id}, #{content}, sysdate)
 	</insert>
 	<update id="modify" parameterType="command.CommentCommand">
 		<!-- 조건문 -->
@@ -20,6 +20,12 @@
 	</select>
 	<select id="getListByBoardNum" parameterType="java.lang.Integer" resultType="command.CommentCommand">
 		select * from comments where board_num=#{board_num} order by write_date DESC
+	</select>
+	<select id="getRecentOne" resultType="command.CommentCommand">
+		select * from comments where comment_num =max(comment_num)
+	</select>
+	<select id="getRecentOne" parameterType="java.lang.Integer" resultType="command.CommentCommand">
+		select * from (select max(comment_num) cn from comments where board_num=#{board_num}) where comment_num=cn
 	</select>
 	<select id="getCountByBoardNum" parameterType="java.lang.Integer" resultType="java.lang.String">
 		select count(comment_num) from comments where board_num=#{board_num}
