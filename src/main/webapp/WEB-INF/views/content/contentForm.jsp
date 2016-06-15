@@ -11,11 +11,8 @@
 <html>
 <head>
 <title>게시글</title>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script>
-
-$(function(){
-	var url = "<%=cp%>/content/contentPro";
-})
 
 $(function(){
 	$(".cont_menu_option").click(function(){
@@ -40,16 +37,18 @@ $(window).load(function(){
 		$('html, body').animate({ scrollTop : top });
 	}
 });
+
 $(function(){
 	$("#content_btn_comment_write").click(function(){
+		//만약 댓글이 입력이 안되 있을경우 
 		if($("#content_comment_write").val()=="") {
 			alert("댓글을 입력해 주세요");
 			return false;
 		} else {
-			// 시도테이블의 리스트 가져오기
 			var url="<%=cp%>/content/contentPro.do";
-			var params="comment_textarea="+$("#content_comment_write").value()
+			var params = "comment_textarea="+$("#content_comment_write").value()
 				params += "&board_num="+"${board_num}";
+				
 				alert(params);
 			 $.ajax({
 				type:"post"		// 전송할 data type -> 포스트방식
@@ -74,16 +73,13 @@ $(function(){
 					write += '<a href="#" id="noDelete">삭&nbsp;&nbsp;&nbsp;제</a>';
 					write += '</c:if>';
 					write += "</div>";
-					 for(var idx=0; idx<args.data.length; idx++) {
-						 $("#writed_comment").append("<option value='"+args.data[idx]+"'>"+args.data[idx]+"</option>");
-						 //id가 sido인 요소선택
-						 //append로 기존 셀렉터로 선택된 요소 다음에 다음내용이 들어감
-						 //<option value='0'>서울</option> 이런식으로 sido의 요소안에 자식으로 들어감
-		   // args.data[idx] : args 는 function(args)의 인자. data는 controller.java에서 json객체에 넣어준 key(여기서는 list가 값이 된다). [idx]는 list의 몇번쨰 데이터를 가져올지 배열을 나타냄
+/* 					 for(var idx=0; idx<args.data.length; idx++) {
+						 $("#writed_comment").append("<option value='"+args.data[idx]+"'>"+args.data[idx]+"</option>");	 */	
+						 $("#writed_comment").append(args);
 					 }
 				}
-			    error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
-			    	alert(e.responseText);
+			    ,error:function() {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+			    	alert(댓글을 입력해 주세요);
 			    }
 			});
 			$("#content_comment_write_form").submit();

@@ -347,7 +347,7 @@
 		<div id="btn_add" class="btn_long"><a href="#">카 테 고 리&nbsp;&nbsp;&nbsp;추 가</a></div>
 	</div>
 	<div class="category_save">
-		<div class="category_all">
+		<div id="category_added_all" class="category_all">
 			<c:if test="${CategoryListSize!=0}">
 				<c:forEach var="Category" items="${CategoryList}">
 					<div class="category_set size_long">

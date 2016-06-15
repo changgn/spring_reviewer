@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import command.CategoryCommand;
 import command.MemberCategoryCommand;
@@ -64,13 +65,15 @@ public class CategoryController {
 		return "categorySet/categorySetForm";
 	}
 
+	@ResponseBody
 	@RequestMapping(value="/categorySet/categorySet.do",method=RequestMethod.POST)
-	public void categorySet(HttpServletRequest request, HttpServletResponse response, Model model, String addcount)
+	public String categorySet(HttpServletResponse response, HttpServletRequest request, String addcount)
 			 throws Exception{
 		// 로그인한 id값 가져오기
 		String id = (String) request.getSession().getAttribute("id");
-		
-		JSONObject jso = new JSONObject(); // JASON 객체생성
+		// JASON 객체생성
+		JSONObject jso = new JSONObject(); 
+		List<CategoryCommand> categoryList = new ArrayList<CategoryCommand>();
 
 		if(addcount != null) {
 			int addcount_int = Integer.parseInt(addcount);
@@ -81,17 +84,18 @@ public class CategoryController {
 					String category_id = request.getParameter(addname);
 					MemberCategoryCommand command = new MemberCategoryCommand(id, category_id);
 					addedcount += memberCategoryDao.insert(command);
+					CategoryCommand category = categoryDao.getOne(category_id);
+					categoryList.add(category);
 				}
 				System.out.println(id + "의 추가된 카테고리 갯수 : " + addedcount);
-				jso.put("addedcount", addedcount);
 			}
 		}
 		
-
+		jso.put("categoryList", categoryList);
 		response.setContentType("text/html;charset=utf-8");
-		PrintWriter out = response.getWriter();
-		out.print(jso.toString());
+		return jso.toString();
 	}
+	
 	@RequestMapping(value="/categorySet/categorydel.do",method=RequestMethod.POST)
 	public String categorydel(HttpServletRequest request, Model model, String delCategory){
 		if(delCategory != null) {		

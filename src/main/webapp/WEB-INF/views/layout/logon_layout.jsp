@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=euc-kr" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="decorator" uri="http://www.opensymphony.com/sitemesh/decorator" %>
 <%@ taglib prefix="page" uri="http://www.opensymphony.com/sitemesh/page" %>
@@ -13,13 +13,13 @@
 <body>
 
 	<div id="header">
-	<!-- ��� -->
+	<!-- 헤더 -->
 		<h1 id="logo">
 			<a id="logo_btn" href="/main/main.do" title="Reviewer">Reviewer</a>
 		</h1>
 		<span id="main_btn">
 			<a class="btn_gnb" href="/search/search.do">
-				<span id="btn_search">�˻� ��ư</span>
+				<span id="btn_search">검색 버튼</span>
 			</a>
 		</span>
 	</div>
@@ -28,13 +28,13 @@
 	</div>
 	
 	<div id="footer">
-	<!-- ǲ�� -->
+	<!-- 풋터 -->
 		<ul id="list_policy">
 			<li>
-				<a href="#" class="list_link">�̿���</a>
+				<a href="#" class="list_link">이용약관</a>
 			</li>
 			<li>
-				<a href="#" class="list_link">����������޹�ħ</a>
+				<a href="#" class="list_link">개인정보취급방침</a>
 			</li>
 		</ul>
 	</div>
