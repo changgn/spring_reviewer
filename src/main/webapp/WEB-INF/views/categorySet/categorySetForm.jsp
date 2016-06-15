@@ -5,6 +5,7 @@
 <html>
 <head>
 <title>카테고리 설정</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="../script/categoryMenu.js"></script>
 
 </head>
@@ -350,17 +351,16 @@
 		<div id="category_added_all" class="category_all">
 			<c:if test="${CategoryListSize!=0}">
 				<c:forEach var="Category" items="${CategoryList}">
-					<div class="category_set size_long">
+					<div class="category_set${Category.category_id} size_long">
 						<div id="add_${Category.category_id}" class="size_short">
 							${Category.group1}, ${Category.group2}, ${Category.group3}
 						</div>
 						<div id="del_${Category.category_id}" class="del_category btn_short"><a href="#">삭&nbsp;&nbsp;&nbsp;제</a></div>
 					</div>
 				</c:forEach>
-				<form action="/categorySet/categorydel.do" id="delCategory" method="post"></form>
 			</c:if>
 			<c:if test="${CategoryListSize==0 || CategoryListSize==null}">
-			<div class="size_long category_text"><h1 class="text_sub">카테고리를 추가해 주세요</h1></div>
+				<div id="no_category_text" class="size_long category_text"><h1 class="text_sub">카테고리를 추가해 주세요</h1></div>
 			</c:if>
 		</div>
 	</div>

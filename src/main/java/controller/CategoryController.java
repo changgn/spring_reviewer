@@ -96,8 +96,13 @@ public class CategoryController {
 		return jso.toString();
 	}
 	
+	@ResponseBody
 	@RequestMapping(value="/categorySet/categorydel.do",method=RequestMethod.POST)
-	public String categorydel(HttpServletRequest request, Model model, String delCategory){
+	public String categorydel(HttpServletResponse response, HttpServletRequest request, Model model, String delCategory){
+		
+		// JASON 객체생성
+		JSONObject jso = new JSONObject(); 
+		MemberCategoryCommand command = null;
 		if(delCategory != null) {		
 			
 			// 로그인한 id값 가져오기
@@ -105,15 +110,17 @@ public class CategoryController {
 			
 			// add_ 부분 제거
 			delCategory = delCategory.substring(4);
-			MemberCategoryCommand vo = new MemberCategoryCommand(id, delCategory);
-			int deleteOk = memberCategoryDao.delete(vo);
+			command = new MemberCategoryCommand(id, delCategory);
+			int deleteOk = memberCategoryDao.delete(command);
 			
 			if(deleteOk==0){
 				System.out.println("카테고리 삭제 실패");
 			} else {
 				System.out.println(id + "의 " + delCategory + " 카테고리 삭제 성공" );
 			}
+			jso.put("delCategory", delCategory);
 		}
-		return "redirect:/categorySet/categorySet.do";
+		response.setContentType("text/html;charset=utf-8");
+		return jso.toString();
 	}
 }
