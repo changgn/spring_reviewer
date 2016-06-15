@@ -71,16 +71,6 @@ public class MyProfileContoroller {
 		ScrepDao = screpDao;
 	}
 	
-	@ModelAttribute("memberCommand")
-	public MemberCommand get(){
-		return new MemberCommand();
-	}
-	
-	@RequestMapping(value="",method=RequestMethod.GET)
-	public String loginform(HttpSession session){
-		session.setAttribute("login_status", "2");
-		return "";
-	}
 	
 
 

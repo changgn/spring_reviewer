@@ -92,17 +92,12 @@ public class MemberController {
 	}
 	
 	
-	@RequestMapping(value="/member/modify.do", method=RequestMethod.POST)
-	public String submit(@ModelAttribute("memberinfo") MemberCommand memberInfo) {
+	@RequestMapping(value="/member/modify.do",method=RequestMethod.POST)
+	public String submit(MemberCommand memberInfo) {
 		
 		int updateSuccess = memberDao.modifyPro(memberInfo);
 		
-		if (updateSuccess > 0) {
-			
-			return "main/main";
-		}
-		
-		return "member/modifyForm";
+		return "redirect:/main/main.do";
 	}
 	
 	

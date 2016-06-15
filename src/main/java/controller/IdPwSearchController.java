@@ -42,7 +42,7 @@ public class IdPwSearchController {
 		MemberDAO memberDao = new MemberDAO();
 		String message = null;
 		String phone_num = request.getParameter("phone_num");
-		System.out.println("아이디를 찾을 핸드폰 번호: "+phone_num);
+		System.out.println(phone_num);
 		
 		List<String> idList = memberDao.idSearch(phone_num);
 		if(idList.size()==0){

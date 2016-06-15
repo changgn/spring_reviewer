@@ -20,23 +20,21 @@ public class ScrepDAO extends SqlSessionDaoSupport {
 		int success;
 		ScrepCommand Command = null;
 		
-		try {
+		
 		success = getSqlSession().insert("screp.add", Command);
 		
 		if(success > 0) {
-			System.out.println("insert ok");
+			System.out.println("insert ok"); //출력 확인용
 		}
 		else {
 			
-			System.out.println("insert f");
+			System.out.println("insert f");  //출력 확인용
 		}
 		
 		success = getSqlSession().delete("screp.remove", id);
 		
-		System.out.println("delete 처리건수:" + success);
-		}catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+		System.out.println("delete 처리건수:" + success); //출력 확인용
+		
 		
 	}
 }
