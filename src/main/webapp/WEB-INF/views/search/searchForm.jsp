@@ -6,7 +6,7 @@
 <html>
 <head>
 <title>검색</title>
-<script src="../script/categoryMenu.js"></script>
+<script src="/script/search.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
 $(document).ready(function() {
