@@ -10,7 +10,7 @@
 <style>
 #remove {
 	margin: 0 auto;
-	margin-top: 300px;
+	margin-top: 200px;
 }
 </style>
 <script>

@@ -1,8 +1,15 @@
 package dao;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 
@@ -27,6 +34,7 @@ public class MemberDAO extends SqlSessionDaoSupport{
 		
 	}
 
+	
 	public MemberCommand pwSearch(MemberCommand memberInfo){
 		
 		MemberCommand memInfo = null;
@@ -39,6 +47,12 @@ public class MemberDAO extends SqlSessionDaoSupport{
 		}
 		return memInfo;
 	}
+	
+	public void delete(HashMap<String, String> map){
+	
+		int n = getSqlSession().delete("member.delete", map);
+			
+}
 	
 	public String getPasswdById(String id){
 		
@@ -143,4 +157,6 @@ public class MemberDAO extends SqlSessionDaoSupport{
 			}
 			return memCommand;
 		}
+
+		
 }

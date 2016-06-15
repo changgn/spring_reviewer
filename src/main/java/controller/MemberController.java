@@ -107,43 +107,41 @@ public class MemberController {
 	
 	
 	@RequestMapping(value="/member/delete.do", method=RequestMethod.GET)
-	public String deleteForm(HttpServletRequest request,HttpSession session){
-		session = request.getSession();
+	public String deleteForm(HttpServletRequest request,Model model){
+		HttpSession session = request.getSession();
+		
 		String id = (String) session.getAttribute("id");
-		String passwd = (String) session.getAttribute("passwd");
-		
-		
-		request.setAttribute("id",id);
-		request.setAttribute("passwd", passwd);
+		model.addAttribute("id", id);
 		
 		return "member/deleteForm";
 	}       
 
     	
 	@RequestMapping(value="/member/delete.do", method=RequestMethod.POST)
-	public String delete(HttpServletRequest request,String id,String passwd, Model model){
+	public String delete(HttpServletRequest request, Model model){
+		
 		HttpSession session = request.getSession();
-		MemberCommand memberInfo = memberDao.deleteCf(id);
-		HashMap<String, String> map = new HashMap<String, String>();
 		
-		map.put("id", id);
-		map.put("passwd", passwd);
+		String errorPasswd = null;
+		String id = (String)request.getSession().getAttribute("id");
+		String passwd = request.getParameter("passwd");
+		String SavePasswd = memberDao.getPasswdById(id);
 		
-		System.out.println(map);
-		String errormessage = null;
-		
-		if ((memberInfo.getPasswd()).equals(passwd)) {
-
+		if (passwd.equals(SavePasswd)) {
+			
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("id", id);
+			map.put("passwd", passwd);
+			memberDao.delete(map);
 			session.invalidate();
-			memberDao.deleteCf(id);
+			
 			return "logon/loginForm";
 		}
 		else 
 		{
-			errormessage = "errorPwd";
+			errorPasswd = "errorPasswd";
 		}
-		model.addAttribute("errormessage", errormessage);
-		
+		model.addAttribute("errorPasswd", errorPasswd);
 		return "member/deleteForm";
 	}
 	

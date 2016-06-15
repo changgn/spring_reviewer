@@ -19,6 +19,7 @@
 	<decorator name="logon" page="/WEB-INF/views/layout/logon_layout.jsp">
 		<pattern>/member/join.do</pattern>
 		<pattern>/member/delete.do</pattern>
+		<pattern>/member/modify.do</pattern>
 		<pattern>/logon/*</pattern>
 		<pattern>/idpwSearch/*</pattern>
 	</decorator>

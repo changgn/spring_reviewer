@@ -9,7 +9,7 @@
 <body>
 	<script>
 		alert("회원 정보를 수정 하였습니다");
-		location.href="main.do";
+		location.href="/main/main.do";
 	</script>
 </body>
 </html>
