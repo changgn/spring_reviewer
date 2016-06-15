@@ -1,6 +1,5 @@
 package controller;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletResponse;
@@ -49,10 +48,14 @@ public class CommentController {
 		} else {
 			System.out.println("댓글 저장 실패");
 		}
-
+		
+		int commetNum = commentdao.getRecentCommentNum();
+		CommentCommand commentCommand = commentdao.getOne(commetNum);
+		String date = commentCommand.getWrite_date().toString();
 		resp.setContentType("text/html;charset=utf-8");
 		PrintWriter out = resp.getWriter();
-		jso.put("data", commentdao.getRecentOne());
+		jso.put("data", commentCommand);
+		jso.put("date", date);
 
 		out.print(jso.toString());
 		return jso.toString();

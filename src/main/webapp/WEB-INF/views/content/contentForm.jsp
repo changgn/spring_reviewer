@@ -52,27 +52,26 @@ $(function(){
 				,dataType:"json" 
 				,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
 	 				var writer = "";
-
 					writer += '<div id="writed_comment" class="size_content">';
 					writer += '<div id="content_comment_wirted_area" >';
 					writer += '<div id="content_comment_info">';
-					writer += '작성자 : <a href="/profile/myProfile.do?id=${comment.id}">${comment.id}</a>&nbsp;&nbsp;&nbsp; 작성시간 : <fmt:formatDate value="${comment.write_date}" pattern="yyyy-MM-dd HH:mm"/>';
+					writer += '작성자 : <a href="/profile/myProfile.do?id=' + args.data.id + '">' + args.data.id + '</a>&nbsp;&nbsp;&nbsp; 작성시간 : ' + args.date;
 					writer += '</div>';
 					writer += '<div id="content_comment_wirted_area">';
-					writer += '<textarea id="content_comment_writed" readonly>${comment.content}</textarea>';
+					writer += '<textarea id="content_comment_writed" readonly>' + args.data.content + '</textarea>';
 					writer += '</div>';
 					writer += '</div>';
 					writer += '<div id="comment_btn_delete" class="btn_short">';
-					writer += '<c:if test="${comment.id==id}">';
-					writer += '<a href="//content/contentdel.do?board_num=${board_num}&comment_num=${comment.comment_num}">삭&nbsp;&nbsp;&nbsp;제</a>';
-					writer += '</c:if>';
-					writer += '<c:if test="${comment.id!=id}">';
-					writer += '<a href="#" id="noDelete">삭&nbsp;&nbsp;&nbsp;제</a>';
-					writer += '</c:if>';
+					if(args.data.id=='${id}'){
+						writer += '<a href="/content/contentdel.do?board_num=' + args.data.board_num + '&comment_num=' + args.data.comment_num + '">삭&nbsp;&nbsp;&nbsp;제</a>';	
+					}
+					else{
+						writer += '<a href="#" id="noDelete">삭&nbsp;&nbsp;&nbsp;제</a>';
+					}
 					writer += '</div>';
 					writer += '</div>';	
 					
-					$("#content_comment_area").append(args);
+					$("#content_comment_area").append(writer);
 				}
 				
 			}); 
