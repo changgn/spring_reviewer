@@ -28,7 +28,7 @@
   <select id="idSearch" parameterType="java.lang.String" resultType="java.lang.String">
   		select id from members where phone_num=#{phone_num}
   </select> 
-  <select id="pwSearch" parameterType="java.util.HashMap" resultType="command.MemberCommand">
+  <select id="pwSearch" parameterType="String" resultType="command.MemberCommand">
   select passwd from members where id=#{id} and phone_num=#{phone_num} and email=#{email}
   </select> 
   <select id="deleteCf" parameterType="java.lang.String" resultType="command.MemberCommand">

@@ -121,16 +121,9 @@ public class MemberDAO extends SqlSessionDaoSupport{
 	}
 
 	public MemberCommand pwSearch(MemberCommand memberInfo){
-
-		MemberCommand memInfo = null;
-
-		try {
-			memInfo = getSqlSession().selectOne("member.pwSearch", memberInfo);
-
-		}catch(Exception e) {
-			System.out.println(e.getMessage());
-		}
-		return memInfo;
+		
+		return getSqlSession().selectOne("member.pwSearch", memberInfo);
+		
 	}
 
 }

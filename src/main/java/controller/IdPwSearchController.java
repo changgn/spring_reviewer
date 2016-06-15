@@ -6,9 +6,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import command.MemberCommand;
 import dao.MemberDAO;
@@ -16,9 +18,9 @@ import dao.MemberDAO;
 @Controller
 public class IdPwSearchController {
  
+	@Autowired
 	private MemberDAO memberDao;
 	
-	@Autowired
 	public void setMemberDao(MemberDAO memberDao){
 		this.memberDao = memberDao;
 	}
@@ -26,7 +28,6 @@ public class IdPwSearchController {
 	public MemberCommand memberCommand(){
 		return new MemberCommand();
 	}
-	
 	
 	@RequestMapping(value="/idpwSearch/idpwSearchNew.do", method=RequestMethod.GET)
 	public String IdpwSearch(HttpServletRequest request){
@@ -50,32 +51,27 @@ public class IdPwSearchController {
 		
 		return "idpwSearch/idSearch";
 	}
+	
 	@RequestMapping(value="/idpwSearch/pwSearch.do", method=RequestMethod.POST)
-	public String pwSearch(HttpServletRequest request){
+	public String pwSearch(MemberCommand memberInfo, String id, @RequestParam("phone_num2") String phone_num ,String email,HttpServletRequest request, Model model){
 		
-		MemberDAO memberDao = new MemberDAO();	
-		String id = (String) request.getParameter("id");
-		String phone_num = (String) request.getParameter("phone_num2");
-		String email = (String) request.getParameter("email");
+		memberInfo.setPhone_num(phone_num);
+		memberInfo.setId(id);
+		memberInfo.setEmail(email);
 		
-		MemberCommand member = new MemberCommand();	
-		member.setPhone_num(phone_num);
-		member.setId(id);
-		member.setEmail(email);
-		
-		MemberCommand mempass = memberDao.pwSearch(member);
+		MemberCommand passwdVo = memberDao.pwSearch(memberInfo);
 		
 		String passwd = null;
 		String message = null;
-		if(mempass!=null){
-			passwd = mempass.getPasswd();
+		if(passwdVo!=null){
+			passwd = passwdVo.getPasswd();
 		} else {
 			message = "incorrect";
 		}
 		
-		request.setAttribute("passwd", passwd);
-		request.setAttribute("message", message);
-		
+		model.addAttribute("passwd", passwd);
+		model.addAttribute("message", message);
+	
 		return "idpwSearch/pwSearch";
 	}
 	
