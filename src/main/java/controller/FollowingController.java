@@ -21,7 +21,7 @@ public class FollowingController {
 		this.followDAO = followDAO;
 	}
 	/**	팔로잉, '내'가 다른사람을 팔로우	*/
-	@RequestMapping("follewing.do")
+	@RequestMapping("/follow/follewing.do")
 	public ModelAndView followingForm(HttpServletRequest request, @RequestParam("id") String to_id ){
 		ModelAndView mav = new ModelAndView();
 		String my_to_id = (String)request.getSession().getAttribute("id");	/**	로그인 아이디	*/
