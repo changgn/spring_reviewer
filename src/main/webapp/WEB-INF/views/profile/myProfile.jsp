@@ -71,23 +71,23 @@ $(function(){
 			<div class="content_wrap">
 				<div class="content_first">	
 					<div class="cont_writer">
-						<a href="/profile/myProfile.do?id=${board.board.id}" class="cont_writer_id">${board.board.id}</a>
+						<a href="/profile/myProfile.do?id=${board.id}" class="cont_writer_id">${board.id}</a>
 						<div class="cont_wdate">
-							<fmt:formatDate value="${board.board.write_date}" pattern="yyyy-MM-dd HH:mm"/>
+							<fmt:formatDate value="${board.write_date}" pattern="yyyy-MM-dd HH:mm"/>
 						</div>
 						<div class="cont_menu">
-							<a href="#" id="${board.board.board_num}" class="cont_menu_option">
+							<a href="#" id="${board.board_num}" class="cont_menu_option">
 								<span id="cont_btn_menu">옵션</span>						
 							</a>
-							 <div id="menu_${board.board.board_num}" class="cont_btn_option">
+							 <div id="menu_${board.board_num}" class="cont_btn_option">
 								<div class="ly_dimmed"></div>
 								<ul class="cont_popup">
 									<li>
-										<a href="/content/reportPro.do?board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 신고</a>
+										<a href="/content/reportPro.do?board_num=${board.board_num}" class="cont_popup_close" >이 게시글 신고</a>
 									</li>
 								<c:if test="${board.board.id == id}">						
 									<li>
-										<a href="/reviewer/content/deleteContent.do?id=${board.board.id}&board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
+										<a href="/reviewer/content/deleteContent.do?id=${board.id}&board_num=${board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
 									</li>
 								</c:if>
 								</ul>
@@ -101,35 +101,35 @@ $(function(){
 							<c:if test="${board.contentFlag == true}">
 								<span class="cont_theview">
 									<span>...</span>
-									<a href="/content/contentForm.do?board_num=${board.board.board_num}" class="btn_view_more">더보기</a>
+									<a href="/content/contentForm.do?board_num=${board.board_num}" class="btn_view_more">더보기</a>
 								</span>
 							</c:if>
 						</span>
 					</span>
 				</div>
 				<c:if test="${board.photo.realPath != null}">
-			   		<a href="/content/contentForm.do?board_num=${board.board.board_num}" class="item_info_wrap">
+			   		<a href="/content/contentForm.do?board_num=${board.board_num}" class="item_info_wrap">
 				        <span class="item_cont" title="컨텐츠 상세페이지">
 				            <span class="item_thumb">
-				                <img class="list_photo" src="${board.photo.realPath}">
+				                <img class="list_photo" src="${photo.realPath}">
 				                <span class="thumb_mask_bottom"></span>
 				            </span>
 				      	</span>
 			       	</a>
 		       	</c:if>
 		       	<div class="cont_category_info">
-		       		<p id="cont_category_info_f">${board.category.group1}> ${board.category.group2}> ${board.category.group3}</p>
+		       		<p id="cont_category_info_f">${category.group1}> ${category.group2}> ${category.group3}</p>
 		       	</div>
 		       	<div class="cont_btns">
 		       		<div class="cont_btns_wrap">
 						<div class="btns_re">
-							<a href="/recommend/recommendPro.do?board_num=${board.board.board_num}" class="btns_re_item">
-		                		<span class="u_ico"></span><em class="u_txt">좋아요</em><em class="u_cnt"> ${board.board.recommend_num}</em>
+							<a href="/recommend/recommendPro.do?board_num=${board.board_num}" class="btns_re_item">
+		                		<span class="u_ico"></span><em class="u_txt">좋아요</em><em class="u_cnt"> ${board.recommend_num}</em>
 		                 	</a>
 						</div>
-						<a href="/content/contentForm.do?board_num=${board.board.board_num}&comment=true" class="btns_coment" >
+						<a href="/content/contentForm.do?board_num=${board.board_num}&comment=true" class="btns_coment" >
 							<span class="u_ico_coment">댓글</span>
-							<span class="text_num">${board.commentCount}</span>				
+							<span class="text_num">${commentCount}</span>				
 						</a>
 		<!-- 				<a href="#" class="btns_screp" >
 							<span class="u_ico_screp">스크렙</span>

@@ -77,7 +77,7 @@ public class MyProfileContoroller {
 		
 		String id = (String) request.getSession().getAttribute("id");
 		String paramId = request.getParameter("id");
-		String from_id = request.getParameter("id");
+		
 		
 		List<MemberCategoryCommand> membersCategoryList = null;
 		List<CategoryCommand> CategoryList = new ArrayList<CategoryCommand>();
@@ -88,7 +88,7 @@ public class MyProfileContoroller {
 			CategoryList.add(Category);
 		}
 		model.addAttribute("CategoryList", CategoryList);
-		category= MemberCategoryDao.getlistById(id);//id 媛믪쓣 �넻�븯�뿬 移댄뀒怨좊━ 由ъ뒪�듃瑜� 媛��졇�삩�떎
+		category= MemberCategoryDao.getlistById(id);
 		
 
 		/*Iterator it = null;
@@ -108,7 +108,7 @@ public class MyProfileContoroller {
 		
 		
 		if(id!=null) {
-			List<String> folloingList = followDao.toList(from_id);
+			List<String> folloingList = followDao.toList(paramId);
 			boolean followCheck = false;
 			if(folloingList!=null) {
 				for(String following : folloingList) {
@@ -151,7 +151,7 @@ public class MyProfileContoroller {
 					}
 					model.addAttribute("allBoardList", allBoardList);
 				}
-				model.addAttribute("paramId", paramId);
+				model.addAttribute("paramId", paramId); //키값 !!
 				
 				
 				
