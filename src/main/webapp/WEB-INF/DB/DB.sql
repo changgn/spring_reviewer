@@ -30,10 +30,6 @@ DROP SEQUENCE SEQ_comments_comment_num;
 CREATE SEQUENCE SEQ_board_board_num INCREMENT BY 1 START WITH 1;
 CREATE SEQUENCE SEQ_comments_comment_num INCREMENT BY 1 START WITH 1;
 
-CREATE SEQUENCE SEQ_board_board_num INCREMENT BY 1 START WITH 1;
-CREATE SEQUENCE SEQ_comments_comment_num INCREMENT BY 1 START WITH 1;
-
-
 
 /* Create Tables */
 

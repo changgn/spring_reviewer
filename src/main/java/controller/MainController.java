@@ -11,15 +11,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import command.BoardCommand;
 import command.CategoryCommand;
 import command.PhotoCommand;
+import command.RecommendCommand;
 import dao.BoardDAO;
 import dao.CategoryDAO;
 import dao.CommentDAO;
 import dao.MemberCategoryDAO;
 import dao.PhotoDAO;
+import dao.RecommendDAO;
+import net.sf.json.JSONObject;
 
 
 @Controller
@@ -34,26 +38,16 @@ public class MainController {
 	private CategoryDAO categoryDao;
 	@Autowired
 	private MemberCategoryDAO memberCategoryDao;
+	@Autowired
+	private RecommendDAO recommendDao;
 	
+	public void setRecommendDao(RecommendDAO recommendDao) { this.recommendDao = recommendDao; }
+	public void setBoardDao(BoardDAO boardDao) { this.boardDao = boardDao; }
+	public void setPhotoDao(PhotoDAO photoDao) { this.photoDao = photoDao; }
+	public void setCommentDao(CommentDAO commentDao) { this.commentDao = commentDao; }
+	public void setCategoryDao(CategoryDAO categoryDao) { this.categoryDao = categoryDao; }
+	public void setMemberCategoryDao(MemberCategoryDAO memberCategoryDao) { this.memberCategoryDao = memberCategoryDao; }
 	
-	public void setBoardDao(BoardDAO boardDao) {
-		this.boardDao = boardDao;
-	}
-
-	public void setPhotoDao(PhotoDAO photoDao) {
-		this.photoDao = photoDao;
-	}
-
-	public void setCommentDao(CommentDAO commentDao) {
-		this.commentDao = commentDao;
-	}
-
-	public void setCategoryDao(CategoryDAO categoryDao) {
-		this.categoryDao = categoryDao;
-	}
-	public void setMemberCategoryDao(MemberCategoryDAO memberCategoryDao) {
-		this.memberCategoryDao = memberCategoryDao;
-	}
 	@RequestMapping("/main/main.do")
 	public String main(HttpServletRequest request, HttpServletResponse response, Model model){
 		
@@ -90,6 +84,7 @@ public class MainController {
 				PhotoCommand photo = photoDao.getOneByBoardNum(vo.getBoard_num());
 				CategoryCommand category = categoryDao.getOne(vo.getCategory_id());
 				String commentCount = commentDao.getCountByBoardNum(vo.getBoard_num());
+		
 				if(commentCount==null)	commentCount="0";
 				boolean contentFlag = false;
 				String[] contentSub = vo.getContent().split("\n");
@@ -97,6 +92,15 @@ public class MainController {
 					contentFlag = true;
 					vo.setContent(contentSub[0] + contentSub[1] + contentSub[2]);
 				}
+				
+				RecommendCommand recommend = new RecommendCommand(id, vo.getBoard_num());
+				RecommendCommand recommends = recommendDao.getRecommend(recommend);
+				if(recommends != null){
+					boardMap.put("recommendFlag", "recommend");
+				}else{
+					boardMap.put("recommendFlag", "nrecommend");
+				}
+					
 				boardMap.put("board", vo);
 				boardMap.put("photo", photo);
 				boardMap.put("category", category);
@@ -109,4 +113,34 @@ public class MainController {
 		model.addAttribute("allBoardList", allBoardList);
 		return "main/main";
 	}
+	
+	@ResponseBody
+	@RequestMapping("/recommend/recommend.do")
+	public String recommend(HttpServletRequest request, HttpServletResponse resp, Integer board_num){
+		
+		String id = (String)request.getSession().getAttribute("id");
+		
+		JSONObject jso = new JSONObject();
+		RecommendCommand command = new RecommendCommand(id, board_num);
+		
+		RecommendCommand recommendselect = recommendDao.getRecommend(command);
+	
+		if(recommendselect != null){
+			boardDao.RecommendByBoardNumDecrease(board_num);
+			recommendDao.deleteRecommend(recommendselect);
+			
+		} else{
+			boardDao.updateRecommendByBoardNum(board_num);
+			recommendDao.insertBoard(command);
+			
+		}
+		
+		jso.put("recommend", boardDao.selectContent(board_num).getRecommend_num());
+		
+		resp.setContentType("text/html;charset=utf-8");
+		return jso.toString();
+	}
+	
+	
+	
 }

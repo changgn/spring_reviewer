@@ -49,4 +49,14 @@ public class BoardDAO extends SqlSessionDaoSupport{
 		return getSqlSession().selectList("board.getListByCategoryId", categoryIdList);
 	}
 	
+	// 좋아요	증가
+	public int updateRecommendByBoardNum (Integer board_num){
+		return getSqlSession().update("board.updateRecommendByBoardNum",board_num);
+	}
+	
+	// 좋아요	 감소
+	public int RecommendByBoardNumDecrease (Integer board_num){
+		return getSqlSession().update("board.RecommendByBoardNumDecrease",board_num);
+	}
+	
 }

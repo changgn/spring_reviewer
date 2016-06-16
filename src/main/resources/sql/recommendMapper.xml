@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="recommend">
+	<insert id="insertRecommend" parameterType="command.RecommendCommand">
+		insert into recommend values(#{id},#{recommend_num})
+	</insert>
+	
+	<select id="getRecommend" parameterType="command.RecommendCommand" resultType="command.RecommendCommand">
+		select * from recommend where id=#{id} and recommend_num=#{recommend_num}
+	</select>
+	 
+	 <delete id="deleteRecommend" parameterType="command.RecommendCommand">
+	 	delete from recommend where id=#{id} and recommend_num=#{recommend_num}
+	 </delete>
+</mapper>

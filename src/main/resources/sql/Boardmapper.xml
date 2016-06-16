@@ -25,6 +25,12 @@
 	update board set recommend_num=recommend_num+1 
 	where board_num=#{board_num}
  </update>
+ 
+ <!-- 추천수 감소 -->
+ <update parameterType="java.lang.Integer" id="RecommendByBoardNumDecrease">
+	update board set recommend_num=recommend_num-1 
+	where board_num=#{board_num}
+ </update>
 
  <delete parameterType="java.lang.String" id="remove">
 <!-- 조건문 -->
@@ -105,6 +111,8 @@
 <select parameterType="java.lang.Integer" id="getContents" resultType="String"> 
 	select content from board where board_num=#{board_num} 
 </select>
+
+	
 
 
 </mapper>
