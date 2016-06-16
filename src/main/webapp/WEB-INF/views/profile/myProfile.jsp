@@ -12,10 +12,10 @@
 $(document).ready(function() {
 	
 	if("${followCheck}"=="true") {
-		var tag = "<a href='/reviewer/follow/followPro.do?follow=unfollow&to_id=" + "${paramId}'" + "><img src='../image/icon_36.png'></a>";
+		var tag = "<a href='/follow/followPro.do?follow=unfollow&to_id=" + "${paramId}'" + "><img src='../image/icon_36.png'></a>";
 		$("#btn_follow_add").append(tag);
 	} else {
-		var tag = "<a href='/reviewer/follow/followPro.do?follow=follow&to_id=" + "${paramId}'" + "><img src='../image/icon_35.png'></a>";
+		var tag = "<a href='/follow/followPro.do?follow=follow&to_id=" + "${paramId}'" + "><img src='../image/icon_35.png'></a>";
 		$("#btn_follow_add").append(tag);
 	}
 	
@@ -55,8 +55,8 @@ $(function(){
 			<div class="my_profile" id="id_profile">${paramId}</div>
 		</div>
 		<div id="my_profile_follow">
-			<div class="follow_profile" id="follower_profile"><a href="/reviewer/follow/followerForm.do?id=${paramId}">팔로워  ${followerCount } ></a></div>
-			<div class="follow_profile" id="following_profile"><a href="/reviewer/follow/followingForm.do?id=${paramId}">팔로잉  ${followingCount } ></a></div>
+			<div class="follow_profile" id="follower_profile"><a href="/follow/followerForm.do?id=${paramId}">팔로워  ${followerCount } ></a></div>
+			<div class="follow_profile" id="following_profile"><a href="/follow/followingForm.do?id=${paramId}">팔로잉  ${followingCount } ></a></div>
  		</div>
  		<div class="my_profile" id="category_my_profile">	
 			<c:forEach var="item" items="${CategoryList}" varStatus="status">
@@ -82,7 +82,7 @@ $(function(){
 								<div class="ly_dimmed"></div>
 								<ul class="cont_popup">
 									<li>
-										<a href="/reviewer/content/reportPro.do?board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 신고</a>
+										<a href="/content/reportPro.do?board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 신고</a>
 									</li>
 								<c:if test="${board.board.id == id}">						
 									<li>
@@ -100,14 +100,14 @@ $(function(){
 							<c:if test="${board.contentFlag == true}">
 								<span class="cont_theview">
 									<span>...</span>
-									<a href="/reviewer/content/contentForm.do?board_num=${board.board.board_num}" class="btn_view_more">더보기</a>
+									<a href="/content/contentForm.do?board_num=${board.board.board_num}" class="btn_view_more">더보기</a>
 								</span>
 							</c:if>
 						</span>
 					</span>
 				</div>
 				<c:if test="${board.photo.realPath != null}">
-			   		<a href="/reviewer/content/contentForm.do?board_num=${board.board.board_num}" class="item_info_wrap">
+			   		<a href="/content/contentForm.do?board_num=${board.board.board_num}" class="item_info_wrap">
 				        <span class="item_cont" title="컨텐츠 상세페이지">
 				            <span class="item_thumb">
 				                <img class="list_photo" src="${board.photo.realPath}">
@@ -122,11 +122,11 @@ $(function(){
 		       	<div class="cont_btns">
 		       		<div class="cont_btns_wrap">
 						<div class="btns_re">
-							<a href="/reviewer/recommend/recommendPro.do?board_num=${board.board.board_num}" class="btns_re_item">
+							<a href="/recommend/recommendPro.do?board_num=${board.board.board_num}" class="btns_re_item">
 		                		<span class="u_ico"></span><em class="u_txt">좋아요</em><em class="u_cnt"> ${board.board.recommend_num}</em>
 		                 	</a>
 						</div>
-						<a href="/reviewer/content/contentForm.do?board_num=${board.board.board_num}&comment=true" class="btns_coment" >
+						<a href="/content/contentForm.do?board_num=${board.board.board_num}&comment=true" class="btns_coment" >
 							<span class="u_ico_coment">댓글</span>
 							<span class="text_num">${board.commentCount}</span>				
 						</a>
@@ -141,7 +141,7 @@ $(function(){
 	</div>		
 	<c:if test="${login_status==0 || login_status==1}">
 		<div class="btn_posting_wrap">
-			<a href="/reviewer/write/writeForm.do" class="btn_posting">
+			<a href="/write/writeForm.do" class="btn_posting">
 				<span class="u_vc">글쓰기</span>
 			</a>
 		</div>
