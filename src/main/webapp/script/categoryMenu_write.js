@@ -1763,5 +1763,22 @@ $(function(){
 			$("#writeBoard").submit();
 		}
 	});
+	
+	$("#btn_write").click(function(){
+		if($("#text_content").val()=="") {
+			alert("내용을 입력해 주세요");
+			$("#text_content").focus();
+		} else {
+			if($("input[name='addCategory']").attr("name")=="addCategory"){
+				$("#writeBoard").submit();
+			} else {
+				alert("카테고리를 선택해 주세요");
+			}
+		}
+		
+	});
+	$("#join_btn_cancel").click(function(){
+		$(location).attr("href",document.referrer);
+	});	
 
 });
