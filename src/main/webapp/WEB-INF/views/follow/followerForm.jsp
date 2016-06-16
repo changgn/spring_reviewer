@@ -4,9 +4,9 @@
 
 <html>
 	<head>
+		<meta charset="UTF-8">
 		<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 		<script type="text/javascript">
-
 /*   		$(document).ready(function() {
 			if("${followCheck}"=="true") {
 				var tag = "<a href='followerAdd.do?follow=unfollow&id="+"${profileId}&paramId="+"${fromList}'"+"><img src='../image/icon_36.png' height='30px' width='30px'></a>";
@@ -19,7 +19,7 @@
 		$(function(){
 			$('img').on({
 				'click' : function(){
-					if("${followCheck}"=="true") {
+					if("${followCheck.fromList}"=="true") {
 						var tag = "<a href='/follow/followerAdd.do?follow=follow&profileId=" + "${profileId}&add_id=" + "${fromList}'" + "><img src='../image/icon_36.png' height='30px' width='30px'></a>";
 						$("#followerList").append(tag);
 					} else {
@@ -58,6 +58,7 @@
 			<div id="followerTitle" align="center">
 				 ${profileId}님의 팔로워 목록 
 			</div>
+			
 			<c:forEach items="${fromList}" var="fromId">
 				<div id="followerList" align="center">
 					<a href="/profile/myProfile.do?id=${fromId}">${fromId}</a>
