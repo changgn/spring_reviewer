@@ -63,25 +63,20 @@ public class CommentController {
 	public String Commentdel(HttpServletResponse resp, CommentCommand command, Model model, int board_num, HttpSession session,
 				@RequestParam("comment_num") String comment_num_str ){
 		
-
 		String id = (String)session.getAttribute("id");
-		JSONObject jso = new JSONObject();
 		
 		Integer comment_num = null;
 		if(comment_num_str!=null) {
 			comment_num = Integer.parseInt(comment_num_str);
 		}
-				
-		if(comment_num!=null) {
-			int check = commentdao.removeByCommentNum(comment_num);
-			if(check>0) {
-				System.out.println("댓글 삭제 완료");
-			} else {
-				System.out.println("댓글 삭제 실패");
-			}
+		
+		String commentId = commentdao.getId(comment_num);
+		if(comment_num!=null && commentId.equals(id)) {
+			commentdao.removeByCommentNum(comment_num);
 		} else {
-			
+			return "redirect:/content/contentForm.do?board_num=" + board_num + "&comment=true&errorId=error";
 		}
+		
 		return "redirect:/content/contentForm.do?board_num=" + board_num + "&comment=true";
 	}
 	
