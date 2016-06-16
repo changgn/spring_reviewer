@@ -7,12 +7,12 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import command.FollowCommand;
 
 public class FollowDAO extends SqlSessionDaoSupport{
-	/**	to_id가 팔로우한 목록 조회	*/
-	public List<FollowCommand> fromList(String to_id){ 
+	/**	to_id에게 팔로우한 목록 조회	*/
+	public List<String> fromList(String to_id){ 
 		return getSqlSession().selectList("follow.fromList", to_id);
 	}
-	/**	from_id를 팔로우한 목록 조회	*/
-	public List<FollowCommand> toList(String from_id){ 
+	/**	from_id가 팔로우한 목록 조회	*/
+	public List<String> toList(String from_id){ 
 		return getSqlSession().selectList("follow.toList", from_id);
 	}
 	/**	팔로우 추가	*/
