@@ -27,8 +27,15 @@ public class CommentDAO extends SqlSessionDaoSupport{
 		return getSqlSession().delete("comment.removeByCommentNum", comment_num);
 	}
 	
-	//comment 정보 가져오기
-	public String getRecentOne() {
-		return getSqlSession().selectOne("comment.getRecentOne");
+	//MaxCommentNum 정보 가져오기
+	public CommentCommand getOne(Integer comment_num) {
+		return getSqlSession().selectOne("comment.getOne", comment_num);
 	}
+	
+	public int getRecentCommentNum() {
+		return getSqlSession().selectOne("comment.getRecentCommentNum");
+	}
+
+	
+	
 }
