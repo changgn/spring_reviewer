@@ -9,7 +9,7 @@
 <html lang="ko">
 <head>
 	<link href="../css/style.css" rel="stylesheet" type="text/css">
-	<script src="http://code.jquery.com/jquery-1.2.3.min.js"></script>
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 	<title><decorator:title /></title>
 	<decorator:head />
 	<script>

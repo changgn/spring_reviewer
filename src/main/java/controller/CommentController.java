@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -26,13 +27,9 @@ public class CommentController {
 	public void setCommentdao(CommentDAO commentdao) {
 		this.commentdao = commentdao;
 	}
-	@RequestMapping(value = "/content/")
-	public String city() throws Exception {
-		return "ajax/city";
-	}
 	
 	@ResponseBody
-	@RequestMapping(value="/content/contentPro.do", method = RequestMethod.POST)
+	@RequestMapping(value="/content/comment.do", method = RequestMethod.POST)
 	public String Comment(HttpServletResponse resp, CommentCommand command, int board_num, HttpSession session,
 				@RequestParam("comment_textarea") String content ) throws Exception{
 		
@@ -51,23 +48,24 @@ public class CommentController {
 		
 		int commetNum = commentdao.getRecentCommentNum();
 		CommentCommand commentCommand = commentdao.getOne(commetNum);
-		String date = commentCommand.getWrite_date().toString();
-		resp.setContentType("text/html;charset=utf-8");
-		PrintWriter out = resp.getWriter();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		String date = sdf.format(commentCommand.getWrite_date());
+		
 		jso.put("data", commentCommand);
 		jso.put("date", date);
 
-		out.print(jso.toString());
+		resp.setContentType("text/html;charset=utf-8");
 		return jso.toString();
 	}
 	
-	@RequestMapping(value="/content/contentdel.do")
-	public void Commentdel(HttpServletResponse resp, CommentCommand command, Model model, int board_num,HttpSession session,
-				@RequestParam("comment_textarea") String content,
+	@RequestMapping(value="/content/commentdel.do")
+	public String Commentdel(HttpServletResponse resp, CommentCommand command, Model model, int board_num, HttpSession session,
 				@RequestParam("comment_num") String comment_num_str ){
 		
 
 		String id = (String)session.getAttribute("id");
+		JSONObject jso = new JSONObject();
 		
 		Integer comment_num = null;
 		if(comment_num_str!=null) {
@@ -77,25 +75,14 @@ public class CommentController {
 		if(comment_num!=null) {
 			int check = commentdao.removeByCommentNum(comment_num);
 			if(check>0) {
-				System.out.println("댓글 삭제료");
+				System.out.println("댓글 삭제 완료");
 			} else {
 				System.out.println("댓글 삭제 실패");
 			}
 		} else {
-			command.setBoard_num(board_num);
-			command.setId(id);
-			command.setContent(content);
 			
-			int check = commentdao.insert(command);
-			if(check>0) {
-				System.out.println("댓글 저장 완료");
-			} else {
-				System.out.println("댓글 저장 실패");
-			}
 		}
-
-/*		JSONObject jso = new JSONObject();
-*/		
+		return "redirect:/content/contentForm.do?board_num=" + board_num + "&comment=true";
 	}
 	
 	

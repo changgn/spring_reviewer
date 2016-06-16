@@ -15,11 +15,6 @@ $(document).on("click", ".del_category", function(){
 		,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
 			var category_set = ".category_set" + args.delCategory
 			$(category_set).remove();
-			var childbool = document.getElementById("category_added_all").hasChildNodes();
-			if(!childbool) {
-				alert("없음");
-				$("#category_added_all").append('<div id="no_category_text" class="size_long category_text"><h1 class="text_sub">카테고리를 추가해 주세요</h1></div>');
-			}
 		}
 	    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
 	    	alert(e.responseText);

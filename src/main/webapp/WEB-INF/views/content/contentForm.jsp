@@ -35,13 +35,16 @@ $(window).load(function(){
 });
 
 $(function(){
-	$("#content_btn_comment_write").click(function(){
+	$("#content_btn_comment_write").click(function(e){
+		// 스크롤 방지
+		e.preventDefault();
+		
 		//만약 댓글이 입력이 안되 있을경우 
 		if($("#content_comment_write").val()=="") {
 			alert("댓글을 입력해 주세요");
 			return false;
 		} else {
- 			var url="contentPro.do";
+ 			var url="comment.do";
 			var params = "comment_textarea="+$("#content_comment_write").val();
 				params += "&board_num="+'${board.board_num}';
 				
@@ -53,17 +56,17 @@ $(function(){
 				,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
 	 				var writer = "";
 					writer += '<div id="writed_comment" class="size_content">';
-					writer += '<div id="content_comment_wirted_area" >';
+					writer += '<div id="content_comment_writed_area" >';
 					writer += '<div id="content_comment_info">';
 					writer += '작성자 : <a href="/profile/myProfile.do?id=' + args.data.id + '">' + args.data.id + '</a>&nbsp;&nbsp;&nbsp; 작성시간 : ' + args.date;
 					writer += '</div>';
-					writer += '<div id="content_comment_wirted_area">';
+					writer += '<div id="content_comment_writed_area">';
 					writer += '<textarea id="content_comment_writed" readonly>' + args.data.content + '</textarea>';
 					writer += '</div>';
 					writer += '</div>';
 					writer += '<div id="comment_btn_delete" class="btn_short">';
 					if(args.data.id=='${id}'){
-						writer += '<a href="/content/contentdel.do?board_num=' + args.data.board_num + '&comment_num=' + args.data.comment_num + '">삭&nbsp;&nbsp;&nbsp;제</a>';	
+						writer += '<a href="/content/commentdel.do?board_num=' + args.data.board_num + '&comment_num=' + args.data.comment_num + '">삭&nbsp;&nbsp;&nbsp;제</a>';	
 					}
 					else{
 						writer += '<a href="#" id="noDelete">삭&nbsp;&nbsp;&nbsp;제</a>';
@@ -71,7 +74,9 @@ $(function(){
 					writer += '</div>';
 					writer += '</div>';	
 					
-					$("#content_comment_area").append(writer);
+					$("#writed_comment_area").prepend(writer);
+					$("#content_comment_write").val("");
+					$("#content_comment_write").focus();
 				}
 				
 			}); 
@@ -163,33 +168,35 @@ $(function(){
 	<c:if test="${login_status==0 || login_status==1}">
 		<div class="size_content">
 			<form id="content_comment_write_form" method="post" action="/content/contentPro.do?board_num=${board_num}">
-				<div id="content_comment_wirte_area">
+				<div id="content_comment_write_area">
 					<textarea id="content_comment_write" name="comment_textarea" ></textarea>
 				</div>
 			</form>
 			<div id="content_btn_comment_write" class="btn_short"><a href="#">작&nbsp;&nbsp;&nbsp;성</a></div>
 		</div>
 	</c:if>
+	<div id="writed_comment_area">
 	<c:forEach var="comment" items="${commentList}">
 		<div id="writed_comment" class="size_content">
-			<div id="content_comment_wirted_area" >
+			<div id="content_comment_writed_area" >
 				<div id="content_comment_info">
 					작성자 : <a href="/profile/myProfile.do?id=${comment.id}">${comment.id}</a>&nbsp;&nbsp;&nbsp; 작성시간 : <fmt:formatDate value="${comment.write_date}" pattern="yyyy-MM-dd HH:mm"/>
 				</div>
-				<div id="content_comment_wirted_area">
+				<div id="content_comment_writed_area">
 					<textarea id="content_comment_writed" readonly>${comment.content}</textarea>
 				</div>
 			</div>
 			<div id="comment_btn_delete" class="btn_short">
 				<c:if test="${comment.id==id}">
-					<a href="/content/contentdel.do?board_num=${board_num}&comment_num=${comment.comment_num}">삭&nbsp;&nbsp;&nbsp;제</a>
+					<a href="/content/commentdel.do?board_num=${board_num}&comment_num=${comment.comment_num}">삭&nbsp;&nbsp;&nbsp;제</a>
 				</c:if>
 				<c:if test="${comment.id!=id}">
-					<a href="#" id="noDelete">삭&nbsp;&nbsp;&nbsp;제</a>
+					<a href="#" id="noDelete" onclick="event.preventDefault();">삭&nbsp;&nbsp;&nbsp;제</a>
 				</c:if>
 			</div>
 		</div>
 	</c:forEach>
+	</div>
 </div>
 </body>
 </html>
