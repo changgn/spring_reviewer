@@ -23,7 +23,7 @@ $(function(){
 <script>
 $(document).ready(function(){
 	if("${error}"=="error") {
-		$(location).attr("href", "/main/mainForm.do");
+		$(location).attr("href", "/main/main.do");
 	}
 });
 $(window).load(function(){
