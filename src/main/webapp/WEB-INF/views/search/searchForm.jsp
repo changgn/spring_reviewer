@@ -8,32 +8,7 @@
 <title>검색</title>
 <script src="/script/search.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script>
-$(document).ready(function() {
-	$("#search_content").focus();
-});
-$(function(){
-	var top = 0;
-	$(".cont_menu_option").click(function(){
-		var a = $("#menu_" + $(this).attr("id"));
-		top = a.offset().top;
-		$("body").css({
-			top: -top,
-			position: "fixed",
-			width: "100%",
-			height: "auto"
-		});
-		a.css({
-	    }).show();
-	});
-	$(".cont_btn_option").click(function(){
-		$("body").removeAttr("style");
-		$('html, body').scrollTop(top);
-		$(this).hide();
-	});	
 
-});
-</script>
 </head>
 <body>
 <div id="search">

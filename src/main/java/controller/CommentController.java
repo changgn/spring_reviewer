@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -26,10 +27,6 @@ public class CommentController {
 	public void setCommentdao(CommentDAO commentdao) {
 		this.commentdao = commentdao;
 	}
-	@RequestMapping(value = "/content/")
-	public String city() throws Exception {
-		return "ajax/city";
-	}
 	
 	@ResponseBody
 	@RequestMapping(value="/content/contentPro.do", method = RequestMethod.POST)
@@ -51,13 +48,14 @@ public class CommentController {
 		
 		int commetNum = commentdao.getRecentCommentNum();
 		CommentCommand commentCommand = commentdao.getOne(commetNum);
-		String date = commentCommand.getWrite_date().toString();
-		resp.setContentType("text/html;charset=utf-8");
-		PrintWriter out = resp.getWriter();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		String date = sdf.format(commentCommand.getWrite_date());
+		
 		jso.put("data", commentCommand);
 		jso.put("date", date);
 
-		out.print(jso.toString());
+		resp.setContentType("text/html;charset=utf-8");
 		return jso.toString();
 	}
 	

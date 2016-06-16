@@ -135,6 +135,9 @@ public class BoardController {
 			model.addAttribute("commentCount", commentList.size());
 		}	
 		
+
+		model.addAttribute("board_num", board_num);
+		model.addAttribute("comment", comment);
 		return "content/contentForm";
 		
 	}
