@@ -44,7 +44,7 @@ $(function(){
 			alert("댓글을 입력해 주세요");
 			return false;
 		} else {
- 			var url="contentPro.do";
+ 			var url="comment.do";
 			var params = "comment_textarea="+$("#content_comment_write").val();
 				params += "&board_num="+'${board.board_num}';
 				
@@ -66,7 +66,7 @@ $(function(){
 					writer += '</div>';
 					writer += '<div id="comment_btn_delete" class="btn_short">';
 					if(args.data.id=='${id}'){
-						writer += '<a href="/content/contentdel.do?board_num=' + args.data.board_num + '&comment_num=' + args.data.comment_num + '">삭&nbsp;&nbsp;&nbsp;제</a>';	
+						writer += '<a href="/content/commentdel.do?board_num=' + args.data.board_num + '&comment_num=' + args.data.comment_num + '">삭&nbsp;&nbsp;&nbsp;제</a>';	
 					}
 					else{
 						writer += '<a href="#" id="noDelete">삭&nbsp;&nbsp;&nbsp;제</a>';
@@ -75,6 +75,7 @@ $(function(){
 					writer += '</div>';	
 					
 					$("#writed_comment_area").prepend(writer);
+					$("#content_comment_write").val("");
 					$("#content_comment_write").focus();
 				}
 				
@@ -187,7 +188,7 @@ $(function(){
 			</div>
 			<div id="comment_btn_delete" class="btn_short">
 				<c:if test="${comment.id==id}">
-					<a href="/content/contentdel.do?board_num=${board_num}&comment_num=${comment.comment_num}">삭&nbsp;&nbsp;&nbsp;제</a>
+					<a href="/content/commentdel.do?board_num=${board_num}&comment_num=${comment.comment_num}">삭&nbsp;&nbsp;&nbsp;제</a>
 				</c:if>
 				<c:if test="${comment.id!=id}">
 					<a href="#" id="noDelete" onclick="event.preventDefault();">삭&nbsp;&nbsp;&nbsp;제</a>
