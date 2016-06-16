@@ -178,7 +178,7 @@ public class MyProfileContoroller {
 				BoardCommand board = new BoardCommand();
 				
 				// 게시물 번호로 정보 가져오기
-				/*board = BoardDAO.getByBoardNum(board_num);*/
+				board = BoardDao.selectContent(board_num);
 				photoList = PhotoDao.getListByBoardNum(board_num);
 				
 				if(board != null) { // 가져온 게시글 정보가 있다면
@@ -196,5 +196,4 @@ public class MyProfileContoroller {
 		return "/profile/myProfile";
 	}
 	
-	
-}
+	}
