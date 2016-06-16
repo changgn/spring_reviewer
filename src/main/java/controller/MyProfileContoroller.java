@@ -73,22 +73,23 @@ public class MyProfileContoroller {
 	@RequestMapping(value="/profile/myProfile.do",method=RequestMethod.GET)
 	public String myProfileform(HttpServletRequest request, Model model){
 		
-		List category = null;
+		
 		
 		String id = (String) request.getSession().getAttribute("id");
 		String paramId = request.getParameter("id");
 		
-		
+		// Command들을 담기위한 list 변수생성
 		List<MemberCategoryCommand> membersCategoryList = null;
 		List<CategoryCommand> CategoryList = new ArrayList<CategoryCommand>();
+		// 해당 id의 카테고리id 가져오기
 		membersCategoryList = MemberCategoryDao.getlistById(paramId);
-		
+		// 카테고리id로 카테고리 가져오기
 		for(MemberCategoryCommand Command : membersCategoryList) {
 			CategoryCommand Category = categoryDao.getOne(Command.getCategory_id());
 			CategoryList.add(Category);
 		}
 		model.addAttribute("CategoryList", CategoryList);
-		category= MemberCategoryDao.getlistById(id);
+		
 		
 
 		/*Iterator it = null;
@@ -99,14 +100,14 @@ public class MyProfileContoroller {
 		} */
 			
 
-		
+		//팔로워 숫자 저장
 		int followerCount =followDao.countfrom(paramId);
 		model.addAttribute("followerCount", followerCount);
-		
+		//팔로잉 숫자 저장
 		int followingCount = followDao.countto(paramId);
 		model.addAttribute("followingCount", followingCount);
 		
-		
+		// 팔로우 상태 저장
 		if(id!=null) {
 			List<String> folloingList = followDao.toList(paramId);
 			boolean followCheck = false;
@@ -122,18 +123,18 @@ public class MyProfileContoroller {
 			
 		}
 		
-		
+		//게시글 가져오기
 				if(paramId != null) {
 					List<BoardCommand> boardList = null;
 					List<HashMap> allBoardList = new ArrayList<HashMap>();
 					
-					boardList = BoardDao.getList();
+					boardList = BoardDao.getListById(paramId);
 					
 						if(boardList!=null){
 						for(BoardCommand Command : boardList) {
 							HashMap<String, Object> boardMap = new HashMap<String, Object>();
 							PhotoCommand photo = PhotoDao.getOneByBoardNum(Command.getBoard_num());
-							CategoryCommand Category = categoryDao.getOne(Command.getCategory_id());
+							CategoryCommand category = categoryDao.getOne(Command.getCategory_id());
 							String commentCount=commentDao.getCountByBoardNum(Command.getBoard_num());  // 肄붾뱶 異붽�
 							if(commentCount==null)	commentCount="0";
 							boolean contentFlag = false;

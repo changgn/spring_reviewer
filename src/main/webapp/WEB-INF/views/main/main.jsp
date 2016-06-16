@@ -77,9 +77,9 @@ display: block;
 	                    <span class="profile_thumb_mask"></span>
                		</span>
 				</a>
-				<a href="/profile/myProfile.do?id=${board.id}" class="cont_writer_id">${board.board.id}</a>
+				<a href="/profile/myProfile.do?id=${id}" class="cont_writer_id">${board.id}</a>
 				<div class="cont_wdate">
-					<fmt:formatDate value="${board.board.write_date}" pattern="yyyy-MM-dd HH:mm"/>
+					<fmt:formatDate value="${board.write_date}" pattern="yyyy-MM-dd HH:mm"/>
 				</div>
 				<div class="cont_menu">
 					<a href="#" id="${board.board.board_num}" class="cont_menu_option">
