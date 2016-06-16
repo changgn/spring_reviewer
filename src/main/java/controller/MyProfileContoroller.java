@@ -81,17 +81,14 @@ public class MyProfileContoroller {
 		
 		List<MemberCategoryCommand> membersCategoryList = null;
 		List<CategoryCommand> CategoryList = new ArrayList<CategoryCommand>();
-		
-		// 해당 id의 카테고리id 가져오기
 		membersCategoryList = MemberCategoryDao.getlistById(paramId);
 		
-		// 카테고리id로 카테고리 가져오기
 		for(MemberCategoryCommand Command : membersCategoryList) {
 			CategoryCommand Category = categoryDao.getOne(Command.getCategory_id());
 			CategoryList.add(Category);
 		}
 		model.addAttribute("CategoryList", CategoryList);
-		category= MemberCategoryDao.getlistById(id);//id 값을 통하여 카테고리 리스트를 가져온다
+		category= MemberCategoryDao.getlistById(id);//id 媛믪쓣 �넻�븯�뿬 移댄뀒怨좊━ 由ъ뒪�듃瑜� 媛��졇�삩�떎
 		
 
 		/*Iterator it = null;
@@ -102,14 +99,14 @@ public class MyProfileContoroller {
 		} */
 			
 
-		//팔로워 숫자 저장
+		
 		int followerCount =followDao.countfrom(paramId);
 		model.addAttribute("followerCount", followerCount);
-		//팔로잉 숫자 저장
+		
 		int followingCount = followDao.countto(paramId);
 		model.addAttribute("followingCount", followingCount);
 		
-		// 팔로우 상태 저장
+		
 		if(id!=null) {
 			List<String> folloingList = followDao.toList(from_id);
 			boolean followCheck = false;
@@ -124,7 +121,7 @@ public class MyProfileContoroller {
 			model.addAttribute("followCheck", followCheck);
 		}
 		
-		//게시글 가져오기
+		
 				if(paramId != null) {
 					List<BoardCommand> boardList = null;
 					List<HashMap> allBoardList = new ArrayList<HashMap>();
@@ -139,7 +136,7 @@ public class MyProfileContoroller {
 							HashMap<String, Object> boardMap = new HashMap<String, Object>();
 							PhotoCommand photo = PhotoDao.getOneByBoardNum(Command.getBoard_num());
 							CategoryCommand Category = categoryDao.getOne(Command.getCategory_id());
-							String commentCount=commentDao.getCountByBoardNum(Command.getBoard_num());  // 코드 추가
+							String commentCount=commentDao.getCountByBoardNum(Command.getBoard_num());  // 肄붾뱶 異붽�
 							if(commentCount==null)	commentCount="0";
 							boolean contentFlag = false;
 							String[] contentSub = Command.getContent().split("\n");
@@ -160,7 +157,7 @@ public class MyProfileContoroller {
 				model.addAttribute("paramId", paramId);
 				
 				
-				//게시글
+				
 
 				int board_num = 0;
 				System.out.println(id);
@@ -169,22 +166,22 @@ public class MyProfileContoroller {
 				model.addAttribute("board_num", board_num);
 				
 			
-				// 변수 생성
+				
 				List<PhotoCommand> photoList = null;
 				BoardCommand board = new BoardCommand();
 				
-				// 게시물 번호로 정보 가져오기
+				
 				board = BoardDao.selectContent(board_num);
 				photoList = PhotoDao.getListByBoardNum(board_num);
 				
-				if(board != null) { // 가져온 게시글 정보가 있다면
+				if(board != null) { 
 					request.setAttribute("board", board);
 				}
-				if(photoList != null) { // 가져온 사진 정보가 있다면
+				if(photoList != null) { 
 					request.setAttribute("photoList", photoList);
 				}
 				
-				//스크랩
+				
 				ScrepCommand screpCommand = new ScrepCommand();
 				screpCommand.setId(id);
 				
