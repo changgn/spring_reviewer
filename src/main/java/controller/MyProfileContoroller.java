@@ -1,6 +1,3 @@
-
-
-
 package controller;
 
 import java.util.ArrayList;
@@ -74,7 +71,7 @@ public class MyProfileContoroller {
 	}
 	
 	@RequestMapping(value="/profile/myProfile.do",method=RequestMethod.GET)
-	public String myProfileform(HttpServletRequest request){
+	public String myProfileform(HttpServletRequest request, Model model){
 		
 		List category = null;
 		
@@ -93,7 +90,7 @@ public class MyProfileContoroller {
 			CategoryCommand Category = categoryDao.getOne(Command.getCategory_id());
 			CategoryList.add(Category);
 		}
-		request.setAttribute("CategoryList", CategoryList);
+		model.addAttribute("CategoryList", CategoryList);
 		category= MemberCategoryDao.getlistById(id);//id 값을 통하여 카테고리 리스트를 가져온다
 		
 
@@ -107,24 +104,24 @@ public class MyProfileContoroller {
 
 		//팔로워 숫자 저장
 		int followerCount =followDao.countfrom(paramId);
-		request.setAttribute("followerCount", followerCount);
+		model.addAttribute("followerCount", followerCount);
 		//팔로잉 숫자 저장
 		int followingCount = followDao.countto(paramId);
-		request.setAttribute("followingCount", followingCount);
+		model.addAttribute("followingCount", followingCount);
 		
 		// 팔로우 상태 저장
 		if(id!=null) {
-			List<FollowCommand> folloingList = followDao.toList(from_id);
+			List<String> folloingList = followDao.toList(from_id);
 			boolean followCheck = false;
 			if(folloingList!=null) {
-				for(FollowCommand following : folloingList) {
+				for(String following : folloingList) {
 					if(following.equals(paramId)) {
 						followCheck = true;
 						break;
 					}
 				}
 			}
-			request.setAttribute("followCheck", followCheck);
+			model.addAttribute("followCheck", followCheck);
 		}
 		
 		//게시글 가져오기
@@ -158,19 +155,18 @@ public class MyProfileContoroller {
 							allBoardList.add(boardMap);
 						}
 					}
-					request.setAttribute("allBoardList", allBoardList);
+					model.addAttribute("allBoardList", allBoardList);
 				}
-				request.setAttribute("paramId", paramId);
+				model.addAttribute("paramId", paramId);
+				
 				
 				//게시글
 
-				
-				
 				int board_num = 0;
 				System.out.println(id);
 				board_num = BoardDao.getRecentBoardNumById(id);
 			
-				request.setAttribute("board_num", board_num);
+				model.addAttribute("board_num", board_num);
 				
 			
 				// 변수 생성
