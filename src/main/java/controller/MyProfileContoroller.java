@@ -119,6 +119,7 @@ public class MyProfileContoroller {
 				}
 			}
 			model.addAttribute("followCheck", followCheck);
+			
 		}
 		
 		
