@@ -31,7 +31,9 @@ public class CommentDAO extends SqlSessionDaoSupport{
 	public CommentCommand getOne(Integer comment_num) {
 		return getSqlSession().selectOne("comment.getOne", comment_num);
 	}
-	
+	public String getId(Integer comment_num) {
+		return getSqlSession().selectOne("comment.getId", comment_num);
+	}
 	public int getRecentCommentNum() {
 		return getSqlSession().selectOne("comment.getRecentCommentNum");
 	}
