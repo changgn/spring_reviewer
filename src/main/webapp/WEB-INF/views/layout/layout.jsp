@@ -75,14 +75,14 @@
 				</a>
 			</c:if>
 			<c:if test="${login_status==0 || login_status==1}">
-				<a class="btn_gnb btn_user_toggle" href="#">
+				<a class="btn_gnb btn_user_toggle" href="#" onclick="event.preventDefault();">
 					<span id="btn_user">계정설정</span>
 				</a>
 			</c:if>
 			<a class="btn_gnb" href="/search/search.do">
 				<span id="btn_search">검색버튼</span>
 			</a>
-			<a class="btn_gnb btn_alarm_toggle" href="#">
+			<a class="btn_gnb btn_alarm_toggle" href="#" onclick="event.preventDefault();">
 				<span id="btn_alarm">알림버튼</span>
 			</a> 
 
@@ -115,7 +115,7 @@
 	<!-- 네비게이션 -->
 		<ul id="list_nav">
 			<li>
-				<div id="btn_newsfeed"><a href="#" class="nav_btn">뉴&nbsp;&nbsp;스&nbsp;&nbsp;피&nbsp;&nbsp;드</a></div>
+				<div id="btn_newsfeed"><a href="#" class="nav_btn" onclick="event.preventDefault();">뉴&nbsp;&nbsp;스&nbsp;&nbsp;피&nbsp;&nbsp;드</a></div>
 			</li>
 			<li>
 				<div id="btn_my">
