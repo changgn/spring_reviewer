@@ -32,9 +32,10 @@ public class FollowerController {
 		 /**	팔로워 정보 DB에서 목록 조회	*/
 		List<String> from_id_list = followDAO.fromList(to_id);
 		mav.addObject("fromList", from_id_list);
-		System.out.println(from_id_list);
+		System.out.println(to_id+"의 팔로워 목록 : "+from_id_list);
 		if( from_id != null ) {	/**	로그인 상태일 경우	*/
 			List<String> to_id_list = followDAO.toList(from_id);	/**	내가 팔로우한 목록 조회, 나의 팔로잉 목록	*/
+			System.out.println(from_id+"의 팔로잉 목록 : " + to_id_list);
 			Map map = new HashMap();
 			List<Map> m = new ArrayList<Map>();
 			if( to_id_list != null ) {	/**	'내'가 팔로우한 목록이 있다면	*/
@@ -42,7 +43,6 @@ public class FollowerController {
 					for(String following : to_id_list){
 						if(following.equals(follower)){
 							map.put(follower, true);
-							
 						}else{
 							if(follower.equals(from_id)){
 								map.put(follower, true);
@@ -53,7 +53,7 @@ public class FollowerController {
 				}
 			}
 			mav.addObject("followCheck", map);
-			System.out.println(map);
+			System.out.println("팔로우 상태값:"+map);
 		}
 		mav.addObject("profileId", to_id);
 		mav.setViewName("follow/followerForm");
