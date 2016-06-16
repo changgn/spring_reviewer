@@ -126,12 +126,9 @@ public class MyProfileContoroller {
 					List<BoardCommand> boardList = null;
 					List<HashMap> allBoardList = new ArrayList<HashMap>();
 					
-					
-					
 					boardList = BoardDao.getList();
 					
-					
-					if(boardList!=null){
+						if(boardList!=null){
 						for(BoardCommand Command : boardList) {
 							HashMap<String, Object> boardMap = new HashMap<String, Object>();
 							PhotoCommand photo = PhotoDao.getOneByBoardNum(Command.getBoard_num());
