@@ -21,8 +21,11 @@
 	<select id="getListByBoardNum" parameterType="java.lang.Integer" resultType="command.CommentCommand">
 		select * from comments where board_num=#{board_num} order by write_date DESC
 	</select>
-	<select id="getOne" resultType="command.CommentCommand">
+	<select id="getOne" parameterType="java.lang.Integer" resultType="command.CommentCommand">
 		select * from comments where comment_num=#{comment_num}
+	</select>
+		<select id="getId" parameterType="java.lang.Integer" resultType="String">
+		select id from comments where comment_num=#{comment_num}
 	</select>
 	<select id="getRecentCommentNum" resultType="int">
 		select max(comment_num) from comments
