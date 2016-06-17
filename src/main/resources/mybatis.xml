@@ -32,5 +32,6 @@
 	<bean id="PhotoDao" class="dao.PhotoDAO" p:sqlSessionFactory-ref="sqlSessionFactory" />
 	<bean id="ScrepDao" class="dao.ScrepDAO" p:sqlSessionFactory-ref="sqlSessionFactory" />
 	<bean id="recommendDao" class="dao.RecommendDAO" p:sqlSessionFactory-ref="sqlSessionFactory" />
+	<bean id="secretDao" class="dao.SecretDAO" p:sqlSessionFactory-ref="sqlSessionFactory" />
 	
 </beans> 
