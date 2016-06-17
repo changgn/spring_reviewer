@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import command.BoardCommand;
 import command.CategoryCommand;
 import command.PhotoCommand;
+import command.RecommendCommand;
 import dao.BoardDAO;
 import dao.CategoryDAO;
 import dao.CommentDAO;
 import dao.PhotoDAO;
+import dao.RecommendDAO;
 
 @Controller
 public class SearchController {
@@ -29,7 +31,8 @@ public class SearchController {
 	CommentDAO commentDao;
 	@Autowired
 	CategoryDAO categoryDao;
-
+	@Autowired
+	private RecommendDAO recommendDao;
 	public void setCategorydao(CategoryDAO categoryDao) {
 		this.categoryDao = categoryDao;
 	}
@@ -43,10 +46,12 @@ public class SearchController {
 		this.boardDao = boardDao;
 	}
 	
+	public void setRecommendDao(RecommendDAO recommendDao) { this.recommendDao = recommendDao; }
+	
 	@RequestMapping(value="/search/search.do")
 	public String search(HttpServletRequest request, Model model, String addcount, String searchContent){
 
-		
+		String id = (String)request.getSession().getAttribute("id"); 
 		List<HashMap> allBoardList = new ArrayList<HashMap>();
 		List<BoardCommand> boardList = null;
 		int firstCheck = 0;
@@ -100,6 +105,15 @@ public class SearchController {
 					if(contentSub.length > 3) {
 						contentFlag = true;
 						board.setContent(contentSub[0] + contentSub[1] + contentSub[2]);
+					}
+					if(id != null ){
+						RecommendCommand recommend = new RecommendCommand(id, board.getBoard_num());
+						RecommendCommand recommends = recommendDao.getRecommend(recommend);
+						if(recommends != null){
+							boardMap.put("recommendFlag", "recommend");
+						}else{
+							boardMap.put("recommendFlag", "nrecommend");
+						}
 					}
 					boardMap.put("board", board);
 					boardMap.put("photo", photo);

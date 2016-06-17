@@ -23,10 +23,12 @@ import command.BoardCommand;
 import command.CategoryCommand;
 import command.CommentCommand;
 import command.PhotoCommand;
+import command.RecommendCommand;
 import dao.BoardDAO;
 import dao.CategoryDAO;
 import dao.CommentDAO;
 import dao.PhotoDAO;
+import dao.RecommendDAO;
 
 
 
@@ -41,6 +43,8 @@ public class BoardController {
 	CommentDAO commentdao;
 	@Autowired
 	CategoryDAO categorydao;
+	@Autowired
+	private RecommendDAO recommendDao;
 
 	public void setCategorydao(CategoryDAO categorydao) {
 		this.categorydao = categorydao;
@@ -54,6 +58,8 @@ public class BoardController {
 	public void setBoarddao(BoardDAO boarddao) {
 		this.boarddao = boarddao;
 	}
+	public void setRecommendDao(RecommendDAO recommendDao) { this.recommendDao = recommendDao; }
+	
 
 	@RequestMapping(value="write/writeForm.do", method=RequestMethod.GET)
 	public String insertboard(){
@@ -109,12 +115,13 @@ public class BoardController {
 	
 	
 	@RequestMapping(value="/content/contentForm.do")
-	public String selectcontent(String board_num, String comment, Model model){
+	public String selectcontent(HttpServletRequest request, String board_num, String comment, Model model){
 	
 		List<PhotoCommand> photoList = null;
 		List<CommentCommand> commentList = null;
 		BoardCommand board = null;
-		
+
+		String id = (String)request.getSession().getAttribute("id");
 		
 		board = boarddao.selectContent(Integer.parseInt(board_num));
 		photoList = photodao.getListByBoardNum(Integer.parseInt(board_num));
@@ -130,6 +137,15 @@ public class BoardController {
 		}
 		if(photoList != null) {
 			model.addAttribute("photoList", photoList);
+		}
+		if(id != null ){
+			RecommendCommand recommend = new RecommendCommand(id, Integer.parseInt(board_num));
+			RecommendCommand recommends = recommendDao.getRecommend(recommend);
+			if(recommends != null){
+				model.addAttribute("recommendFlag", "recommend");
+			}else{
+				model.addAttribute("recommendFlag", "nrecommend");
+			}
 		}
 		if(commentList != null) { 
 			model.addAttribute("commentList", commentList);

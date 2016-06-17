@@ -7,7 +7,6 @@
 <head>
 <title>검색</title>
 <script src="/script/search.js"></script>
-<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 </head>
 <body>
@@ -418,12 +417,28 @@
 						       	</div>
 						       	<div class="cont_btns">
 						       		<div class="cont_btns_wrap">
-										<div class="btns_re">
-											<a href="/reviewer/recommend/recommendPro.do?board_num=${board.board.board_num}" class="btns_re_item">
-						                		<span class="u_ico"></span><em class="u_txt">좋아요</em><em class="u_cnt"> ${board.board.recommend_num}</em>
-						                 	</a>
-										</div>
-										<a href="/Reveiwer/content/contentForm.do?board_num=${board.board.board_num}&comment=true" class="btns_coment" >
+										<c:if test="${login_status!=0 && login_status!=1}">
+											<div class="btns_re">
+												<a href="/logon/login.do" id="${board.board.board_num}" class="btns_re_item">
+							                		<span id="u_ico" class="u_ico"><img src="../image/recommend_on.png"></span><em class="u_txt">좋아요</em><em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
+							                 	</a>
+											</div>
+										</c:if>
+										<c:if test="${login_status==0 || login_status==1}">
+											<div class="btns_re">
+												<a href="#" id="${board.board.board_num}" class="btns_re_item btns_re_items">
+							                		<span id="u_ico" class="u_ico">
+								                		<c:if test="${board.recommendFlag == 'recommend'}">
+								                			<img id="recommend_img${board.board.board_num}" src="../image/recommend_off.png">	                		
+								                		</c:if>
+								                		<c:if test="${board.recommendFlag == 'nrecommend'}">
+								                			<img id="recommend_img${board.board.board_num}" src="../image/recommend_on.png">	                		
+								                		</c:if>
+						                		    </span><em class="u_txt">좋아요</em><em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
+							                 	</a>
+											</div>
+										</c:if>
+										<a href="/content/contentForm.do?board_num=${board.board.board_num}&comment=true" class="btns_coment" >
 											<span class="u_ico_coment">댓글</span>
 											<span class="text_num">${board.commentCount}</span>				
 										</a>

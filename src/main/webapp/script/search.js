@@ -1682,4 +1682,34 @@ $(function(){
     		}
         }
     });
+    
+    // 좋아요
+	$(".btns_re_items").click(function(e){
+		e.preventDefault();
+		var url= "/recommend/recommend.do";
+		var params = "board_num=" + $(this).attr("id");
+		$.ajax({
+			type:"post"		// 포스트방식
+			,url:url		// url 주소
+			,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
+			,dataType:"json"
+			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
+				var nrecommend = args.recommend;
+				var recommendFlog = args.recommendFlog;
+				var selector = $("#recommend_img"+args.board_num);
+				var selector2 = $("#u_cnt"+args.board_num);
+				selector2.text(" " + nrecommend);
+				if(recommendFlog == 'recommend'){
+					selector.attr("src", "../image/recommend_off.png");
+				} else{
+					selector.attr("src", "../image/recommend_on.png");
+				}
+				
+			}
+		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+		    	alert(e.responseText);
+		    }
+		});
+	
+	});
 });

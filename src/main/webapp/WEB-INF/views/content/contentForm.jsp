@@ -9,18 +9,6 @@
 <title>게시글</title>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script>
-
-$(function(){
-	$(".cont_menu_option").click(function(){
-		$(".cont_btn_option").css({
-	    }).show();
-	});
-	$(".cont_btn_option").click(function(){
-		$(this).hide();
-	});
-});
-</script>
-<script>
 $(document).ready(function(){
 	if("${error}"=="error") {
 		$(location).attr("href", "/main/main.do");
@@ -35,6 +23,45 @@ $(window).load(function(){
 });
 
 $(function(){
+	
+	$(".cont_menu_option").click(function(){
+		$(".cont_btn_option").css({
+	    }).show();
+	});
+	$(".cont_btn_option").click(function(){
+		$(this).hide();
+	});
+	
+	// 좋아요
+	$(".btns_re_items").click(function(e){
+		e.preventDefault();
+		var url= "/recommend/recommend.do";
+		var params = "board_num=" + $(this).attr("id");
+		$.ajax({
+			type:"post"		// 포스트방식
+			,url:url		// url 주소
+			,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
+			,dataType:"json"
+			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
+				var nrecommend = args.recommend;
+				var recommendFlog = args.recommendFlog;
+				var selector = $("#recommend_img"+args.board_num);
+				var selector2 = $("#u_cnt"+args.board_num);
+				selector2.text(" " + nrecommend);
+				if(recommendFlog == 'recommend'){
+					selector.attr("src", "../image/recommend_off.png");
+				} else{
+					selector.attr("src", "../image/recommend_on.png");
+				}
+				
+			}
+		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+		    	alert(e.responseText);
+		    }
+		});
+	
+	});
+	
 	$("#content_btn_comment_write").click(function(e){
 		// 스크롤 방지
 		e.preventDefault();
@@ -145,14 +172,30 @@ $(function(){
        	</div>
        	<div class="cont_btns">
        		<div class="cont_btns_wrap">
-				<div class="btns_re">
-					<a href="/recommend/recommendPro.do?board_num=${board.board_num}" class="btns_re_item">
-                		<span class="u_ico"></span><em class="u_txt">좋아요</em><em class="u_cnt"> ${board.recommend_num}</em>
-                 	</a>
-				</div>
+       			<c:if test="${login_status!=0 && login_status!=1}">
+					<div class="btns_re">
+						<a href="/logon/login.do" id="${board.board.board_num}" class="btns_re_item">
+	                		<span id="u_ico" class="u_ico"><img src="../image/recommend_on.png"></span><em class="u_txt">좋아요</em><em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
+	                 	</a>
+					</div>
+				</c:if>
+				<c:if test="${login_status==0 || login_status==1}">
+					<div class="btns_re">
+						<a href="#" id="${board.board_num}" class="btns_re_item btns_re_items">
+	                		<span id="u_ico" class="u_ico">
+		                		<c:if test="${recommendFlag == 'recommend'}">
+		                			<img id="recommend_img${board.board_num}" src="../image/recommend_off.png">	                		
+		                		</c:if>
+		                		<c:if test="${recommendFlag == 'nrecommend'}">
+		                			<img id="recommend_img${board.board_num}" src="../image/recommend_on.png">	                		
+		                		</c:if>
+	               		    </span><em class="u_txt">좋아요</em><em id="u_cnt${board.board_num}" class="u_cnt"> ${board.recommend_num}</em>
+	                 	</a>
+					</div>
+				</c:if>
 				<a href="/content/contentForm.do?board_num=${board.board_num}&comment=true" class="btns_coment" >
 					<span class="u_ico_coment">댓글</span>
-					<span class="text_num">${commentCount}</span>				
+					<span class="text_num">${commentCount}</span>
 				</a>
 				<!-- <a href="#" class="btns_screp" >
 					<span class="u_ico_screp">스크렙</span>
