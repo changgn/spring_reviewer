@@ -29,6 +29,7 @@ import dao.CommentDAO;
 import dao.PhotoDAO;
 
 
+
 @Controller
 public class BoardController {
 
@@ -154,6 +155,25 @@ public class BoardController {
 			model.addAttribute("errorId", "errorId");
 		}
 		return "content/deleteContent";
+	}
+	
+	@RequestMapping(value="/content/reportPro.do")
+	public String report(HttpServletRequest request, Model model){
+
+		String board_num_str = request.getParameter("board_num");
+		
+		if(board_num_str != null){
+			Integer board_num = Integer.parseInt(board_num_str);
+			
+			int reportupdateok = boarddao.updateRecommendByBoardNum(board_num);
+			if(reportupdateok > 0){
+				model.addAttribute("reportok", "reportok");
+			}else{
+
+				request.setAttribute("reportok", "reportfalse");
+			}
+		}
+		return "content/reportPro";
 	}
 }
 

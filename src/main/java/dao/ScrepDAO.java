@@ -18,8 +18,7 @@ public class ScrepDAO extends SqlSessionDaoSupport {
 		return getSqlSession().insert("screp.add", command);
 	}
 	
-	public void
-	deleteScrep(String id){
+	public void deleteScrep(String id){
 		int n = getSqlSession().delete("screp.add", id);
 	}
 		

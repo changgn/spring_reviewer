@@ -48,6 +48,8 @@ public class MyProfileContoroller {
 	private PhotoDAO PhotoDao;
 	@Autowired
 	private ScrepDAO ScrepDao;
+	
+	//DAO 초기화
 	public void setBoardDao(BoardDAO boardDao) {
 		BoardDao = boardDao;
 	}
@@ -70,6 +72,7 @@ public class MyProfileContoroller {
 		ScrepDao = screpDao;
 	}
 	
+	//Command Model view 설정
 	@ModelAttribute("screpCommand")
 	public MemberCommand getMember(){
 		return new MemberCommand();
@@ -86,9 +89,9 @@ public class MyProfileContoroller {
 	}
 	
 	@RequestMapping(value="/profile/myProfile.do",method=RequestMethod.GET)
-	public String myProfileform(HttpServletRequest request, Model model){
-		
-		
+	
+	public String myProfileform
+	(HttpServletRequest request, Model model){
 		
 		String id = (String) request.getSession().getAttribute("id");
 		String paramId = request.getParameter("id");
@@ -150,7 +153,7 @@ public class MyProfileContoroller {
 							HashMap<String, Object> boardMap = new HashMap<String, Object>();
 							PhotoCommand photo = PhotoDao.getOneByBoardNum(Command.getBoard_num());
 							CategoryCommand category = categoryDao.getOne(Command.getCategory_id());
-							String commentCount=commentDao.getCountByBoardNum(Command.getBoard_num());  // 肄붾뱶 異붽�
+							String commentCount=commentDao.getCountByBoardNum(Command.getBoard_num());
 							if(commentCount==null)	commentCount="0";
 							boolean contentFlag = false;
 							String[] contentSub = Command.getContent().split("\n");
@@ -168,7 +171,7 @@ public class MyProfileContoroller {
 					}
 					model.addAttribute("allBoardList", allBoardList);
 				}
-				model.addAttribute("paramId", paramId); //키값 !!
+				model.addAttribute("paramId", paramId); //키값 ?
 				
 				
 				
@@ -195,12 +198,7 @@ public class MyProfileContoroller {
 					request.setAttribute("photoList", photoList);
 				}
 				
-				
-				ScrepCommand screpCommand = new ScrepCommand();
-				screpCommand.setId(id);
-				
-		
-		return "/profile/myProfile";
+				return "/profile/myProfile";
 	}
 	
 	}
