@@ -11,10 +11,6 @@
 <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 <title>메인페이지</title>
 <script>
-$(document).ready(function() {
-	
-});
-
 
 $(function(){
 	var top = 0;
@@ -51,11 +47,13 @@ $(function(){
 			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
 				var nrecommend = args.recommend;
 				var recommendFlog = args.recommendFlog;
-				$("#u_cnt").text(" " + nrecommend);
+				var selector = $("#recommend_img"+args.board_num);
+				var selector2 = $("#u_cnt"+args.board_num);
+				selector2.text(" " + nrecommend);
 				if(recommendFlog == 'recommend'){
-					$("#recommend_img").attr("src", "../image/recommend_off.png");
+					selector.attr("src", "../image/recommend_off.png");
 				} else{
-					$("#recommend_img").attr("src", "../image/recommend_on.png");
+					selector.attr("src", "../image/recommend_on.png");
 				}
 				
 			}
@@ -66,7 +64,6 @@ $(function(){
 	
 	});
 });
-
 
 
 </script>
@@ -164,7 +161,7 @@ $(function(){
 				<c:if test="${login_status!=0 && login_status!=1}">
 					<div class="btns_re">
 						<a href="/logon/login.do" id="${board.board.board_num}" class="btns_re_item">
-	                		<span id="u_ico" class="u_ico"><img src="../image/recommend_on.png"></span><em class="u_txt">좋아요</em><em class="u_cnt"> ${board.board.recommend_num}</em>
+	                		<span id="u_ico" class="u_ico"><img src="../image/recommend_on.png"></span><em class="u_txt">좋아요</em><em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
 	                 	</a>
 					</div>
 				</c:if>
@@ -173,12 +170,12 @@ $(function(){
 						<a href="#" id="${board.board.board_num}" class="btns_re_item btns_re_items">
 	                		<span id="u_ico" class="u_ico">
 		                		<c:if test="${board.recommendFlag == 'recommend'}">
-		                			<img id="recommend_img" src="../image/recommend_off.png">	                		
+		                			<img id="recommend_img${board.board.board_num}" src="../image/recommend_off.png">	                		
 		                		</c:if>
 		                		<c:if test="${board.recommendFlag == 'nrecommend'}">
-		                			<img id="recommend_img" src="../image/recommend_on.png">	                		
+		                			<img id="recommend_img${board.board.board_num}" src="../image/recommend_on.png">	                		
 		                		</c:if>
-                		    </span><em class="u_txt">좋아요</em><em id="u_cnt" class="u_cnt"> ${board.board.recommend_num}</em>
+                		    </span><em class="u_txt">좋아요</em><em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
 	                 	</a>
 					</div>
 				</c:if>

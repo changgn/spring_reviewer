@@ -133,12 +133,13 @@ public class MainController {
 			jso.put("recommendFlog", "nrecommend");
 			
 			
+			
 		} else{
 			boardDao.updateRecommendByBoardNum(board_num);
 			recommendDao.insertBoard(command);
 			jso.put("recommendFlog", "recommend");
 		}
-		
+		jso.put("board_num", board_num);
 		jso.put("recommend", boardDao.selectContent(board_num).getRecommend_num());
 		
 		resp.setContentType("text/html;charset=utf-8");
