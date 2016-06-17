@@ -19,7 +19,15 @@ public class ScrepDAO extends SqlSessionDaoSupport {
 	}
 	
 	public void deleteScrep(String id){
-		int n = getSqlSession().delete("screp.add", id);
+		int n = getSqlSession().delete("screp.remove", id);
+	}
+	
+	public ScrepCommand findScrep(String id){
+		return getSqlSession().selectOne("screp.find", id);
+	}
+	
+	public String findId(String id){
+		return getSqlSession().selectOne("screp.findId", id);
 	}
 		
 		

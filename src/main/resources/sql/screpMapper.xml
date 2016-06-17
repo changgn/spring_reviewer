@@ -4,19 +4,22 @@
 
 <mapper namespace="screp">
 	<insert id="add" parameterType="command.ScrepCommand">
-		<!-- 조건문 -->
+		insert into screp(id,board_num)values(#{id},SEQ_board_board_num.NEXTVAL)
 	</insert>
 	<update id="modify" parameterType="command.ScrepCommand">
 		<!-- 조건문 -->
 	</update>
 	<delete id="remove" parameterType="java.lang.String">
-		<!-- 조건문 -->
-	</delete>
+		delete from screp where id=#{id}
+		</delete>
 	<select id="getlist" resultType="command.ScrepCommand">
 		<!-- 조건문 -->
 	</select>
 	<select id="find" parameterType="String" resultType="command.ScrepCommand">
-		<!-- 조건문 -->
+		select * from screp where id=#{id}
+	</select>
+	<select id="findId" parameterType="String" resultType="String">
+		select id from screp where id=#{id}
 	</select>
 	<select id="getInfo" parameterType="String" resultType="hashmap">
 		<!-- 조건문 -->
