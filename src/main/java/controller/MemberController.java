@@ -67,6 +67,10 @@ public class MemberController {
 		}
 		
 		session.setAttribute("login_status", "1");
+		
+		if(id.equals("admin")) {
+			session.setAttribute("login_status", "0");
+		}
 		model.addAttribute("message", message);
 		
 		return "logon/loginPro";
