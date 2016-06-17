@@ -11,10 +11,17 @@
 <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 <title>메인페이지</title>
 <script>
-
 $(document).ready(function() {
-
+		if("${recommendFlag}"!="null") {
+			var img = "<img src='../image/recommend_on.png'>";
+			$("#u_ico").append(img);
+		} else {
+			var img = "<img src='../image/recommend_off.png'>";
+			$("#u_ico").append(img);
+		}
 });
+
+
 $(function(){
 	var top = 0;
 	$(".cont_menu_option").click(function(){
@@ -85,7 +92,7 @@ $(function(){
 }
 
 .profile_photo img{
-display: block;
+	display: block;
 }
 </style>
 
@@ -154,7 +161,7 @@ display: block;
        		<div class="cont_btns_wrap">
 				<div class="btns_re">
 					<a href="#" id="${board.board.board_num}" class="btns_re_item">
-                		<span class="u_ico"></span><em class="u_txt">좋아요</em><em id="u_cnt" class="u_cnt"> ${board.board.recommend_num}</em>
+                		<span id="u_ico" class="u_ico"></span><em class="u_txt">좋아요</em><em id="u_cnt" class="u_cnt"> ${board.board.recommend_num}</em>
                  	</a>
 				</div>
 				<a href="/content/contentForm.do?board_num=${board.board.board_num}&comment=true" class="btns_coment" >
