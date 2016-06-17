@@ -113,6 +113,42 @@ $(function(){
 .profile_photo img{
 	display: block;
 }
+
+.view_more{
+    clear: both;
+    background-color: #fff;
+    text-align: center;
+    display: block;
+    width: 650px;
+    margin: auto;
+    
+}
+
+.list_view_more{
+    border-bottom: 1px solid #e4e4e4;
+    display: block;
+    height: 90px;
+    line-height: 86px;
+    font-size: 17px;
+    font-weight: bold;
+    color: #2f334e;
+}
+
+.ico_plus{
+	display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin: -2px 6px 0 0;
+    background-position: -220px -340px;
+    vertical-align: middle;
+}
+.txt_view_more{
+
+	line-height: 40px;
+    font-size: 17px;
+    font-weight: bold;
+    color: #2f334e;
+}
 </style>
 
 </head>
@@ -214,6 +250,11 @@ $(function(){
        	</div>
 	</div>
 </c:forEach>
+	<div class="view_more">
+       		<a href="#" class="list_view_more">
+       			<span class="ico_plus"><img src="../image/plus.png"></span><span class="txt_view_more">더 많은 리뷰 보기</span>
+       		</a>
+    </div>
 	<c:if test="${login_status==0 || login_status==1}">
 		<div class="btn_posting_wrap">
 			<a href="/write/writeForm.do" class="btn_posting">
