@@ -70,6 +70,21 @@ public class MyProfileContoroller {
 		ScrepDao = screpDao;
 	}
 	
+	@ModelAttribute("screpCommand")
+	public MemberCommand getMember(){
+		return new MemberCommand();
+	}
+	
+	@ModelAttribute("photoCommand")
+	public PhotoCommand getPhoto(){
+		return new PhotoCommand();
+	}
+	
+	@ModelAttribute("boardCommand")
+	public PhotoCommand getBoard(){
+		return new PhotoCommand();
+	}
+	
 	@RequestMapping(value="/profile/myProfile.do",method=RequestMethod.GET)
 	public String myProfileform(HttpServletRequest request, Model model){
 		
