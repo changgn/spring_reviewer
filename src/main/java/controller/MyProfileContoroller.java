@@ -1,6 +1,3 @@
-
-
-
 package controller;
 
 import java.util.ArrayList;
@@ -74,27 +71,25 @@ public class MyProfileContoroller {
 	}
 	
 	@RequestMapping(value="/profile/myProfile.do",method=RequestMethod.GET)
-	public String myProfileform(HttpServletRequest request){
+	public String myProfileform(HttpServletRequest request, Model model){
 		
-		List category = null;
+		
 		
 		String id = (String) request.getSession().getAttribute("id");
 		String paramId = request.getParameter("id");
-		String from_id = request.getParameter("id");
 		
+		// Command들을 담기위한 list 변수생성
 		List<MemberCategoryCommand> membersCategoryList = null;
 		List<CategoryCommand> CategoryList = new ArrayList<CategoryCommand>();
-		
 		// 해당 id의 카테고리id 가져오기
 		membersCategoryList = MemberCategoryDao.getlistById(paramId);
-		
 		// 카테고리id로 카테고리 가져오기
 		for(MemberCategoryCommand Command : membersCategoryList) {
 			CategoryCommand Category = categoryDao.getOne(Command.getCategory_id());
 			CategoryList.add(Category);
 		}
-		request.setAttribute("CategoryList", CategoryList);
-		category= MemberCategoryDao.getlistById(id);//id 값을 통하여 카테고리 리스트를 가져온다
+		model.addAttribute("CategoryList", CategoryList);
+		
 		
 
 		/*Iterator it = null;
@@ -107,24 +102,25 @@ public class MyProfileContoroller {
 
 		//팔로워 숫자 저장
 		int followerCount =followDao.countfrom(paramId);
-		request.setAttribute("followerCount", followerCount);
+		model.addAttribute("followerCount", followerCount);
 		//팔로잉 숫자 저장
 		int followingCount = followDao.countto(paramId);
-		request.setAttribute("followingCount", followingCount);
+		model.addAttribute("followingCount", followingCount);
 		
 		// 팔로우 상태 저장
 		if(id!=null) {
-			List<FollowCommand> folloingList = followDao.toList(from_id);
+			List<String> folloingList = followDao.toList(paramId);
 			boolean followCheck = false;
 			if(folloingList!=null) {
-				for(FollowCommand following : folloingList) {
+				for(String following : folloingList) {
 					if(following.equals(paramId)) {
 						followCheck = true;
 						break;
 					}
 				}
 			}
-			request.setAttribute("followCheck", followCheck);
+			model.addAttribute("followCheck", followCheck);
+			
 		}
 		
 		//게시글 가져오기
@@ -132,17 +128,14 @@ public class MyProfileContoroller {
 					List<BoardCommand> boardList = null;
 					List<HashMap> allBoardList = new ArrayList<HashMap>();
 					
+					boardList = BoardDao.getListById(paramId);
 					
-					
-					boardList = BoardDao.getList();
-					
-					
-					if(boardList!=null){
+						if(boardList!=null){
 						for(BoardCommand Command : boardList) {
 							HashMap<String, Object> boardMap = new HashMap<String, Object>();
 							PhotoCommand photo = PhotoDao.getOneByBoardNum(Command.getBoard_num());
-							CategoryCommand Category = categoryDao.getOne(Command.getCategory_id());
-							String commentCount=commentDao.getCountByBoardNum(Command.getBoard_num());  // 코드 추가
+							CategoryCommand category = categoryDao.getOne(Command.getCategory_id());
+							String commentCount=commentDao.getCountByBoardNum(Command.getBoard_num());  // 肄붾뱶 異붽�
 							if(commentCount==null)	commentCount="0";
 							boolean contentFlag = false;
 							String[] contentSub = Command.getContent().split("\n");
@@ -158,37 +151,36 @@ public class MyProfileContoroller {
 							allBoardList.add(boardMap);
 						}
 					}
-					request.setAttribute("allBoardList", allBoardList);
+					model.addAttribute("allBoardList", allBoardList);
 				}
-				request.setAttribute("paramId", paramId);
+				model.addAttribute("paramId", paramId); //키값 !!
 				
-				//게시글
+				
+				
 
-				
-				
 				int board_num = 0;
 				System.out.println(id);
 				board_num = BoardDao.getRecentBoardNumById(id);
 			
-				request.setAttribute("board_num", board_num);
+				model.addAttribute("board_num", board_num);
 				
 			
-				// 변수 생성
+				
 				List<PhotoCommand> photoList = null;
 				BoardCommand board = new BoardCommand();
 				
-				// 게시물 번호로 정보 가져오기
+				
 				board = BoardDao.selectContent(board_num);
 				photoList = PhotoDao.getListByBoardNum(board_num);
 				
-				if(board != null) { // 가져온 게시글 정보가 있다면
+				if(board != null) { 
 					request.setAttribute("board", board);
 				}
-				if(photoList != null) { // 가져온 사진 정보가 있다면
+				if(photoList != null) { 
 					request.setAttribute("photoList", photoList);
 				}
 				
-				//스크랩
+				
 				ScrepCommand screpCommand = new ScrepCommand();
 				screpCommand.setId(id);
 				

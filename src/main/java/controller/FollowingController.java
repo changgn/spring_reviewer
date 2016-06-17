@@ -1,6 +1,9 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,20 +28,30 @@ public class FollowingController {
 	public ModelAndView followingForm(HttpServletRequest request, @RequestParam("id") String to_id ){
 		ModelAndView mav = new ModelAndView();
 		String my_to_id = (String)request.getSession().getAttribute("id");	/**	로그인 아이디	*/
-		List<FollowCommand> to_id_list = followDAO.toList(to_id);	/**	목록을 보려는 Id의 팔로잉 목록 조회, 저장	*/
+		List<String> to_id_list = followDAO.toList(to_id);	/**	목록을 보려는 Id의 팔로잉 목록 조회, 저장	*/
 		mav.addObject("toIdList", to_id_list);
+		System.out.println(to_id+"의 팔로잉 목록 : "+to_id_list);
 		if(my_to_id!=null){
-			List<FollowCommand> my_to_id_list = followDAO.toList(my_to_id);	/**	로그인한 Id. 즉, '나'의 팔로잉 목록	*/
+			List<String> my_to_id_list = followDAO.toList(my_to_id);	/**	로그인한 Id. 즉, '나'의 팔로잉 목록	*/
 			boolean followCheck = false;	/**	팔로우 상태 값	*/
+			Map map = new HashMap();
+			List<Map> m = new ArrayList<Map>();
 			if(my_to_id_list!=null){	/**	'내'가 팔로우한 목록이 있다면	*/
-				for(FollowCommand following : my_to_id_list){	/**	내 팔로우 목록 리스트를 하나씩 꺼내어	*/
-					if(following.equals(to_id)){	/**	해당 아이디와 비교 같으면	*/
-						followCheck = true;	/**	참값 저장 후 탈출	*/
-						break;
+				for(String following : my_to_id_list){	/**	내 팔로우 목록 리스트를 하나씩 꺼내어	*/
+					for(String tofollowing : to_id_list){
+						if(tofollowing.equals(following)){	/**	해당 아이디와 비교 같으면	*/
+							map.put(tofollowing, true);
+						}else{
+							if(tofollowing.equals(my_to_id)){
+								map.put(tofollowing, true);
+							}
+							map.put(tofollowing, false);
+						}
 					}
 				}
 			}
-			mav.addObject("followCheck", followCheck);
+			mav.addObject("followCheck", map);
+			System.out.println("각 리스트의 boolean "+ map);
 		}
 		mav.addObject("id", to_id);
 		mav.setViewName("follow/followingForm");

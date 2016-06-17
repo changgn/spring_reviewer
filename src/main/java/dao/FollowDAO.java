@@ -7,27 +7,27 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import command.FollowCommand;
 
 public class FollowDAO extends SqlSessionDaoSupport{
-	/**	to_id°¡ ÆÈ·Î¿ìÇÑ ¸ñ·Ï Á¶È¸	*/
-	public List<FollowCommand> fromList(String to_id){ 
+	/**	to_idì—ê²Œ íŒ”ë¡œìš°í•œ ëª©ë¡*/
+	public List<String> fromList(String to_id){ 
 		return getSqlSession().selectList("follow.fromList", to_id);
 	}
-	/**	from_id¸¦ ÆÈ·Î¿ìÇÑ ¸ñ·Ï Á¶È¸	*/
-	public List<FollowCommand> toList(String from_id){ 
+	/**	from_idê°€ íŒ”ë¡œìš°í•œ ëª©ë¡	*/
+	public List<String> toList(String from_id){ 
 		return getSqlSession().selectList("follow.toList", from_id);
 	}
-	/**	ÆÈ·Î¿ì Ãß°¡	*/
+	/**	íŒ”ë¡œìš° ì¶”ê°€	*/
 	public int followInsert(FollowCommand fc){
 		return getSqlSession().insert("follow.add", fc);
 	}
-	/**	ÆÈ·Î¿ì »èÁ¦	*/
+	/**	íŒ”ë¡œìš° ì‚­ì œ	*/
 	public int remove(FollowCommand fc){
 		return getSqlSession().delete("follow.remove", fc);
 	}
-	/**	ÆÈ·Î¿ö ¼ö	*/
+	/**	íŒ”ë¡œì›Œ ìˆ˜	*/
 	public int countfrom(String id){
 		return getSqlSession().selectOne("follow.countfrom", id);
 	}
-	/**	ÆÈ·ÎÀ× ¼ö	*/
+	/**	íŒ”ë¡œì‰ ìˆ˜	*/
 	public int countto(String id){
 		return getSqlSession().selectOne("follow.countto",id);
 	}

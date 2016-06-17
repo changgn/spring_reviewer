@@ -12,11 +12,11 @@
 		delete from follow where from_id=#{from_id} AND to_id=#{to_id}
 	</delete>
 	<!-- 팔로워 목록 -->
-	<select id="fromList" parameterType="java.lang.String" resultType="command.FollowCommand">
+	<select id="fromList" parameterType="java.lang.String" resultType="java.lang.String">
 		select from_id from follow where to_id=#{to_id}
 	</select>
 	<!-- 팔로잉 목록 -->
-	<select id="toList" parameterType="java.lang.String" resultType="command.FollowCommand">
+	<select id="toList" parameterType="java.lang.String" resultType="java.lang.String">
 		select to_id from follow where from_id=#{from_id}
 	</select>
 	<!-- 팔로워 수 -->
