@@ -63,7 +63,27 @@ $(function(){
 		});
 	
 	});
+	$("#secret_content").click(function(e){
+		e.preventDefault();
+		var url= "/content/secret.do";
+		var params = "board_num=" + $(this).attr("id");
+		$.ajax({
+			type:"post"		// 포스트방식
+			,url:url		// url 주소
+			,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
+			,dataType:"json"
+			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
+				var nrecommend = args.recommend;
+						
+			}
+		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+		    	alert(e.responseText);
+		    }
+		});
+	
+	});
 });
+
 
 
 </script>
@@ -124,6 +144,9 @@ $(function(){
 						<c:if test="${board.board.id == id}">						
 							<li>
 								<a href="/content/deleteContent.do?id=${board.board.id}&board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
+							</li>
+							<li>
+								<a href="#" id="content_secret" class="cont_popup_close" >게시글 숨기기</a>
 							</li>
 						</c:if>
 						</ul>
