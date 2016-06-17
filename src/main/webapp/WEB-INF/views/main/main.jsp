@@ -12,13 +12,7 @@
 <title>메인페이지</title>
 <script>
 $(document).ready(function() {
-		if("${recommendFlag}"!="null") {
-			var img = "<img src='../image/recommend_on.png'>";
-			$("#u_ico").append(img);
-		} else {
-			var img = "<img src='../image/recommend_off.png'>";
-			$("#u_ico").append(img);
-		}
+	
 });
 
 
@@ -45,7 +39,7 @@ $(function(){
 
 
 $(function(){
-	$(".btns_re_item").click(function(e){
+	$(".btns_re_items").click(function(e){
 		e.preventDefault();
 		var url= "/recommend/recommend.do";
 		var params = "board_num=" + $(this).attr("id");
@@ -56,7 +50,13 @@ $(function(){
 			,dataType:"json"
 			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
 				var nrecommend = args.recommend;
+				var recommendFlog = args.recommendFlog;
 				$("#u_cnt").text(" " + nrecommend);
+				if(recommendFlog == 'recommend'){
+					$("#recommend_img").attr("src", "../image/recommend_off.png");
+				} else{
+					$("#recommend_img").attr("src", "../image/recommend_on.png");
+				}
 				
 			}
 		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
@@ -66,6 +66,8 @@ $(function(){
 	
 	});
 });
+
+
 
 </script>
 
@@ -159,11 +161,27 @@ $(function(){
        	</div>
        	<div class="cont_btns">
        		<div class="cont_btns_wrap">
-				<div class="btns_re">
-					<a href="#" id="${board.board.board_num}" class="btns_re_item">
-                		<span id="u_ico" class="u_ico"></span><em class="u_txt">좋아요</em><em id="u_cnt" class="u_cnt"> ${board.board.recommend_num}</em>
-                 	</a>
-				</div>
+				<c:if test="${login_status!=0 && login_status!=1}">
+					<div class="btns_re">
+						<a href="/logon/login.do" id="${board.board.board_num}" class="btns_re_item">
+	                		<span id="u_ico" class="u_ico"><img src="../image/recommend_on.png"></span><em class="u_txt">좋아요</em><em class="u_cnt"> ${board.board.recommend_num}</em>
+	                 	</a>
+					</div>
+				</c:if>
+				<c:if test="${login_status==0 || login_status==1}">
+					<div class="btns_re">
+						<a href="#" id="${board.board.board_num}" class="btns_re_item btns_re_items">
+	                		<span id="u_ico" class="u_ico">
+		                		<c:if test="${board.recommendFlag == 'recommend'}">
+		                			<img id="recommend_img" src="../image/recommend_off.png">	                		
+		                		</c:if>
+		                		<c:if test="${board.recommendFlag == 'nrecommend'}">
+		                			<img id="recommend_img" src="../image/recommend_on.png">	                		
+		                		</c:if>
+                		    </span><em class="u_txt">좋아요</em><em id="u_cnt" class="u_cnt"> ${board.board.recommend_num}</em>
+	                 	</a>
+					</div>
+				</c:if>
 				<a href="/content/contentForm.do?board_num=${board.board.board_num}&comment=true" class="btns_coment" >
 					<span class="u_ico_coment">댓글</span>
 					<span class="text_num">${board.commentCount}</span>				

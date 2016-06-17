@@ -94,11 +94,13 @@ public class MainController {
 				}
 				
 				RecommendCommand recommend = new RecommendCommand(id, vo.getBoard_num());
-				RecommendCommand recommends = recommendDao.getRecommend(recommend);
-				if(recommends != null){
-					boardMap.put("recommendFlag", "recommend");
-				}else{
-					boardMap.put("recommendFlag", "nrecommend");
+				if(recommend.getId() != null ){
+					RecommendCommand recommends = recommendDao.getRecommend(recommend);
+					if(recommends != null){
+						boardMap.put("recommendFlag", "recommend");
+					}else{
+						boardMap.put("recommendFlag", "nrecommend");
+					}
 				}
 					
 				boardMap.put("board", vo);
@@ -128,11 +130,13 @@ public class MainController {
 		if(recommendselect != null){
 			boardDao.RecommendByBoardNumDecrease(board_num);
 			recommendDao.deleteRecommend(recommendselect);
+			jso.put("recommendFlog", "nrecommend");
+			
 			
 		} else{
 			boardDao.updateRecommendByBoardNum(board_num);
 			recommendDao.insertBoard(command);
-			
+			jso.put("recommendFlog", "recommend");
 		}
 		
 		jso.put("recommend", boardDao.selectContent(board_num).getRecommend_num());
