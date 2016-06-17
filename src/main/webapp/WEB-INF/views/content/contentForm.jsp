@@ -174,8 +174,8 @@ $(function(){
        		<div class="cont_btns_wrap">
        			<c:if test="${login_status!=0 && login_status!=1}">
 					<div class="btns_re">
-						<a href="/logon/login.do" id="${board.board.board_num}" class="btns_re_item">
-	                		<span id="u_ico" class="u_ico"><img src="../image/recommend_on.png"></span><em class="u_txt">좋아요</em><em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
+						<a href="/logon/login.do" id="${board.board_num}" class="btns_re_item">
+	                		<span id="u_ico" class="u_ico"><img src="../image/recommend_on.png"></span><em class="u_txt">좋아요</em><em id="u_cnt${board.board_num}" class="u_cnt"> ${board.recommend_num}</em>
 	                 	</a>
 					</div>
 				</c:if>
