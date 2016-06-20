@@ -87,14 +87,12 @@ public class MyProfileContoroller {
 	public PhotoCommand getBoard(){
 		return new PhotoCommand();
 	}
-	
-	@RequestMapping(value="/profile/myProfile.do",method=RequestMethod.GET)
-	
-	public String myProfileform
-	(HttpServletRequest request, Model model){
+    @RequestMapping(value="/profile/myProfile.do",method=RequestMethod.GET)
+	public String myProfileform(HttpServletRequest request, Model model){
 		
 		String id = (String) request.getSession().getAttribute("id");
 		String paramId = request.getParameter("id");
+		
 		
 		// Command들을 담기위한 list 변수생성
 		List<MemberCategoryCommand> membersCategoryList = null;
@@ -107,6 +105,7 @@ public class MyProfileContoroller {
 			CategoryList.add(Category);
 		}
 		model.addAttribute("CategoryList", CategoryList);
+		model.addAttribute("id", id);
 		
 		
 
@@ -173,16 +172,12 @@ public class MyProfileContoroller {
 				}
 				model.addAttribute("paramId", paramId); //키값 ?
 				
-				
-				
-
 				int board_num = 0;
+				
 				System.out.println(id);
 				board_num = BoardDao.getRecentBoardNumById(id);
-			
-				model.addAttribute("board_num", board_num);
 				
-			
+				model.addAttribute("board_num", board_num);
 				
 				List<PhotoCommand> photoList = null;
 				BoardCommand board = new BoardCommand();
@@ -200,5 +195,4 @@ public class MyProfileContoroller {
 				
 				return "/profile/myProfile";
 	}
-	
-	}
+}

@@ -13,10 +13,10 @@
 $(document).ready(function() {
 	
 	if("${followCheck}"=="true") {
-		var tag = "<a href='/follow/followPro.do?follow=unfollow&to_id=" + "${paramId}'" + "><img src='../image/icon_36.png'></a>";
+		var tag = "<a href='/follow/following.do?follow=unfollow&to_id=" + "${paramId}'" + "><img src='../image/icon_36.png'></a>";
 		$("#btn_follow_add").append(tag);
 	} else {
-		var tag = "<a href='/follow/followPro.do?follow=follow&to_id=" + "${paramId}'" + "><img src='../image/icon_35.png'></a>";
+		var tag = "<a href='/follow/follower.do?follow=follow&to_id=" + "${paramId}'" + "><img src='../image/icon_35.png'></a>";
 		$("#btn_follow_add").append(tag);
 	}
 	
@@ -56,8 +56,8 @@ $(function(){
 			<div class="my_profile" id="id_profile">${paramId}</div>
 		</div>
 		<div id="my_profile_follow">
-			<div class="follow_profile" id="follower_profile"><a href="/follow/followerForm.do?id=${paramId}">팔로워  ${followerCount } ></a></div>
-			<div class="follow_profile" id="following_profile"><a href="/follow/followingForm.do?id=${paramId}">팔로잉  ${followingCount } ></a></div>
+			<div class="follow_profile" id="follower_profile"><a href="/follow/follower.do?id=${paramId}">팔로워  ${followerCount } ></a></div>
+			<div class="follow_profile" id="following_profile"><a href="/follow/follewing.do?id=${paramId}">팔로잉  ${followingCount } ></a></div>
  		</div>
  		<div class="my_profile" id="category_my_profile">	
 			<c:forEach var="item" items="${CategoryList}" varStatus="status">
@@ -71,7 +71,7 @@ $(function(){
 			<div class="content_wrap">
 				<div class="content_first">	
 					<div class="cont_writer">
-						<a href="/profile/myProfile.do?id=${board.board.id}" class="cont_writer_id">${board.id}</a>
+						<a href="/profile/myProfile.do?id=${board.board.id}" class="cont_writer_id">${board.board.id}</a>
 						<div class="cont_wdate">
 							<fmt:formatDate value="${board.board.write_date}" pattern="yyyy-MM-dd HH:mm"/>
 						</div>
@@ -85,7 +85,7 @@ $(function(){
 									<li>
 										<a href="/content/reportPro.do?board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 신고</a>
 									</li>
-								<c:if test="${board.id == id}">						
+								<c:if test="${board.board.id == id}">						
 									<li>
 										<a href="/content/deleteContent.do?id=${board.board.id}&board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
 									</li>
