@@ -9,8 +9,8 @@
 <script src='http://jquery-multifile-plugin.googlecode.com/svn/trunk/jquery.MetaData.js' type="text/javascript"></script>
 <script src='http://jquery-multifile-plugin.googlecode.com/svn/trunk/jquery.MultiFile.js' type="text/javascript"></script>
 <script src='http://jquery-multifile-plugin.googlecode.com/svn/trunk/jquery.blockUI.js' type="text/javascript"></script> 
-<script src="../script/categoryMenu_write.js" type="text/javascript"></script>
-<script src="../script/upload.js" type="text/javascript"></script>
+<script src="/script/categoryMenu_write.js" type="text/javascript"></script>
+<script src="/script/upload.js" type="text/javascript"></script>
 <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 <title>글쓰기</title>
 

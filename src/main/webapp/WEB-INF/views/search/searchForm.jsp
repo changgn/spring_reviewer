@@ -7,11 +7,6 @@
 <head>
 <title>검색</title>
 <script src="/script/search.js"></script>
-<style>
-.re_btn_option{display: none;position: fixed;z-index: 9999;top: 0;right: 0;bottom: 0;left: 0;line-height: 100%;text-align: center;}
-.re_popup{display: inline-block;position: relative;z-index: 10000;width: 384px;background-color: #fff;line-height: normal;vertical-align: middle; top:300px;}
-.re_popup_close{display: inline-block;overflow: hidden;width: 100%;height: 60px;border: none;font-size: 16px;color: #414042;line-height: 60px;text-align: center;vertical-align: top;}
-</style>
 </head>
 <body>
 <div id="search">
