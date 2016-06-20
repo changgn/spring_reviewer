@@ -168,7 +168,7 @@ public class MyProfileContoroller {
 							allBoardList.add(boardMap);
 						}
 					}
-					model.addAttribute("allBoardList", allBoardList);
+				 	model.addAttribute("allBoardList", allBoardList);
 				}
 				model.addAttribute("paramId", paramId); //키값 ?
 					
