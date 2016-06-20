@@ -171,28 +171,7 @@ public class MyProfileContoroller {
 					model.addAttribute("allBoardList", allBoardList);
 				}
 				model.addAttribute("paramId", paramId); //키값 ?
-				
-				int board_num = 0;
-				
-				System.out.println(id);
-				board_num = BoardDao.getRecentBoardNumById(id);
-				
-				model.addAttribute("board_num", board_num);
-				
-				List<PhotoCommand> photoList = null;
-				BoardCommand board = new BoardCommand();
-				
-				
-				board = BoardDao.selectContent(board_num);
-				photoList = PhotoDao.getListByBoardNum(board_num);
-				
-				if(board != null) { 
-					request.setAttribute("board", board);
-				}
-				if(photoList != null) { 
-					request.setAttribute("photoList", photoList);
-				}
-				
+					
 				return "/profile/myProfile";
 	}
 }
