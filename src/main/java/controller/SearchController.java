@@ -142,18 +142,4 @@ public class SearchController {
 		model.addAttribute("boardList", boardList);
 		return "search/searchForm";
 	}
-	
-	@ResponseBody
-	@RequestMapping("/recommend/member.do")
-	public String recommend(HttpServletResponse resp, int board_num){
-		
-		
-		JSONObject jso = new JSONObject();
-		List<String> members = recommendDao.getIdByRecommendNum(board_num);
-		jso.put("members", members);
-		jso.put("board_num", board_num);
-		
-		resp.setContentType("text/html;charset=utf-8");
-		return jso.toString();
-	}
 }

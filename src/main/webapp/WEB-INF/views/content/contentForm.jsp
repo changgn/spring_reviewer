@@ -24,7 +24,8 @@ $(window).load(function(){
 
 $(function(){
 	
-	$(".cont_menu_option").click(function(){
+	$(".cont_menu_option").click(function(e){
+		e.preventDefault();
 		$(".cont_btn_option").css({
 	    }).show();
 	});
