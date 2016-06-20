@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
@@ -97,7 +96,7 @@ $(function(){
 				</div>
 				<div class="content_second">
 					<span class="content_view">
-						<span><pre>${board.content}</pre>
+						<span><pre id="pre_${board.board.board_num}">${board.board.content}</pre>
 							<c:if test="${board.contentFlag == true}">
 								<span class="cont_theview">
 									<span>...</span>
@@ -107,6 +106,13 @@ $(function(){
 						</span>
 					</span>
 				</div>
+
+				<div class="content_second">
+					<span class="content_view_sp"> <span><pre>${board.content}</pre>
+					</span>
+					</span>
+				</div>
+
 				<c:if test="${board.photo.realPath != null}">
 			   		<a href="/content/contentForm.do?board_num=${board.board.board_num}" class="item_info_wrap">
 				        <span class="item_cont" title="컨텐츠 상세페이지">
@@ -117,6 +123,8 @@ $(function(){
 				      	</span>
 			       	</a>
 		       	</c:if>
+		       	
+		       	
 		       	<div class="cont_category_info">
 		       		<p id="cont_category_info_f">${board.category.group1}> ${board.category.group2}> ${board.category.group3}</p>
 		       	</div>
