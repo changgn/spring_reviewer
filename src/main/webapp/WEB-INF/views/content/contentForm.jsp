@@ -24,13 +24,45 @@ $(window).load(function(){
 
 $(function(){
 	
-	$(".cont_menu_option").click(function(){
+	$(".cont_menu_option").click(function(e){
+		e.preventDefault();
 		$(".cont_btn_option").css({
 	    }).show();
 	});
 	$(".cont_btn_option").click(function(){
 		$(this).hide();
 	});
+	
+	$(".re_menu_option").click(function(e){
+		e.preventDefault();
+		var b = $("#memList_" + $(this).attr("id"));
+		var url= "/recommend/member.do";
+		var params = "board_num=" + $(this).attr("id");
+		$.ajax({
+			type:"post"		// 포스트방식
+			,url:url		// url 주소
+			,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
+			,dataType:"json"
+			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
+				var members = args.members;
+				$(".re_popup_close").remove();
+				for(var idx=0; idx<members.length; idx++) {
+					$(".re_popup").append("<li><a href='/profile/myProfile.do?id=" + members[idx] + "' class='re_popup_close'>" + members[idx] + "</a></li>")
+				}
+				if(members.length==0) {
+					$(".re_popup").append("<li><a href='#' class='re_popup_close' onclick='event.preventDefault();'>게시물을 추천해 주세요</a></li>");
+				}
+				
+			}
+		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+		    	alert(e.responseText);
+		    }
+		});
+		b.css({}).show();
+	});
+	$(".re_btn_option").click(function(){
+		$(this).hide();
+	});	
 	
 	// 좋아요
 	$(".btns_re_items").click(function(e){
@@ -117,10 +149,12 @@ $(function(){
 		$('html, body').animate({ scrollTop : top });
 	});
 });
+
 </script>
-
 <style>
-
+.re_btn_option{display: none;position: fixed;z-index: 9999;top: 0;right: 0;bottom: 0;left: 0;line-height: 100%;text-align: center;}
+.re_popup{display: inline-block;position: relative;z-index: 10000;width: 384px;background-color: #fff;line-height: normal;vertical-align: middle; top:300px;}
+.re_popup_close{display: inline-block;overflow: hidden;width: 100%;height: 60px;border: none;font-size: 16px;color: #414042;line-height: 60px;text-align: center;vertical-align: top;}
 </style>
 </head>
 <body>
@@ -189,8 +223,15 @@ $(function(){
 		                		<c:if test="${recommendFlag == 'nrecommend'}">
 		                			<img id="recommend_img${board.board_num}" src="../image/recommend_on.png">	                		
 		                		</c:if>
-	               		    </span><em class="u_txt">좋아요</em><em id="u_cnt${board.board_num}" class="u_cnt"> ${board.recommend_num}</em>
+	               		    </span><em class="u_txt">좋아요</em>
 	                 	</a>
+	                 	<a href="#" id="${board.board_num}" class="btns_re_item re_menu_option">
+	                		<em id="u_cnt${board.board_num}" class="u_cnt"> ${board.recommend_num}</em>
+	                	</a>
+	                 	<div id="memList_${board.board_num}" class="re_btn_option">
+							<div class="ly_dimmed"></div>
+							<ul class="re_popup"></ul>
+						</div>
 					</div>
 				</c:if>
 				<a href="/content/contentForm.do?board_num=${board.board_num}&comment=true" class="btns_coment" >

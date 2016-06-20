@@ -7,7 +7,11 @@
 <head>
 <title>검색</title>
 <script src="/script/search.js"></script>
-
+<style>
+.re_btn_option{display: none;position: fixed;z-index: 9999;top: 0;right: 0;bottom: 0;left: 0;line-height: 100%;text-align: center;}
+.re_popup{display: inline-block;position: relative;z-index: 10000;width: 384px;background-color: #fff;line-height: normal;vertical-align: middle; top:300px;}
+.re_popup_close{display: inline-block;overflow: hidden;width: 100%;height: 60px;border: none;font-size: 16px;color: #414042;line-height: 60px;text-align: center;vertical-align: top;}
+</style>
 </head>
 <body>
 <div id="search">
@@ -365,7 +369,7 @@
 							<div class="content_wrap">
 								<div class="content_first">	
 									<div class="cont_writer">
-										<a href="/reviewer/profile/myProfile.do?id=${board.board.id}" class="cont_writer_id">${board.board.id}</a>
+										<a href="/profile/myProfile.do?id=${board.board.id}" class="cont_writer_id">${board.board.id}</a>
 										<div class="cont_wdate">
 											<fmt:formatDate value="${board.board.write_date}" pattern="yyyy-MM-dd HH:mm"/>
 										</div>
@@ -377,11 +381,11 @@
 												<div class="ly_dimmed"></div>
 												<ul class="cont_popup">
 													<li>
-														<a href="/reviewer/content/reportPro.do?board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 신고</a>
+														<a href="/content/reportPro.do?board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 신고</a>
 													</li>
 												<c:if test="${board.board.id == id}">						
 													<li>
-														<a href="/reviewer/content/deleteContent.do?id=${board.board.id}&board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
+														<a href="/content/deleteContent.do?id=${board.board.id}&board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
 													</li>
 												</c:if>
 												</ul>
@@ -395,7 +399,7 @@
 											<c:if test="${board.contentFlag == true}">
 												<span class="cont_theview">
 														<span>...</span>
-														<a href="/reviewer/content/contentForm.do?board_num=${board.board.board_num}" class="btn_view_more">더보기</a>
+														<a href="/content/contentForm.do?board_num=${board.board.board_num}" class="btn_view_more">더보기</a>
 													
 												</span>
 											</c:if>
@@ -403,7 +407,7 @@
 									</span>
 								</div>
 								<c:if test="${board.photo.realPath != null}">
-							   		<a href="/reviewer/content/contentForm.do?board_num=${board.board.board_num}" class="item_info_wrap">
+							   		<a href="/content/contentForm.do?board_num=${board.board.board_num}" class="item_info_wrap">
 								        <span class="item_cont" title="컨텐츠 상세페이지">
 								            <span class="item_thumb">
 								                <img class="list_photo" src="${board.photo.realPath}">
@@ -420,8 +424,15 @@
 										<c:if test="${login_status!=0 && login_status!=1}">
 											<div class="btns_re">
 												<a href="/logon/login.do" id="${board.board.board_num}" class="btns_re_item">
-							                		<span id="u_ico" class="u_ico"><img src="../image/recommend_on.png"></span><em class="u_txt">좋아요</em><em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
+							                		<span id="u_ico" class="u_ico"><img src="../image/recommend_on.png"></span><em class="u_txt">좋아요</em>
 							                 	</a>
+							                 	<a href="#" id="${board.board.board_num}" class="btns_re_item re_menu_option">
+							                		<em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
+							                	</a>
+							                 	<div id="memList_${board.board.board_num}" class="re_btn_option">
+													<div class="ly_dimmed"></div>
+													<ul class="re_popup"></ul>
+												</div>
 											</div>
 										</c:if>
 										<c:if test="${login_status==0 || login_status==1}">
@@ -434,8 +445,15 @@
 								                		<c:if test="${board.recommendFlag == 'nrecommend'}">
 								                			<img id="recommend_img${board.board.board_num}" src="../image/recommend_on.png">	                		
 								                		</c:if>
-						                		    </span><em class="u_txt">좋아요</em><em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
+						                		    </span><em class="u_txt">좋아요</em>
 							                 	</a>
+							                 	<a href="#" id="${board.board.board_num}" class="btns_re_item re_menu_option">
+							                		<em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
+							                	</a>
+							                 	<div id="memList_${board.board.board_num}" class="re_btn_option">
+													<div class="ly_dimmed"></div>
+													<ul class="re_popup"></ul>
+												</div>
 											</div>
 										</c:if>
 										<a href="/content/contentForm.do?board_num=${board.board.board_num}&comment=true" class="btns_coment" >
