@@ -52,9 +52,8 @@ public class MainController {
 	public void setMemberCategoryDao(MemberCategoryDAO memberCategoryDao) { this.memberCategoryDao = memberCategoryDao; }
 	public void setSecretDAO(SecretDAO secretdao) { this.secretDao = secretdao; }
 
-	
 	@RequestMapping("/main/main.do")
-	public String main(HttpServletRequest request, HttpServletResponse response, Model model){
+	public String main(HttpServletRequest request, HttpServletResponse resp, Model model){
 		
 		String id = (String)request.getSession().getAttribute("id"); 
 		String login_status = (String)request.getSession().getAttribute("login_status");
@@ -116,7 +115,6 @@ public class MainController {
 				allBoardList.add(boardMap);
 			}
 		}
-		
 		model.addAttribute("allBoardList", allBoardList);
 		return "main/main";
 	}
