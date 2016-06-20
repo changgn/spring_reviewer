@@ -14,43 +14,21 @@
 
 $(function(){
 	var top = 0;
-	$(".cont_menu_option").click(function(e){
-		e.preventDefault();
+	$(".cont_menu_option").click(function(){
 		var a = $("#menu_" + $(this).attr("id"));
-		a.css({}).show();
+		top = a.offset().top;
+		$("body").css({
+			top: -top,
+			position: "fixed",
+			width: "100%",
+			height: "auto"
+		});
+		a.css({
+	    }).show();
 	});
 	$(".cont_btn_option").click(function(){
-		$(this).hide();
-	});	
-	
-	$(".re_menu_option").click(function(e){
-		e.preventDefault();
-		var b = $("#memList_" + $(this).attr("id"));
-		var url= "/recommend/member.do";
-		var params = "board_num=" + $(this).attr("id");
-		$.ajax({
-			type:"post"		// 포스트방식
-			,url:url		// url 주소
-			,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
-			,dataType:"json"
-			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
-				var members = args.members;
-				$(".re_popup_close").remove();
-				for(var idx=0; idx<members.length; idx++) {
-					$(".re_popup").append("<li><a href='/profile/myProfile.do?id=" + members[idx] + "' class='re_popup_close'>" + members[idx] + "</a></li>")
-				}
-				if(members.length==0) {
-					$(".re_popup").append("<li><a href='#' class='re_popup_close' onclick='event.preventDefault();'>게시물을 추천해 주세요</a></li>");
-				}
-				
-			}
-		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
-		    	alert(e.responseText);
-		    }
-		});
-		b.css({}).show();
-	});
-	$(".re_btn_option").click(function(){
+		$("body").removeAttr("style");
+		$('html, body').scrollTop(top);
 		$(this).hide();
 	});	
 });
@@ -106,7 +84,29 @@ $(function(){
 	});
 });
 
-
+$(function() {
+    $(".list_view_more").on("click",function(e) { 
+    	e.preventDefault();
+    	var url = "/main/mainAjax.do";
+   		var params = "board_num=" + $(this).attr("id");      // 현재 리스트의 마지막글 번호를 가져온다. 마지막글 번호는 아래 더보기 버튼의 id값이
+        $.ajax({
+              type: "post",
+              url: url,     	// 더보기 눌렀을때 데이터리스트를 html 형태로 만들어서 현재 리스트페이지로 보내준다.
+              data:params,   	// 현재 리스트에 뿌려져있는 마지막 글 번호를 넣어준다. 그래야지 리스트의 마지막글 다음부터의 리스트를 가져온다.
+              beforeSend:  function() {
+             	 $('a.list_view_more').append('<img src="../image/loading.gif" />');    // 로딩 진행줄일때 .gif로 로딩중이라는거 표시 
+	          },
+	          success: function(html){
+	        	  $(".list_view_more").remove(); 
+	        	  
+	          },
+	          error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+	    		  alert(e.responseText);
+		      }
+      	});
+    
+    });
+});
 
 </script>
 
@@ -185,7 +185,6 @@ $(function(){
 	                    <span class="profile_thumb_mask"></span>
                		</span>
 				</a>
-				
 				<a href="/profile/myProfile.do?id=${board.board.id}" class="cont_writer_id">${board.board.id}</a>
 				<div class="cont_wdate">
 					<fmt:formatDate value="${board.board.write_date}" pattern="yyyy-MM-dd HH:mm"/>
@@ -243,15 +242,8 @@ $(function(){
 				<c:if test="${login_status!=0 && login_status!=1}">
 					<div class="btns_re">
 						<a href="/logon/login.do" id="${board.board.board_num}" class="btns_re_item">
-	                		<span id="u_ico" class="u_ico"><img src="../image/recommend_on.png"></span><em class="u_txt">좋아요</em>
+	                		<span id="u_ico" class="u_ico"><img src="../image/recommend_on.png"></span><em class="u_txt">좋아요</em><em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
 	                 	</a>
-	                 	<a href="#" id="${board.board.board_num}" class="btns_re_item re_menu_option">
-	                		<em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
-	                	</a>
-	                 	<div id="memList_${board.board.board_num}" class="re_btn_option">
-							<div class="ly_dimmed"></div>
-							<ul class="re_popup"></ul>
-						</div>
 					</div>
 				</c:if>
 				<c:if test="${login_status==0 || login_status==1}">
@@ -264,15 +256,8 @@ $(function(){
 		                		<c:if test="${board.recommendFlag == 'nrecommend'}">
 		                			<img id="recommend_img${board.board.board_num}" src="../image/recommend_on.png">	                		
 		                		</c:if>
-                		    </span><em class="u_txt">좋아요</em>
+                		    </span><em class="u_txt">좋아요</em><em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
 	                 	</a>
-	          			<a href="#" id="${board.board.board_num}" class="btns_re_item re_menu_option">
-	                		<em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
-	                	</a>
-	                 	<div id="memList_${board.board.board_num}" class="re_btn_option">
-							<div class="ly_dimmed"></div>
-							<ul class="re_popup"></ul>
-						</div>
 					</div>
 				</c:if>
 				<a href="/content/contentForm.do?board_num=${board.board.board_num}&comment=true" class="btns_coment" >
@@ -287,10 +272,10 @@ $(function(){
        	</div>
 	</div>
 </c:forEach>
-	<div class="view_more">
-       		<a href="#" class="list_view_more">
-       			<span class="ico_plus"><img src="../image/plus.png"></span><span class="txt_view_more">더 많은 리뷰 보기</span>
-       		</a>
+	<div id="${board.board.board_num}" class="view_more">
+	 		<a href="#" id="${board.board.board_num}" class="list_view_more">
+	 			<span class="ico_plus"><img src="../image/plus.png"></span><span class="txt_view_more">더 많은 리뷰 보기</span>
+	 		</a>
     </div>
 	<c:if test="${login_status==0 || login_status==1}">
 		<div class="btn_posting_wrap">

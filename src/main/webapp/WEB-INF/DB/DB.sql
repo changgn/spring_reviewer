@@ -16,6 +16,7 @@ DROP TABLE members_category CASCADE CONSTRAINTS;
 DROP TABLE category CASCADE CONSTRAINTS;
 DROP TABLE follow CASCADE CONSTRAINTS;
 DROP TABLE members CASCADE CONSTRAINTS;
+DROP TABLE secret CASCADE CONSTRAINTS;
 
 
 
@@ -136,9 +137,27 @@ CREATE TABLE screp
 	board_num number NOT NULL
 );
 
+CREATE TABLE secret
+(
+   id varchar2(20) NOT NULL,
+   board_num number
+);
 
 
 /* Create Foreign Keys */
+
+ALTER TABLE secret
+	ADD FOREIGN KEY (id)
+	REFERENCES members (id)
+	ON DELETE CASCADE
+;
+
+ALTER TABLE secret
+	ADD FOREIGN KEY (board_num)
+	REFERENCES board (board_num)
+	ON DELETE CASCADE
+;
+
 
 ALTER TABLE notice
 	ADD FOREIGN KEY (board_num)
