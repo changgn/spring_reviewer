@@ -30,6 +30,12 @@
 			$("#list_nav li").mouseleave(function(){
 				$(this).css("background-color","white");
 			});
+			$("#list_user li").mouseover(function(){
+				$(this).css("background-color","#F6F6F6");
+			});
+			$("#list_user li").mouseleave(function(){
+				$(this).css("background-color","white");
+			});
 		});
 		$(function(){		
 			$("#nav, #content").click(function(){
@@ -72,10 +78,8 @@
 			});
 		});
 	</script>
-
 </head>
 <body>
-
 	<div id="header">
 	<!-- 헤더 -->
 		<h1 id="logo">
