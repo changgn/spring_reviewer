@@ -24,17 +24,11 @@
 					$("#nav").css("position", "static");
 				}
 			});
-			$("#btn_newsfeed").mouseover(function(){
-				$("#btn_newsfeed").css("background-color","#F6F6F6");
+			$("#list_nav li").mouseover(function(){
+				$(this).css("background-color","#F6F6F6");
 			});
-			$("#btn_newsfeed").mouseleave(function(){
-				$("#btn_newsfeed").css("background-color","white");
-			});
-			$("#btn_my").mouseover(function(){
-				$("#btn_my").css("background-color","#F6F6F6");
-			});
-			$("#btn_my").mouseleave(function(){
-				$("#btn_my").css("background-color","white");
+			$("#list_nav li").mouseleave(function(){
+				$(this).css("background-color","white");
 			});
 		});
 		$(function(){		

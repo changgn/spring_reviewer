@@ -11,6 +11,20 @@
 <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 <title>메인페이지</title>
 <script>
+$(document).ready(function(){
+	$(".cont_popup li").mouseover(function(){
+		$(this).css("background-color","#F6F6F6");
+	});
+	$(".cont_popup li").mouseleave(function(){
+		$(this).css("background-color","white");
+	});
+});
+$(document).on("mouseover", ".re_popup li", function(){
+	$(this).css("background-color","#F6F6F6");
+});
+$(document).on("mouseleave", ".re_popup li", function(){
+	$(this).css("background-color","white");
+});
 $(function(){
 	var top = 0;
 	$(".cont_menu_option").click(function(e){

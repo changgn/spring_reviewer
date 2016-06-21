@@ -13,6 +13,18 @@ $(document).ready(function(){
 	if("${error}"=="error") {
 		$(location).attr("href", "/main/main.do");
 	}
+	$(".cont_popup li").mouseover(function(){
+		$(this).css("background-color","#F6F6F6");
+	});
+	$(".cont_popup li").mouseleave(function(){
+		$(this).css("background-color","white");
+	});
+});
+$(document).on("mouseover", ".re_popup li", function(){
+	$(this).css("background-color","#F6F6F6");
+});
+$(document).on("mouseleave", ".re_popup li", function(){
+	$(this).css("background-color","white");
 });
 $(window).load(function(){
 	if("${comment}"=="true") {
