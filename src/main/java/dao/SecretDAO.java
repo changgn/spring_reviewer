@@ -12,8 +12,14 @@ public class SecretDAO extends SqlSessionDaoSupport{
 		return getSqlSession().insert("secret.add", command);
 	}
 	
-	public List<SecretCommand> getListById(String	id){
+	//글 번호를 가져온다.
+	public List<Integer> getListById(String id){
 		return getSqlSession().selectList("secret.getListById", id);
 	}
 	
+	
+	
+	
+	
+
 }

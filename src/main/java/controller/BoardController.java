@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -23,11 +25,14 @@ import command.CategoryCommand;
 import command.CommentCommand;
 import command.PhotoCommand;
 import command.RecommendCommand;
+import command.SecretCommand;
 import dao.BoardDAO;
 import dao.CategoryDAO;
 import dao.CommentDAO;
 import dao.PhotoDAO;
 import dao.RecommendDAO;
+import dao.SecretDAO;
+import net.sf.json.JSONObject;
 
 
 
@@ -44,6 +49,8 @@ public class BoardController {
 	CategoryDAO categorydao;
 	@Autowired
 	private RecommendDAO recommendDao;
+	@Autowired
+	private SecretDAO secretDao;
 
 	public void setCategorydao(CategoryDAO categorydao) {
 		this.categorydao = categorydao;
@@ -58,6 +65,7 @@ public class BoardController {
 		this.boarddao = boarddao;
 	}
 	public void setRecommendDao(RecommendDAO recommendDao) { this.recommendDao = recommendDao; }
+	public void setSecretDao(SecretDAO secretDao) {this.secretDao = secretDao; }
 	
 
 	@RequestMapping(value="write/writeForm.do", method=RequestMethod.GET)
@@ -190,6 +198,26 @@ public class BoardController {
 		}
 		return "content/reportPro";
 	}
+	
+	@ResponseBody
+	@RequestMapping("/content/secret.do")
+	public String secret(HttpServletRequest request, HttpServletResponse resp, int board_num){
+		
+		String id = (String)request.getSession().getAttribute("id");
+		
+		JSONObject jso = new JSONObject();
+		
+		SecretCommand command = new SecretCommand(id, board_num);
+		secretDao.insert(command);
+		
+		jso.put("secret", command);
+		resp.setContentType("text/html;charset=utf-8");
+		return jso.toString();
+		
+	}
+	
+	
+	
 }
 
 

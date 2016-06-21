@@ -96,11 +96,28 @@
 	order by write_date DESC 
 </select>
 
+<select parameterType="java.util.List" id="getListByExBoardNum" resultType="command.BoardCommand">
+	select * from board where board_num NOT IN
+		<foreach separator="," close=")" open="(" item="item" collection="list"> #{item}
+ 		</foreach>
+	order by write_date DESC 
+</select>
+
 <select parameterType="java.util.HashMap" id="getListByCategoryIdContent" resultType="command.BoardCommand">
 	select * from board where category_id IN 
 		<foreach separator="," close=")" open="(" item="item" collection="categoryIdList"> #{item} 
 		</foreach>
 	AND content like '%'||#{content}||'%' ORDER BY write_date DESC 
+</select>
+
+<select parameterType="java.util.HashMap" id="getListByCategoryIdExBoardNum" resultType="command.BoardCommand">
+	select * from board where category_id IN 
+		<foreach separator="," close=")" open="(" item="item" collection="categoryIdList"> #{item} 
+		</foreach>
+		AND board_num NOT IN
+		<foreach separator="," close=")" open="(" item="item" collection="boardNumList"> #{item} 
+		</foreach>
+		ORDER BY write_date DESC 
 </select>
 
 

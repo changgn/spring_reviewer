@@ -3,7 +3,6 @@ package controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import command.BoardCommand;
@@ -43,6 +41,8 @@ public class MainController {
 	private MemberCategoryDAO memberCategoryDao;
 	@Autowired
 	private RecommendDAO recommendDao;
+	@Autowired
+	private SecretDAO secretDao;
 	
 	public void setRecommendDao(RecommendDAO recommendDao) { this.recommendDao = recommendDao; }
 	public void setBoardDao(BoardDAO boardDao) { this.boardDao = boardDao; }
@@ -50,6 +50,7 @@ public class MainController {
 	public void setCommentDao(CommentDAO commentDao) { this.commentDao = commentDao; }
 	public void setCategoryDao(CategoryDAO categoryDao) { this.categoryDao = categoryDao; }
 	public void setMemberCategoryDao(MemberCategoryDAO memberCategoryDao) { this.memberCategoryDao = memberCategoryDao; }
+	public void setSecretDao(SecretDAO secretDao) {this.secretDao = secretDao; }
 
 	@RequestMapping("/main/main.do")
 	public String main(HttpServletRequest request, HttpServletResponse resp, Model model){
@@ -69,18 +70,29 @@ public class MainController {
 			
 			boardList = boardDao.getList();
 			
+			
 		}else {
 			
 			categoryIdList = memberCategoryDao.getCategoryIdById(id);
+			List<Integer> boardNumList = secretDao.getListById(id);
 			
 			if(categoryIdList.size() == 0){
-				
-				boardList = boardDao.getList();
+				if(boardNumList.size() == 0){
+					boardList = boardDao.getList();
+				}else {
+					boardList = boardDao.getListByExBoardNum(boardNumList);
+				}
 			} else { 
-				
-				boardList = boardDao.getListByCategoryId(categoryIdList);
-			}
+				if(boardNumList.size() == 0){
+					boardList = boardDao.getListByCategoryId(categoryIdList);
+				}else {
+					HashMap<String, Object> categoryIdBoardNumMap = new HashMap<String, Object>();
+					categoryIdBoardNumMap.put("categoryIdList", categoryIdList);
+					categoryIdBoardNumMap.put("boardNumList", boardNumList);
+					boardList = boardDao.getListByCategoryIdExBoardNum(categoryIdBoardNumMap);
+				}
 		}
+	}
 		if(boardList!=null)	{
 			for(BoardCommand vo : boardList) {
 				HashMap<String, Object> boardMap = new HashMap<String, Object>();

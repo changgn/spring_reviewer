@@ -43,14 +43,26 @@ public class BoardDAO extends SqlSessionDaoSupport{
 	public List<BoardCommand> getListByCategoryIdContent(HashMap<String, Object> categoryIdContentMap){
 		return getSqlSession().selectList("board.getListByCategoryIdContent", categoryIdContentMap);
 	}
+	
 	public List<BoardCommand> getListByContent(String content) {
 		return getSqlSession().selectList("board.getListByContent", content);
 	}
+	
 	public List<BoardCommand> getListById(String id){
 		List<BoardCommand> list = null;
 		list = getSqlSession().selectList("board.getListById", id);
 		return list;
 	}
+	
+	public List<BoardCommand> getListByCategoryIdExBoardNum(HashMap<String, Object> categoryIdBoardNumMap) {
+		return getSqlSession().selectList("board.getListByCategoryIdExBoardNum", categoryIdBoardNumMap);
+	}
+	
+	public List<BoardCommand> getListByExBoardNum(List<Integer> boardNumList){
+		return getSqlSession().selectList("board.getListByExBoardNum", boardNumList);
+
+	}
+	
 	public List<BoardCommand> getListByCategoryId(List<String> categoryIdList) {
 		return getSqlSession().selectList("board.getListByCategoryId", categoryIdList);
 	}
@@ -64,5 +76,4 @@ public class BoardDAO extends SqlSessionDaoSupport{
 	public int RecommendByBoardNumDecrease (Integer board_num){
 		return getSqlSession().update("board.RecommendByBoardNumDecrease",board_num);
 	}
-	
 }
