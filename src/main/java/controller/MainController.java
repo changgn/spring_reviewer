@@ -43,8 +43,6 @@ public class MainController {
 	private MemberCategoryDAO memberCategoryDao;
 	@Autowired
 	private RecommendDAO recommendDao;
-	@Autowired
-	private SecretDAO secretDao;
 	
 	public void setRecommendDao(RecommendDAO recommendDao) { this.recommendDao = recommendDao; }
 	public void setBoardDao(BoardDAO boardDao) { this.boardDao = boardDao; }
@@ -52,7 +50,6 @@ public class MainController {
 	public void setCommentDao(CommentDAO commentDao) { this.commentDao = commentDao; }
 	public void setCategoryDao(CategoryDAO categoryDao) { this.categoryDao = categoryDao; }
 	public void setMemberCategoryDao(MemberCategoryDAO memberCategoryDao) { this.memberCategoryDao = memberCategoryDao; }
-	public void setSecretDAO(SecretDAO secretdao) { this.secretDao = secretdao; }
 
 	@RequestMapping("/main/main.do")
 	public String main(HttpServletRequest request, HttpServletResponse resp, Model model){
@@ -192,13 +189,5 @@ public class MainController {
 		resp.setContentType("text/html;charset=utf-8");
 		return jso.toString();
 	}
-	
-	@ResponseBody
-	@RequestMapping("/content/secret.do")
-	public String secret(HttpServletRequest request, HttpServletResponse resp, Integer board_num){
-		
-		JSONObject jso = new JSONObject();
-		return jso.toString();
-		
-	}
+
 }
