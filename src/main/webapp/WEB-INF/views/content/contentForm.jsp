@@ -87,11 +87,11 @@ $(function(){
 			,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
 			,dataType:"json"
 			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
-				var nrecommend = args.recommend;
+				var recommend_num = args.recommend_num;
 				var recommendFlag = args.recommendFlag;
 				var selector = $("#recommend_img"+args.board_num);
 				var selector2 = $("#u_cnt"+args.board_num);
-				selector2.text(" " + nrecommend);
+				selector2.text(" " + recommend_num);
 				if(recommendFlag == 'recommend'){
 					selector.attr("src", "../image/recommend_off.png");
 				} else{
@@ -232,7 +232,7 @@ $(function(){
 		                		<c:if test="${recommendFlag == 'nrecommend'}">
 		                			<img id="recommend_img${board.board_num}" src="../image/recommend_on.png">	                		
 		                		</c:if>
-	               		    </span><em class="u_txt">좋아요</em>
+	               		    </span><em class="u_txt">추천</em>
 	                 	</a>
 	                 	<a href="#" id="${board.board_num}" class="btns_re_item re_menu_option">
 	                		<em id="u_cnt${board.board_num}" class="u_cnt"> ${board.recommend_num}</em>

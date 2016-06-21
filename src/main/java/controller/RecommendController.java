@@ -46,11 +46,11 @@ public class RecommendController {
 			
 		} else{
 			boardDao.updateRecommendByBoardNum(board_num);
-			recommendDao.insertBoard(command);
+			recommendDao.insertRecommend(command);
 			jso.put("recommendFlag", "recommend");
 		}
 		jso.put("board_num", board_num);
-		jso.put("recommend", boardDao.selectContent(board_num).getRecommend_num());
+		jso.put("recommend_num", boardDao.selectContent(board_num).getRecommend_num());
 		
 		resp.setContentType("text/html;charset=utf-8");
 		return jso.toString();

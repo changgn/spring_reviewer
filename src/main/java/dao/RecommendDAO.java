@@ -8,7 +8,7 @@ import command.RecommendCommand;
 
 public class RecommendDAO extends SqlSessionDaoSupport{
 	
-	public int insertBoard(RecommendCommand command){
+	public int insertRecommend(RecommendCommand command){
 		return getSqlSession().insert("recommend.insertRecommend", command);
 	}
 
