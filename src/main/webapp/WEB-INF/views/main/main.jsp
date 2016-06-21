@@ -223,14 +223,14 @@ $(function() {
 							<li>
 								<a href="/content/reportPro.do?board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 신고</a>
 							</li>
+							<li>
+								<a href="#" id="${board.board.board_num}" class="cont_popup_close content_secret" >게시글 숨기기</a>
+							</li>
 							<c:if test="${board.board.id == id}">						
 								<li>
 									<a href="/content/deleteContent.do?id=${board.board.id}&board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
 								</li>
 							</c:if>
-							<li>
-								<a href="#" id="${board.board.board_num}" class="cont_popup_close content_secret" >게시글 숨기기</a>
-							</li>
 						</ul>
 					</div>
 				</div>

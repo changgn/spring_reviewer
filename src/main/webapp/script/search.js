@@ -1717,11 +1717,11 @@ $(function(){
 			,dataType:"json"
 			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
 				var nrecommend = args.recommend;
-				var recommendFlog = args.recommendFlog;
+				var recommendFlag = args.recommendFlag;
 				var selector = $("#recommend_img"+args.board_num);
 				var selector2 = $("#u_cnt"+args.board_num);
 				selector2.text(" " + nrecommend);
-				if(recommendFlog == 'recommend'){
+				if(recommendFlag == 'recommend'){
 					selector.attr("src", "../image/recommend_off.png");
 				} else{
 					selector.attr("src", "../image/recommend_on.png");
