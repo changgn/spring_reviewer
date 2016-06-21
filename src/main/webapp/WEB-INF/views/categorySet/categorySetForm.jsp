@@ -6,7 +6,7 @@
 <head>
 <title>카테고리 설정</title>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="../script/categoryMenu.js"></script>
+<script src="/script/categoryMenu.js"></script>
 
 </head>
 <body>
