@@ -194,36 +194,6 @@ public class MainController {
 	}
 	
 	@ResponseBody
-	@RequestMapping("/recommend/recommend.do")
-	public String recommend(HttpServletRequest request, HttpServletResponse resp, Integer board_num){
-		
-		String id = (String)request.getSession().getAttribute("id");
-		
-		JSONObject jso = new JSONObject();
-		RecommendCommand command = new RecommendCommand(id, board_num);
-		
-		RecommendCommand recommendselect = recommendDao.getRecommend(command);
-	
-		if(recommendselect != null){
-			boardDao.RecommendByBoardNumDecrease(board_num);
-			recommendDao.deleteRecommend(recommendselect);
-			jso.put("recommendFlog", "nrecommend");
-			
-			
-			
-		} else{
-			boardDao.updateRecommendByBoardNum(board_num);
-			recommendDao.insertBoard(command);
-			jso.put("recommendFlog", "recommend");
-		}
-		jso.put("board_num", board_num);
-		jso.put("recommend", boardDao.selectContent(board_num).getRecommend_num());
-		
-		resp.setContentType("text/html;charset=utf-8");
-		return jso.toString();
-	}
-	
-	@ResponseBody
 	@RequestMapping("/content/secret.do")
 	public String secret(HttpServletRequest request, HttpServletResponse resp, Integer board_num){
 		

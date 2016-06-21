@@ -14,21 +14,13 @@
 
 $(function(){
 	var top = 0;
-	$(".cont_menu_option").click(function(){
+	$(".cont_menu_option").click(function(e){
+		e.preventDefault();
 		var a = $("#menu_" + $(this).attr("id"));
-		top = a.offset().top;
-		$("body").css({
-			top: -top,
-			position: "fixed",
-			width: "100%",
-			height: "auto"
-		});
 		a.css({
 	    }).show();
 	});
 	$(".cont_btn_option").click(function(){
-		$("body").removeAttr("style");
-		$('html, body').scrollTop(top);
 		$(this).hide();
 	});	
 });
@@ -46,11 +38,11 @@ $(function(){
 			,dataType:"json"
 			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
 				var nrecommend = args.recommend;
-				var recommendFlog = args.recommendFlog;
+				var recommendFlag = args.recommendFlag;
 				var selector = $("#recommend_img"+args.board_num);
 				var selector2 = $("#u_cnt"+args.board_num);
 				selector2.text(" " + nrecommend);
-				if(recommendFlog == 'recommend'){
+				if(recommendFlag == 'recommend'){
 					selector.attr("src", "../image/recommend_off.png");
 				} else{
 					selector.attr("src", "../image/recommend_on.png");
