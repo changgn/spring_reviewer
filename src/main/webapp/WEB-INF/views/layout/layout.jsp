@@ -82,9 +82,11 @@
 			<a class="btn_gnb" href="/search/search.do">
 				<span id="btn_search">검색버튼</span>
 			</a>
+			<c:if test="${login_status==0 || login_status==1}">
 			<a class="btn_gnb btn_alarm_toggle" href="#" onclick="event.preventDefault();">
 				<span id="btn_alarm">알림버튼</span>
 			</a> 
+			</c:if>
 
 		</span>
 		<c:if test="${login_status==0 || login_status==1}">

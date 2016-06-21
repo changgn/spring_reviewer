@@ -25,7 +25,7 @@ $(function(){
         }
     });
     $("#login_logo").click(function(){
-    	$(location).attr("href","main.do");
+    	$(location).attr("href","/main/main.do");
     });
     
 });
