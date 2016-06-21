@@ -38,8 +38,8 @@ img { border: 0; }
     background-image: url(../image/reviewer.png); }
 #main_btn { position: absolute; top: 0; right: 21px; height: 50px; padding: 11px 9px 0 9px; line-height: 47px; }
 .btn_gnb { display: inline-block; height: 39px; padding: 11px 9px 0 9px; vertical-align: top; }
-#btn_login { display: inline-block; overflow: hidden; width: 30px; height: 31px; line-height: 999px; vertical-align: top; color: transparent; 
-	background-image: url(../image/user.png); }
+#btn_login { display: inline-block; overflow: hidden; width: 30px; height: 31px; line-height: 999px; vertical-align: top; color: transparent;
+    background-image: url(../image/user.png); }
 #btn_user{ display: inline-block; overflow: hidden; width: 30px; height: 31px; line-height: 999px; vertical-align: top; color: transparent;
     background-image: url(../image/user.png); }
 #btn_search { display: inline-block; overflow: hidden; width: 30px; height: 31px; line-height: 999px; vertical-align: top; color: transparent;

@@ -18,11 +18,11 @@
 			<a id="logo_btn" href="/main/main.do" title="Reviewer">Reviewer</a>
 		</h1>
 		<span id="main_btn">
-			<a class="btn_gnb" href="/logon/login.do">
-				<span id="btn_login">로그인 버튼</span>
-			</a>
 			<a class="btn_gnb" href="/search/search.do">
 				<span id="btn_search">검색 버튼</span>
+			</a>
+			<a class="btn_gnb" href="/logon/login.do">
+				<span id="btn_login">로그인 버튼</span>
 			</a>
 		</span>
 	</div>

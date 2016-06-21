@@ -19,7 +19,7 @@
 		});
 		$(function(){		
 			$("#nav, #content").click(function(){
-				$("#alarm, #user").css("display","none");
+				$("#alarm, #user").slideUp("fast");
 				$("#alarm, #user").removeAttr("class");
 			});			
 			$(".btn_alarm_toggle").click(function(){
@@ -36,14 +36,14 @@
 			});
 			$(".btn_user_toggle").click(function(){
 				if($("#user").attr("class")=="selected"){
-					$("#user").css("display","none");
+					$("#user").slideUp("fast");
 					$("#user").removeAttr("class");
 				}
 				else {
 					$("[class='selected']").css("display","none");
 					$("[class='selected']").removeAttr("class");
 					$("#user").attr("class","selected");
-					$("#user").css("display","block");
+					$("#user").slideDown("fast");
 				}
 			});
 			$("#btn_newsfeed").click(function(){
@@ -68,7 +68,15 @@
 			<a id="logo_btn" href="/main/main.do" title="Reviewer">Reviewer</a>
 		</h1>
 		<span id="main_btn">
-
+		
+			<c:if test="${login_status==0 || login_status==1}">
+			<a class="btn_gnb btn_alarm_toggle" href="#" onclick="event.preventDefault();">
+				<span id="btn_alarm">알림버튼</span>
+			</a> 
+			</c:if>
+			<a class="btn_gnb" href="/search/search.do">
+				<span id="btn_search">검색버튼</span>
+			</a>
 			<c:if test="${login_status!=0 && login_status!=1}">
 				<a class="btn_gnb" href="/logon/login.do">
 					<span id="btn_login">로그인 버튼</span>
@@ -78,14 +86,6 @@
 				<a class="btn_gnb btn_user_toggle" href="#" onclick="event.preventDefault();">
 					<span id="btn_user">계정설정</span>
 				</a>
-			</c:if>
-			<a class="btn_gnb" href="/search/search.do">
-				<span id="btn_search">검색버튼</span>
-			</a>
-			<c:if test="${login_status==0 || login_status==1}">
-			<a class="btn_gnb btn_alarm_toggle" href="#" onclick="event.preventDefault();">
-				<span id="btn_alarm">알림버튼</span>
-			</a> 
 			</c:if>
 
 		</span>
