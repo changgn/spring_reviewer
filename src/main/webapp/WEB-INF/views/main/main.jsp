@@ -11,7 +11,6 @@
 <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 <title>메인페이지</title>
 <script>
-
 $(function(){
 	var top = 0;
 	$(".cont_menu_option").click(function(e){

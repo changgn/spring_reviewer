@@ -19,7 +19,7 @@ img { border: 0; }
 
 /* global */
 #header { background-color: #066E9F; width: 100%; height: 80px; }
-#nav { width: 100%; height: 40px; border-bottom: 1px solid #4C4C4C; padding: 0; }
+#nav { position: static; width: 100%; height: 40px; z-index: 999; background-color: white; border-bottom: 1px solid #4C4C4C; padding: 0; }
 #content { min-height:800px; text-align: center; width: 100%; }
 #footer { height: 50px; margin: 0px; padding: 0px; text-align: center; background-color: #4C4C4C; }
 .text_main { margin: 10px; font-size: 50px; color: #4C4C4C; }

@@ -16,6 +16,16 @@
 		$(document).ready(function(){
 			$("#alarm").css("display","none");
 			$("#user").css("display","none");
+			$(window).scroll(function(){
+				if($(window).scrollTop()>40) {
+					$("#nav").css("position", "absolute");
+					$("#nav").css('top',$(window).scrollTop());
+				} else {
+
+					$("#nav").css("position", "static");
+				}
+				
+			});
 		});
 		$(function(){		
 			$("#nav, #content").click(function(){
