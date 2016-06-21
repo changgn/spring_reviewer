@@ -29,29 +29,33 @@ public class RecommendController {
 	@ResponseBody
 	@RequestMapping("/recommend/recommend.do")
 	public String recommend(HttpServletRequest request, HttpServletResponse resp, Integer board_num){
-		
-		String id = (String)request.getSession().getAttribute("id");
-		
+
+		String login_status = (String)request.getSession().getAttribute("login_status");
 		JSONObject jso = new JSONObject();
-		RecommendCommand command = new RecommendCommand(id, board_num);
 		
-		RecommendCommand recommendselect = recommendDao.getRecommend(command);
-	
-		if(recommendselect != null){
-			boardDao.RecommendByBoardNumDecrease(board_num);
-			recommendDao.deleteRecommend(recommendselect);
-			jso.put("recommendFlag", "nrecommend");
+		if(login_status.equals("0") || login_status.equals("1")) {
+			String id = (String)request.getSession().getAttribute("id");
+			RecommendCommand command = new RecommendCommand(id, board_num);
 			
-			
-			
-		} else{
-			boardDao.updateRecommendByBoardNum(board_num);
-			recommendDao.insertRecommend(command);
-			jso.put("recommendFlag", "recommend");
+			RecommendCommand recommendselect = recommendDao.getRecommend(command);
+		
+			if(recommendselect != null){
+				boardDao.RecommendByBoardNumDecrease(board_num);
+				recommendDao.deleteRecommend(recommendselect);
+				jso.put("recommendFlag", "nrecommend");
+				
+				
+				
+			} else{
+				boardDao.updateRecommendByBoardNum(board_num);
+				recommendDao.insertRecommend(command);
+				jso.put("recommendFlag", "recommend");
+			}
+			jso.put("board_num", board_num);
+			jso.put("recommend_num", boardDao.selectContent(board_num).getRecommend_num());
+		} else {
+			jso.put("error", "error");
 		}
-		jso.put("board_num", board_num);
-		jso.put("recommend_num", boardDao.selectContent(board_num).getRecommend_num());
-		
 		resp.setContentType("text/html;charset=utf-8");
 		return jso.toString();
 	}
