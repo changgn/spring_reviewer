@@ -8,10 +8,10 @@ $(function(){
 	var allcategory = $("#group3_11, #group3_12, #group3_13, #group3_14, #group3_15, #group3_21, #group3_22, #group3_23, #group3_24, #group3_31, #group3_32, #group3_33, #group3_34, #group3_41, #group3_42, #group3_43, #group3_44, #group3_51, #group3_52, #group3_53, #group3_54, #group3_55");
 	var addtag = null;
 	
-	$(".btn_group1").mouseover(function(){
+	$(".btn_group1, .btn_group2, .btn_group3").mouseover(function(){
 		$(this).css("background-color","#F6F6F6");
 	});
-	$(".btn_group1").mouseleave(function(){
+	$(".btn_group1, .btn_group2, .btn_group3").mouseleave(function(){
 		$(this).css("background-color","white");
 	});
 	
@@ -1756,17 +1756,6 @@ $(function(){
 		}
 	});
 	
-	// 카테고리 추가 버튼을 눌렀을 때 추가할 카테고리의 갯수 정보를 가진 input 태그 추가 후 해당 폼 전송
-	$("#btn_add").click(function(){
-		if(addcount == 0)
-		{
-			alert("카테고리를 선택해 주세요.");
-		} else {
-			addtag = "<input type='hidden' name='addcount' value='" + addcount +"'>"
-			$("#writeBoard").append(addtag);
-			$("#writeBoard").submit();
-		}
-	});
 	
 	$("#btn_write").click(function(){
 		if($("#text_content").val()=="") {

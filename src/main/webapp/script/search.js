@@ -51,6 +51,13 @@ $(function(){
 		$(this).hide();
 	});	
 	
+	$(".btn_group1, .btn_group2, .btn_group3").mouseover(function(){
+		$(this).css("background-color","#F6F6F6");
+	});
+	$(".btn_group1, .btn_group2, .btn_group3").mouseleave(function(){
+		$(this).css("background-color","white");
+	});
+	
 	// 대분류 버튼이 눌렸을 때 중분류 div 보이게/안보이게 토글
 	$(".btn_group1").click(function(){
 		if($("#group2").attr("class")=="selected"){
