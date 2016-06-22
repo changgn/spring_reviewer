@@ -126,7 +126,7 @@ public class MyProfileContoroller {
 		
 		// 팔로우 상태 저장
 		if(id!=null) {
-			List<String> folloingList = followDao.toList(paramId);
+			List<String> folloingList = followDao.toList(id);
 			boolean followCheck = false;
 			if(folloingList!=null) {
 				for(String following : folloingList) {

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,36 +25,70 @@ public class FollowController {
 		this.followDAO = followDAO;
 	}
 
+	@RequestMapping("/follow/follow.do")
+	public String Follow(HttpServletRequest request, String to_id, String follow, Model model){
+		String from_id = (String)request.getSession().getAttribute("id");
+
+		FollowCommand followAdd = new FollowCommand();
+		followAdd.setFrom_id(from_id);
+		followAdd.setTo_id(to_id);
+		
+		if(from_id!=null) {
+			if(follow.equals("follow")){
+				FollowCommand followVo = new FollowCommand(from_id, to_id);
+				int n = followDAO.followInsert(followVo);
+				if(n>0) {
+					System.out.println(from_id + "가" + to_id + "팔로우"); 
+					return "redirect:/profile/myProfile.do?id=" + to_id + "&followCheck=true";
+					
+				} else {
+					System.out.println("팔로우 실패");
+				}
+			}
+			if(follow.equals("unfollow")){
+				FollowCommand followVo = new FollowCommand(from_id, to_id);
+				int n = followDAO.remove(followVo);
+				if(n>0) {
+					System.out.println(from_id + "가" + to_id + "언팔로우");
+					return "redirect:/profile/myProfile.do?id=" + to_id + "&followCheck=false";
+				} else {
+					System.out.println("언팔로우 실패");
+				}
+			}
+			
+		}
+		return "redirect:/profile/myProfile.do?id=" + to_id + "&followCheck=false";
+	
+	}
+	
 	/**	�ȷο� �߰�	, �ȷο� ��Ͽ��� ó��*/
 	@RequestMapping("/follow/followerAdd.do")
 	public ModelAndView addFollower(HttpServletRequest request,@RequestParam("add_id") String add_id, @RequestParam("follow") String follow){
 		ModelAndView mav = new ModelAndView();
-//		String from_id = (String)request.getSession().getAttribute("id");	/**	�α��� ���̵�	*/
-		String from_id = "val1";
+		String from_id = (String)request.getSession().getAttribute("id");	/**	�α��� ���̵�	*/
+
 		FollowCommand followAdd = new FollowCommand(); /**	�߰��� ���̵� ������ ��ü ����	*/
-		System.out.println(add_id);
 		followAdd.setFrom_id(from_id);	/**	�� ���̵� ����	*/
 		followAdd.setTo_id(add_id);	/**	�߰��� ���̵� ����	*/
-		System.out.println(followAdd);
 		
 		if(from_id!=null) {	/**	�α��� ������ ��� 	*/
 			if(follow.equals("follow")){ /**	�ȷο� ������ ���	*/
 				FollowCommand followVo = new FollowCommand(from_id, add_id);	/**	formId - toId	*/
 				int n = followDAO.followInsert(followVo); /**	�ȷο� �߰��ϰ� ���� n�� ������	*/
 				if(n>0) {	/**	���� ������ �ȷο� �߰���	*/
-					System.out.println(from_id + "��" + add_id + "�� �ȷο�"); 
+					System.out.println(from_id + "가" + add_id + "팔로우"); 
 					
 				} else {	/**	���� ������ �ȷο� ���е�	*/
-					System.out.println("�ȷο� ����");
+					System.out.println("팔로우 실패");
 				}
 			}
 			if(follow.equals("unfollow")){	/**	�ȷο� ���°� �ƴ� ���	*/
 				FollowCommand followVo = new FollowCommand(from_id, add_id);
 				int n = followDAO.remove(followVo);
 				if(n>0) {
-					System.out.println(from_id + "��" + add_id + "�� ���ȷο�");
+					System.out.println(from_id + "가" + add_id + "언팔로우");
 				} else {
-					System.out.println("���ȷο� ����");
+					System.out.println("언팔로우 실패");
 				}
 			}
 			
