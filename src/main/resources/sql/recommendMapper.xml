@@ -11,6 +11,10 @@
 		select * from recommend where id=#{id} and recommend_num=#{recommend_num}
 	</select>
 	
+	<select id="getRecommendCountByRecommendNum" parameterType="Integer" resultType="Integer">
+		select count(id) from recommend where recommend_num=#{recommend_num}
+	</select>	
+	
 	<select id="getIdByRecommendNum" parameterType="int" resultType="String">
 		select id from recommend where recommend_num=#{recommend_num}
 	</select>

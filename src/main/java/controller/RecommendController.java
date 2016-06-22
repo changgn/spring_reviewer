@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,16 +40,21 @@ public class RecommendController {
 			
 			RecommendCommand recommendselect = recommendDao.getRecommend(command);
 		
+			HashMap<String, Object> map = new HashMap<String, Object>();
 			if(recommendselect != null){
-				boardDao.RecommendByBoardNumDecrease(board_num);
 				recommendDao.deleteRecommend(recommendselect);
+				map.put("board_num", board_num);
+				map.put("recommend_num", recommendDao.getRecommendCountByRecommendNum(board_num));
+				boardDao.updateRecommendNumByBoardNum(map);
 				jso.put("recommendFlag", "nrecommend");
 				
 				
 				
 			} else{
-				boardDao.updateRecommendByBoardNum(board_num);
 				recommendDao.insertRecommend(command);
+				map.put("board_num", board_num);
+				map.put("recommend_num", recommendDao.getRecommendCountByRecommendNum(board_num));
+				boardDao.updateRecommendNumByBoardNum(map);
 				jso.put("recommendFlag", "recommend");
 			}
 			jso.put("board_num", board_num);

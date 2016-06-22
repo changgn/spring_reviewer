@@ -15,20 +15,14 @@
 <!-- 조건문 -->
  </update>
 
- <update parameterType="java.lang.Integer" id="updateReportByBoardNum"> 
+ <update parameterType="java.lang.Integer" id="updateReportNumByBoardNum"> 
 	update board set report_num=report_num+1 
 	where board_num=#{board_num}
  </update>
 
 <!-- 추천수 증가  -->
- <update parameterType="java.lang.Integer" id="updateRecommendByBoardNum"> 
-	update board set recommend_num=recommend_num+1 
-	where board_num=#{board_num}
- </update>
- 
- <!-- 추천수 감소 -->
- <update parameterType="java.lang.Integer" id="RecommendByBoardNumDecrease">
-	update board set recommend_num=recommend_num-1 
+ <update parameterType="java.util.HashMap" id="updateRecommendNumByBoardNum"> 
+	update board set recommend_num=#{recommend_num}
 	where board_num=#{board_num}
  </update>
 

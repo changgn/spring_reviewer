@@ -16,6 +16,10 @@ public class RecommendDAO extends SqlSessionDaoSupport{
 		return getSqlSession().selectOne("recommend.getRecommend", command);
 	}
 	
+	public Integer getRecommendCountByRecommendNum(Integer board_num){
+		return getSqlSession().selectOne("recommend.getRecommendCountByRecommendNum", board_num);
+	}
+	
 	public List<String> getIdByRecommendNum(int board_num){
 		return getSqlSession().selectList("recommend.getIdByRecommendNum", board_num);
 	}
