@@ -28,9 +28,9 @@ public class ScrepDAO extends SqlSessionDaoSupport {
 		return getSqlSession().selectOne("screp.getListById", id);
 	}
 	
-	/*public String findId(String id){
+	public String findId(String id){
 		return getSqlSession().selectOne("screp.findId", id);
-	}*/
+	}
 	
 	public List<ScrepCommand> getList(){
 		return getSqlSession().selectList("screp.getlist");
