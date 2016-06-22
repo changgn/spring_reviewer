@@ -18,8 +18,8 @@
 			$("#user").css("display","none");
 			$(window).scroll(function(){
 				if($(window).scrollTop()>40) {
-					$("#nav").css("position", "absolute");
-					$("#nav").css('top',$(window).scrollTop());
+					$("#nav").css("position", "fixed");
+					$("#nav").css('top', "0px");
 				} else {
 					$("#nav").css("position", "static");
 				}
