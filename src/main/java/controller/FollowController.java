@@ -39,7 +39,6 @@ public class FollowController {
 				int n = followDAO.followInsert(followVo);
 				if(n>0) {
 					System.out.println(from_id + "가" + to_id + "팔로우"); 
-					return "redirect:/profile/myProfile.do?id=" + to_id + "&followCheck=true";
 					
 				} else {
 					System.out.println("팔로우 실패");
@@ -50,14 +49,13 @@ public class FollowController {
 				int n = followDAO.remove(followVo);
 				if(n>0) {
 					System.out.println(from_id + "가" + to_id + "언팔로우");
-					return "redirect:/profile/myProfile.do?id=" + to_id + "&followCheck=false";
 				} else {
 					System.out.println("언팔로우 실패");
 				}
 			}
 			
 		}
-		return "redirect:/profile/myProfile.do?id=" + to_id + "&followCheck=false";
+		return "redirect:/profile/myProfile.do?id=" + to_id;
 	
 	}
 	
