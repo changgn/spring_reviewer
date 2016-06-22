@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="main">
+
+	<select id="getPageList" parameterType="java.util.HashMap" resultType="command.BoardCommand" >
+		select * from (
+         			select rownum as rnum, board_num,id,category_id,content,write_date,recommend_num,report_num,screp,comment_num
+         			from board ORDER BY write_date DESC
+        ) where rnum between #{startBoardNum} and #{endBoardNum}
+	</select>
+
+</mapper>
+

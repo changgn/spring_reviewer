@@ -45,6 +45,8 @@ CREATE TABLE board
 	report_num number DEFAULT 0,
 	screp number DEFAULT 0,
 	comment_num number DEFAULT 0,
+	pageno number,
+	pagesize number,
 	PRIMARY KEY (board_num)
 );
 

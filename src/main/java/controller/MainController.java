@@ -3,6 +3,7 @@ package controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ import command.RecommendCommand;
 import dao.BoardDAO;
 import dao.CategoryDAO;
 import dao.CommentDAO;
+import dao.MainDAO;
 import dao.MemberCategoryDAO;
 import dao.PhotoDAO;
 import dao.RecommendDAO;
@@ -43,6 +45,8 @@ public class MainController {
 	private RecommendDAO recommendDao;
 	@Autowired
 	private SecretDAO secretDao;
+	@Autowired
+	private MainDAO mainDao;
 	
 	public void setRecommendDao(RecommendDAO recommendDao) { this.recommendDao = recommendDao; }
 	public void setBoardDao(BoardDAO boardDao) { this.boardDao = boardDao; }
@@ -51,12 +55,14 @@ public class MainController {
 	public void setCategoryDao(CategoryDAO categoryDao) { this.categoryDao = categoryDao; }
 	public void setMemberCategoryDao(MemberCategoryDAO memberCategoryDao) { this.memberCategoryDao = memberCategoryDao; }
 	public void setSecretDao(SecretDAO secretDao) {this.secretDao = secretDao; }
+	public void setMainDao(MainDAO mainDao) { this.mainDao = mainDao; }
 
 	@RequestMapping("/main/main.do")
 	public String main(HttpServletRequest request, HttpServletResponse resp, Model model){
 		
 		String id = (String)request.getSession().getAttribute("id"); 
 		String login_status = (String)request.getSession().getAttribute("login_status");
+		request.getSession().setAttribute("pageno", 1);
 		
 		List<BoardCommand> boardList = null;
 		List<HashMap> allBoardList = new ArrayList<HashMap>();
@@ -134,6 +140,11 @@ public class MainController {
 	@RequestMapping("/main/mainAjax.do")
 	public String mainAjax(HttpServletRequest request, HttpServletResponse resp){
 		
+		// @RequestParam 오류나면 이거 제거 앞단에서 다음페이지(currentPage), 페이지에 뿌려주는 목록갯수(pageSize) params에 넘겨주면됨
+		// params.put("currentPage", 1);
+		// params.put("pageSize", 10); <--- 일너식으로 다이렉토로 넣어봐서 하나하나씩 테스트
+		// 단계적으로 하고 그다음에 않되는거있음 다시 말해
+		
 		String id = (String)request.getSession().getAttribute("id"); 
 		String login_status = (String)request.getSession().getAttribute("login_status");
 		
@@ -141,6 +152,22 @@ public class MainController {
 		List<BoardCommand> boardList = null;
 		List<HashMap> allBoardList = new ArrayList<HashMap>();
 		List<String> categoryIdList = null;
+		HashMap<String, Integer> pageListMap = new HashMap<String, Integer>();
+	
+		Integer pageno = (Integer)request.getSession().getAttribute("pageno");
+		if(pageno == null){
+			pageno = 1;
+		}
+		
+		int startBoardNum = 0;
+		int endBoardNum = 0;
+		int pagesize = 10;
+		startBoardNum = (pagesize * (pageno-1))+1;
+		endBoardNum = (pageno * pagesize) ;
+		pageListMap.put("startBoardNum", startBoardNum);
+		pageListMap.put("endBoardNum", endBoardNum);
+		
+		request.getSession().setAttribute("pageno", pageno+1);
 		
 		if(login_status==null){
 			login_status = "2";
@@ -148,7 +175,7 @@ public class MainController {
 		}
 		if(login_status.equals("2")){
 			
-			boardList = boardDao.getList();
+			boardList = mainDao.getPageList(pageListMap);
 			
 		}else {
 			
@@ -156,7 +183,7 @@ public class MainController {
 			
 			if(categoryIdList.size() == 0){
 				
-				boardList = boardDao.getList();
+				boardList = mainDao.getPageList(pageListMap);
 			} else { 
 				
 				boardList = boardDao.getListByCategoryId(categoryIdList);
@@ -186,7 +213,8 @@ public class MainController {
 						boardMap.put("recommendFlag", "nrecommend");
 					}
 				}
-					
+				
+				
 				boardMap.put("board", vo);
 				boardMap.put("photo", photo);
 				boardMap.put("category", category);
@@ -195,9 +223,9 @@ public class MainController {
 				allBoardList.add(boardMap);
 			}
 		}
-		
+
+		jso.put("allList", "aa");
 		jso.put("allBoardList", allBoardList);
-		
 		resp.setContentType("text/html;charset=utf-8");
 		return jso.toString();
 	}
