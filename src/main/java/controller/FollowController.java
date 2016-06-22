@@ -1,21 +1,23 @@
 package controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import command.FollowCommand;
 import dao.FollowDAO;
+import net.sf.json.JSONObject;
 
 @Controller
 public class FollowController {
@@ -25,10 +27,13 @@ public class FollowController {
 		this.followDAO = followDAO;
 	}
 
+	@ResponseBody
 	@RequestMapping("/follow/follow.do")
-	public String Follow(HttpServletRequest request, String to_id, String follow, Model model){
+	public String Follow(HttpServletRequest request, HttpServletResponse resp, String to_id, String follow, Model model){
 		String from_id = (String)request.getSession().getAttribute("id");
 
+		JSONObject jso = new JSONObject();
+		
 		FollowCommand followAdd = new FollowCommand();
 		followAdd.setFrom_id(from_id);
 		followAdd.setTo_id(to_id);
@@ -38,8 +43,8 @@ public class FollowController {
 				FollowCommand followVo = new FollowCommand(from_id, to_id);
 				int n = followDAO.followInsert(followVo);
 				if(n>0) {
+					model.addAttribute("followCheck", false);
 					System.out.println(from_id + "가" + to_id + "팔로우"); 
-					
 				} else {
 					System.out.println("팔로우 실패");
 				}
@@ -48,14 +53,20 @@ public class FollowController {
 				FollowCommand followVo = new FollowCommand(from_id, to_id);
 				int n = followDAO.remove(followVo);
 				if(n>0) {
+					model.addAttribute("followCheck", true);
 					System.out.println(from_id + "가" + to_id + "언팔로우");
 				} else {
 					System.out.println("언팔로우 실패");
 				}
 			}
-			
+
+			//팔로워 숫자 저장
+			int followerCount =followDAO.countfrom(to_id);
+			jso.put("followerCount", followerCount);
 		}
-		return "redirect:/profile/myProfile.do?id=" + to_id;
+		jso.put("follow", follow);
+		resp.setContentType("text/html;charset=utf-8");
+		return jso.toString();
 	
 	}
 	

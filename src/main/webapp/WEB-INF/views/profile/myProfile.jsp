@@ -9,37 +9,48 @@
 <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 <script>
 
-$(document).ready(function() {
-	
-	if("${followCheck}"=="true") {
-		var tag = "<a href='/follow/follow.do?follow=unfollow&to_id=" + "${paramId}'" + "><img src='../image/icon_36.png'></a>";
-		$("#btn_follow_add").append(tag);
-	} else {
-		var tag = "<a href='/follow/follow.do?follow=follow&to_id=" + "${paramId}'" + "><img src='../image/icon_35.png'></a>";
-		$("#btn_follow_add").append(tag);
-	}
-	
-});
+
 $(function(){
 	var top = 0;
-	$(".cont_menu_option").click(function(){
+	$(".cont_menu_option").click(function(e){
+		e.preventDefault();
 		var a = $("#menu_" + $(this).attr("id"));
-		top = a.offset().top;
-		$("body").css({
-			top: -top,
-			position: "fixed",
-			width: "100%",
-			height: "auto"
-		});
-		a.css({
-	    }).show();
+		a.show();
 	});
 	$(".cont_btn_option").click(function(){
-		$("body").removeAttr("style");
-		$('html, body').scrollTop(top);
 		$(this).hide();
 	});
+	$(".follow_btn").click(function(e){
+		e.preventDefault();
+		var url= "/follow/follow.do";
+		var params = "to_id=" + "${paramId}";
+		params += "&follow=" + $(this).attr("id");
+		$.ajax({
+			type:"post"		// 포스트방식
+			,url:url		// url 주소
+			,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
+			,dataType:"json"
+			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
+				
+				var follow = args.follow;
+				var followerCount = args.followerCount;
+				
+				if(follow == 'follow'){
+					$(".follow_btn").attr("id", "unfollow");
+					$("#follow_sta").attr("src", "../image/icon_36.png");
+				} else{
+					$(".follow_btn").attr("id", "follow");
+					$("#follow_sta").attr("src", "../image/icon_35.png");
+				}
+				
+				$("#follower_profile a").text("팔로워  " + followerCount + " >");
+			}
+		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+		    	alert(e.responseText);
+		    }
+		});
 	
+	});
 });
 </script>
 
@@ -50,7 +61,14 @@ $(function(){
 	<div id="my_profile_info_area">
 		<div id="my_profile_name">
 			<c:if test="${id!=paramId && (login_status==0 || login_status==1)}">
-				<div id="btn_follow_add"></div>
+				<div id="btn_follow_add">
+					<c:if test="${followCheck == true}">
+						<a id="unfollow" class="follow_btn" href="/follow/follow.do?follow=unfollow&to_id=${paramId}"><img id="follow_sta" src='../image/icon_36.png'></a>
+					</c:if>
+					<c:if test="${followCheck == false}">
+						<a id="follow" class="follow_btn" href="/follow/follow.do?follow=follow&to_id=${paramId}"><img id="follow_sta" src='../image/icon_35.png'></a>
+					</c:if>
+				</div>
 			</c:if>
 			<div class="my_profile" id="id_profile">${paramId}</div>
 		</div>
