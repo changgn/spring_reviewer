@@ -49,13 +49,15 @@ public class ScrepController {
 	@RequestMapping(value="/screp/screp.do",method=RequestMethod.POST)
 	public String Screp(HttpServletRequest request, String id, int board_num, Model model){
 		
+		//스크랩 숫자 저장
+		int screpCount = ScrepDao.count(board_num);
+		model.addAttribute("screpCount", screpCount);
+		//스크랩 리스트 불러오기
 		List<ScrepCommand> screpList = null;
 		screpList = ScrepDao.getList();
 		id = (String) request.getSession().getAttribute("id");
 		board_num = (Integer) request.getSession().getAttribute("board_num");
 		
-		ScrepCommand insertScrep = new ScrepCommand(id, board_num);
-		ScrepDao.insertScrep(insertScrep);
 		String message =null;
 		
 		if (screpList!=null) {
@@ -65,11 +67,9 @@ public class ScrepController {
 			else 
 			{
 				message = "emptyList";
+				model.addAttribute("message", message);
 			}
 	
-		model.addAttribute("message", message);
-		model.addAttribute("insertScrep", insertScrep);
-		
 		return "redirect:/main/main.do";
 	}
 }

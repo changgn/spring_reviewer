@@ -75,6 +75,7 @@ $(function(){
 		<div id="my_profile_follow">
 			<div class="follow_profile" id="follower_profile"><a href="/follow/follower.do?id=${paramId}">팔로워  ${followerCount } ></a></div>
 			<div class="follow_profile" id="following_profile"><a href="/follow/follewing.do?id=${paramId}">팔로잉  ${followingCount } ></a></div>
+			<<div class="follow_profile" id="content_scrap"><a href="/screp/screp.do?board_num=${board.board.board_num}">스크랩 ${followingCount } ></a></div>
  		</div>
  		<div class="my_profile" id="category_my_profile">	
 			<c:forEach var="item" items="${CategoryList}" varStatus="status">

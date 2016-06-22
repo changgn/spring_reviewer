@@ -16,10 +16,4 @@ public class SecretDAO extends SqlSessionDaoSupport{
 	public List<Integer> getListById(String id){
 		return getSqlSession().selectList("secret.getListById", id);
 	}
-	
-	
-	
-	
-	
-
 }

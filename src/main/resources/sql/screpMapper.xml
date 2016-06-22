@@ -21,5 +21,8 @@
 	<select id="findId" parameterType="String" resultType="String">
 		select id from screp where id=#{id}
 	</select>
+	<select id="screpCount" parameterType="command.ScrepCommand" resultType="java.lang.Integer">
+		select count(board_num) from screp where id=#{id}
+	</select>
 	
 </mapper>
