@@ -24,6 +24,10 @@ public class BoardDAO extends SqlSessionDaoSupport{
 		return getSqlSession().delete("board.removeByBoardNum", board_num);
 	}
 	
+	public int updateReportNumByBoardNum(Integer board_num){
+		return getSqlSession().update("board.updateReportNumByBoardNum", board_num);
+	}
+	
 	public Integer getRecentBoardNumById(String id){
 		return getSqlSession().selectOne("board.getRecentBoardNumById", id);
 	}
@@ -68,12 +72,8 @@ public class BoardDAO extends SqlSessionDaoSupport{
 	}
 	
 	// 좋아요	증가
-	public int updateRecommendByBoardNum (Integer board_num){
-		return getSqlSession().update("board.updateRecommendByBoardNum",board_num);
+	public int updateRecommendNumByBoardNum (HashMap<String, Object> map){
+		return getSqlSession().update("board.updateRecommendNumByBoardNum", map);
 	}
 	
-	// 좋아요	 감소
-	public int RecommendByBoardNumDecrease (Integer board_num){
-		return getSqlSession().update("board.RecommendByBoardNumDecrease",board_num);
-	}
 }

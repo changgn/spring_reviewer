@@ -188,7 +188,7 @@ public class BoardController {
 		if(board_num_str != null){
 			Integer board_num = Integer.parseInt(board_num_str);
 			
-			int reportupdateok = boarddao.updateRecommendByBoardNum(board_num);
+			int reportupdateok = boarddao.updateReportNumByBoardNum(board_num);
 			if(reportupdateok > 0){
 				model.addAttribute("reportok", "reportok");
 			}else{
