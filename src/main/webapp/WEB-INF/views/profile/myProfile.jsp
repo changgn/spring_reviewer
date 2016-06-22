@@ -12,10 +12,10 @@
 $(document).ready(function() {
 	
 	if("${followCheck}"=="true") {
-		var tag = "<a href='/follow/following.do?follow=unfollow&to_id=" + "${paramId}'" + "><img src='../image/icon_36.png'></a>";
+		var tag = "<a href='/follow/followerAdd.do?follow=unfollow&add_id=" + "${paramId}'" + "><img src='../image/icon_36.png'></a>";
 		$("#btn_follow_add").append(tag);
 	} else {
-		var tag = "<a href='/follow/follower.do?follow=follow&to_id=" + "${paramId}'" + "><img src='../image/icon_35.png'></a>";
+		var tag = "<a href='/follow/followerAdd.do?follow=follow&add_id=" + "${paramId}'" + "><img src='../image/icon_35.png'></a>";
 		$("#btn_follow_add").append(tag);
 	}
 	

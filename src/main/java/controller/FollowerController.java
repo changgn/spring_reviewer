@@ -25,7 +25,7 @@ public class FollowerController {
 	}
 	/** �ȷο�, �ٸ������ '��'�� �ȷο� */
 	@RequestMapping("/follow/follower.do")
-	public ModelAndView followerForm(HttpServletRequest request, @RequestParam("to_id") String to_id ){
+	public ModelAndView followerForm(HttpServletRequest request, @RequestParam("id") String to_id ){
 		ModelAndView mav = new ModelAndView();
 //		String from_id = (String) request.getSession().getAttribute("id");	/**	�α��� ���̵�	*/
 		String from_id = "val1";

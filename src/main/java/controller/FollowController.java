@@ -26,7 +26,7 @@ public class FollowController {
 
 	/**	�ȷο� �߰�	, �ȷο� ��Ͽ��� ó��*/
 	@RequestMapping("/follow/followerAdd.do")
-	public ModelAndView addFollower(HttpServletRequest request,@RequestParam("add_id") String add_id, @RequestParam("profileId") String profileId, @RequestParam("follow") String follow){
+	public ModelAndView addFollower(HttpServletRequest request,@RequestParam("add_id") String add_id, @RequestParam("follow") String follow){
 		ModelAndView mav = new ModelAndView();
 //		String from_id = (String)request.getSession().getAttribute("id");	/**	�α��� ���̵�	*/
 		String from_id = "val1";
@@ -81,7 +81,7 @@ public class FollowController {
 			mav.addObject("followCheck", map);
 			System.out.println(map);
 		}
-		mav.addObject("profileId", profileId);
+	/*	mav.addObject("profileId", profileId);*/
 		mav.setViewName("/follow/followerForm");
 		return mav;
 	}
