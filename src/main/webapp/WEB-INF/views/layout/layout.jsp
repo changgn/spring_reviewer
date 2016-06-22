@@ -24,34 +24,31 @@
 					$("#nav").css("position", "static");
 				}
 			});
-			$("#list_nav li").mouseover(function(){
-				$(this).css("background-color","#F6F6F6");
-			});
-			$("#list_nav li").mouseleave(function(){
-				$(this).css("background-color","white");
-			});
-			$("#list_user li").mouseover(function(){
-				$(this).css("background-color","#F6F6F6");
-			});
-			$("#list_user li").mouseleave(function(){
-				$(this).css("background-color","white");
-			});
+
 		});
 		$(function(){		
+			
+			$("li").mouseover(function(){
+				$(this).css("background-color","#F6F6F6");
+			});
+			$("li").mouseleave(function(){
+				$(this).css("background-color","white");
+			});
+			
 			$("#nav, #content").click(function(){
 				$("#alarm, #user").slideUp("fast");
 				$("#alarm, #user").removeAttr("class");
 			});			
 			$(".btn_alarm_toggle").click(function(){
 				if($("#alarm").attr("class")=="selected"){
-					$("#alarm").css("display","none");
+					$("#alarm").slideUp("fast");
 					$("#alarm").removeAttr("class");
 				}
 				else {
 					$("[class='selected']").css("display","none");
 					$("[class='selected']").removeAttr("class");
 					$("#alarm").attr("class","selected");
-					$("#alarm").css("display","block");
+					$("#alarm").slideDown("fast");
 				}
 			});
 			$(".btn_user_toggle").click(function(){
@@ -119,7 +116,7 @@
 				</ul>
 			</div>
 		</c:if>
-<!-- 	<div id="alarm">
+	 	<div id="alarm">
 			<ul id="list_alarm">
 				<li>알림1<br><a href="#">알림1</a></li>
 				<li>알림2<br><a href="#">알림2</a></li>
@@ -128,7 +125,7 @@
 				<li>알림5<br><a href="#">알림5</a></li>
 			</ul>
 		</div> 
--->
+
 	</div>
 	
 	<div id="nav">
