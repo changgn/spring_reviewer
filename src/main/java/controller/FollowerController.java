@@ -23,23 +23,23 @@ public class FollowerController {
 	public void setFollowDAO(FollowDAO followDAO) {
 		this.followDAO = followDAO;
 	}
-	/** ÆÈ·Î¿ö, ´Ù¸¥»ç¶÷ÀÌ '³ª'¸¦ ÆÈ·Î¿ì */
+	/** ï¿½È·Î¿ï¿½, ï¿½Ù¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 'ï¿½ï¿½'ï¿½ï¿½ ï¿½È·Î¿ï¿½ */
 	@RequestMapping("/follow/follower.do")
-	public ModelAndView followerForm(HttpServletRequest request, @RequestParam("id") String to_id ){
+	public ModelAndView followerForm(HttpServletRequest request, @RequestParam("to_id") String to_id ){
 		ModelAndView mav = new ModelAndView();
-//		String from_id = (String) request.getSession().getAttribute("id");	/**	·Î±×ÀÎ ¾ÆÀÌµð	*/
+//		String from_id = (String) request.getSession().getAttribute("id");	/**	ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½	*/
 		String from_id = "val1";
-		 /**	ÆÈ·Î¿ö Á¤º¸ DB¿¡¼­ ¸ñ·Ï Á¶È¸	*/
+		 /**	ï¿½È·Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ DBï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸	*/
 		List<String> from_id_list = followDAO.fromList(to_id);
 		mav.addObject("fromList", from_id_list);
-		System.out.println(to_id+"ÀÇ ÆÈ·Î¿ö ¸ñ·Ï : "+from_id_list);
-		if( from_id != null ) {	/**	·Î±×ÀÎ »óÅÂÀÏ °æ¿ì	*/
-			List<String> to_id_list = followDAO.toList(from_id);	/**	³»°¡ ÆÈ·Î¿ìÇÑ ¸ñ·Ï Á¶È¸, ³ªÀÇ ÆÈ·ÎÀ× ¸ñ·Ï	*/
-			System.out.println(from_id+"ÀÇ ÆÈ·ÎÀ× ¸ñ·Ï : " + to_id_list);
+		System.out.println(to_id+"ï¿½ï¿½ ï¿½È·Î¿ï¿½ ï¿½ï¿½ï¿½ : "+from_id_list);
+		if( from_id != null ) {	/**	ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½	*/
+			List<String> to_id_list = followDAO.toList(from_id);	/**	ï¿½ï¿½ï¿½ï¿½ ï¿½È·Î¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸, ï¿½ï¿½ï¿½ï¿½ ï¿½È·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½	*/
+			System.out.println(from_id+"ï¿½ï¿½ ï¿½È·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ : " + to_id_list);
 			Map map = new HashMap();
 			List<Map> m = new ArrayList<Map>();
-			if( to_id_list != null ) {	/**	'³»'°¡ ÆÈ·Î¿ìÇÑ ¸ñ·ÏÀÌ ÀÖ´Ù¸é	*/
-				for( String follower : from_id_list ) {	/**	³» ÆÈ·Î¿ì ¸ñ·Ï ¸®½ºÆ®¸¦ ÇÏ³ª¾¿ ²¨³»¾î	*/
+			if( to_id_list != null ) {	/**	'ï¿½ï¿½'ï¿½ï¿½ ï¿½È·Î¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½	*/
+				for( String follower : from_id_list ) {	/**	ï¿½ï¿½ ï¿½È·Î¿ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	*/
 					for(String following : to_id_list){
 						if(following.equals(follower)){
 							map.put(follower, true);
@@ -53,7 +53,7 @@ public class FollowerController {
 				}
 			}
 			mav.addObject("followCheck", map);
-			System.out.println("ÆÈ·Î¿ì »óÅÂ°ª:"+map);
+			System.out.println("ï¿½È·Î¿ï¿½ ï¿½ï¿½ï¿½Â°ï¿½:"+map);
 		}
 		mav.addObject("profileId", to_id);
 		mav.setViewName("follow/followerForm");

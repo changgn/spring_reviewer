@@ -24,36 +24,36 @@ public class FollowController {
 		this.followDAO = followDAO;
 	}
 
-	/**	ÆÈ·Î¿ì Ãß°¡	, ÆÈ·Î¿ö ¸ñ·Ï¿¡¼­ Ã³¸®*/
+	/**	ï¿½È·Î¿ï¿½ ï¿½ß°ï¿½	, ï¿½È·Î¿ï¿½ ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½*/
 	@RequestMapping("/follow/followerAdd.do")
 	public ModelAndView addFollower(HttpServletRequest request,@RequestParam("add_id") String add_id, @RequestParam("profileId") String profileId, @RequestParam("follow") String follow){
 		ModelAndView mav = new ModelAndView();
-//		String from_id = (String)request.getSession().getAttribute("id");	/**	·Î±×ÀÎ ¾ÆÀÌµð	*/
+//		String from_id = (String)request.getSession().getAttribute("id");	/**	ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½	*/
 		String from_id = "val1";
-		FollowCommand followAdd = new FollowCommand(); /**	Ãß°¡ÇÒ ¾ÆÀÌµð¸¦ ÀúÀåÇÒ °´Ã¼ »ý¼º	*/
+		FollowCommand followAdd = new FollowCommand(); /**	ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½	*/
 		System.out.println(add_id);
-		followAdd.setFrom_id(from_id);	/**	³» ¾ÆÀÌµð ÀúÀå	*/
-		followAdd.setTo_id(add_id);	/**	Ãß°¡ÇÒ ¾ÆÀÌµð ÀúÀå	*/
+		followAdd.setFrom_id(from_id);	/**	ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½	*/
+		followAdd.setTo_id(add_id);	/**	ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½	*/
 		System.out.println(followAdd);
 		
-		if(from_id!=null) {	/**	·Î±×ÀÎ »óÅÂÀÏ °æ¿ì 	*/
-			if(follow.equals("follow")){ /**	ÆÈ·Î¿ì »óÅÂÀÏ °æ¿ì	*/
+		if(from_id!=null) {	/**	ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 	*/
+			if(follow.equals("follow")){ /**	ï¿½È·Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½	*/
 				FollowCommand followVo = new FollowCommand(from_id, add_id);	/**	formId - toId	*/
-				int n = followDAO.followInsert(followVo); /**	ÆÈ·Î¿ì Ãß°¡ÇÏ°í º¯¼ö n¿¡ °ªÀúÀå	*/
-				if(n>0) {	/**	°ªÀÌ ÀÖÀ¸¸é ÆÈ·Î¿ì Ãß°¡µÊ	*/
-					System.out.println(from_id + "°¡" + add_id + "¸¦ ÆÈ·Î¿ì"); 
+				int n = followDAO.followInsert(followVo); /**	ï¿½È·Î¿ï¿½ ï¿½ß°ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ nï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	*/
+				if(n>0) {	/**	ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½È·Î¿ï¿½ ï¿½ß°ï¿½ï¿½ï¿½	*/
+					System.out.println(from_id + "ï¿½ï¿½" + add_id + "ï¿½ï¿½ ï¿½È·Î¿ï¿½"); 
 					
-				} else {	/**	°ªÀÌ ¾øÀ¸¸é ÆÈ·Î¿ì ½ÇÆÐµÊ	*/
-					System.out.println("ÆÈ·Î¿ì ½ÇÆÐ");
+				} else {	/**	ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½È·Î¿ï¿½ ï¿½ï¿½ï¿½Ðµï¿½	*/
+					System.out.println("ï¿½È·Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½");
 				}
 			}
-			if(follow.equals("unfollow")){	/**	ÆÈ·Î¿ì »óÅÂ°¡ ¾Æ´Ò °æ¿ì	*/
+			if(follow.equals("unfollow")){	/**	ï¿½È·Î¿ï¿½ ï¿½ï¿½ï¿½Â°ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½	*/
 				FollowCommand followVo = new FollowCommand(from_id, add_id);
 				int n = followDAO.remove(followVo);
 				if(n>0) {
-					System.out.println(from_id + "°¡" + add_id + "¸¦ ¾ðÆÈ·Î¿ì");
+					System.out.println(from_id + "ï¿½ï¿½" + add_id + "ï¿½ï¿½ ï¿½ï¿½ï¿½È·Î¿ï¿½");
 				} else {
-					System.out.println("¾ðÆÈ·Î¿ì ½ÇÆÐ");
+					System.out.println("ï¿½ï¿½ï¿½È·Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½");
 				}
 			}
 			
@@ -61,11 +61,11 @@ public class FollowController {
 		List<String> from_id_list = followDAO.fromList(add_id);
 		mav.addObject("fromList", from_id_list);
 		System.out.println(from_id_list);
-		if( from_id != null ) {	/**	·Î±×ÀÎ »óÅÂÀÏ °æ¿ì	*/
-			List<String> to_id_list = followDAO.toList(from_id);	/**	³»°¡ ÆÈ·Î¿ìÇÑ ¸ñ·Ï Á¶È¸, ³ªÀÇ ÆÈ·ÎÀ× ¸ñ·Ï	*/
+		if( from_id != null ) {	/**	ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½	*/
+			List<String> to_id_list = followDAO.toList(from_id);	/**	ï¿½ï¿½ï¿½ï¿½ ï¿½È·Î¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸, ï¿½ï¿½ï¿½ï¿½ ï¿½È·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½	*/
 			Map map = new HashMap();
-			if( to_id_list != null ) {	/**	'³»'°¡ ÆÈ·Î¿ìÇÑ ¸ñ·ÏÀÌ ÀÖ´Ù¸é	*/
-				for( String following : to_id_list ) {	/**	³» ÆÈ·Î¿ì ¸ñ·Ï ¸®½ºÆ®¸¦ ÇÏ³ª¾¿ ²¨³»¾î	*/
+			if( to_id_list != null ) {	/**	'ï¿½ï¿½'ï¿½ï¿½ ï¿½È·Î¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½	*/
+				for( String following : to_id_list ) {	/**	ï¿½ï¿½ ï¿½È·Î¿ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	*/
 					for(String follower : from_id_list){
 						if(following.equals(follower)){
 							map.put(follower, true);
@@ -86,33 +86,33 @@ public class FollowController {
 		return mav;
 	}
 	
-/*	*//**	ÆÈ·Î¿ì Ãß°¡, ÆÈ·ÎÀ× ¸ñ·Ï¿¡¼­ Ã³¸®	*//*
+/*	*//**	ï¿½È·Î¿ï¿½ ï¿½ß°ï¿½, ï¿½È·ï¿½ï¿½ï¿½ ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½	*//*
 	@RequestMapping("/follow/ingFollow.do")
 	public ModelAndView addFollowing(HttpServletRequest request, @RequestParam("id") String to_id, @RequestParam("follow") String follow){
 		ModelAndView mav = new ModelAndView();
-		String loginId = (String)request.getSession().getAttribute("id");	*//**	·Î±×ÀÎ ¾ÆÀÌµð	*//*
-		FollowCommand fcAdd = new FollowCommand(); *//**	Ãß°¡ÇÒ ¾ÆÀÌµð¸¦ ÀúÀåÇÒ °´Ã¼ »ý¼º	*//*
-		fcAdd.setFrom_id(loginId);	*//**	³» ¾ÆÀÌµð ÀúÀå	*//*
-		fcAdd.setTo_id(paramId);	*//**	Ãß°¡ÇÒ ¾ÆÀÌµð ÀúÀå	*//*
-		System.out.println("Ãß°¡ ÆÈ·ÎÀ×, ÆÈ·Î¿ö ¾ÆÀÌµð" + fcAdd);
+		String loginId = (String)request.getSession().getAttribute("id");	*//**	ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½	*//*
+		FollowCommand fcAdd = new FollowCommand(); *//**	ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½	*//*
+		fcAdd.setFrom_id(loginId);	*//**	ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½	*//*
+		fcAdd.setTo_id(paramId);	*//**	ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½	*//*
+		System.out.println("ï¿½ß°ï¿½ ï¿½È·ï¿½ï¿½ï¿½, ï¿½È·Î¿ï¿½ ï¿½ï¿½ï¿½Ìµï¿½" + fcAdd);
 		
-		if(loginId!=null) {	*//**	·Î±×ÀÎ »óÅÂÀÏ °æ¿ì 	*//*
-			if(follow.equals("follow")){ *//**	ÆÈ·Î¿ì »óÅÂÀÏ °æ¿ì	*//*
+		if(loginId!=null) {	*//**	ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 	*//*
+			if(follow.equals("follow")){ *//**	ï¿½È·Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½	*//*
 				FollowCommand followVo = new FollowCommand(loginId, paramId);	*//**	formId - toId	*//*
-				int n = followDAO.followInsert(followVo); *//**	ÆÈ·Î¿ì Ãß°¡ÇÏ°í º¯¼ö n¿¡ °ªÀúÀå	*//*
-				if(n>0) {	*//**	°ªÀÌ ÀÖÀ¸¸é ÆÈ·Î¿ì Ãß°¡µÊ	*//*
-					System.out.println(loginId + "°¡" + paramId + "¸¦ ÆÈ·Î¿ì"); 
-				} else {	*//**	°ªÀÌ ¾øÀ¸¸é ÆÈ·Î¿ì ½ÇÆÐµÊ	*//*
-					System.out.println("ÆÈ·Î¿ì ½ÇÆÐ");
+				int n = followDAO.followInsert(followVo); *//**	ï¿½È·Î¿ï¿½ ï¿½ß°ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ nï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	*//*
+				if(n>0) {	*//**	ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½È·Î¿ï¿½ ï¿½ß°ï¿½ï¿½ï¿½	*//*
+					System.out.println(loginId + "ï¿½ï¿½" + paramId + "ï¿½ï¿½ ï¿½È·Î¿ï¿½"); 
+				} else {	*//**	ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½È·Î¿ï¿½ ï¿½ï¿½ï¿½Ðµï¿½	*//*
+					System.out.println("ï¿½È·Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½");
 				}
 			}
-			if(follow.equals("unfollow")){	*//**	ÆÈ·Î¿ì »óÅÂ°¡ ¾Æ´Ò °æ¿ì	*//*
+			if(follow.equals("unfollow")){	*//**	ï¿½È·Î¿ï¿½ ï¿½ï¿½ï¿½Â°ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½	*//*
 				FollowCommand followVo = new FollowCommand(loginId, paramId);
 				int n = followDAO.remove(followVo);
 				if(n>0) {
-					System.out.println(loginId + "°¡" + paramId + "¸¦ ¾ðÆÈ·Î¿ì");
+					System.out.println(loginId + "ï¿½ï¿½" + paramId + "ï¿½ï¿½ ï¿½ï¿½ï¿½È·Î¿ï¿½");
 				} else {
-					System.out.println("¾ðÆÈ·Î¿ì ½ÇÆÐ");
+					System.out.println("ï¿½ï¿½ï¿½È·Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½");
 				}
 			}
 		}
