@@ -10,6 +10,7 @@
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script>
 $(document).ready(function(){
+	alert(document.referrer);
 	if("${error}"=="error") {
 		$(location).attr("href", "/main/main.do");
 	}
