@@ -5,24 +5,27 @@
 <!-- 테이블 속성 :  id,board_num -->
 
 <mapper namespace="screp">
-	<insert id="add" parameterType="command.ScrepCommand">
-		insert into screp(id,board_num)values(#{id},#{board_num})
+	<insert id="insertScrep" parameterType="command.ScrepCommand">
+		insert into screp values(#{id},#{board_num})
 	</insert>
 	
-	<delete id="remove" parameterType="java.lang.String">
-		delete from screp where id=#{id}
-		</delete>
-	<select id="getlist" resultType="command.ScrepCommand">
-		select * from screp
-	</select>
-	<select id="getListById" parameterType="String" resultType="command.ScrepCommand">
-		select * from screp where id=#{id}
-	</select>
-	<select id="findId" parameterType="String" resultType="String">
-		select id from screp where id=#{id}
-	</select>
-	<select id="screpCount" parameterType="command.ScrepCommand" resultType="java.lang.Integer">
-		select count(board_num) from screp where id=#{id}
+	<select id="getScrep" parameterType="command.ScrepCommand" resultType="command.ScrepCommand">
+		select * from screp where id=#{id} and board_num=#{board_num}
 	</select>
 	
+	<select id="getRecommendCountByScrepNum" parameterType="Integer" resultType="Integer">
+		select count(id) from screp where board_num=#{board_num}
+	</select>
+	
+	<select id="getIdByScrepNum" parameterType="Integer" resultType="String">
+		select id from screp where board_num=#{board_num}
+	</select>
+	
+	<delete id="deleteScrep" parameterType="command.ScrepCommand">
+		delete from screp where id=#{id} and board_num=#{board_num}
+	</delete>
+	
+	<select id="getScrepList" parameterType="command.ScrepCommand" resultType="command.ScrepCommand">
+		select * from screp
+	</select>
 </mapper>

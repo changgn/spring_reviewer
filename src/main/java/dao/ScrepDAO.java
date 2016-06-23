@@ -10,33 +10,34 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 
 import command.MemberCommand;
+import command.RecommendCommand;
 import command.ScrepCommand;
 
 @Repository
 public class ScrepDAO extends SqlSessionDaoSupport {
 	
-//수정
+
+	public List<String> getIdByScrepdNum(int board_num){
+		return getSqlSession().selectList("screp.getIdByScrepNum", board_num);
+	}
+	
+	public ScrepCommand getScrep(ScrepCommand command){
+		return getSqlSession().selectOne("screp.getScrep", command);
+	}
+	
 	public int insertScrep(ScrepCommand command){
-		return getSqlSession().insert("screp.add", command);
+		return getSqlSession().insert("screp.insertScrep", command);
 	}
 	
-	public void deleteScrep(String id){
-		int n = getSqlSession().delete("screp.remove", id);
+	public Integer getScrepCountByScrepNum(Integer board_num){
+		return getSqlSession().selectOne("screp.getRecommendCountByScrepNum", board_num);
 	}
 	
-	public ScrepCommand getListById(String id){
-		return getSqlSession().selectOne("screp.getListById", id);
+	public int deleteScrep(ScrepCommand command){
+		return getSqlSession().delete("screp.deleteScrep", command);
 	}
 	
-	public String findId(String id){
-		return getSqlSession().selectOne("screp.findId", id);
-	}
-	
-	public List<ScrepCommand> getList(){
-		return getSqlSession().selectList("screp.getlist");
-	}
-	
-	public int count(int board_num){
-		return getSqlSession().selectOne("follow.screpCount",board_num);
-	}
+    public List<ScrepCommand> getScrepList(){
+    	return getSqlSession().selectList("screp.getScrepList");
+    }
 }
