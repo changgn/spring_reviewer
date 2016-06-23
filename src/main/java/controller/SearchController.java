@@ -48,13 +48,19 @@ public class SearchController {
 	
 	public void setRecommendDao(RecommendDAO recommendDao) { this.recommendDao = recommendDao; }
 	
+	@RequestMapping(value="/search/searchForm.do")
+	public String searchForm(Model model){
+		model.addAttribute("firstCheck", 0);
+		return "search/searchForm";
+	}
+	
 	@RequestMapping(value="/search/search.do")
 	public String search(HttpServletRequest request, Model model, String addcount, String searchContent){
 
 		String id = (String)request.getSession().getAttribute("id"); 
 		List<HashMap<String, Object>> allBoardList = new ArrayList<HashMap<String, Object>>();
 		List<BoardCommand> boardList = null;
-		int firstCheck = 0;
+		int firstCheck = 1;
 		
 		// 검색할 카테고리 갯수 가져오기
 		if(addcount == null) {addcount = "0";}
@@ -63,8 +69,7 @@ public class SearchController {
 		int searchCount = 0;
 
 		if(searchContent != null) {
-			// 처음 실행이 아닐 시
-			firstCheck = 1;
+			
 			if(addcount_int != 0) {	// 카테고리를 선택했을 때
 				
 				List<String> categoryIdList = new ArrayList<String>();
@@ -132,6 +137,7 @@ public class SearchController {
 		model.addAttribute("searchCount", searchCount);
 		model.addAttribute("firstCheck", firstCheck);
 		model.addAttribute("boardList", boardList);
+		model.addAttribute("searchContent", searchContent);
 		return "search/searchForm";
 	}
 }

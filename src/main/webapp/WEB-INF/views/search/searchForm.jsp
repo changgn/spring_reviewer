@@ -6,12 +6,14 @@
 <html>
 <head>
 <title>검색</title>
+
+<script src="/script/jquery.history.js"></script>
 <script src="/script/search.js"></script>
 </head>
 <body>
 <div id="search">
 	<div id="search_area">
-		<input id="search_content" type="text" placeholder="검색할 내용을 입력해 주세요" />
+		<input id="search_content" type="text" placeholder="검색할 내용을 입력해 주세요" value="${searchContent}" />
 		<div id="btn_content_search" class="btn_short"><a href="#">검&nbsp;&nbsp;&nbsp;색</a></div>
 	</div>
 	<div class="category_add">
@@ -347,7 +349,7 @@
 			</div>
 		</div>
 		<div class="category_added"></div>
-		<form action="/search/search.do" id="addCategory" method="post"></form>
+		<form action="/search/search.do" id="addCategory" method="get"></form>
 	</div>
 	<div id="search_content_area">
 		<c:if test="${firstCheck==0}">

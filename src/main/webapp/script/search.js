@@ -2,9 +2,28 @@ $(document).ready(function(){
 	$("#group2").css("display","none");
 	$("#group3_11, #group3_12, #group3_13, #group3_14, #group3_15, #group3_21, #group3_22, #group3_23, #group3_24, #group3_31, #group3_32, #group3_33, #group3_34, #group3_41, #group3_42, #group3_43, #group3_44, #group3_51, #group3_52, #group3_53, #group3_54, #group3_55").css("display","none");
 	$("#search_content").focus();
+	
 });
 
+
+
 $(function(){
+	window.onpopstate = function(event) { 
+		alert("aa");
+	}
+/*	window.onpopstate = function(event) {
+		alert("aa");
+	    var selector = $("#recommend_img"+event.state.board_num);
+		var selector2 = $("#u_cnt"+event.state.board_num);
+
+		selector2.text(" " + event.state.recommend_num);
+		if(event.state.recommendFlag == 'recommend'){
+			selector.attr("src", "../image/recommend_off.png");
+		} else{
+			selector.attr("src", "../image/recommend_on.png");
+		}
+	};*/
+
 	// 사용할 변수 생성
 	var allcategory = $("#group3_11, #group3_12, #group3_13, #group3_14, #group3_15, #group3_21, #group3_22, #group3_23, #group3_24, #group3_31, #group3_32, #group3_33, #group3_34, #group3_41, #group3_42, #group3_43, #group3_44, #group3_51, #group3_52, #group3_53, #group3_54, #group3_55");
 	var addcount = 0;
@@ -17,37 +36,6 @@ $(function(){
 		a.css({}).show();
 	});
 	$(".cont_btn_option").click(function(){
-		$(this).hide();
-	});	
-	
-	$(".re_menu_option").click(function(e){
-		e.preventDefault();
-		var b = $("#memList_" + $(this).attr("id"));
-		var url= "/recommend/member.do";
-		var params = "board_num=" + $(this).attr("id");
-		$.ajax({
-			type:"post"		// 포스트방식
-			,url:url		// url 주소
-			,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
-			,dataType:"json"
-			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
-				var members = args.members;
-				$(".re_popup_close").remove();
-				for(var idx=0; idx<members.length; idx++) {
-					$(".re_popup").append("<li><a href='/profile/myProfile.do?id=" + members[idx] + "' class='re_popup_close'>" + members[idx] + "</a></li>")
-				}
-				if(members.length==0) {
-					$(".re_popup").append("<li><a href='#' class='re_popup_close' onclick='event.preventDefault();'>게시물을 추천해 주세요</a></li>");
-				}
-				
-			}
-		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
-		    	alert(e.responseText);
-		    }
-		});
-		b.css({}).show();
-	});
-	$(".re_btn_option").click(function(){
 		$(this).hide();
 	});	
 	
@@ -1685,7 +1673,8 @@ $(function(){
 	});
 	
 	// 검색버튼을 눌렀을 때 지워줄 카테고리 정보를 가진 input 태그 추가 후 해당 폼 전송
-	$("#btn_content_search").click(function(){
+	$("#btn_content_search").click(function(e){
+		e.preventDefault();
 		if($("#search_content").val()=="")
 		{
 			alert("검색할 내용을 입력해 주세요");
@@ -1717,6 +1706,7 @@ $(function(){
 		e.preventDefault();
 		var url= "/recommend/recommend.do";
 		var params = "board_num=" + $(this).attr("id");
+		
 		$.ajax({
 			type:"post"		// 포스트방식
 			,url:url		// url 주소
@@ -1737,7 +1727,8 @@ $(function(){
 				} else {
 					$(location).attr("href", "/logon/login.do");
 				}
-				
+				/*window.history.pushState({recommend_num: recommend_num, recommendFlag: recommendFlag, board_num: args.board_num}, 'PushState - 1', '');
+				*/
 			}
 		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
 		    	alert(e.responseText);
@@ -1746,4 +1737,37 @@ $(function(){
 		});
 	
 	});
+	
+	$(".re_menu_option").click(function(e){
+		e.preventDefault();
+		var b = $("#memList_" + $(this).attr("id"));
+		var url= "/recommend/member.do";
+		var params = "board_num=" + $(this).attr("id");
+		$.ajax({
+			type:"post"		// 포스트방식
+			,url:url		// url 주소
+			,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
+			,dataType:"json"
+			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
+				var members = args.members;
+				$(".re_popup_close").remove();
+				for(var idx=0; idx<members.length; idx++) {
+					$(".re_popup").append("<li><a href='/profile/myProfile.do?id=" + members[idx] + "' class='re_popup_close'>" + members[idx] + "</a></li>")
+				}
+				if(members.length==0) {
+					$(".re_popup").append("<li><a href='#' class='re_popup_close' onclick='event.preventDefault();'>게시물을 추천해 주세요</a></li>");
+				}
+				
+			}
+		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+		    	alert(e.responseText);
+		    }
+		});
+		b.css({}).show();
+	});
+	$(".re_btn_option").click(function(){
+		$(this).hide();
+	});	
+	
+	
 });

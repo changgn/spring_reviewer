@@ -89,7 +89,7 @@
 				<span id="btn_alarm">알림버튼</span>
 			</a> 
 			</c:if>
-			<a class="btn_gnb" href="/search/search.do">
+			<a class="btn_gnb" href="/search/searchForm.do">
 				<span id="btn_search">검색버튼</span>
 			</a>
 			<c:if test="${login_status!=0 && login_status!=1}">
