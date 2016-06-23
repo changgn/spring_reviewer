@@ -13,8 +13,8 @@
 		select * from screp where id=#{id} and board_num=#{board_num}
 	</select>
 	
-	<select id="getRecommendCountByScrepNum" parameterType="Integer" resultType="Integer">
-		select count(id) from screp where board_num=#{board_num}
+	<select id="getRecommendCountByScrepNum" parameterType="String" resultType="Integer">
+		select count(board_num) from screp where id=#{id}
 	</select>
 	
 	<select id="getIdByScrepNum" parameterType="Integer" resultType="String">
@@ -26,6 +26,9 @@
 	</delete>
 	
 	<select id="getScrepList" parameterType="command.ScrepCommand" resultType="command.ScrepCommand">
-		select * from screp
+		select * from screp 
+	</select>
+	<select id="getScrepListById" parameterType="String" resultType="java.lang.Integer">
+		select board_num from screp where id=#{id}
 	</select>
 </mapper>

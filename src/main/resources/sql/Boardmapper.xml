@@ -97,6 +97,13 @@
 	order by write_date DESC 
 </select>
 
+<select parameterType="java.util.List" id="getListByBoardNum" resultType="command.BoardCommand">
+	select * from board where board_num IN
+		<foreach separator="," close=")" open="(" item="item" collection="list"> #{item}
+ 		</foreach>
+	order by write_date DESC 
+</select>
+
 <select parameterType="java.util.HashMap" id="getListByCategoryIdContent" resultType="command.BoardCommand">
 	select * from board where category_id IN 
 		<foreach separator="," close=")" open="(" item="item" collection="categoryIdList"> #{item} 

@@ -66,6 +66,10 @@ public class BoardDAO extends SqlSessionDaoSupport{
 		return getSqlSession().selectList("board.getListByExBoardNum", boardNumList);
 
 	}
+	public List<BoardCommand> getListByBoardNum(List<Integer> boardNumList){
+		return getSqlSession().selectList("board.getListByBoardNum", boardNumList);
+
+	}
 	
 	public List<BoardCommand> getListByCategoryId(List<String> categoryIdList) {
 		return getSqlSession().selectList("board.getListByCategoryId", categoryIdList);

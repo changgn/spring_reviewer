@@ -40,4 +40,7 @@ public class ScrepDAO extends SqlSessionDaoSupport {
     public List<ScrepCommand> getScrepList(){
     	return getSqlSession().selectList("screp.getScrepList");
     }
-}
+    public List<Integer>getScrepListById(String id){
+    	return getSqlSession().selectList("screp.getScrepListById", id);
+    }
+ }
