@@ -39,21 +39,55 @@ $(function(){
 		e.preventDefault();
 		var url= "/recommend/recommend.do";
 		var params = "board_num=" + $(this).attr("id");
+		
 		$.ajax({
 			type:"post"		// 포스트방식
 			,url:url		// url 주소
 			,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
 			,dataType:"json"
 			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
-				var nrecommend = args.recommend;
-				var recommendFlog = args.recommendFlog;
-				var selector = $("#recommend_img"+args.board_num);
-				var selector2 = $("#u_cnt"+args.board_num);
-				selector2.text(" " + nrecommend);
-				if(recommendFlog == 'recommend'){
-					selector.attr("src", "../image/recommend_off.png");
-				} else{
-					selector.attr("src", "../image/recommend_on.png");
+				if(args.error == null){
+					var recommend_num = args.recommend_num;
+					var recommendFlag = args.recommendFlag;
+					var selector = $("#recommend_img"+args.board_num);
+					var selector2 = $("#u_cnt"+args.board_num);
+					selector2.text(" " + recommend_num);
+					if(recommendFlag == 'recommend'){
+						selector.attr("src", "../image/recommend_off.png");
+					} else{
+						selector.attr("src", "../image/recommend_on.png");
+					}
+				} else {
+					$(location).attr("href", "/logon/login.do");
+				}
+				
+			}
+		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+		    	alert(e.responseText);
+				$(location).attr("href", "/logon/login.do");
+		    }
+		});
+	
+	});
+	
+	$(".re_menu_option").click(function(e){
+		e.preventDefault();
+		var b = $("#memList_" + $(this).attr("id"));
+		var url= "/recommend/member.do";
+		var params = "board_num=" + $(this).attr("id");
+		$.ajax({
+			type:"post"		// 포스트방식
+			,url:url		// url 주소
+			,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
+			,dataType:"json"
+			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
+				var members = args.members;
+				$(".re_popup_close").remove();
+				for(var idx=0; idx<members.length; idx++) {
+					$(".re_popup").append("<li><a href='/profile/myProfile.do?id=" + members[idx] + "' class='re_popup_close'>" + members[idx] + "</a></li>")
+				}
+				if(members.length==0) {
+					$(".re_popup").append("<li><a href='#' class='re_popup_close' onclick='event.preventDefault();'>게시물을 추천해 주세요</a></li>");
 				}
 				
 			}
@@ -61,8 +95,11 @@ $(function(){
 		    	alert(e.responseText);
 		    }
 		});
-	
+		b.css({}).show();
 	});
+	$(".re_btn_option").click(function(){
+		$(this).hide();
+	});	
 	$("#secret_content").click(function(e){
 		e.preventDefault();
 		var url= "/content/secret.do";
@@ -83,7 +120,7 @@ $(function(){
 	
 	});
 });
-
+/*
 $(function() {
     $(".list_view_more").on("click",function(e) { 
     	e.preventDefault();
@@ -101,7 +138,7 @@ $(function() {
 	        	  var allBoardList = args.allBoardList;
 	        	  var view = "";
 	        	  $(".list_view_more").remove();
-	        	  for(var idx=0; idx<allBoardList.length; idx++) {
+	        	 for(var idx=0; idx<allBoardList.length; idx++) {
 	        		  view += '<div class="content_wrap"><div class="content_first"><div class="cont_writer">';
 		        	  view += '<a href="#" class="profile_photo"> <span class="profile_thumb"> <img src="../image/5.jpg"> <span class="profile_thumb_mask"></span></span></a>';
 		        	  view += '<a href="/profile/myProfile.do?id=' + allBoardList[idx].board.id +'" class="cont_writer_id">'+ allBoardList[idx].board.id +'</a>';
@@ -117,13 +154,37 @@ $(function() {
 		        	  }
 		        	  view += '</ul></div></div></div></div>';
 		        	  view += '<div class="content_second"><span class="content_view"><span><pre id="pre_' + allBoardList[idx].board.board_num + '"> ' + allBoardList[idx].board.content +'</pre>';
-		        	  if(allBoardList[idx].board.contentFlag == true){
+		        	  if(allBoardList[idx].contentFlag == true){
 		        		  view += '<span class="cont_theview"><span>...</span><a href="/content/contentForm.do?board_num=' + allBoardList[idx].board.board_num + '" class="btn_view_more">더보기</a></span>';
 		        	  }
 		        	  view +='</span></span></div>';
 		        	  if(allBoardList[idx].photo.realPath != null){
-		        		  view += '<a href="/content/contentForm.do?board_num=' + ${board.board.board_num}+ '" class="item_info_wrap">';
+		        		  view += '<a href="/content/contentForm.do?board_num=' + allBoardList[idx].board.board_num + '" class="item_info_wrap">';
+		        		  view += '<span class="item_cont" title="컨텐츠 상세페이지">';
+		        		  view += '<span class="item_thumb"><img class="list_photo" src="' + allBoardList[idx].photo.realPath + '"><span class="thumb_mask_bottom"></span></span></span></a>';
 		        	  }
+		        	  view += '<div class="cont_category_info"><p id="cont_category_info_f">' + allBoardList[idx].category.group1 + '>' + allBoardList[idx].category.group2 + '>' + allBoardList[idx].category.group3 +'</p></div>';
+		        	  view += '<div class="cont_btns"> <div class="cont_btns_wrap">';
+		        	   if("${login_status!=0 && login_status!=1}"){
+		        		  view += '<div class="btns_re">';
+		        		  view += '<a href="/logon/login.do" id="' + allBoardList[idx].board.board_num + '" class="btns_re_item"><span id="u_ico" class="u_ico"><img src="../image/recommend_on.png"></span><em class="u_txt">좋아요</em>';
+		        		  view += '<em id="u_cnt' + allBoardList[idx].board.board_num + '"class="u_cnt">' + allBoardList[idx].board.recommend_num + '</em></a></div>';
+		        		  
+		        	  } 
+		        	  if("${login_status==0 || login_status==1}"){
+		        		  view += '<div class="btns_re">';
+		        		  view += '<a href="#" id="' + allBoardList[idx].board.board_num + '" class="btns_re_item btns_re_items">';
+		        		  view += '<span id="u_ico" class="u_ico">';
+		        		  if(allBoardList[idx].recommendFlag == "${'recommend'}"){
+		        			  view += '<img id="recommend_img' + allBoardList[idx].board.board_num + '" src="../image/recommend_off.png">';
+		        		  }
+		        		  if(allBoardList[idx].recommendFlag == "${'nrecommend'}"){
+		        			  view += '<img id="recommend_img' + allBoardList[idx].board.board_num + '" src="../image/recommend_on.png">';
+		        		  }
+		        		  view += '</span><em class="u_txt">좋아요</em><em id="u_cnt'+ allBoardList[idx].board.board_num +'" class="u_cnt"> '+ allBoardList[idx].board.recommend_num +'</em>';
+		        		  view += '</a></div>';
+		        	  } 
+		        	  
 		        	  
 		        	  
 		        	  $("#content_wrap_area").append(view);
@@ -137,7 +198,7 @@ $(function() {
     
     });
 });
-
+*/
 </script>
 
 </head>
@@ -201,17 +262,24 @@ $(function() {
 		            </span>
 		      	</span>
 	       	</a>
-       	</c:if><!-- 여기까지 했음 -->
+       	</c:if>
        	<div class="cont_category_info">
        		<p id="cont_category_info_f">${board.category.group1}> ${board.category.group2}> ${board.category.group3}</p>
-       	</div>
+       	</div><!-- 여기까지 했음 -->
        	<div class="cont_btns">
        		<div class="cont_btns_wrap">
 				<c:if test="${login_status!=0 && login_status!=1}">
 					<div class="btns_re">
 						<a href="/logon/login.do" id="${board.board.board_num}" class="btns_re_item">
-	                		<span id="u_ico" class="u_ico"><img src="../image/recommend_on.png"></span><em class="u_txt">좋아요</em><em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
+	                		<span id="u_ico" class="u_ico"><img src="../image/recommend_on.png"></span><em class="u_txt">좋아요</em>
 	                 	</a>
+	                 	<a href="#" id="${board.board.board_num}" class="btns_re_item re_menu_option">
+		              		<em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
+		              	</a>
+           				<div id="memList_${board.board.board_num}" class="re_btn_option">
+							<div class="ly_dimmed"></div>
+							<ul class="re_popup"></ul>
+						</div>
 					</div>
 				</c:if>
 				<c:if test="${login_status==0 || login_status==1}">
@@ -224,8 +292,15 @@ $(function() {
 		                		<c:if test="${board.recommendFlag == 'nrecommend'}">
 		                			<img id="recommend_img${board.board.board_num}" src="../image/recommend_on.png">	                		
 		                		</c:if>
-                		    </span><em class="u_txt">좋아요</em><em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
+                		    </span><em class="u_txt">좋아요</em>
 	                 	</a>
+	                 	<a href="#" id="${board.board.board_num}" class="btns_re_item re_menu_option">
+	                		<em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
+	                	</a>
+	                 	<div id="memList_${board.board.board_num}" class="re_btn_option">
+							<div class="ly_dimmed"></div>
+							<ul class="re_popup"></ul>
+						</div>
 					</div>
 				</c:if>
 				<a href="/content/contentForm.do?board_num=${board.board.board_num}&comment=true" class="btns_coment" >
