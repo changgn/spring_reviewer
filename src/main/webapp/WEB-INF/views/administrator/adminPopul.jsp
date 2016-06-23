@@ -7,11 +7,24 @@
 <html>
 	<head>
 		<style>
-			.recmanage{width : 300px; height: 50px; margin: 0 auto; margin-top: 50px; margin-bottom: 40px; font-size: 40px;}
-			#rpid{padding:inherit; margin-top: 50px; font-size: 20px; border: }
-			#recommendNum{font-size: 20px; border: medium;}
-			#recButton{font-size: 20px;}
-			#populTitle{margin: 0 auto; margin-top: 20px; padding-top: 11px;}
+			#populTitle{
+				min-height: 200px; 
+				padding: 20px; 
+				font-size: 20px; 
+				margin: 0 auto; 
+				background-color: #F6F6F6;
+				font-size: 40px; 
+				color: #4C4C4C;
+			}
+			#popBoardList{
+				margin-top: 1%;
+				font-family: '나눔고딕', 'Nanum Gothic', sans-serif; 
+				font: 35px '나눔고딕', 'Nanum Gothic', sans-serif; 
+			}
+			#name{
+				font-family: '나눔고딕', 'Nanum Gothic', sans-serif; 
+				font: 35px '나눔고딕', 'Nanum Gothic', sans-serif; 
+			}
 		</style>
 	</head>
 	<body>
@@ -20,12 +33,10 @@
 		</div>
 		<c:forEach var="board" items="${populList}"> 
 			<div id="popBoardList">
-				<div id="rpid">작성자 : ${board.id}</div>
-				<div id="recommendNum">추천 ${board.recommend_num}</div>
-				<div id="recButton">
-					<a href="content.do?board_num=${board.board_num}"><input type="button" value="상세보기"></a>
-					<a href="adminDelete.do?board_num=${board.board_num}"><input type="button" value="삭제"></a>
-				</div>
+					작성자 : ${board.id}
+					추천 ${board.recommend_num}
+					<a id="name" href="/content/contentForm.do?board_num=${board.board_num}"><input type="button" value="상세보기"></a>
+					<a id="name" href="/administrator/adminDelete.do?board_num=${board.board_num}"><input type="button" value="삭제"></a>
 			</div>
 		</c:forEach>
 	</body>

@@ -7,10 +7,24 @@
 <html>
 	<head>
 		<style>
-			.repmanage{width : 300px; height: 50px; margin: 0 auto; margin-top: 50px; margin-bottom: 40px; font-size: 40px;}
-			#rbid{margin-top: 50px; font-size: 20px;}
-			#reportNum{font-size: 20px; border: medium;}
-			#repButton{font-size: 20px;}
+			.repManage{
+				min-height: 200px; 
+				padding: 20px; 
+				font-size: 20px; 
+				margin: 0 auto; 
+				background-color: #F6F6F6;
+				font-size: 40px; 
+				color: #4C4C4C;
+			}
+			#repList{
+				margin-top: 1%;
+				font-family: '나눔고딕', 'Nanum Gothic', sans-serif; 
+				font: 35px '나눔고딕', 'Nanum Gothic', sans-serif; 
+			}
+			#name{
+				font-family: '나눔고딕', 'Nanum Gothic', sans-serif; 
+				font: 35px '나눔고딕', 'Nanum Gothic', sans-serif; 
+			}
 		</style>
 	</head>
 	<body>
@@ -19,12 +33,10 @@
 		</div>
 		<c:forEach var="board" items="${reportList}" > 
 			<div id="repList">
-				<div id="rbid">작성자 ${board.id}</div>
-				<div id="reportNum">신고  ${board.report_num}</div>
-				<div id="repButton">
-					<a href="content.do?board_num=${board.board_num}"><input type="button" value="상세보기"></a>
-					<a href="adminDelete.do?board_num=${board.board_num}"><input type="button" value="삭제"></a>
-				</div>
+					작성자 : <a id="name" href="/profile/myProfile.do?id=${board.id}"> ${board.id}</a>
+					신고 : ${board.report_num}
+					<a id="name" href="/content/contentForm.do?board_num=${board.board_num}">상세보기</a>
+					<a id="name" href="/administrator/adminDelete.do?board_num=${board.board_num}">삭제</a>
 			</div>
 		</c:forEach>
 	</body>

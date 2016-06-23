@@ -7,7 +7,7 @@
 		<meta charset="UTF-8">
 		<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 		<script type="text/javascript">
-/*   		$(document).ready(function() {
+/*   	$(document).ready(function() {
 			if("${followCheck}"=="true") {
 				var tag = "<a href='followerAdd.do?follow=unfollow&id="+"${profileId}&paramId="+"${fromList}'"+"><img src='../image/icon_36.png' height='30px' width='30px'></a>";
 				$("#followerList").append(tag);
@@ -16,10 +16,10 @@
 				$("#followerList").append(tag);
 			}
 		}); */
-		$(function(){
-			$('img').on({
+/* 		$(function(){
+			$('followerList').on({
 				'click' : function(){
-					if("${followCheck.fromList}"=="true") {
+					if("${followCheck[fromList]}"=="true") {
 						var tag = "<a href='/follow/followerAdd.do?follow=follow&profileId=" + "${profileId}&add_id=" + "${fromList}'" + "><img src='../image/icon_36.png' height='30px' width='30px'></a>";
 						$("#followerList").append(tag);
 					} else {
@@ -32,45 +32,46 @@
 					$(this).attr('src', src);
 				}
 			})
-		});
+		}); */
 		</script>
 		<style>
-			div#followerTitle{
-				width: 300px; height: 35px; 
-				margin: 12px auto; 
-				border: 1px solid #4C4C4C;
-				font-family: '나눔고딕', 'Nanum Gothic', sans-serif ; 
-				font: 23px '나눔고딕', 'Nanum Gothic', sans-serif ;
+			#followerTitle{
+				min-height: 200px; 
+				padding: 20px; 
+				font-size: 20px; 
+				margin: 0 auto; 
+				background-color: #F6F6F6;
+				font-size: 40px; 
+				color: #4C4C4C;
+			}
+			#followerList{
+				min-width: 200; 
+				margin: 5px auto; 
 				background: white;
 			}
-			div#followerList{
-				width: 200px; height: 35px; 
-				margin: 6px auto; 
-				border: 1px solid #4C4C4C;
+			#name{
 				font-family: '나눔고딕', 'Nanum Gothic', sans-serif; 
-				font: 21px '나눔고딕', 'Nanum Gothic', sans-serif; 
-				background: white;
+				font: 35px '나눔고딕', 'Nanum Gothic', sans-serif; 
 			}
 		</style>
 	</head>
 	
 	<body>
-			<div id="followerTitle" align="center">
-				 ${profileId}님의 팔로워 목록 
+		<div id="followerTitle" align="center" >
+			 ${profileId}님의 팔로워
+		</div>
+		<c:forEach items="${fromList}" var="fromId">
+			<div id="followerList" align="center" >
+				<a id="name" href="/profile/myProfile.do?id=${fromId}">${fromId}</a>
+ 				<c:choose>
+					<c:when test="${followCheck[fromId] eq true}">
+						<a href="/follow/followerAdd.do?follow=unfollow&profileId=${profileId}&add_id=${fromId}"><img src="../image/icon_36.png" align="top"></a>
+					</c:when>
+					<c:otherwise>	<!-- test="${followCheck eq 'false'}" -->
+						<a href="/follow/followerAdd.do?follow=follow&profileId=${profileId}&add_id=${fromId}"><img src="../image/icon_35.png" align="top"></a>
+					</c:otherwise>
+				</c:choose>
 			</div>
-			
-			<c:forEach items="${fromList}" var="fromId">
-				<div id="followerList" align="center">
-					<a href="/profile/myProfile.do?id=${fromId}">${fromId}</a>
- 					<c:choose>
-						<c:when test="${followCheck.fromId eq 'true'}">
-							<a href="/follow/followerAdd.do?follow=unfollow&profileId=${profileId}&add_id=${fromId}"><img src="../image/icon_36.png" height="30px" width="30px"></a>
-						</c:when>
-						<c:otherwise>	<!-- test="${followCheck eq 'false'}" -->
-							<a href="/follow/followerAdd.do?follow=follow&profileId=${profileId}&add_id=${fromId}"><img src="../image/icon_35.png" height="30px" width="30px"></a>
-						</c:otherwise>
-					</c:choose>
-				</div>
-			</c:forEach>
+		</c:forEach>
 	</body>
 </html>

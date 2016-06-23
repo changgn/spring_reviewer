@@ -34,7 +34,7 @@
   <select id="deleteCf" parameterType="java.lang.String" resultType="command.MemberCommand">
   	select * from members where id=#{id}
   </select>
-  <select id="count" resultType="java.lang.String">
+  <select id="count" resultType="java.lang.Integer">
   	select count(id) from members
   </select>	
 	<select id="idCheck" parameterType="java.lang.String" resultType="java.lang.String">

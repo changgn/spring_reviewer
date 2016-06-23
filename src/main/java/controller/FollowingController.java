@@ -1,6 +1,5 @@
 package controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import command.FollowCommand;
 import dao.FollowDAO;
 
 @Controller
@@ -23,37 +21,45 @@ public class FollowingController {
 	public void setFollowDAO(FollowDAO followDAO) {
 		this.followDAO = followDAO;
 	}
-	/**	ÆÈ·ÎÀ×, '³»'°¡ ´Ù¸¥»ç¶÷À» ÆÈ·Î¿ì	*/
+	/**	íŒ”ë¡œì‰ ëª©ë¡	*/
 	@RequestMapping("/follow/follewing.do")
 	public ModelAndView followingForm(HttpServletRequest request, @RequestParam("id") String to_id ){
 		ModelAndView mav = new ModelAndView();
-		String my_to_id = (String)request.getSession().getAttribute("id");	/**	·Î±×ÀÎ ¾ÆÀÌµğ	*/
-		List<String> to_id_list = followDAO.toList(to_id);	/**	¸ñ·ÏÀ» º¸·Á´Â IdÀÇ ÆÈ·ÎÀ× ¸ñ·Ï Á¶È¸, ÀúÀå	*/
+		String my_to_id = (String)request.getSession().getAttribute("id");	/**	ë¡œê·¸ì¸ Id	*/
+		List<String> to_id_list = followDAO.toList(to_id);	/**	Idì˜ íŒ”ë¡œì‰ ëª©ë¡ ì¡°íšŒ	*/
 		mav.addObject("toIdList", to_id_list);
-		System.out.println(to_id+"ÀÇ ÆÈ·ÎÀ× ¸ñ·Ï : "+to_id_list);
+		System.out.println(to_id+"ì˜ íŒ”ë¡œì‰ ëª©ë¡ : "+to_id_list);
 		if(my_to_id!=null){
-			List<String> my_to_id_list = followDAO.toList(my_to_id);	/**	·Î±×ÀÎÇÑ Id. Áï, '³ª'ÀÇ ÆÈ·ÎÀ× ¸ñ·Ï	*/
-			boolean followCheck = false;	/**	ÆÈ·Î¿ì »óÅÂ °ª	*/
+			List<String> my_to_id_list = followDAO.toList(my_to_id);	/**	ë‚˜ì˜ íŒ”ë¡œì‰ ëª©ë¡	*/
+			System.out.println(my_to_id+"ì˜ íŒ”ë¡œì‰ ëª©ë¡ : " + to_id_list);
+			
+			if(to_id_list != null && my_to_id!=null){
+				if(to_id_list.contains(my_to_id)){
+					to_id_list.remove(my_to_id);
+				}
+			}
+			
 			Map map = new HashMap();
-			List<Map> m = new ArrayList<Map>();
-			if(my_to_id_list!=null){	/**	'³»'°¡ ÆÈ·Î¿ìÇÑ ¸ñ·ÏÀÌ ÀÖ´Ù¸é	*/
-				for(String following : my_to_id_list){	/**	³» ÆÈ·Î¿ì ¸ñ·Ï ¸®½ºÆ®¸¦ ÇÏ³ª¾¿ ²¨³»¾î	*/
+			if(my_to_id_list!=null){	/**	ë‚˜ì˜ íŒ”ë¡œì‰ëª©ë¡ì´ ìˆë‹¤ë©´	*/
+				/**	false ê°’ìœ¼ë¡œ ì´ˆê¸°í™”	*/
+				for(String following : my_to_id_list){
+					for(String tofollowing : to_id_list){	
+						map.put(tofollowing, false);
+					}
+				}
+				/**	íŒ”ë¡œì‰ëª©ë¡ê³¼ ë¹„êµí•˜ì—¬ ìˆì„ ê²½ìš°ë§Œ trueê°’ìœ¼ë¡œ ì €ì¥	*/
+				for(String following : my_to_id_list){
 					for(String tofollowing : to_id_list){
-						if(tofollowing.equals(following)){	/**	ÇØ´ç ¾ÆÀÌµğ¿Í ºñ±³ °°À¸¸é	*/
-							map.put(tofollowing, true);
-						}else{
-							if(tofollowing.equals(my_to_id)){
-								map.put(tofollowing, true);
-							}
-							map.put(tofollowing, false);
+						if(tofollowing.equals(following)){
+							map.put(tofollowing, true);	
 						}
 					}
 				}
 			}
 			mav.addObject("followCheck", map);
-			System.out.println("°¢ ¸®½ºÆ®ÀÇ boolean "+ map);
+			System.out.println("íŒ”ë¡œìš° ìƒíƒœê°’ "+ map);
 		}
-		mav.addObject("id", to_id);
+		mav.addObject("profileId", to_id);
 		mav.setViewName("follow/followingForm");
 		return mav;
 	}

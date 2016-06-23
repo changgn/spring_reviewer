@@ -5,8 +5,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class AdminController {
-	// ������ ����
-	@RequestMapping("admin.do")
+	
+	/**	메인화면	*/
+	@RequestMapping("/administrator/adminForm.do")
 	public String adminForm(){
 		return "administrator/admin";
 	}
