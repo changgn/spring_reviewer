@@ -1,5 +1,6 @@
 package controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -140,11 +141,6 @@ public class MainController {
 	@RequestMapping("/main/mainAjax.do")
 	public String mainAjax(HttpServletRequest request, HttpServletResponse resp){
 		
-		// @RequestParam 오류나면 이거 제거 앞단에서 다음페이지(currentPage), 페이지에 뿌려주는 목록갯수(pageSize) params에 넘겨주면됨
-		// params.put("currentPage", 1);
-		// params.put("pageSize", 10); <--- 일너식으로 다이렉토로 넣어봐서 하나하나씩 테스트
-		// 단계적으로 하고 그다음에 않되는거있음 다시 말해
-		
 		String id = (String)request.getSession().getAttribute("id"); 
 		String login_status = (String)request.getSession().getAttribute("login_status");
 		
@@ -195,6 +191,8 @@ public class MainController {
 				PhotoCommand photo = photoDao.getOneByBoardNum(vo.getBoard_num());
 				CategoryCommand category = categoryDao.getOne(vo.getCategory_id());
 				String commentCount = commentDao.getCountByBoardNum(vo.getBoard_num());
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+				String date = sdf.format(vo.getWrite_date());
 		
 				if(commentCount==null)	commentCount="0";
 				boolean contentFlag = false;
@@ -220,11 +218,11 @@ public class MainController {
 				boardMap.put("category", category);
 				boardMap.put("commentCount", commentCount);
 				boardMap.put("contentFlag", contentFlag);
+				boardMap.put("date", date);
 				allBoardList.add(boardMap);
 			}
 		}
 
-		jso.put("allList", "aa");
 		jso.put("allBoardList", allBoardList);
 		resp.setContentType("text/html;charset=utf-8");
 		return jso.toString();
