@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -72,9 +73,24 @@ public class ScrepController {
 	}
 	public void setRecommendDao(RecommendDAO recommendDao) { this.RecommendDao = recommendDao; }
    
+	@ResponseBody
+	@RequestMapping(value="/screp/screpInsert.do")
+	public String secret(HttpServletRequest request, HttpServletResponse resp, int board_num){
+		String id = (String)request.getSession().getAttribute("id");
+		
+		JSONObject jso = new JSONObject();
+		
+		ScrepCommand command = new ScrepCommand(id, board_num);
+		ScrepDao.insertScrep(command);
+		
+		jso.put("screp", command);
+		resp.setContentType("text/html;charset=utf-8");
+		return jso.toString();
+		
+	}
 	
 	
-	@RequestMapping(value="/screp/screp.do",method=RequestMethod.POST)
+	@RequestMapping(value="/screp/screpList.do")
 	public String Screp(HttpServletRequest request, String id, int board_num, String comment, Model model){
 /*		//스크랩 버튼 insert,    id 값으로 board_num을 뽑아오고 -> myprofile
 		//스크랩 숫자 저장
@@ -152,8 +168,6 @@ public class ScrepController {
 		}
 		
 		model.addAttribute("allBoardList", allBoardList);
-		
-		
 		return "screp/screpList";
 	}
 }
