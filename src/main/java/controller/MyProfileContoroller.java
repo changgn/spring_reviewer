@@ -123,7 +123,8 @@ public class MyProfileContoroller {
 		//팔로잉 숫자 저장
 		int followingCount = followDao.countto(paramId);
 		model.addAttribute("followingCount", followingCount);
-		
+		int screpCount = ScrepDao.getScrepCountByScrepNum(id);
+		model.addAttribute("screpCount", screpCount);
 		// 팔로우 상태 저장
 		if(id!=null) {
 			List<String> folloingList = followDao.toList(id);
@@ -137,6 +138,7 @@ public class MyProfileContoroller {
 				}
 			}
 			model.addAttribute("followCheck", followCheck);
+			
 			
 		}
 		

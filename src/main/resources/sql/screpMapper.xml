@@ -13,7 +13,7 @@
 		select * from screp where id=#{id} and board_num=#{board_num}
 	</select>
 	
-	<select id="getRecommendCountByScrepNum" parameterType="String" resultType="Integer">
+	<select id="getScrepCountByScrepNum" parameterType="String" resultType="Integer">
 		select count(board_num) from screp where id=#{id}
 	</select>
 	

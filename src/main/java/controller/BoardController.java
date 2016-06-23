@@ -156,7 +156,8 @@ public class BoardController {
 		}
 		if(commentList != null) { 
 			model.addAttribute("commentList", commentList);
-			model.addAttribute("commentCount", commentList.size());
+			model.addAttribute(""
+					+ "", commentList.size());
 		}	
 		
 

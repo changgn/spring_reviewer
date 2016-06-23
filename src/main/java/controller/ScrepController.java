@@ -75,7 +75,8 @@ public class ScrepController {
    
 	@ResponseBody
 	@RequestMapping(value="/screp/screpInsert.do")
-	public String secret(HttpServletRequest request, HttpServletResponse resp, int board_num){
+	public String Screp(HttpServletRequest request, HttpServletResponse resp, int board_num){
+		
 		String id = (String)request.getSession().getAttribute("id");
 		
 		JSONObject jso = new JSONObject();
@@ -83,7 +84,7 @@ public class ScrepController {
 		ScrepCommand command = new ScrepCommand(id, board_num);
 		ScrepDao.insertScrep(command);
 		
-		jso.put("screp", command);
+		jso.put("screpCount", command);
 		resp.setContentType("text/html;charset=utf-8");
 		return jso.toString();
 		
@@ -122,6 +123,8 @@ public class ScrepController {
 		model.addAttribute("board_num", board_num);
 		*/
 		
+		int screpCount = ScrepDao.getScrepCountByScrepNum(id);
+		
 		List<BoardCommand> boardList = null;
 		List<Integer> boardNumList = ScrepDao.getScrepListById(id);
 		List<HashMap<String,Object>> allBoardList = new ArrayList<HashMap<String,Object>>();
@@ -157,6 +160,16 @@ public class ScrepController {
 						boardMap.put("recommendFlag", "nrecommend");
 					}
 				}
+				
+				ScrepCommand Screp = new ScrepCommand(id, vo.getBoard_num());
+				if(Screp.getId() != null ){
+					ScrepCommand Screps = ScrepDao.getScrep(Screp);
+					if(Screps != null){
+						boardMap.put("screpFlag", "screp");
+					}else{
+						boardMap.put("screpFlag", "nscrep");
+					}
+				}
 					
 				boardMap.put("board", vo);
 				boardMap.put("photo", photo);
@@ -168,6 +181,7 @@ public class ScrepController {
 		}
 		
 		model.addAttribute("allBoardList", allBoardList);
+		model.addAttribute("screpCount", screpCount);
 		return "screp/screpList";
 	}
 }
