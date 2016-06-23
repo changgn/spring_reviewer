@@ -11,60 +11,24 @@
 <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 <title>메인페이지</title>
 <script>
-$(document).ready(function(){
-	$(".cont_popup li").mouseover(function(){
-		$(this).css("background-color","#F6F6F6");
-	});
-	$(".cont_popup li").mouseleave(function(){
-		$(this).css("background-color","white");
-	});
-});
-$(document).on("mouseover", ".re_popup li", function(){
-	$(this).css("background-color","#F6F6F6");
-});
-$(document).on("mouseleave", ".re_popup li", function(){
-	$(this).css("background-color","white");
-});
+
 $(function(){
 	var top = 0;
-	$(".cont_menu_option").click(function(e){
-		e.preventDefault();
+	$(".cont_menu_option").click(function(){
 		var a = $("#menu_" + $(this).attr("id"));
+		top = a.offset().top;
+		$("body").css({
+			top: -top,
+			position: "fixed",
+			width: "100%",
+			height: "auto"
+		});
 		a.css({
 	    }).show();
 	});
 	$(".cont_btn_option").click(function(){
-		$(this).hide();
-	});	
-	
-	$(".re_menu_option").click(function(e){
-		e.preventDefault();
-		var b = $("#memList_" + $(this).attr("id"));
-		var url= "/recommend/member.do";
-		var params = "board_num=" + $(this).attr("id");
-		$.ajax({
-			type:"post"		// 포스트방식
-			,url:url		// url 주소
-			,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
-			,dataType:"json"
-			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
-				var members = args.members;
-				$(".re_popup_close").remove();
-				for(var idx=0; idx<members.length; idx++) {
-					$(".re_popup").append("<li><a href='/profile/myProfile.do?id=" + members[idx] + "' class='re_popup_close'>" + members[idx] + "</a></li>")
-				}
-				if(members.length==0) {
-					$(".re_popup").append("<li><a href='#' class='re_popup_close' onclick='event.preventDefault();'>게시물을 추천해 주세요</a></li>");
-				}
-				
-			}
-		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
-		    	alert(e.responseText);
-		    }
-		});
-		b.css({}).show();
-	});
-	$(".re_btn_option").click(function(){
+		$("body").removeAttr("style");
+		$('html, body').scrollTop(top);
 		$(this).hide();
 	});	
 });
@@ -81,30 +45,25 @@ $(function(){
 			,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
 			,dataType:"json"
 			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
-				if(args.error == null){
-					var recommend_num = args.recommend_num;
-					var recommendFlag = args.recommendFlag;
-					var selector = $("#recommend_img"+args.board_num);
-					var selector2 = $("#u_cnt"+args.board_num);
-					selector2.text(" " + recommend_num);
-					if(recommendFlag == 'recommend'){
-						selector.attr("src", "../image/recommend_off.png");
-					} else{
-						selector.attr("src", "../image/recommend_on.png");
-					}
-				} else {
-					$(location).attr("href", "/logon/login.do");
+				var nrecommend = args.recommend;
+				var recommendFlog = args.recommendFlog;
+				var selector = $("#recommend_img"+args.board_num);
+				var selector2 = $("#u_cnt"+args.board_num);
+				selector2.text(" " + nrecommend);
+				if(recommendFlog == 'recommend'){
+					selector.attr("src", "../image/recommend_off.png");
+				} else{
+					selector.attr("src", "../image/recommend_on.png");
 				}
 				
 			}
 		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
 		    	alert(e.responseText);
-				$(location).attr("href", "/logon/login.do");
 		    }
 		});
 	
 	});
-	$(".content_secret").click(function(e){
+	$("#secret_content").click(function(e){
 		e.preventDefault();
 		var url= "/content/secret.do";
 		var params = "board_num=" + $(this).attr("id");
@@ -114,9 +73,8 @@ $(function(){
 			,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
 			,dataType:"json"
 			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
-				var selector = $("[id='board_"+ args.secret.board_num +"']");
-				selector.remove();
-				
+				var nrecommend = args.recommend;
+						
 			}
 		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
 		    	alert(e.responseText);
@@ -130,21 +88,51 @@ $(function() {
     $(".list_view_more").on("click",function(e) { 
     	e.preventDefault();
     	var url = "/main/mainAjax.do";
-   		var params = "board_num=" + $(this).attr("id");      // 현재 리스트의 마지막글 번호를 가져온다. 마지막글 번호는 아래 더보기 버튼의 id값이
+   		var params = "board_num=" + $(this).attr("id");      // 현재 리스트의 마지막글 번호를 가져온다.
         $.ajax({
               type: "post",
               url: url,     	// 더보기 눌렀을때 데이터리스트를 html 형태로 만들어서 현재 리스트페이지로 보내준다.
               data:params,   	// 현재 리스트에 뿌려져있는 마지막 글 번호를 넣어준다. 그래야지 리스트의 마지막글 다음부터의 리스트를 가져온다.
+              dataType:"json",
               beforeSend:  function() {
              	 $('a.list_view_more').append('<img src="../image/loading.gif" />');    // 로딩 진행줄일때 .gif로 로딩중이라는거 표시 
 	          },
-	          success: function(html){
-	        	  $(".list_view_more").remove(); 
-	        	  
-	          },
-	          error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
-	    		  alert(e.responseText);
-		      }
+	          success: function(args){
+	        	  var allBoardList = args.allBoardList;
+	        	  var view = "";
+	        	  $(".list_view_more").remove();
+	        	  for(var idx=0; idx<allBoardList.length; idx++) {
+	        		  view += '<div class="content_wrap"><div class="content_first"><div class="cont_writer">';
+		        	  view += '<a href="#" class="profile_photo"> <span class="profile_thumb"> <img src="../image/5.jpg"> <span class="profile_thumb_mask"></span></span></a>';
+		        	  view += '<a href="/profile/myProfile.do?id=' + allBoardList[idx].board.id +'" class="cont_writer_id">'+ allBoardList[idx].board.id +'</a>';
+		        	  view += '<div class="cont_wdate">' + allBoardList[idx].date + '</div>';
+		        	  view += '<div class="cont_menu">';
+		        	  view += '<a href="#" id="' + allBoardList[idx].board.board_num + '" class="cont_menu_option"><span id="cont_btn_menu">옵션</span></a>';
+		        	  view += '<div id="menu_'+ allBoardList[idx].board.board_num +'" class="cont_btn_option"><div class="ly_dimmed"></div>';
+		        	  view += '<ul class="cont_popup">';
+		        	  view += '<li><a href="/content/reportPro.do?board_num='+ allBoardList[idx].board.board_num + '" class="cont_popup_close" >이 게시글 신고</a></li>';
+		        	  if(allBoardList[idx].board.id == '${id}'){
+		        		  view += '<li><a href="/content/deleteContent.do?id=' + allBoardList[idx].board.id +'&board_num='+ allBoardList[idx].board.board_num + '" class="cont_popup_close" >이 게시글 삭제</a></li>';
+		        		  view += '<li><a href="#" id="content_secret" class="cont_popup_close" >게시글 숨기기</a></li>'
+		        	  }
+		        	  view += '</ul></div></div></div></div>';
+		        	  view += '<div class="content_second"><span class="content_view"><span><pre id="pre_' + allBoardList[idx].board.board_num + '"> ' + allBoardList[idx].board.content +'</pre>';
+		        	  if(allBoardList[idx].board.contentFlag == true){
+		        		  view += '<span class="cont_theview"><span>...</span><a href="/content/contentForm.do?board_num=' + allBoardList[idx].board.board_num + '" class="btn_view_more">더보기</a></span>';
+		        	  }
+		        	  view +='</span></span></div>';
+		        	  if(allBoardList[idx].photo.realPath != null){
+		        		  view += '<a href="/content/contentForm.do?board_num=' + ${board.board.board_num}+ '" class="item_info_wrap">';
+		        	  }
+		        	  
+		        	  
+		        	  $("#content_wrap_area").append(view);
+	        	  }
+	        	 
+	          }
+	          ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+			    	alert(e.responseText);
+			    }
       	});
     
     });
@@ -152,73 +140,11 @@ $(function() {
 
 </script>
 
-<style>
-.profile_thumb{ display: inline-block;
-    overflow: hidden;
-    position: relative;
-    width: 52px;
-    height: 52px;
-    vertical-align: middle;  
-}
-
-.profile_thumb_mask{
-
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 10;
-    background-position: -381px 0;
-    background-image: url(https://ssl.pstatic.net/static/m/pholar/img/sp_pholar_160421.png);
-    background-repeat: no-repeat;
-}
-
-.profile_photo img{
-	display: block;
-}
-
-.view_more{
-    clear: both;
-    background-color: #fff;
-    text-align: center;
-    display: block;
-    width: 650px;
-    margin: auto;
-    
-}
-
-.list_view_more{
-    border-bottom: 1px solid #e4e4e4;
-    display: block;
-    height: 90px;
-    line-height: 86px;
-    font-size: 17px;
-    font-weight: bold;
-    color: #2f334e;
-}
-
-.ico_plus{
-	display: inline-block;
-    width: 14px;
-    height: 14px;
-    margin: -2px 6px 0 0;
-    background-position: -220px -340px;
-    vertical-align: middle;
-}
-.txt_view_more{
-
-	line-height: 40px;
-    font-size: 17px;
-    font-weight: bold;
-    color: #2f334e;
-}
-</style>
-
 </head>
 <body>
+<div id="content_wrap_area">
 <c:forEach var="board" items="${allBoardList}">
-	<div class="content_wrap" id="board_${board.board.board_num}">
+	<div class="content_wrap">
 		<div class="content_first">	
 			<div class="cont_writer">
 				<a href="#" class="profile_photo">
@@ -241,17 +167,17 @@ $(function() {
 							<li>
 								<a href="/content/reportPro.do?board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 신고</a>
 							</li>
+						<c:if test="${board.board.id == id}">						
 							<li>
-								<a href="#" id="${board.board.board_num}" class="cont_popup_close content_secret" >게시글 숨기기</a>
+								<a href="/content/deleteContent.do?id=${board.board.id}&board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
 							</li>
-							<c:if test="${board.board.id == id}">						
-								<li>
-									<a href="/content/deleteContent.do?id=${board.board.id}&board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
-								</li>
-							</c:if>
+							<li>
+								<a href="#" id="content_secret" class="cont_popup_close" >게시글 숨기기</a>
+							</li>
+						</c:if>
 						</ul>
 					</div>
-				</div>
+				</div> 
 			</div>
 		</div>
 		<div class="content_second">
@@ -275,7 +201,7 @@ $(function() {
 		            </span>
 		      	</span>
 	       	</a>
-       	</c:if>
+       	</c:if><!-- 여기까지 했음 -->
        	<div class="cont_category_info">
        		<p id="cont_category_info_f">${board.category.group1}> ${board.category.group2}> ${board.category.group3}</p>
        	</div>
@@ -284,15 +210,8 @@ $(function() {
 				<c:if test="${login_status!=0 && login_status!=1}">
 					<div class="btns_re">
 						<a href="/logon/login.do" id="${board.board.board_num}" class="btns_re_item">
-	                		<span id="u_ico" class="u_ico"><img src="../image/recommend_on.png"></span><em class="u_txt">좋아요</em>
+	                		<span id="u_ico" class="u_ico"><img src="../image/recommend_on.png"></span><em class="u_txt">좋아요</em><em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
 	                 	</a>
-	                 	<a href="#" id="${board.board.board_num}" class="btns_re_item re_menu_option">
-	                		<em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
-	                	</a>
-	                 	<div id="memList_${board.board.board_num}" class="re_btn_option">
-							<div class="ly_dimmed"></div>
-							<ul class="re_popup"></ul>
-						</div>
 					</div>
 				</c:if>
 				<c:if test="${login_status==0 || login_status==1}">
@@ -305,15 +224,8 @@ $(function() {
 		                		<c:if test="${board.recommendFlag == 'nrecommend'}">
 		                			<img id="recommend_img${board.board.board_num}" src="../image/recommend_on.png">	                		
 		                		</c:if>
-                		    </span><em class="u_txt">좋아요</em>
+                		    </span><em class="u_txt">좋아요</em><em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
 	                 	</a>
-	                 	<a href="#" id="${board.board.board_num}" class="btns_re_item re_menu_option">
-	                		<em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
-	                	</a>
-	                 	<div id="memList_${board.board.board_num}" class="re_btn_option">
-							<div class="ly_dimmed"></div>
-							<ul class="re_popup"></ul>
-						</div>
 					</div>
 				</c:if>
 				<a href="/content/contentForm.do?board_num=${board.board.board_num}&comment=true" class="btns_coment" >
@@ -328,6 +240,7 @@ $(function() {
        	</div>
 	</div>
 </c:forEach>
+</div>
 	<div id="${board.board.board_num}" class="view_more">
 	 		<a href="#" id="${board.board.board_num}" class="list_view_more">
 	 			<span class="ico_plus"><img src="../image/plus.png"></span><span class="txt_view_more">더 많은 리뷰 보기</span>
