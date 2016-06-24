@@ -125,6 +125,8 @@ public class MyProfileContoroller {
 		model.addAttribute("followingCount", followingCount);
 		int screpCount = ScrepDao.getScrepCountByScrepNum(paramId);
 		model.addAttribute("screpCount", screpCount);
+		int myCount = ScrepDao.getCountByBoardNum(paramId);
+		model.addAttribute("myCount", myCount);
 		// 팔로우 상태 저장
 		if(id!=null) {
 			List<String> folloingList = followDao.toList(id);

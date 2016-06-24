@@ -99,6 +99,7 @@ public class ScrepController {
 	
 	@RequestMapping(value="/profile/screpList.do")
 	public String Screp(HttpServletRequest request, String comment, Model model){
+
 /*		//스크랩 버튼 insert,    id 값으로 board_num을 뽑아오고 -> myprofile
 		//스크랩 숫자 저장
 		int screpCount = ScrepDao.getScrepCountByScrepNum(board_num);
@@ -132,6 +133,16 @@ public class ScrepController {
 		String id = (String) request.getSession().getAttribute("id");
 		String paramId = request.getParameter("id");
 		int screpCount = ScrepDao.getScrepCountByScrepNum(paramId);
+		model.addAttribute("screpCount", screpCount);
+		
+		int myCount = ScrepDao.getCountByBoardNum(paramId);
+		model.addAttribute("myCount", myCount);
+		
+		int followerCount =followDao.countfrom(paramId);
+		model.addAttribute("followerCount", followerCount);
+		//팔로잉 숫자 저장
+		int followingCount = followDao.countto(paramId);
+		model.addAttribute("followingCount", followingCount);
 		
 		List<BoardCommand> boardList = null;
 		List<Integer> boardNumList = ScrepDao.getScrepListById(paramId);
@@ -205,7 +216,7 @@ public class ScrepController {
 		
 		model.addAttribute("paramId", paramId);
 		model.addAttribute("allBoardList", allBoardList);
-		model.addAttribute("screpCount", screpCount);
+		
 		return "profile/myProfile";
 	}
 }

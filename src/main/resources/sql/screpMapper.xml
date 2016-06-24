@@ -17,6 +17,10 @@
 		select count(board_num) from screp where id=#{id}
 	</select>
 	
+	<select id="getCountByBoardNum" parameterType="String" resultType="Integer">
+		select count(board_num) from board where id=#{id}
+	</select>
+	
 	<select id="getIdByScrepNum" parameterType="Integer" resultType="String">
 		select id from screp where board_num=#{board_num}
 	</select>

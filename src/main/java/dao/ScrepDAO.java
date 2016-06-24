@@ -43,4 +43,9 @@ public class ScrepDAO extends SqlSessionDaoSupport {
     public List<Integer>getScrepListById(String id){
     	return getSqlSession().selectList("screp.getScrepListById", id);
     }
+    
+    public Integer getCountByBoardNum(String id){
+		return getSqlSession().selectOne("screp.getCountByBoardNum", id);
+	}
+    
  }
