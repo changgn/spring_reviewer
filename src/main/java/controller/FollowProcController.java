@@ -1,6 +1,5 @@
 package controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +20,7 @@ import dao.FollowDAO;
 import net.sf.json.JSONObject;
 
 @Controller
-public class FollowController {
+public class FollowProcController {
 	@Autowired
 	private FollowDAO followDAO;
 	public void setFollowDAO(FollowDAO followDAO) {
@@ -72,13 +71,18 @@ public class FollowController {
 	}
 	
 	/**	팔로워 상세에서 팔로우 처리	*/
+	@ResponseBody
 	@RequestMapping("/follow/followerAdd.do")
-	public ModelAndView addFollower(HttpServletRequest request, @RequestParam("profileId") String profileId, @RequestParam("add_id") String add_id, @RequestParam("follow") String follow){
+	public String addFollower(HttpServletRequest request, HttpServletResponse reponse , @RequestParam("profileId") String profileId, @RequestParam("add_id") String add_id, @RequestParam("follow") String follow, Model model){
 		ModelAndView mav = new ModelAndView();
 		String from_id = (String)request.getSession().getAttribute("id");	/**	로그인 Id	*/
+		
+		JSONObject jso = new JSONObject();
+		
 		FollowCommand followAdd = new FollowCommand(); /**	커맨드 객체	*/
 		followAdd.setFrom_id(from_id);	/**	로그인 Id 저장	*/
 		followAdd.setTo_id(add_id);	/**	추가 Id 저장	*/
+		
 		if(from_id!=null) {	/**	로그인 Id가 있다	*/
 			if(follow.equals("follow")){ /**	팔로우와 같다면	*/
 				FollowCommand followVo = new FollowCommand(from_id, add_id);	/**	formId - toId	*/
@@ -100,6 +104,7 @@ public class FollowController {
 				}
 			}
 		}
+		
 		/**	어떤 Id의 팔로워 목록	*/
 		List<String> from_id_list = followDAO.fromList(profileId);
 		mav.addObject("fromList", from_id_list);
@@ -131,12 +136,16 @@ public class FollowController {
 					}
 				}
 			}
-			mav.addObject("followCheck", map);
+//			mav.addObject("followCheck", map);
+			model.addAttribute("followCheck", map);
 			System.out.println("팔로워 상태값:"+map);
 		}
-		mav.addObject("profileId", profileId);
-		mav.setViewName("follow/followerForm");
-		return mav;
+//		mav.addObject("profileId", profileId);
+//		mav.setViewName("follow/followPro");
+//		return mav;
+		jso.put("follow", follow);
+		reponse.setContentType("text/html;charset=utf-8");
+		return jso.toString();
 	}
 	
 	/**	팔로잉 상세에서 팔로우 처리	*/
@@ -147,7 +156,7 @@ public class FollowController {
 		FollowCommand fcAdd = new FollowCommand();
 		fcAdd.setFrom_id(loginId);	
 		fcAdd.setTo_id(add_id);	
-		System.out.println("팔로우 하는, 팔로우 당하는 : " + fcAdd);
+		System.out.println("팔로우 하는, 팔로우 당하는 : " + loginId + add_id);
 		
 		if(loginId!=null) {
 			if(follow.equals("follow")){

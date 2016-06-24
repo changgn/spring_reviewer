@@ -57,19 +57,21 @@
 	</head>
 	<body>
 		<div id="followingTitle" align="center">
-			 ${profileId}님의 팔로잉
+			<a id="name" href="/profile/myProfile.do?id=${profileId}">${profileId}</a>님의 팔로잉
 		</div>
 		<c:forEach var="toId" items="${toIdList}"> 
 			<div id="followingList" align="center">
 				<a id="name" href="/profile/myProfile.do?id=${toId}">${toId}</a>
- 				<c:choose>
-					<c:when test="${followCheck[toId] eq true}">
-						<a href="/follow/followingAdd.do?follow=unfollow&profileId=${profileId}&add_id=${toId}"><img src="../image/icon_36.png" align="top"></a>
-					</c:when>
-					<c:otherwise>	<!-- test="${followCheck eq 'false'}" -->
-						<a href="/follow/followingAdd.do?follow=follow&profileId=${profileId}&add_id=${toId}"><img src="../image/icon_35.png" align="top"></a>
-					</c:otherwise>
-				</c:choose>
+				<c:if test="${logId ne toId}">
+ 					<c:choose>
+						<c:when test="${followCheck[toId] eq true}">
+							<a href="/follow/followingAdd.do?follow=unfollow&profileId=${profileId}&add_id=${toId}"><img src="../image/icon_36.png" align="top"></a>
+						</c:when>
+						<c:otherwise>	<!-- test="${followCheck eq 'false'}" -->
+							<a href="/follow/followingAdd.do?follow=follow&profileId=${profileId}&add_id=${toId}"><img src="../image/icon_35.png" align="top"></a>
+						</c:otherwise>
+					</c:choose>
+				</c:if>
 			</div>
 		</c:forEach> 
 	</body>
