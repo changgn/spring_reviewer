@@ -44,12 +44,14 @@
  </select>
 
  <select id="getPopularityBoardList" resultType="command.BoardCommand"> 
- 	select board_num, id, recommend_num from board 
+ 	select board_num, id, recommend_num from board
+ 	where recommend_num>0 
  	ORDER BY recommend_num DESC
  </select>
 
  <select id="getReportBoardList" resultType="command.BoardCommand"> 
  	select * from board
+ 	where report_num>0
  	ORDER BY report_num DESC
  </select>
 

@@ -11,7 +11,7 @@
 				min-height: 200px; 
 				padding: 20px; 
 				font-size: 20px; 
-				margin: 0 auto; 
+				margin: auto; 
 				background-color: #F6F6F6;
 				font-size: 40px; 
 				color: #4C4C4C;

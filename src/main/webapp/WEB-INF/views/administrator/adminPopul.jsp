@@ -33,10 +33,10 @@
 		</div>
 		<c:forEach var="board" items="${populList}"> 
 			<div id="popBoardList">
-					작성자 : ${board.id}
+					작성자 : <a id="name" href="/profile/myProfile.do?id=${board.id}">${board.id}</a>
 					추천 ${board.recommend_num}
-					<a id="name" href="/content/contentForm.do?board_num=${board.board_num}"><input type="button" value="상세보기"></a>
-					<a id="name" href="/administrator/adminDelete.do?board_num=${board.board_num}"><input type="button" value="삭제"></a>
+					<a id="name" href="/content/contentForm.do?board_num=${board.board_num}">상세보기</a>
+					<a id="name" href="/administrator/adminDelete.do?board_num=${board.board_num}">삭제</a>
 			</div>
 		</c:forEach>
 	</body>
