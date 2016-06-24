@@ -64,10 +64,10 @@
 					<a href="/profile/myProfile.do?id=${screpId}">${screpId}</a>
  					<c:choose>
 						<c:when test="${screpCheck.screpId eq 'true'}">
-							<a href="/screp/screp.do?&profileId=${profileId}&board_num=${board.board.board_num}"><img src="../image/icon_36.png" height="30px" width="30px"></a>
+							<a href="/screp/screpList.do?&profileId=${profileId}&board_num=${board.board.board_num}"><img src="../image/icon_36.png" height="30px" width="30px"></a>
 						</c:when>
 						<c:otherwise>	<!-- test="${followCheck eq 'false'}" -->
-							<a href="/screp/screp.do?&profileId=${profileId}&board_num=${board.board.board_num}"><img src="../image/icon_35.png" height="30px" width="30px"></a>
+							<a href="/screp/screpList.do?&profileId=${profileId}&board_num=${board.board.board_num}"><img src="../image/icon_35.png" height="30px" width="30px"></a>
 						</c:otherwise>
 					</c:choose>
 				</div>

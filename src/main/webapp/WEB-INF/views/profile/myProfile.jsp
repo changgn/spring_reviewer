@@ -158,7 +158,7 @@ $(function(){
 							<span class="u_ico_coment">댓글</span>
 							<span class="text_num">${board.commentCount}</span>				
 						</a>
-		 				<a href="/screp/screp.do" class="btns_screp" >
+		 				<a href="/screp/screpInsert.do?board_num=${board.board.board_num}" class="btns_screp" >
 							<span class="u_ico_screp">스크렙</span>
 							<span class="text_num">19</span>
 							</a>

@@ -124,6 +124,7 @@ public class ScrepController {
 		*/
 		
 		int screpCount = ScrepDao.getScrepCountByScrepNum(id);
+		String paramId = request.getParameter("id");
 		
 		List<BoardCommand> boardList = null;
 		List<Integer> boardNumList = ScrepDao.getScrepListById(id);
@@ -179,7 +180,7 @@ public class ScrepController {
 				allBoardList.add(boardMap);
 			}
 		}
-		
+		model.addAttribute("profileId", id);
 		model.addAttribute("allBoardList", allBoardList);
 		model.addAttribute("screpCount", screpCount);
 		return "screp/screpList";
