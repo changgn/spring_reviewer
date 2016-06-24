@@ -98,7 +98,7 @@ public class ScrepController {
 	
 	
 	@RequestMapping(value="/profile/screpList.do")
-	public String Screp(HttpServletRequest request, String comment, Model model){
+	public String ScrepList(HttpServletRequest request, String comment, Model model){
 
 /*		//스크랩 버튼 insert,    id 값으로 board_num을 뽑아오고 -> myprofile
 		//스크랩 숫자 저장

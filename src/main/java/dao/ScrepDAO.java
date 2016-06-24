@@ -1,5 +1,6 @@
 package dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -46,6 +47,16 @@ public class ScrepDAO extends SqlSessionDaoSupport {
     
     public Integer getCountByBoardNum(String id){
 		return getSqlSession().selectOne("screp.getCountByBoardNum", id);
+	}
+    
+    public Integer getScrepCountByScrepNum(Integer board_num){
+		return getSqlSession().selectOne("screp.getScrepCountByboardNum", board_num);
+	}
+    public int updateScrepNumByBoardNum (HashMap<String, Object> map){
+		return getSqlSession().update("screp.updateScrepNumByBoardNum", map);
+	}
+    public List<String> getIdByRecommendNum(int board_num){
+		return getSqlSession().selectList("screp.getIdByScrepNum", board_num);
 	}
     
  }
