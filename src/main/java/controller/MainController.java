@@ -19,6 +19,7 @@ import command.BoardCommand;
 import command.CategoryCommand;
 import command.PhotoCommand;
 import command.RecommendCommand;
+import command.ScrepCommand;
 import dao.BoardDAO;
 import dao.CategoryDAO;
 import dao.CommentDAO;
@@ -26,12 +27,15 @@ import dao.MainDAO;
 import dao.MemberCategoryDAO;
 import dao.PhotoDAO;
 import dao.RecommendDAO;
+import dao.ScrepDAO;
 import dao.SecretDAO;
 import net.sf.json.JSONObject;
 
 
 @Controller
 public class MainController {
+	@Autowired
+	private ScrepDAO screpDao;
 	@Autowired
 	private BoardDAO boardDao;
 	@Autowired
@@ -57,6 +61,7 @@ public class MainController {
 	public void setMemberCategoryDao(MemberCategoryDAO memberCategoryDao) { this.memberCategoryDao = memberCategoryDao; }
 	public void setSecretDao(SecretDAO secretDao) {this.secretDao = secretDao; }
 	public void setMainDao(MainDAO mainDao) { this.mainDao = mainDao; }
+	public void setScrepDao(ScrepDAO screpDao) { this.screpDao = screpDao; }
 
 	@RequestMapping("/main/main.do")
 	public String main(HttpServletRequest request, HttpServletResponse resp, Model model){
@@ -209,6 +214,16 @@ public class MainController {
 						boardMap.put("recommendFlag", "recommend");
 					}else{
 						boardMap.put("recommendFlag", "nrecommend");
+					}
+				}
+				
+				ScrepCommand screp = new ScrepCommand(id, vo.getBoard_num());
+				if(recommend.getId() != null ){
+					ScrepCommand screps = screpDao.getScrep(screp);
+					if(screps != null){
+						boardMap.put("screpFlag", "screp");
+					}else{
+						boardMap.put("screpFlag", "nscrep");
 					}
 				}
 				

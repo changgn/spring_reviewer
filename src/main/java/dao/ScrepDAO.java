@@ -49,13 +49,10 @@ public class ScrepDAO extends SqlSessionDaoSupport {
 		return getSqlSession().selectOne("screp.getCountByBoardNum", id);
 	}
     
-    public Integer getScrepCountByScrepNum(Integer board_num){
-		return getSqlSession().selectOne("screp.getScrepCountByboardNum", board_num);
-	}
     public int updateScrepNumByBoardNum (HashMap<String, Object> map){
 		return getSqlSession().update("screp.updateScrepNumByBoardNum", map);
 	}
-    public List<String> getIdByRecommendNum(int board_num){
+    public List<String> getIdByScrepNum(int board_num){
 		return getSqlSession().selectList("screp.getIdByScrepNum", board_num);
 	}
     

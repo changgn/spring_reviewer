@@ -9,6 +9,42 @@
 <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 <script>
 
+// 스크랩 버튼
+$(function(){
+	$(".btns_scr_items").click(function(e){
+		e.preventDefault();
+		var url= "/screp/screp.do";
+		var params = "board_num=" + $(this).attr("id");
+		
+		$.ajax({
+			type:"post"		// 포스트방식
+			,url:url		// url 주소
+			,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
+			,dataType:"json"
+			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
+				if(args.error == null){
+					var screp_num = args.screp_num;
+					var screpFlag = args.screpFlag;
+					var selector = $("#screp_img"+args.board_num);
+					var selector2 = $("#u_cnt"+args.board_num);
+					selector2.text(" " + screp_num);
+					if(recommendFlag == 'recommend'){
+						selector.attr("src", "../image/screp_off.png");
+					} else{
+						selector.attr("src", "../image/screp_on.png");
+					}
+				} else {
+					$(location).attr("href", "/logon/login.do");
+				}
+				
+			}
+		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+		    	alert(e.responseText);
+				$(location).attr("href", "/logon/login.do");
+		    }
+		});
+	
+	});
 
 $(function(){
 	var top = 0;
@@ -159,7 +195,7 @@ $(function(){
 							<span class="u_ico_coment">댓글</span>
 							<span class="text_num">${board.commentCount}</span>				
 						</a>
-		 				<a href="/screp/screpInsert.do?board_num=${board.board.board_num}" class="btns_screp" >
+		 				<a href="/screp/screp.do?board_num=${board.board.board_num}" class="btns_screp" >
 							<span class="u_ico_screp">스크렙</span>
 							<span class="text_num">19</span>
 							</a>

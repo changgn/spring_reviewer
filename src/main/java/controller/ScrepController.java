@@ -180,6 +180,16 @@ public class ScrepController {
 					}
 				}
 				
+				ScrepCommand screp = new ScrepCommand(id, vo.getBoard_num());
+				if(screp.getId() != null ){
+					ScrepCommand screps = ScrepDao.getScrep(screp);
+					if(screps != null){
+						boardMap.put("screpFlag", "screp");
+					}else{
+						boardMap.put("screpFlag", "nscrep");
+					}
+				}
+				
 /*				ScrepCommand Screp = new ScrepCommand(id, vo.getBoard_num());
 				if(Screp.getId() != null ){
 					ScrepCommand Screps = ScrepDao.getScrep(Screp);
@@ -218,5 +228,59 @@ public class ScrepController {
 		model.addAttribute("allBoardList", allBoardList);
 		
 		return "profile/myProfile";
+	}
+	
+	
+	//스크랩 갯수 증가
+	@ResponseBody
+	@RequestMapping("/screp/screp.do")
+	public String Screp(HttpServletRequest request, HttpServletResponse resp, Integer board_num){
+
+		String login_status = (String)request.getSession().getAttribute("login_status");
+		JSONObject jso = new JSONObject();
+		
+		if(login_status.equals("0") || login_status.equals("1")) {
+			String id = (String)request.getSession().getAttribute("id");
+			ScrepCommand screp = new ScrepCommand(id, board_num);
+			
+			ScrepCommand Screpselect = ScrepDao.getScrep(screp);
+		
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			if(Screpselect != null){
+				ScrepDao.deleteScrep(Screpselect);
+				map.put("board_num", board_num);
+				map.put("screp_num", ScrepDao.getScrepCountByScrepNum(id));
+				ScrepDao.updateScrepNumByBoardNum(map);
+				jso.put("screpFlag", "nscrep");
+				
+				
+				
+			} else{
+				ScrepDao.insertScrep(screp);
+				map.put("board_num", board_num);
+				map.put("screp_num", ScrepDao.getScrepCountByScrepNum(id));
+				ScrepDao.updateScrepNumByBoardNum(map);
+				jso.put("screpFlag", "screp");
+			}
+			jso.put("board_num", board_num);
+			jso.put("screp_num", BoardDao.selectContent(board_num).getScrep());
+		} else {
+			jso.put("error", "error");
+		}
+		resp.setContentType("text/html;charset=utf-8");
+		return jso.toString();
+	}
+	
+	//멤버 스크랩 갯수
+	@ResponseBody
+	@RequestMapping("/screp/member.do")
+	public String recommend(HttpServletResponse resp, int board_num){
+		JSONObject jso = new JSONObject();
+		List<String> members = ScrepDao.getIdByScrepdNum(board_num);
+		jso.put("members", members);
+		jso.put("board_num", board_num);
+		
+		resp.setContentType("text/html;charset=utf-8");
+		return jso.toString();
 	}
 }
