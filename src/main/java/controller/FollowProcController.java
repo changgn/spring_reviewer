@@ -107,7 +107,7 @@ public class FollowProcController {
 		
 		/**	어떤 Id의 팔로워 목록	*/
 		List<String> from_id_list = followDAO.fromList(profileId);
-		mav.addObject("fromList", from_id_list);
+//		mav.addObject("fromList", from_id_list);
 		System.out.println(profileId+"의 팔로워 목록 : "+from_id_list);
 		if( from_id != null ) {	/**	로그인 아이디가 있다.	*/
 			List<String> to_id_list = followDAO.toList(from_id);	/**	나의 팔로잉 목록	*/

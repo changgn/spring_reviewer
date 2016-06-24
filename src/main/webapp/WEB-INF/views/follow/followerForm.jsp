@@ -5,7 +5,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<meta charset="UTF-8">
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 		<script>
 			$(function(){
@@ -36,6 +35,7 @@
 					    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
 					    	alert(e.responseText);
 					    }
+					});
 				});
 			});
 		</script>

@@ -63,7 +63,7 @@ public class FollowFormController {
 			mav.addObject("followCheck", map);
 		}
 		mav.addObject("profileId", to_id);
-		mav.setViewName("/follow/followerForm");
+		mav.setViewName("follow/followerForm");
 		return mav;
 	}
 	
