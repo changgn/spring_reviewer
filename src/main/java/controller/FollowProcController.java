@@ -67,7 +67,6 @@ public class FollowProcController {
 		jso.put("follow", follow);
 		resp.setContentType("text/html;charset=utf-8");
 		return jso.toString();
-	
 	}
 	
 	/**	팔로워 상세에서 팔로우 처리	*/
@@ -76,9 +75,9 @@ public class FollowProcController {
 	public String addFollower(HttpServletRequest request, HttpServletResponse reponse , @RequestParam("profileId") String profileId, @RequestParam("add_id") String add_id, @RequestParam("follow") String follow, Model model){
 		ModelAndView mav = new ModelAndView();
 		String from_id = (String)request.getSession().getAttribute("id");	/**	로그인 Id	*/
-		
+		System.out.println("로그인 ID : " +from_id);
 		JSONObject jso = new JSONObject();
-		
+		System.out.println("추기 또는 삭제 ID  : " + add_id);
 		FollowCommand followAdd = new FollowCommand(); /**	커맨드 객체	*/
 		followAdd.setFrom_id(from_id);	/**	로그인 Id 저장	*/
 		followAdd.setTo_id(add_id);	/**	추가 Id 저장	*/

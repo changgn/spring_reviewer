@@ -7,13 +7,13 @@
 	<head>
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 		<script>
-			$(function(){
+			$(document).ready(function(){
 				var top = 0;
-				$("follow_bt").click(function(e){
+				$(".follow_button").click(function(e){
 					e.preventDefault();
 					var url= "/follow/followerAdd.do";
-					var params = "profileId=" + "${profileId}";
-					params += "&add_id=" + "${fromList}";
+					var params = "profileId=" + "${profileId}"+
+					params += "&add_id=" + $(this).attr(add_id);
 					params += "&follow=" + $(this).attr("id");
 					$.ajax({
 						type:"post"		// 포스트방식
