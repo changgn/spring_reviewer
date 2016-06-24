@@ -7,7 +7,7 @@
 <head>
 <title>검색</title>
 
-<script src="/script/jquery.history.js"></script>
+<script src="/script/history.js"></script>
 <script src="/script/search.js"></script>
 </head>
 <body>

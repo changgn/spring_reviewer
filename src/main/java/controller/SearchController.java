@@ -55,7 +55,7 @@ public class SearchController {
 	}
 	
 	@RequestMapping(value="/search/search.do")
-	public String search(HttpServletRequest request, Model model, String addcount, String searchContent){
+	public String search(HttpServletRequest request, Model model, String addcount, String searchContent, String page){
 
 		String id = (String)request.getSession().getAttribute("id"); 
 		List<HashMap<String, Object>> allBoardList = new ArrayList<HashMap<String, Object>>();
