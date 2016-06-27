@@ -1676,7 +1676,7 @@ $(function(){
 			addtag = "<input type='hidden' name='addCategory' value='545'>"
 			$("#writeBoard").append(addtag);
 		}
-	});
+	}); 
 	$("#546").click(function(){
 		if($("[id='add_546']").attr("id")=="add_546"){
 			alert("이미 선택한 카테고리입니다.");
