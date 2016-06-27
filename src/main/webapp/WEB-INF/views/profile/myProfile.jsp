@@ -13,6 +13,12 @@
 
 
 $(function(){
+	$("#my_content").click(function(){
+		$(location).attr("href", "/profile/myProfile.do?id=${paramId}");
+	});
+	$("#my_screp").click(function(){
+		$(location).attr("href", "/profile/screpList.do?id=${paramId}");
+	});
 	$(".btns_scr_items").click(function(e){
 		e.preventDefault();
 		var url= "/screp/screp.do";
@@ -92,6 +98,9 @@ $(function(){
 
 <title>${paramId} 프로필</title>
 </head>
+<style>
+#nav_content_screp { position: static; width: 100%; height: 40px; z-index: 999; background-color: white; border-bottom: 1px solid #E6E6E6; padding: 0; }
+</style>
 <body>
 
 	<div id="my_profile_info_area">
@@ -111,16 +120,24 @@ $(function(){
 		<div id="my_profile_follow">
 			<div class="follow_profile" id="follower_profile"><a href="/follow/follower.do?id=${paramId}">팔로워  ${followerCount } ></a></div>
 			<div class="follow_profile" id="following_profile"><a href="/follow/follewing.do?id=${paramId}">팔로잉  ${followingCount } ></a></div>
-			<div class="follow_profile" id="content_scrap"><a href="/profile/myProfile.do?id=${paramId}">내글 ${myCount} ></a></div>
-			<div class="follow_profile" id="content_scrap"><a href="/profile/screpList.do?id=${paramId}">스크랩 ${screpCount} ></a></div>
- 		</div>
+			</div>
  		<div class="my_profile" id="category_my_profile">	
 			<c:forEach var="item" items="${CategoryList}" varStatus="status">
 				<div>${item.group1} > ${item.group2} > ${item.group3}</div>
 			</c:forEach> 
 		</div>
-	</div>
 
+	</div>
+	<div id="nav_content_screp">
+		<ul id="list_nav">
+			<li id="my_content">
+				<div class="my_content_screp"><a class="nav_btn" href="#">게 시 물&nbsp;&nbsp;${myCount}</a></div>
+			</li>
+			<li id="my_screp">
+				<div class="my_content_screp"><a class="nav_btn" href="#">스 크 랩&nbsp;&nbsp;${screpCount}</a></div>
+			</li>
+		</ul>
+	</div>
 	<div class="my_profile" id="board_profile">
 		<c:forEach var="board" items="${allBoardList}">
 			<div class="content_wrap">
