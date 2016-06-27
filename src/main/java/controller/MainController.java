@@ -166,7 +166,7 @@ public class MainController {
 	
 	@ResponseBody
 	@RequestMapping("/main/mainAjax.do")
-	public String mainAjax(HttpServletRequest request, HttpServletResponse resp){
+	public String mainAjax(HttpServletRequest request, HttpServletResponse resp, Integer board_num){
 		
 		String id = (String)request.getSession().getAttribute("id"); 
 		String login_status = (String)request.getSession().getAttribute("login_status");
@@ -197,15 +197,12 @@ public class MainController {
 			request.getSession().setAttribute("login_status", login_status);
 		}
 		if(login_status.equals("2")){
-			
 			boardList = mainDao.getPageList(pageListMap);
-			
 		}else {
 			
 			categoryIdList = memberCategoryDao.getCategoryIdById(id);
 			
 			if(categoryIdList.size() == 0){
-				
 				boardList = mainDao.getPageList(pageListMap);
 			} else { 
 				
