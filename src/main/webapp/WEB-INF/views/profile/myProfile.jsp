@@ -31,12 +31,16 @@ $(function(){
 			,dataType:"json"
 			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
 				if(args.error == null){
+
 					var screp_num = args.screp_num;
 					var screpFlag = args.screpFlag;
 					var selector = $("#screp_img"+args.board_num);
-					var selector2 = $("#u_cnt"+args.board_num);
+					var selector2 = $("#screp_cnt"+args.board_num);
 					selector2.text(" " + screp_num);
-					if(recommendFlag == 'recommend'){
+
+					alert(screp_num);
+					alert(screpFlag);
+					if(screpFlag == 'screp'){
 						selector.attr("src", "../image/screp_off.png");
 					} else{
 						selector.attr("src", "../image/screp_on.png");
@@ -212,9 +216,9 @@ $(function(){
 							<span class="u_ico_coment">댓글</span>
 							<span class="text_num">${board.commentCount}</span>				
 						</a>
-		 				<a href="/screp/screp.do?board_num=${board.board.board_num}" class="btns_screp" >
-							<span class="u_ico_screp">스크렙</span>
-							<span class="text_num">19</span>
+		 				<a href="#" id="${board.board.board_num}" class="btns_screp btns_scr_items" >
+							<span class="u_ico_screp"></span><em class="u_txt">스크렙</em><em id="screp_cnt${board.board.board_num}" class="u_cnt"> ${board.board.screp}</em>
+							
 							</a>
 		       		</div>
 		       	</div>

@@ -204,24 +204,21 @@ public class ScrepController {
 		if(login_status.equals("0") || login_status.equals("1")) {
 			String id = (String)request.getSession().getAttribute("id");
 			ScrepCommand screp = new ScrepCommand(id, board_num);
-			
-			ScrepCommand Screpselect = ScrepDao.getScrep(screp);
-		
+
+			ScrepCommand Screpselect = null;
+			Screpselect = ScrepDao.getScrep(screp);
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			if(Screpselect != null){
 				ScrepDao.deleteScrep(Screpselect);
 				map.put("board_num", board_num);
-				map.put("screp_num", ScrepDao.getScrepCountByScrepNum(id));
-				ScrepDao.updateScrepNumByBoardNum(map);
+				map.put("screp", ScrepDao.getCountByScrepNum(board_num));
+				ScrepDao.updateScrepByBoardNum(map);
 				jso.put("screpFlag", "nscrep");
-				
-				
-				
 			} else{
 				ScrepDao.insertScrep(screp);
 				map.put("board_num", board_num);
-				map.put("screp_num", ScrepDao.getScrepCountByScrepNum(id));
-				ScrepDao.updateScrepNumByBoardNum(map);
+				map.put("screp", ScrepDao.getCountByScrepNum(board_num));
+				ScrepDao.updateScrepByBoardNum(map);
 				jso.put("screpFlag", "screp");
 			}
 			jso.put("board_num", board_num);
@@ -238,7 +235,7 @@ public class ScrepController {
 	@RequestMapping("/screp/member.do")
 	public String screpMember(HttpServletResponse resp, int board_num){
 		JSONObject jso = new JSONObject();
-		List<String> members = ScrepDao.getIdByScrepdNum(board_num);
+		List<String> members = ScrepDao.getIdByScrepNum(board_num);
 		jso.put("members", members);
 		jso.put("board_num", board_num);
 		

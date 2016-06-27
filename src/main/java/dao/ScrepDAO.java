@@ -3,22 +3,16 @@ package dao;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
-import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 
-import command.MemberCommand;
-import command.RecommendCommand;
 import command.ScrepCommand;
 
 @Repository
 public class ScrepDAO extends SqlSessionDaoSupport {
 	
 
-	public List<String> getIdByScrepdNum(int board_num){
+	public List<String> getIdByScrepNum(int board_num){
 		return getSqlSession().selectList("screp.getIdByScrepNum", board_num);
 	}
 	
@@ -49,11 +43,11 @@ public class ScrepDAO extends SqlSessionDaoSupport {
 		return getSqlSession().selectOne("screp.getCountByBoardNum", id);
 	}
     
-    public int updateScrepNumByBoardNum (HashMap<String, Object> map){
-		return getSqlSession().update("screp.updateScrepNumByBoardNum", map);
+    public int updateScrepByBoardNum(HashMap<String, Object> map){
+		return getSqlSession().update("screp.updateScrepByBoardNum", map);
 	}
-    public List<String> getIdByScrepNum(int board_num){
-		return getSqlSession().selectList("screp.getIdByScrepNum", board_num);
+   
+    public Integer getCountByScrepNum(Integer board_num){
+		return getSqlSession().selectOne("screp.getCountByScrepNum", board_num);
 	}
-    
  }

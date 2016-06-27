@@ -10,7 +10,7 @@
 	</insert>
 	
 	<select id="getScrep" parameterType="command.ScrepCommand" resultType="command.ScrepCommand">
-		select * from board where id=#{id} and board_num=#{board_num}
+		select * from screp where id=#{id} and board_num=#{board_num}
 	</select>
 	
 	<select id="getScrepCountByScrepNum" parameterType="String" resultType="Integer">
@@ -35,4 +35,14 @@
 	<select id="getScrepListById" parameterType="String" resultType="java.lang.Integer">
 		select board_num from screp where id=#{id}
 	</select>
+	
+	<select id="getCountByScrepNum" parameterType="Integer" resultType="Integer">
+		select count(id) from screp where board_num=#{board_num}
+	</select>
+	
+	<update parameterType="java.util.HashMap" id="updateScrepByBoardNum"> 
+		update board set screp=#{screp}
+		where board_num=#{board_num}
+	</update>
+	
 </mapper>
