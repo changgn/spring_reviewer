@@ -10,6 +10,8 @@
 <script>
 
 // 스크랩 버튼
+
+
 $(function(){
 	$(".btns_scr_items").click(function(e){
 		e.preventDefault();
@@ -45,8 +47,6 @@ $(function(){
 		});
 	
 	});
-
-$(function(){
 	var top = 0;
 	$(".cont_menu_option").click(function(e){
 		e.preventDefault();

@@ -100,36 +100,6 @@ public class ScrepController {
 	@RequestMapping(value="/profile/screpList.do")
 	public String ScrepList(HttpServletRequest request, String comment, Model model){
 
-/*		//스크랩 버튼 insert,    id 값으로 board_num을 뽑아오고 -> myprofile
-		//스크랩 숫자 저장
-		int screpCount = ScrepDao.getScrepCountByScrepNum(board_num);
-		model.addAttribute("screpCount", screpCount);
-		
-		//스크랩 리스트 불러오기
-		List<ScrepCommand> screpList = null;
-		screpList = ScrepDao.getScrepList();
-		id = (String) request.getSession().getAttribute("id");
-		board_num = (Integer)request.getSession().getAttribute("board_num");
-		screpList = ScrepDao.getListBoardNum(board_num);
-		
-		if(id != null ){
-			ScrepCommand Screp = new ScrepCommand(id,board_num);
-			ScrepCommand Screps = ScrepDao.getScrep(Screp);
-			if(Screps != null){
-				model.addAttribute("screpFlag", "scrap");
-			}else{
-				model.addAttribute("screpFlag", "nscrap");
-			}
-		}
-		
-		if(screpList != null) { 
-			model.addAttribute("screpList", screpList);
-			model.addAttribute("screpCount", screpList.size());
-		}	
-		
-		model.addAttribute("board_num", board_num);
-		*/
-
 		String id = (String) request.getSession().getAttribute("id");
 		String paramId = request.getParameter("id");
 		int screpCount = ScrepDao.getScrepCountByScrepNum(paramId);
@@ -190,16 +160,7 @@ public class ScrepController {
 					}
 				}
 				
-/*				ScrepCommand Screp = new ScrepCommand(id, vo.getBoard_num());
-				if(Screp.getId() != null ){
-					ScrepCommand Screps = ScrepDao.getScrep(Screp);
-					if(Screps != null){
-						boardMap.put("screpFlag", "screp");
-					}else{
-						boardMap.put("screpFlag", "nscrep");
-					}
-				}*/
-					
+
 				boardMap.put("board", vo);
 				boardMap.put("photo", photo);
 				boardMap.put("category", category);
