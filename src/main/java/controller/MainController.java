@@ -70,17 +70,38 @@ public class MainController {
 		String login_status = (String)request.getSession().getAttribute("login_status");
 		request.getSession().setAttribute("pageno", 1);
 		
+		
 		List<BoardCommand> boardList = null;
 		List<HashMap> allBoardList = new ArrayList<HashMap>();
 		List<String> categoryIdList = null;
+		HashMap<String, Integer> pageListMap = new HashMap<String, Integer>();
+		
+		
+		Integer pageno = (Integer)request.getSession().getAttribute("pageno");
+		if(pageno == null){
+			pageno = 1;
+		}
+		
+		int startBoardNum = 0;
+		int endBoardNum = 0;
+		int pagesize = 3;
+		startBoardNum = (pagesize * (pageno-1))+1;
+		endBoardNum = (pageno * pagesize) ;
+		pageListMap.put("startBoardNum", startBoardNum);
+		pageListMap.put("endBoardNum", endBoardNum);
+		
+		request.getSession().setAttribute("pageno", 2);
+		
+		
 		
 		if(login_status==null){
 			login_status = "2";
 			request.getSession().setAttribute("login_status", login_status);
 		}
 		if(login_status.equals("2")){
+			//boardList = boardDao.getList();
+			boardList = mainDao.getPageList(pageListMap);
 			
-			boardList = boardDao.getList();
 			
 			
 		}else {
@@ -90,7 +111,8 @@ public class MainController {
 			
 			if(categoryIdList.size() == 0){
 				if(boardNumList.size() == 0){
-					boardList = boardDao.getList();
+					//boardList = boardDao.getList();
+					boardList = mainDao.getPageList(pageListMap);
 				}else {
 					boardList = boardDao.getListByExBoardNum(boardNumList);
 				}
@@ -162,7 +184,7 @@ public class MainController {
 		
 		int startBoardNum = 0;
 		int endBoardNum = 0;
-		int pagesize = 10;
+		int pagesize = 3;
 		startBoardNum = (pagesize * (pageno-1))+1;
 		endBoardNum = (pageno * pagesize) ;
 		pageListMap.put("startBoardNum", startBoardNum);
