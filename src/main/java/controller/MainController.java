@@ -199,7 +199,6 @@ public class MainController {
 		if(login_status.equals("2")){
 			boardList = mainDao.getPageList(pageListMap);
 		}else {
-			
 			categoryIdList = memberCategoryDao.getCategoryIdById(id);
 			
 			if(categoryIdList.size() == 0){
