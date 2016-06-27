@@ -12,7 +12,7 @@
 				$(".follow_button").click(function(e){
 					e.preventDefault();
 					var url= "/follow/followerAdd.do";
-					var params = "profileId=" + "${profileId}"+
+					var params = "profileId=" + "${profileId}";
 					params += "&add_id=" + $(this).attr(add_id);
 					params += "&follow=" + $(this).attr("id");
 					$.ajax({

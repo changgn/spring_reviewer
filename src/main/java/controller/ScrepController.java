@@ -274,7 +274,7 @@ public class ScrepController {
 	//멤버 스크랩 갯수
 	@ResponseBody
 	@RequestMapping("/screp/member.do")
-	public String recommend(HttpServletResponse resp, int board_num){
+	public String screpMember(HttpServletResponse resp, int board_num){
 		JSONObject jso = new JSONObject();
 		List<String> members = ScrepDao.getIdByScrepdNum(board_num);
 		jso.put("members", members);
