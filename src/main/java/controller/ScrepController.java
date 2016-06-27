@@ -161,6 +161,7 @@ public class ScrepController {
 				}
 				
 
+					
 				boardMap.put("board", vo);
 				boardMap.put("photo", photo);
 				boardMap.put("category", category);

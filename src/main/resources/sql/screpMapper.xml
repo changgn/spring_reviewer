@@ -10,7 +10,7 @@
 	</insert>
 	
 	<select id="getScrep" parameterType="command.ScrepCommand" resultType="command.ScrepCommand">
-		select * from screp where id=#{id} and board_num=#{board_num}
+		select * from board where id=#{id} and board_num=#{board_num}
 	</select>
 	
 	<select id="getScrepCountByScrepNum" parameterType="String" resultType="Integer">
