@@ -57,7 +57,7 @@ public class AdminController {
 	}
 	
 	/**	게시글 삭제	*/
-	@RequestMapping("adminDelete.do")
+	@RequestMapping("/administrator/adminDelete.do")
 	public String adminDelete(HttpServletRequest request, @RequestParam("board_num") String board_num){
 		String id = (String) request.getSession().getAttribute("id");
 		if(id.equals("admin")){
@@ -68,10 +68,16 @@ public class AdminController {
 	
 	/**	회원	*/
 	@RequestMapping("/administrator/adminMem.do")
-	public ModelAndView adminMemForm(){
+	public ModelAndView adminMemForm(HttpServletRequest request){
 		ModelAndView mav = new ModelAndView();
 		List<MemberCommand> member_list = null;
-		member_list = memberDAO.getList();  
+		member_list = memberDAO.getList(); 
+		String id = (String)request.getSession().getAttribute("id");
+		if(id=="admin"){
+			if(member_list.contains(id)){
+				member_list.remove(id);
+			}
+		}
 		mav.addObject("memberList", member_list);	
 		int count = 0;      
 		count = memberDAO.count();

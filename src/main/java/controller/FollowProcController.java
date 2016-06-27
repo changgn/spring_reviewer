@@ -72,12 +72,15 @@ public class FollowProcController {
 	/**	팔로워 상세에서 팔로우 처리	*/
 	@ResponseBody
 	@RequestMapping("/follow/followerAdd.do")
-	public String addFollower(HttpServletRequest request, HttpServletResponse reponse , @RequestParam("profileId") String profileId, @RequestParam("add_id") String add_id, @RequestParam("follow") String follow, Model model){
-		ModelAndView mav = new ModelAndView();
+	public String addFollower(HttpServletRequest request, HttpServletResponse reponse , String profileId,  String add_id, String follow, Model model){
+//		ModelAndView mav = new ModelAndView();
 		String from_id = (String)request.getSession().getAttribute("id");	/**	로그인 Id	*/
-		System.out.println("로그인 ID : " +from_id);
+		System.out.println("로그인 ID : " + from_id);
+		
 		JSONObject jso = new JSONObject();
+		
 		System.out.println("추기 또는 삭제 ID  : " + add_id);
+		
 		FollowCommand followAdd = new FollowCommand(); /**	커맨드 객체	*/
 		followAdd.setFrom_id(from_id);	/**	로그인 Id 저장	*/
 		followAdd.setTo_id(add_id);	/**	추가 Id 저장	*/
@@ -198,7 +201,7 @@ public class FollowProcController {
 						map.put(tofollowing, false);
 					}
 				}
-				/**	팔로잉목록과 비교하여 있을 경우만 true값으로 저장	*/
+				/**	팔로잉목록과 비교하여 있을 경우만 true값으로 전환	*/
 				for(String following : my_to_id_list){
 					for(String tofollowing : to_id_list){
 						if(tofollowing.equals(following)){
