@@ -35,6 +35,20 @@
 				$(this).css("background-color","white");
 			});
 			
+			
+			$("#btn_mod_categoty").click(function(){
+				$(location).attr("href", "/categorySet/categorySet.do");
+			});		
+			$("#btn_admin").click(function(){
+				$(location).attr("href", "/administrator/adminForm.do");
+			});				
+			$("#btn_mod_member").click(function(){
+				$(location).attr("href", "/member/modify.do");
+			});	
+			$("#btn_logout").click(function(){
+				$(location).attr("href", "/logon/logout.do");
+			});	
+			
 			$("#nav, #content").click(function(){
 				$("#alarm, #user").slideUp("fast");
 				$("#alarm, #user").removeAttr("class");
@@ -107,12 +121,12 @@
 		<c:if test="${login_status==0 || login_status==1}">
 			<div id="user">
 				<ul id="list_user">
-					<li><a href="/categorySet/categorySet.do">카테고리 수정</a></li>
+					<li id="btn_mod_categoty"><a href="#">카테고리 수정</a></li>
 					<c:if test="${login_status==0}">
-						<li><a href="/administrator/adminForm.do">관리자 페이지</a></li>
+						<li id="btn_admin"><a href="#">관리자 페이지</a></li>
 					</c:if>
-					<li><a href="/member/modify.do">회원정보 수정</a></li>
-					<li><a href="/logon/logout.do">로그아웃</a></li>
+					<li id="btn_mod_member"><a href="#">회원정보 수정</a></li>
+					<li id="btn_logout"><a href="#">로그아웃</a></li>
 				</ul>
 			</div>
 		</c:if>

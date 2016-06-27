@@ -129,40 +129,39 @@ public class BoardController {
 		BoardCommand board = null;
 
 		String id = (String)request.getSession().getAttribute("id");
+		String commentCount = "0";
+		CategoryCommand category = null;
 		
 		board = boarddao.selectContent(Integer.parseInt(board_num));
-		photoList = photodao.getListByBoardNum(Integer.parseInt(board_num));
-		commentList = commentdao.getListByBoardNum(Integer.parseInt(board_num));
-		
 		if(board != null) {
-			CategoryCommand category = categorydao.getOne(board.getCategory_id());
-			model.addAttribute("board", board);
-			model.addAttribute("category", category);
-			
+			photoList = photodao.getListByBoardNum(Integer.parseInt(board_num));
+			commentList = commentdao.getListByBoardNum(Integer.parseInt(board_num));
+			category = categorydao.getOne(board.getCategory_id());
+			commentCount = commentdao.getCountByBoardNum(board.getBoard_num());
+			if(commentCount==null)	commentCount="0";
+			if(id != null ){
+				RecommendCommand recommend = new RecommendCommand(id, Integer.parseInt(board_num));
+				RecommendCommand recommends = recommendDao.getRecommend(recommend);
+				if(recommends != null){
+					model.addAttribute("recommendFlag", "recommend");
+				}else{
+					model.addAttribute("recommendFlag", "nrecommend");
+				}
+			}
 		} else {
 			model.addAttribute("error", "error");
 		}
-		if(photoList != null) {
-			model.addAttribute("photoList", photoList);
-		}
-		if(id != null ){
-			RecommendCommand recommend = new RecommendCommand(id, Integer.parseInt(board_num));
-			RecommendCommand recommends = recommendDao.getRecommend(recommend);
-			if(recommends != null){
-				model.addAttribute("recommendFlag", "recommend");
-			}else{
-				model.addAttribute("recommendFlag", "nrecommend");
-			}
-		}
-		if(commentList != null) { 
-			model.addAttribute("commentList", commentList);
-			model.addAttribute(""
-					+ "", commentList.size());
-		}	
+
+
 		
 
 		model.addAttribute("board_num", board_num);
+		model.addAttribute("board", board);
+		model.addAttribute("photoList", photoList);
+		model.addAttribute("category", category);
 		model.addAttribute("comment", comment);
+		model.addAttribute("commentList", commentList);
+		model.addAttribute("commentCount", commentCount);
 		return "content/contentForm";
 		
 	}

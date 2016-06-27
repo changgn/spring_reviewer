@@ -120,7 +120,7 @@ $(function(){
 	
 	});
 });
-/*
+
 $(function() {
     $(".list_view_more").on("click",function(e) { 
     	e.preventDefault();
@@ -132,13 +132,13 @@ $(function() {
               data:params,   	// 현재 리스트에 뿌려져있는 마지막 글 번호를 넣어준다. 그래야지 리스트의 마지막글 다음부터의 리스트를 가져온다.
               dataType:"json",
               beforeSend:  function() {
-             	 $('a.list_view_more').append('<img src="../image/loading.gif" />');    // 로딩 진행줄일때 .gif로 로딩중이라는거 표시 
+             	 $(".view_more").append('<img id="loadingimg" src="../image/loading.gif" />');    // 로딩 진행줄일때 .gif로 로딩중이라는거 표시 
 	          },
 	          success: function(args){
 	        	  var allBoardList = args.allBoardList;
 	        	  var view = "";
-	        	  $(".list_view_more").remove();
-	        	 for(var idx=0; idx<allBoardList.length; idx++) {
+	        	  $("#loadingimg").remove();
+	        	  for(var idx=0; idx<allBoardList.length; idx++) {
 	        		  view += '<div class="content_wrap"><div class="content_first"><div class="cont_writer">';
 		        	  view += '<a href="#" class="profile_photo"> <span class="profile_thumb"> <img src="../image/5.jpg"> <span class="profile_thumb_mask"></span></span></a>';
 		        	  view += '<a href="/profile/myProfile.do?id=' + allBoardList[idx].board.id +'" class="cont_writer_id">'+ allBoardList[idx].board.id +'</a>';
@@ -165,40 +165,51 @@ $(function() {
 		        	  }
 		        	  view += '<div class="cont_category_info"><p id="cont_category_info_f">' + allBoardList[idx].category.group1 + '>' + allBoardList[idx].category.group2 + '>' + allBoardList[idx].category.group3 +'</p></div>';
 		        	  view += '<div class="cont_btns"> <div class="cont_btns_wrap">';
-		        	   if("${login_status!=0 && login_status!=1}"){
+		        	  if("${login_status}"!=0 && "${login_status}"!=1){
 		        		  view += '<div class="btns_re">';
-		        		  view += '<a href="/logon/login.do" id="' + allBoardList[idx].board.board_num + '" class="btns_re_item"><span id="u_ico" class="u_ico"><img src="../image/recommend_on.png"></span><em class="u_txt">좋아요</em>';
-		        		  view += '<em id="u_cnt' + allBoardList[idx].board.board_num + '"class="u_cnt">' + allBoardList[idx].board.recommend_num + '</em></a></div>';
-		        		  
-		        	  } 
-		        	  if("${login_status==0 || login_status==1}"){
-		        		  view += '<div class="btns_re">';
-		        		  view += '<a href="#" id="' + allBoardList[idx].board.board_num + '" class="btns_re_item btns_re_items">';
-		        		  view += '<span id="u_ico" class="u_ico">';
-		        		  if(allBoardList[idx].recommendFlag == "${'recommend'}"){
-		        			  view += '<img id="recommend_img' + allBoardList[idx].board.board_num + '" src="../image/recommend_off.png">';
-		        		  }
-		        		  if(allBoardList[idx].recommendFlag == "${'nrecommend'}"){
-		        			  view += '<img id="recommend_img' + allBoardList[idx].board.board_num + '" src="../image/recommend_on.png">';
-		        		  }
-		        		  view += '</span><em class="u_txt">좋아요</em><em id="u_cnt'+ allBoardList[idx].board.board_num +'" class="u_cnt"> '+ allBoardList[idx].board.recommend_num +'</em>';
-		        		  view += '</a></div>';
-		        	  } 
+		        		  view += '<a href="/logon/login.do" id="'+ allBoardList[idx].board.board_num +'" class="btns_re_item"><span id="u_ico" class="u_ico"><img src="../image/recommend_on.png"></span><em class="u_txt">좋아요</em></a>';
+		        		  view += '<a href="#" id="'+ allBoardList[idx].board.board_num +'" class="btns_re_item re_menu_option">';
+		        		  view += '<em id="u_cnt'+ allBoardList[idx].board.board_num +'" class="u_cnt"> '+ allBoardList[idx].board.recommend_num +'</em></a>';
+		        		  view += '<div id="memList_'+ allBoardList[idx].board.board_num +'" class="re_btn_option">';	
+		        		  view += '<div class="ly_dimmed"></div>';
+		        		  view += '<ul class="re_popup"></ul>';
+		        		  view += '</div></div>'
+		        	  } else{
+		        		 view += '<div class="btns_re">';
+		        		 view += '<a href="#" id="'+ allBoardList[idx].board.board_num +'" class="btns_re_item btns_re_items">';
+		        		 view += '<span id="u_ico" class="u_ico">';
+		        		 if(allBoardList[idx].recommendFlag == 'recommend'){
+		        			 view += '<img id="recommend_img'+ allBoardList[idx].board.board_num +'" src="../image/recommend_off.png">';
+		        		 }else{
+		        			 view += '<img id="recommend_img'+ allBoardList[idx].board.board_num +'" src="../image/recommend_on.png">';
+		        		 }
+		        		 view += '</span><em class="u_txt">좋아요</em></a>'; 
+		        		 view += '<a href="#" id="'+ allBoardList[idx].board.board_num +'" class="btns_re_item re_menu_option">';
+		        		 view += '<em id="u_cnt'+ allBoardList[idx].board.board_num +'" class="u_cnt"> '+ allBoardList[idx].board.recommend_num +'</em></a>';
+		        		 view += '<div id="memList_'+ allBoardList[idx].board.board_num + '" class="re_btn_option">';
+		        		 view += '<div class="ly_dimmed"></div>';
+	        		     view += '<ul class="re_popup"></ul>';
+	        		     view += '</div></div>';
+		        	  }
+		        	  view += '<a href="/content/contentForm.do?board_num='+ allBoardList[idx].board.board_num +'&comment=true" class="btns_coment">';
+		        	  view += '<span class="u_ico_coment">댓글</span>';
+		        	  view += '<span class="text_num">'+ allBoardList[idx].commentCount +'</span></a>';
+		        	  view += '<a href="#" class="btns_screp">';
+		        	  view += '<span class="u_ico_screp">스크렙</span><span class="text_num">19</span></a>';
+		        	  view += '</div></div></div>';
 		        	  
-		        	  
-		        	  
-		        	  $("#content_wrap_area").append(view);
 	        	  }
-	        	 
+	        	  
+	        	  $("#content_wrap_area").append(view);
+	        	  
 	          }
 	          ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
 			    	alert(e.responseText);
 			    }
       	});
-    
     });
 });
-*/
+
 </script>
 
 </head>
@@ -265,7 +276,7 @@ $(function() {
        	</c:if>
        	<div class="cont_category_info">
        		<p id="cont_category_info_f">${board.category.group1}> ${board.category.group2}> ${board.category.group3}</p>
-       	</div><!-- 여기까지 했음 -->
+       	</div>
        	<div class="cont_btns">
        		<div class="cont_btns_wrap">
 				<c:if test="${login_status!=0 && login_status!=1}">
@@ -307,9 +318,9 @@ $(function() {
 					<span class="u_ico_coment">댓글</span>
 					<span class="text_num">${board.commentCount}</span>				
 				</a>
-				<a href="/screp/screp.do?board_num=${board.board.board_num}" class="btns_screp" >
+				<a href="#" class="btns_screp" >
 					<span class="u_ico_screp">스크렙</span>
-					<span class="text_num">0</span>
+					<span class="text_num">19</span>
 				</a>
        		</div>
        	</div>
