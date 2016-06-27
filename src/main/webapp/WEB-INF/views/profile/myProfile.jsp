@@ -38,12 +38,10 @@ $(function(){
 					var selector2 = $("#screp_cnt"+args.board_num);
 					selector2.text(" " + screp_num);
 
-					alert(screp_num);
-					alert(screpFlag);
-					if(screpFlag == 'screp'){
-						selector.attr("src", "../image/screp_off.png");
-					} else{
+				if(screpFlag == 'screp'){
 						selector.attr("src", "../image/screp_on.png");
+					} else{
+						selector.attr("src", "../image/screp_off.png");
 					}
 				} else {
 					$(location).attr("href", "/logon/login.do");
@@ -56,6 +54,34 @@ $(function(){
 		    }
 		});
 	
+	});
+	
+	$(".re_menu_option").click(function(e){
+		e.preventDefault();
+		var b = $("#memList_" + $(this).attr("id"));
+		var url= "/screp/member.do";
+		var params = "board_num=" + $(this).attr("id");
+		$.ajax({
+			type:"post"		// 포스트방식
+			,url:url		// url 주소
+			,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
+			,dataType:"json"
+			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
+				var members = args.members;
+				$(".re_popup_close").remove();
+				for(var idx=0; idx<members.length; idx++) {
+					$(".re_popup").append("<li><a href='/profile/myProfile.do?id=" + members[idx] + "' class='re_popup_close'>" + members[idx] + "</a></li>")
+				}
+				if(members.length==0) {
+					$(".re_popup").append("<li><a href='#' class='re_popup_close' onclick='event.preventDefault();'>게시물을 추천해 주세요</a></li>");
+				}
+				
+			}
+		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+		    	alert(e.responseText);
+		    }
+		});
+		b.css({}).show();
 	});
 	var top = 0;
 	$(".cont_menu_option").click(function(e){
@@ -217,9 +243,21 @@ $(function(){
 							<span class="text_num">${board.commentCount}</span>				
 						</a>
 		 				<a href="#" id="${board.board.board_num}" class="btns_screp btns_scr_items" >
-							<span class="u_ico_screp"></span><em class="u_txt">스크렙</em><em id="screp_cnt${board.board.board_num}" class="u_cnt"> ${board.board.screp}</em>
-							
+							<span class="u_ico_screp">
+								<c:if test="${board.screpFlag == 'screp'}">
+									<img id="screp_img${board.board.board_num}" src="../image/screp_on.png">	  
+								</c:if>              
+								
+								<c:if test="${board.screpFlag == 'nscrep'}">
+									<img id="screp_img${board.board.board_num}" src="../image/screp_off.png">	  
+								</c:if>		
+		                	</span><em class="u_txt">스크렙</em><em id="screp_cnt${board.board.board_num}" class="u_cnt"> ${board.board.screp}</em>
 							</a>
+							<div id="memList_${board.board.board_num}" class="re_btn_option">
+							<div class="ly_dimmed"></div>
+							<ul class="re_popup"></ul>
+						</div>
+					</div>
 		       		</div>
 		       	</div>
 			</div>

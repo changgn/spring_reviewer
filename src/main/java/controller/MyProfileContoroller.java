@@ -23,6 +23,7 @@ import dao.FollowDAO;
 import dao.MemberDAO;
 import dao.MemberCategoryDAO;
 import dao.PhotoDAO;
+import dao.RecommendDAO;
 import dao.ScrepDAO;
 import command.BoardCommand;
 import command.CategoryCommand;
@@ -30,6 +31,7 @@ import command.FollowCommand;
 import command.MemberCategoryCommand;
 import command.MemberCommand;
 import command.PhotoCommand;
+import command.RecommendCommand;
 import command.ScrepCommand;
 @Controller
 public class MyProfileContoroller {
@@ -48,6 +50,8 @@ public class MyProfileContoroller {
 	private PhotoDAO PhotoDao;
 	@Autowired
 	private ScrepDAO ScrepDao;
+	@Autowired
+	private RecommendDAO recommendDao;
 	
 	//DAO 초기화
 	public void setBoardDao(BoardDAO boardDao) {
@@ -71,6 +75,7 @@ public class MyProfileContoroller {
 	public void setScrepDao(ScrepDAO screpDao) {
 		ScrepDao = screpDao;
 	}
+	public void setRecommendDao(RecommendDAO recommendDao) { this.recommendDao = recommendDao; }
 	
 	//Command Model view 설정
 	@ModelAttribute("screpCommand")
@@ -161,6 +166,24 @@ public class MyProfileContoroller {
 							if(contentSub.length > 3) {
 								contentFlag = true;
 								Command.setContent(contentSub[0] + contentSub[1] + contentSub[2]);
+							}
+							RecommendCommand recommend = new RecommendCommand(id, Command.getBoard_num());
+							if(recommend.getId() != null ){
+								RecommendCommand recommends = recommendDao.getRecommend(recommend);
+								if(recommends != null){
+									boardMap.put("recommendFlag", "recommend");
+								}else{
+									boardMap.put("recommendFlag", "nrecommend");
+								}
+							}
+							ScrepCommand screp = new ScrepCommand(id, Command.getBoard_num());
+							if(screp.getId() != null ){
+								ScrepCommand screps = ScrepDao.getScrep(screp);
+								if(screps != null){
+									boardMap.put("screpFlag", "screp");
+								}else{
+									boardMap.put("screpFlag", "nscrep");
+								}
 							}
 							boardMap.put("board", Command);
 							boardMap.put("photo", photo);
