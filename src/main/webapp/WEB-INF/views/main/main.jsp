@@ -194,10 +194,10 @@ $(function() {
 		        		  view += '<span class="cont_theview"><span>...</span><a href="/content/contentForm.do?board_num=' + allBoardList[idx].board.board_num + '" class="btn_view_more">더보기</a></span>';
 		        	  }
 		        	  view +='</span></span></div>';
-		        	  if(allBoardList[idx].photo.realPath != null){
+		        	  if(allBoardList[idx].photo != null){
 		        		  view += '<a href="/content/contentForm.do?board_num=' + allBoardList[idx].board.board_num + '" class="item_info_wrap">';
 		        		  view += '<span class="item_cont" title="컨텐츠 상세페이지">';
-		        		  view += '<span class="item_thumb"><img class="list_photo" src="' + allBoardList[idx].photo.realPath + '"><span class="thumb_mask_bottom"></span></span></span></a>';
+	        			  view += '<span class="item_thumb"><img class="list_photo" src="' + allBoardList[idx].photo.realPath + '"><span class="thumb_mask_bottom"></span></span></span></a>';
 		        	  }
 		        	  view += '<div class="cont_category_info"><p id="cont_category_info_f">' + allBoardList[idx].category.group1 + '>' + allBoardList[idx].category.group2 + '>' + allBoardList[idx].category.group3 +'</p></div>';
 		        	  view += '<div class="cont_btns"> <div class="cont_btns_wrap">';

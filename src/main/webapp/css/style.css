@@ -80,7 +80,7 @@ img { border: 0; }
 .btn_follow {width: 30px;height: 29px;margin-right: 3px;background-position: -180px -40px;overflow: hidden;float: left;vertical-align: top;}
 #cont_btn_follow {display: inline-block;overflow: hidden;line-height: 999px;vertical-align: top;background-image: url("../image/icon_18.png");}
 /* �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�뜝�룞�삕 �뜝�뙗�눦�삕�뜝�떆怨ㅼ삕 */
- .cont_wdate{top: 30px;right: 54px; position: absolute; z-index: 10; vertical-align: top;}
+ .cont_wdate{top: 30px;right: 54px; position: absolute; z-index: 10; vertical-align: top; color: #828282; }
 /* �뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�뜝�룞�삕�뜝�룞�삕 �뜝�뙣�뙋�삕(�뜝�떊怨ㅼ삕, �뜝�룞�삕�뜝�룞�삕) */
 .cont_menu{right: 25px;position: absolute;top: 24px;}
 .cont_menu_option{display: block;overflow: hidden;line-height: 999px;padding: 3px 12px;	}
@@ -118,7 +118,7 @@ img { border: 0; }
 .u_ico_screp{width: 25px;height: 26px;    display: inline-block;overflow: hidden;margin-right: 3px;line-height: 999px;vertical-align: top;}
 /* 移닷뜝�뙎怨ㅼ삕 �뜝�룞�삕�뜝�룞�삕 */
 .cont_category_info{padding: 6px 26px 40px; text-align: left; border: 1px solid #e6e6e6;border-top: 0 none;border-bottom: 0 none;}
-#cont_category_info_f{font-size: 14px; margin-top: 30px;}
+#cont_category_info_f{font-size: 14px; margin-top: 30px; color: rgba(76, 76, 76, 0.84);}
 
 /* 占쎈쐭癰귣떯由� */
 .profile_thumb{ display: inline-block;overflow: hidden;position: relative;width: 52px;height: 52px;vertical-align: middle; }
@@ -133,7 +133,7 @@ img { border: 0; }
 /* loginFrom */
 #logon { min-height: 800px; }
 #login_logo { width : 300px; height: 50px; margin: 0 auto; margin-top: 150px; margin-bottom: 40px; }
-#login_logo img{ width: 300px; height: 100%; }
+#login_logo img{ width: 280px; height: 100%; }
 .text_login { width: 100%; height: 100%; border: 0px; font-size: 20px; padding: 10px; color: #4C4C4C; }
 
 /* inputFrom */

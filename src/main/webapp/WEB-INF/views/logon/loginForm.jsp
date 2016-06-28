@@ -17,11 +17,17 @@ $(document).ready(function(){
     }
     
     $("#idSaveCheck").change(function(){ // 체크박스에 변화가 있다면,
-        if($("#idSaveCheck").is(":checked")){ // ID 저장하기 체크했을 때,
+        if($(this).is(":checked")){ // ID 저장하기 체크했을 때,
             var userInputId = $("input[name='id']").val();
             setCookie("userInputId", userInputId, 7); // 7일 동안 쿠키 보관
         }else{ // ID 저장하기 체크 해제 시,
             deleteCookie("userInputId");
+        }
+    });
+    $("#autologin").change(function(){ // 체크박스에 변화가 있다면,
+        if($(this).is(":checked")){ // ID 저장하기 체크했을 때,
+        }else{ // ID 저장하기 체크 해제 시,
+            deleteCookie("autoLogin");
         }
     });
     // ID 저장하기를 체크한 상태에서 ID를 입력하는 경우, 이럴 때도 쿠키 저장.
@@ -116,7 +122,8 @@ function check() {
 			<div id="login_logo"><a href="#"><img src="../image/reviewer_gray.png" ></a></div>
 			<div id="div_id" class="size_long"><input type="text" class="text_login" id="id" name="id" placeholder="아이디" ></div>
 			<div id="div_passwd" class="size_long"><input type="password" class="text_login" id="passwd" name="passwd" placeholder="비밀번호"></div>	
-			<div id="div_idsave"><input id="idSaveCheck" type="checkbox"> 아이디 저장</div>
+			<div id="div_idsave"><input id="idSaveCheck" type="checkbox"> 아이디 저장&nbsp;&nbsp;&nbsp;&nbsp;<input id="autologin" name="autologin" type="checkbox"> 자동 로그인</div>
+			<div id="div_autologin"></div>
 			<div id="btn_login_submit" class="btn_long"><a href="#" >로 그 인</a></div>
 		</div>
 	</form>

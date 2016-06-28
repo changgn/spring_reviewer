@@ -25,12 +25,14 @@ import command.CategoryCommand;
 import command.CommentCommand;
 import command.PhotoCommand;
 import command.RecommendCommand;
+import command.ScrepCommand;
 import command.SecretCommand;
 import dao.BoardDAO;
 import dao.CategoryDAO;
 import dao.CommentDAO;
 import dao.PhotoDAO;
 import dao.RecommendDAO;
+import dao.ScrepDAO;
 import dao.SecretDAO;
 import net.sf.json.JSONObject;
 
@@ -51,6 +53,8 @@ public class BoardController {
 	private RecommendDAO recommendDao;
 	@Autowired
 	private SecretDAO secretDao;
+	@Autowired
+	private ScrepDAO ScrepDao;
 
 	public void setCategorydao(CategoryDAO categorydao) {
 		this.categorydao = categorydao;
@@ -66,7 +70,9 @@ public class BoardController {
 	}
 	public void setRecommendDao(RecommendDAO recommendDao) { this.recommendDao = recommendDao; }
 	public void setSecretDao(SecretDAO secretDao) {this.secretDao = secretDao; }
-	
+	public void setScrepDao(ScrepDAO screpDao) {
+		ScrepDao = screpDao;
+	}
 
 	@RequestMapping(value="write/writeForm.do", method=RequestMethod.GET)
 	public String insertboard(){
@@ -146,6 +152,15 @@ public class BoardController {
 					model.addAttribute("recommendFlag", "recommend");
 				}else{
 					model.addAttribute("recommendFlag", "nrecommend");
+				}
+				ScrepCommand screp = new ScrepCommand(id, Integer.parseInt(board_num));
+				if(screp.getId() != null ){
+					ScrepCommand screps = ScrepDao.getScrep(screp);
+					if(screps != null){
+						model.addAttribute("screpFlag", "screp");
+					}else{
+						model.addAttribute("screpFlag", "nscrep");
+					}
 				}
 			}
 		} else {

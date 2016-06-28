@@ -73,10 +73,8 @@ public class AdminController {
 		List<MemberCommand> member_list = null;
 		member_list = memberDAO.getList(); 
 		String id = (String)request.getSession().getAttribute("id");
-		if(id=="admin"){
-			if(member_list.contains(id)){
-				member_list.remove(id);
-			}
+		if(member_list.contains(id)){
+			member_list.remove(id);
 		}
 		mav.addObject("memberList", member_list);	
 		int count = 0;      

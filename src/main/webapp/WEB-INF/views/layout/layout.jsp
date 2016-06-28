@@ -24,7 +24,7 @@
 					$("#nav").css("position", "static");
 				}
 			});
-
+			
 		});
 		$(function(){		
 			
@@ -82,9 +82,6 @@
 			});
 
 			$("#btn_my").click(function(){
-				if($("#btn_my a").attr("href")=="/logon/login.do"){
-					alert("로그인이 필요합니다");
-				}
 				$(location).attr("href", $("#btn_my a").attr("href"));
 			});
 		});
@@ -151,10 +148,10 @@
 			<li>
 				<div id="btn_my">
 					<c:if test="${login_status!=0 && login_status!=1}">
-						<a href="/logon/login.do" class="nav_btn">M&nbsp;&nbsp;&nbsp;Y</a>
+						<a href="/logon/login.do" class="nav_btn">로 그 인</a>
 					</c:if>
 					<c:if test="${login_status==0 || login_status==1}">
-						<a href="/profile/myProfile.do?id=${sessionScope.id }" class="nav_btn">M&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y</a>
+						<a href="/profile/myProfile.do?id=${sessionScope.id}" class="nav_btn">${sessionScope.id}</a>
 					</c:if>
 				</div>
 			</li>
