@@ -14,21 +14,12 @@
 
 $(function(){
 	var top = 0;
-	$(".cont_menu_option").click(function(){
+	$(".cont_menu_option").click(function(e){
+		e.preventDefault();
 		var a = $("#menu_" + $(this).attr("id"));
-		top = a.offset().top;
-		$("body").css({
-			top: -top,
-			position: "fixed",
-			width: "100%",
-			height: "auto"
-		});
-		a.css({
-	    }).show();
+		a.show();
 	});
 	$(".cont_btn_option").click(function(){
-		$("body").removeAttr("style");
-		$('html, body').scrollTop(top);
 		$(this).hide();
 	});	
 });
@@ -69,7 +60,7 @@ $(function(){
 	
 	});
 	
-	$(".btns_scr_items").click(function(e){
+	$("body").on("click", ".btns_scr_items", function(e){
 		e.preventDefault();
 		var url= "/screp/screp.do";
 		var params = "board_num=" + $(this).attr("id");
@@ -204,8 +195,9 @@ $(function() {
 		        	  if("${login_status}"!=0 && "${login_status}"!=1){
 		        		  view += '<div class="btns_re">';
 		        		  view += '<a href="/logon/login.do" id="'+ allBoardList[idx].board.board_num +'" class="btns_re_item"><span id="u_ico" class="u_ico"><img src="../image/recommend_on.png"></span><em class="u_txt">좋아요</em></a>';
+		        		  view += '&nbsp;';
 		        		  view += '<a href="#" id="'+ allBoardList[idx].board.board_num +'" class="btns_re_item re_menu_option">';
-		        		  view += '<em id="u_cnt'+ allBoardList[idx].board.board_num +'" class="u_cnt">&nbsp;'+ allBoardList[idx].board.recommend_num +'</em></a>';
+		        		  view += '<em id="u_cnt'+ allBoardList[idx].board.board_num +'" class="u_cnt">'+ allBoardList[idx].board.recommend_num +'</em></a>';
 		        		  view += '<div id="memList_'+ allBoardList[idx].board.board_num +'" class="re_btn_option">';	
 		        		  view += '<div class="ly_dimmed"></div>';
 		        		  view += '<ul class="re_popup"></ul>';
@@ -220,8 +212,9 @@ $(function() {
 		        			 view += '<img id="recommend_img'+ allBoardList[idx].board.board_num +'" src="../image/recommend_on.png">';
 		        		 }
 		        		 view += '</span><em class="u_txt">좋아요</em></a>'; 
+		        		 view += '&nbsp;';
 		        		 view += '<a href="#" id="'+ allBoardList[idx].board.board_num +'" class="btns_re_item re_menu_option">';
-		        		 view += '<em id="u_cnt'+ allBoardList[idx].board.board_num +'" class="u_cnt">&nbsp;'+ allBoardList[idx].board.recommend_num +'</em></a>';
+		        		 view += '<em id="u_cnt'+ allBoardList[idx].board.board_num +'" class="u_cnt">'+ allBoardList[idx].board.recommend_num +'</em></a>';
 		        		 view += '<div id="memList_'+ allBoardList[idx].board.board_num + '" class="re_btn_option">';
 		        		 view += '<div class="ly_dimmed"></div>';
 	        		     view += '<ul class="re_popup"></ul>';
@@ -230,8 +223,18 @@ $(function() {
 		        	  view += '<a href="/content/contentForm.do?board_num='+ allBoardList[idx].board.board_num +'&comment=true" class="btns_coment">';
 		        	  view += '<span class="u_ico_coment">댓글</span>';
 		        	  view += '<span class="text_num">'+ allBoardList[idx].commentCount +'</span></a>';
-		        	  view += '<a href="#" class="btns_screp">';
-		        	  view += '<span class="u_ico_screp">스크렙</span><span class="text_num">19</span></a>';
+
+		        	  if("${login_status}"==0 || "${login_status}"==1) {
+			        	  view += '<a href="#" id="' + allBoardList[idx].board.board_num + '" class="btns_screp btns_scr_items" >';
+			        	  view += '<span class="u_ico_screp">';
+			        	  if(allBoardList[idx].screpFlag == 'screp') {
+			        		  view += '<img id="screp_img' + allBoardList[idx].board.board_num + '" src="../image/screp_on.png">';
+			        	  } else {
+			        		  view += '<img id="screp_img' + allBoardList[idx].board.board_num + '" src="../image/screp_off.png">';
+			        	  }
+			        	  view += '</span><em class="u_txt">스크렙</em><em id="screp_cnt' + allBoardList[idx].board.board_num + '" class="u_cnt"> ' + allBoardList[idx].board.screp + '</em>';
+			        	  view += '</a>';
+		        	  }
 		        	  view += '</div></div></div>';
 		        	  
 	        	  }
@@ -321,7 +324,7 @@ $(function() {
 	                		<span id="u_ico" class="u_ico"><img src="../image/recommend_on.png"></span><em class="u_txt">좋아요</em>
 	                 	</a>
 	                 	<a href="#" id="${board.board.board_num}" class="btns_re_item re_menu_option">
-		              		<em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
+		              		<em id="u_cnt${board.board.board_num}" class="u_cnt">${board.board.recommend_num}</em>
 		              	</a>
            				<div id="memList_${board.board.board_num}" class="re_btn_option">
 							<div class="ly_dimmed"></div>
@@ -342,7 +345,7 @@ $(function() {
                 		    </span><em class="u_txt">좋아요</em>
 	                 	</a>
 	                 	<a href="#" id="${board.board.board_num}" class="btns_re_item re_menu_option">
-	                		<em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
+	                		<em id="u_cnt${board.board.board_num}" class="u_cnt">${board.board.recommend_num}</em>
 	                	</a>
 	                	<div id="memList_${board.board.board_num}" class="re_btn_option">
 							<div class="ly_dimmed"></div>
@@ -354,6 +357,7 @@ $(function() {
 					<span class="u_ico_coment">댓글</span>
 					<span class="text_num">${board.commentCount}</span>				
 				</a>
+				<c:if test="${login_status==0 || login_status==1}">
 				<a href="#" id="${board.board.board_num}" class="btns_screp btns_scr_items" >
 					<span class="u_ico_screp">
 						<c:if test="${board.screpFlag == 'screp'}">
@@ -365,6 +369,7 @@ $(function() {
 						</c:if>		
                 	</span><em class="u_txt">스크렙</em><em id="screp_cnt${board.board.board_num}" class="u_cnt"> ${board.board.screp}</em>
 				</a>
+				</c:if>
        		</div>
        	</div>
 	</div>
