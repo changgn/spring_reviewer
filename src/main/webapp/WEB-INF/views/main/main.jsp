@@ -166,7 +166,7 @@ $(function() {
 	        	  var view = "";
 	        	  $("#loadingimg").remove();
 	        	  for(var idx=0; idx<allBoardList.length; idx++) {
-	        		  view += '<div class="content_wrap"><div class="content_first"><div class="cont_writer">';
+	        		  view += '<div id="content_' + allBoardList[idx].board.board_num + '" class="content_wrap"><div class="content_first"><div class="cont_writer">';
 		        	  view += '<a href="#" class="profile_photo"> <span class="profile_thumb"> <img src="../image/5.jpg"> <span class="profile_thumb_mask"></span></span></a>';
 		        	  view += '<a href="/profile/myProfile.do?id=' + allBoardList[idx].board.id +'" class="cont_writer_id">'+ allBoardList[idx].board.id +'</a>';
 		        	  view += '<div class="cont_wdate">' + allBoardList[idx].date + '</div>';
@@ -175,7 +175,7 @@ $(function() {
 		        	  view += '<div id="menu_'+ allBoardList[idx].board.board_num +'" class="cont_btn_option"><div class="ly_dimmed"></div>';
 		        	  view += '<ul class="cont_popup">';
 		        	  view += '<li><a href="/content/reportPro.do?board_num='+ allBoardList[idx].board.board_num + '" class="cont_popup_close" >이 게시글 신고</a></li>';
-		        	  view += '<li><a href="#" id="' + allBoardList[idx].board.board_num + '" class="cont_popup_close content_secret" >게시글 숨기기</a></li>'
+		        	  view += '<li><a href="#" id="' + allBoardList[idx].board.board_num + '" class="cont_popup_close secret_content" >게시글 숨기기</a></li>'
 		        	  if(allBoardList[idx].board.id == '${id}'){
 		        		  view += '<li><a href="/content/deleteContent.do?id=' + allBoardList[idx].board.id +'&board_num='+ allBoardList[idx].board.board_num + '" class="cont_popup_close" >이 게시글 삭제</a></li>';
 		        	  }
