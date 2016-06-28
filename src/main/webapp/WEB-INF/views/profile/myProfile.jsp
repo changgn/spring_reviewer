@@ -197,7 +197,7 @@ $(function(){
 $(function() {
     $(".list_view_more").click(function(e) { 
     	e.preventDefault();
-    	var url = "/main/mainAjax.do";
+    	var url = "/screp/screpList.do";
    		var params = "board_num=" + $(this).attr("id");      // 현재 리스트의 마지막글 번호를 가져온다.
         $.ajax({
               type: "post",
@@ -213,7 +213,7 @@ $(function() {
 	        	  $("#loadingimg").remove();
 	        	  for(var idx=0; idx<allBoardList.length; idx++) {
 	        		  view += '<div class="content_wrap"><div class="content_first"><div class="cont_writer">';
-		        	  view += '<a href="#" class="profile_photo"> <span class="profile_thumb"> <img src="../image/5.jpg"> <span class="profile_thumb_mask"></span></span></a>';
+	        		  view += '<a href="#" class="profile_photo"> <span class="profile_thumb"> <img src="../image/5.jpg"> <span class="profile_thumb_mask"></span></span></a>';
 		        	  view += '<a href="/profile/myProfile.do?id=' + allBoardList[idx].board.id +'" class="cont_writer_id">'+ allBoardList[idx].board.id +'</a>';
 		        	  view += '<div class="cont_wdate">' + allBoardList[idx].date + '</div>';
 		        	  view += '<div class="cont_menu">';
@@ -285,7 +285,7 @@ $(function() {
 		        	  
 	        	  }
 	        	  
-	        	  $("#content_wrap_area").append(view);
+	        	  $("#board_profile").append(view);
 	        	  
 	          }
 	          ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
@@ -461,7 +461,7 @@ $(function() {
 	
 	<div id="${board.board.board_num}" class="view_more">
 	 		<a href="#" id="${board.board.board_num}" class="list_view_more">
-	 			<span class="ico_plus"><img src="../image/plus.png"></span><span class="txt_view_more">더 많은 리뷰 보기</span>
+	 			<span class="ico_plus"><img src="../image/plus.png"></span><span class="txt_view_more">더 많은 스크랩 보기</span>
 	 		</a>
     </div>		
 	<c:if test="${login_status==0 || login_status==1}">

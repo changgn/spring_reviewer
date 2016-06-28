@@ -96,7 +96,7 @@ public class ScrepController {
 		
 	}
 	
-	
+	@ResponseBody
 	@RequestMapping(value="/profile/screpList.do")
 	public String ScrepList(HttpServletRequest request, String comment, Model model){
 
