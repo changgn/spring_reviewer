@@ -35,11 +35,10 @@ $(function(){
 
 
 $(function(){
-	$(".btns_re_items").click(function(e){
+	$("body").on("click", ".btns_re_items", function(e){
 		e.preventDefault();
 		var url= "/recommend/recommend.do";
 		var params = "board_num=" + $(this).attr("id");
-		
 		$.ajax({
 			type:"post"		// 포스트방식
 			,url:url		// url 주소
@@ -70,7 +69,7 @@ $(function(){
 	
 	});
 	
-	$(".re_menu_option").click(function(e){
+	$("body").on("click", ".re_menu_option", function(e){
 		e.preventDefault();
 		var b = $("#memList_" + $(this).attr("id"));
 		var url= "/recommend/member.do";
@@ -97,7 +96,7 @@ $(function(){
 		});
 		b.css({}).show();
 	});
-	$(".re_btn_option").click(function(){
+	$("body").on("click", ".re_btn_option", function(){
 		$(this).hide();
 	});	
 	$("#secret_content").click(function(e){

@@ -99,10 +99,7 @@ public class MainController {
 			request.getSession().setAttribute("login_status", login_status);
 		}
 		if(login_status.equals("2")){
-			//boardList = boardDao.getList();
 			boardList = mainDao.getPageList(pageListMap);
-			
-			
 			
 		}else {
 			
@@ -111,7 +108,6 @@ public class MainController {
 			
 			if(categoryIdList.size() == 0){
 				if(boardNumList.size() == 0){
-					//boardList = boardDao.getList();
 					boardList = mainDao.getPageList(pageListMap);
 				}else {
 					boardList = boardDao.getListByExBoardNum(boardNumList);
@@ -224,6 +220,7 @@ public class MainController {
 					contentFlag = true;
 					vo.setContent(contentSub[0] + contentSub[1] + contentSub[2]);
 				}
+				
 				
 				RecommendCommand recommend = new RecommendCommand(id, vo.getBoard_num());
 				if(recommend.getId() != null ){
