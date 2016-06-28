@@ -122,7 +122,6 @@ $(function(){
 
 $(function() {
     $(".list_view_more").click(function(e) { 
-    	debugger;
     	e.preventDefault();
     	var url = "/main/mainAjax.do";
    		var params = "board_num=" + $(this).attr("id");      // 현재 리스트의 마지막글 번호를 가져온다.

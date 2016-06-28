@@ -84,7 +84,7 @@ public class MainController {
 		
 		int startBoardNum = 0;
 		int endBoardNum = 0;
-		int pagesize = 10;
+		int pagesize = 3;
 		startBoardNum = (pagesize * (pageno-1))+1;
 		endBoardNum = (pageno * pagesize) ;
 		pageListMap.put("startBoardNum", startBoardNum);
