@@ -99,7 +99,7 @@ function check() {
 
 </script>
 <style>
-
+#div_idsave{width : 500px; height : 30px; text-align: left; margin : 0 auto; padding-left : 20px; padding-top : 3px;}
 </style>
 <title>로그인</title>
 </head>
@@ -116,7 +116,7 @@ function check() {
 			<div id="login_logo"><a href="#"><img src="../image/reviewer_gray.png" ></a></div>
 			<div id="div_id" class="size_long"><input type="text" class="text_login" id="id" name="id" placeholder="아이디" ></div>
 			<div id="div_passwd" class="size_long"><input type="password" class="text_login" id="passwd" name="passwd" placeholder="비밀번호"></div>	
-			<input id="idSaveCheck" type="checkbox">
+			<div id="div_idsave"><input id="idSaveCheck" type="checkbox"> 아이디 저장</div>
 			<div id="btn_login_submit" class="btn_long"><a href="#" >로 그 인</a></div>
 		</div>
 	</form>
