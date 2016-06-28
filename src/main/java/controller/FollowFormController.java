@@ -36,6 +36,11 @@ public class FollowFormController {
 		mav.addObject("fromList", from_id_list);
 		System.out.println(to_id+"의 팔로워 목록 : "+from_id_list);
 		if( from_id != null ) {	/**	로그인 아이디가 있다.	*/
+			if(from_id.equals(to_id)){
+				if(from_id_list.contains(to_id)){
+					if(from_id_list.remove(from_id));
+				}
+			}
 			List<String> to_id_list = followDAO.toList(from_id);	/**	나의 팔로잉 목록	*/
 			System.out.println(from_id+"의 팔로잉 목록 : " + to_id_list);
 			Map map = new HashMap();
@@ -78,8 +83,12 @@ public class FollowFormController {
 		/**	Id의 팔로잉 목록 조회	*/
 		List<String> to_id_list = followDAO.toList(to_id);	
 		mav.addObject("toIdList", to_id_list);
-
 		if(my_to_id!=null){
+			if(my_to_id.equals(to_id)){
+				if(to_id_list.contains(my_to_id)){
+					to_id_list.remove(my_to_id);
+				}
+			}
 			/**	나의 팔로잉 목록	*/
 			List<String> my_to_id_list = followDAO.toList(my_to_id);	
 			System.out.println(my_to_id+"의 팔로잉 목록 : " + to_id_list);

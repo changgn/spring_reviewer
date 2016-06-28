@@ -1,8 +1,11 @@
 package controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -82,5 +85,16 @@ public class AdminController {
 		mav.addObject("count", count);
 		mav.setViewName("administrator/adminMem");
 		return mav;
+	}
+	
+	/**	회원 강제 탈퇴	*/
+	@RequestMapping("/administrator/adminOutput.do")
+	public String adminOutput(HttpServletRequest request, Model model, HttpSession session, String outId){
+		String id = (String)request.getSession().getAttribute("id");
+		session = request.getSession();
+		if(id.equals("admin")){
+			memberDAO.MemberOut(outId);
+		}
+		return "administrator/adminOutput";
 	}
 }

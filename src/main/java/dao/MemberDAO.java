@@ -6,26 +6,17 @@ import java.util.List;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 
+import command.FollowCommand;
 import command.MemberCommand;
 
 
 @Repository
 public class MemberDAO extends SqlSessionDaoSupport{
-
-	public MemberCommand deleteCf(String id){
-
-		MemberCommand memInfo = null;
-
-		try {
-
-			memInfo = getSqlSession().selectOne("member.deleteCf",id);
-
-		}catch(Exception e){
-			System.out.println(e.getMessage());
-		}
-		return memInfo;
+	
+	/**	관리자에서 회원 탈퇴	*/
+	public int MemberOut(String id){
+		return getSqlSession().delete("member.output", id);
 	}
-
 
 	public void delete(HashMap<String, String> map){
 
