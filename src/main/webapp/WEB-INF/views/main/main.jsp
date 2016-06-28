@@ -168,7 +168,7 @@ $(function() {
 		        		  view += '<div class="btns_re">';
 		        		  view += '<a href="/logon/login.do" id="'+ allBoardList[idx].board.board_num +'" class="btns_re_item"><span id="u_ico" class="u_ico"><img src="../image/recommend_on.png"></span><em class="u_txt">좋아요</em></a>';
 		        		  view += '<a href="#" id="'+ allBoardList[idx].board.board_num +'" class="btns_re_item re_menu_option">';
-		        		  view += '<em id="u_cnt'+ allBoardList[idx].board.board_num +'" class="u_cnt"> '+ allBoardList[idx].board.recommend_num +'</em></a>';
+		        		  view += '<em id="u_cnt'+ allBoardList[idx].board.board_num +'" class="u_cnt">&nbsp;'+ allBoardList[idx].board.recommend_num +'</em></a>';
 		        		  view += '<div id="memList_'+ allBoardList[idx].board.board_num +'" class="re_btn_option">';	
 		        		  view += '<div class="ly_dimmed"></div>';
 		        		  view += '<ul class="re_popup"></ul>';
@@ -184,7 +184,7 @@ $(function() {
 		        		 }
 		        		 view += '</span><em class="u_txt">좋아요</em></a>'; 
 		        		 view += '<a href="#" id="'+ allBoardList[idx].board.board_num +'" class="btns_re_item re_menu_option">';
-		        		 view += '<em id="u_cnt'+ allBoardList[idx].board.board_num +'" class="u_cnt"> '+ allBoardList[idx].board.recommend_num +'</em></a>';
+		        		 view += '<em id="u_cnt'+ allBoardList[idx].board.board_num +'" class="u_cnt">&nbsp;'+ allBoardList[idx].board.recommend_num +'</em></a>';
 		        		 view += '<div id="memList_'+ allBoardList[idx].board.board_num + '" class="re_btn_option">';
 		        		 view += '<div class="ly_dimmed"></div>';
 	        		     view += '<ul class="re_popup"></ul>';
