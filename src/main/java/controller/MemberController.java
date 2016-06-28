@@ -1,7 +1,11 @@
 package controller;
 
+import java.net.CookieStore;
 import java.util.HashMap;
+
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,49 +42,75 @@ public class MemberController {
 	
 	//�α��� ������ ��û
 	@RequestMapping(value="/logon/login.do",method=RequestMethod.GET)
-	public String loginform(HttpSession session){
-		session.setAttribute("login_status", "2");
+	public String loginform(HttpServletRequest request, HttpSession session){
+		String login_status = (String) session.getAttribute("login_status");
+		if(login_status == null){
+			session.setAttribute("login_status", "2");
+			login_status = "2";
+		}
+		Cookie[] cookies = request.getCookies();
+		for(int i=0; i<cookies.length; i++) {
+			if(cookies[i].getName().equals("autoLogin")) {
+				session.setAttribute("id", cookies[i].getValue());
+				session.setAttribute("login_status", "1");
+				login_status = "1";
+				if(cookies[i].getValue().equals("admin")) {
+					session.setAttribute("login_status", "0");
+					login_status = "0";
+				}
+			}
+		}
+		if(login_status.equals("0") || login_status.equals("1")) {
+			return "redirect:/main/main.do";
+		}
 		return "logon/loginForm";
 	}
 	
 	@RequestMapping(value="/logon/login.do",method=RequestMethod.POST)
-	public String login(HttpServletRequest request,String id, String passwd,Model model){
+	public String login(HttpSession session, HttpServletResponse resp, String id, String passwd, Model model, String autologin){
 		
-		HttpSession session = request.getSession();
 		
 		MemberCommand memberInfo = memberDao.loginPro(id);
 		String message = null;
-		
 		if (memberInfo!=null) {
 			if ((memberInfo.getPasswd()).equals(passwd)) {
 				
 				session.setAttribute("id", id);
-			}
-			else 
-			{
+				session.setAttribute("login_status", "1");
+				if(id.equals("admin")) {
+					session.setAttribute("login_status", "0");
+				}
+				if(autologin!=null) {
+					Cookie cookie = new Cookie("autoLogin", id);
+					cookie.setMaxAge(60*60*24*30);
+					cookie.setPath("/");
+					resp.addCookie(cookie);
+				}
+			} else {
 				message = "errPwd";
 			}
 	
-		}
-		else {
+		} else {
 			message = "errID";
 		}
 		
-		session.setAttribute("login_status", "1");
-		
-		if(id.equals("admin")) {
-			session.setAttribute("login_status", "0");
-		}
 		model.addAttribute("message", message);
 		
 		return "logon/loginPro";
 	}
 
 	@RequestMapping("/logon/logout.do")
-	public String logout(HttpServletRequest request){
-		HttpSession session = request.getSession();
+	public String logout(HttpServletRequest request, HttpServletResponse resp, HttpSession session){
 		session.invalidate();
-		return "logon/loginForm";
+		Cookie[] cookies = request.getCookies();
+		for(int i=0; i<cookies.length; i++) {
+			if(cookies[i].getName().equals("autoLogin")) {
+				cookies[i].setMaxAge(0);
+				cookies[i].setPath("/");
+				resp.addCookie(cookies[i]);
+			}
+		}
+		return "redirect:/logon/login.do";
 	}
 	
 	@RequestMapping(value="/member/modify.do", method=RequestMethod.GET)
