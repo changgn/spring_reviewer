@@ -7,43 +7,61 @@
 <html>
 	<head>
 		<style>
+			.title_heder{
+				width: 40%;	
+				height: auto;
+				margin: 40 auto;
+				
+			}
 			.title{
-				min-height: 100px; 
-				padding: 10px; 
-				margin: 0 auto; 
-				background-color: #F6F6F6;
-				font-family: '나눔고딕', 'Nanum Gothic', sans-serif; 
-				font: 40px '나눔고딕', 'Nanum Gothic', sans-serif; 
-				color: #4C4C4C;
+				text-align: center;
+				font-size: 20px;
+				border: 1px solid;
+				border-color: #b9b9b9;
+				padding: 20px;
+				color: #4c4c4c;
+
 			}
 			.list{
-				max-width: 50%;
+				max-width: 70%;
 				margin-top: 20px;
 				margin: auto;
 				border-bottom: solid 1px;
+				border-bottom-color: #f6f6f6;
 				text-align: center;
-				font-family: '나눔고딕', 'Nanum Gothic', sans-serif; 
-				font: 30px '나눔고딕', 'Nanum Gothic', sans-serif;
+				padding : 7px;
+				color: #4c4c4c;
+				font-size: 14px;
+			}
+			.board_content{
+			border: 1px solid;
+			border-color: #f6f6f6;
+			width: 70%;	
+			height: auto;
+			margin: 40 auto;
 			}
 			#item{
-				font-family: '나눔고딕', 'Nanum Gothic', sans-serif; 
-				font: 30px '나눔고딕', 'Nanum Gothic', sans-serif;
+			color: #4c4c4c;
 			}
 		</style>
 	</head>
 	<body>
+	<div class="title_heder">
 		<div class="title">
 			인기 게시글 관리
 		</div>
+	</div>	 
+	<div class="board_content">
 		<c:forEach var="board" items="${populList}"> 
 			<div class="list">
-				작성자 : <a id="item" href="/profile/myProfile.do?id=${board.id}">${board.id}</a> 
-				||
-				추천 : ${board.recommend_num} ||
-				<a id="item" href="/content/contentForm.do?board_num=${board.board_num}">상세보기</a>
-				||
+			작성자  : <a id="item" href="/profile/myProfile.do?id=${board.id}">${board.id}</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			
+				추천 : ${board.recommend_num} &nbsp;&nbsp;&nbsp;
+				<a id="item" href="/content/contentForm.do?board_num=${board.board_num}">상세보기</a> &nbsp;&nbsp;&nbsp;
+				
 				<a id="item" href="/administrator/adminDelete.do?board_num=${board.board_num}">삭제</a>
 			</div>
 		</c:forEach>
+	</div>
 	</body>
 </html>
