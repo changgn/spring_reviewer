@@ -20,41 +20,40 @@ $(function(){
 		$(location).attr("href", "/profile/screpList.do?id=${paramId}");
 	});
 	
-	$(function(){
-		$(".btns_re_items").click(function(e){
-			e.preventDefault();
-			var url= "/recommend/recommend.do";
-			var params = "board_num=" + $(this).attr("id");
-			
-			$.ajax({
-				type:"post"		// 포스트방식
-				,url:url		// url 주소
-				,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
-				,dataType:"json"
-				,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
-					if(args.error == null){
-						var recommend_num = args.recommend_num;
-						var recommendFlag = args.recommendFlag;
-						var selector = $("#recommend_img"+args.board_num);
-						var selector2 = $("#u_cnt"+args.board_num);
-						selector2.text(" " + recommend_num);
-						if(recommendFlag == 'recommend'){
-							selector.attr("src", "../image/recommend_off.png");
-						} else{
-							selector.attr("src", "../image/recommend_on.png");
-						}
-					} else {
-						$(location).attr("href", "/logon/login.do");
+
+	$("body").on("click", ".btns_re_items", function(e){
+		e.preventDefault();
+		var url= "/recommend/recommend.do";
+		var params = "board_num=" + $(this).attr("id");
+		$.ajax({
+			type:"post"		// 포스트방식
+			,url:url		// url 주소
+			,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
+			,dataType:"json"
+			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
+				if(args.error == null){
+					var recommend_num = args.recommend_num;
+					var recommendFlag = args.recommendFlag;
+					var selector = $("#recommend_img"+args.board_num);
+					var selector2 = $("#u_cnt"+args.board_num);
+					selector2.text(" " + recommend_num);
+					if(recommendFlag == 'recommend'){
+						selector.attr("src", "../image/recommend_off.png");
+					} else{
+						selector.attr("src", "../image/recommend_on.png");
 					}
-					
-				}
-			    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
-			    	alert(e.responseText);
+				} else {
 					$(location).attr("href", "/logon/login.do");
-			    }
-			});
-		
+				}
+				
+			}
+		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+		    	alert(e.responseText);
+				$(location).attr("href", "/logon/login.do");
+		    }
 		});
+	
+	});
 	
 	
 	$(".btns_scr_items").click(function(e){
@@ -94,10 +93,10 @@ $(function(){
 	
 	});
 	
-	$(".re_menu_option").click(function(e){
+	$("body").on("click", ".re_menu_option", function(e){
 		e.preventDefault();
 		var b = $("#memList_" + $(this).attr("id"));
-		var url= "/screp/member.do";
+		var url= "/recommend/member.do";
 		var params = "board_num=" + $(this).attr("id");
 		$.ajax({
 			type:"post"		// 포스트방식
@@ -111,7 +110,7 @@ $(function(){
 					$(".re_popup").append("<li><a href='/profile/myProfile.do?id=" + members[idx] + "' class='re_popup_close'>" + members[idx] + "</a></li>")
 				}
 				if(members.length==0) {
-					$(".re_popup").append("<li><a href='#' class='re_popup_close' onclick='event.preventDefault();'>게시물을 스크랩 해주세요</a></li>");
+					$(".re_popup").append("<li><a href='#' class='re_popup_close' onclick='event.preventDefault();'>게시물을 추천해 주세요</a></li>");
 				}
 				
 			}
@@ -121,15 +120,9 @@ $(function(){
 		});
 		b.css({}).show();
 	});
-	var top = 0;
-	$(".cont_menu_option").click(function(e){
-		e.preventDefault();
-		var a = $("#menu_" + $(this).attr("id"));
-		a.show();
-	});
-	$(".cont_btn_option").click(function(){
+	$("body").on("click", ".re_btn_option", function(){
 		$(this).hide();
-	});
+	});	
 	$(".follow_btn").click(function(e){
 		e.preventDefault();
 		var url= "/follow/follow.do";
@@ -154,6 +147,25 @@ $(function(){
 				}
 				
 				$("#follower_profile a").text("팔로워  " + followerCount + " >");
+			}
+		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+		    	alert(e.responseText);
+		    }
+		});
+	
+	});
+	$("#secret_content").click(function(e){
+		e.preventDefault();
+		var url= "/content/secret.do";
+		var params = "board_num=" + $(this).attr("id");
+		$.ajax({
+			type:"post"		// 포스트방식
+			,url:url		// url 주소
+			,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
+			,dataType:"json"
+			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
+				var nrecommend = args.recommend;
+						
 			}
 		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
 		    	alert(e.responseText);
@@ -271,25 +283,46 @@ $(function(){
 		       	</div>
 		       	<div class="cont_btns">
 		       		<div class="cont_btns_wrap">
-						<div class="btns_re">
-							<a href="#" id="${board.board.board_num}" class="btns_re_item btns_re_items">
-		                		<span id="u_ico" class="u_ico">
-		                		<c:if test="${board.recommendFlag == 'recommend'}">
-		                			<img id="recommend_img${board.board.board_num}" src="../image/recommend_off.png">	                		
-		                		</c:if>
-		                		<c:if test="${board.recommendFlag == 'nrecommend'}">
-		                			<img id="recommend_img${board.board.board_num}" src="../image/recommend_on.png">	                		
-		                		</c:if>
-                		    </span><em class="u_txt">좋아요</em>
-	                 	</a>
-	                 	<a href="#" id="${board.board.board_num}" class="btns_re_item re_menu_option">
-	                		<em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
-	                	</a>
+						<c:if test="${login_status!=0 && login_status!=1}">
+							<div class="btns_re">
+								<a href="/logon/login.do" id="${board.board.board_num}" class="btns_re_item">
+			                		<span id="u_ico" class="u_ico"><img src="../image/recommend_on.png"></span><em class="u_txt">좋아요</em>
+			                 	</a>
+			                 	<a href="#" id="${board.board.board_num}" class="btns_re_item re_menu_option">
+				              		<em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
+				              	</a>
+		           				<div id="memList_${board.board.board_num}" class="re_btn_option">
+									<div class="ly_dimmed"></div>
+									<ul class="re_popup"></ul>
+								</div>
+							</div>
+						</c:if>
+						<c:if test="${login_status==0 || login_status==1}">
+							<div class="btns_re">
+								<a href="#" id="${board.board.board_num}" class="btns_re_item btns_re_items">
+			                		<span id="u_ico" class="u_ico">
+				                		<c:if test="${board.recommendFlag == 'recommend'}">
+				                			<img id="recommend_img${board.board.board_num}" src="../image/recommend_off.png">	                		
+				                		</c:if>
+				                		<c:if test="${board.recommendFlag == 'nrecommend'}">
+				                			<img id="recommend_img${board.board.board_num}" src="../image/recommend_on.png">	                		
+				                		</c:if>
+		                		    </span><em class="u_txt">좋아요</em>
+			                 	</a>
+			                 	<a href="#" id="${board.board.board_num}" class="btns_re_item re_menu_option">
+			                		<em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
+			                	</a>
+			                	<div id="memList_${board.board.board_num}" class="re_btn_option">
+									<div class="ly_dimmed"></div>
+									<ul class="re_popup"></ul>
+								</div>
+							</div>
+						</c:if>
 						<a href="/content/contentForm.do?board_num=${board.board.board_num}&comment=true" class="btns_coment" >
 							<span class="u_ico_coment">댓글</span>
 							<span class="text_num">${board.commentCount}</span>				
 						</a>
-		 				<a href="#" id="${board.board.board_num}" class="btns_screp btns_scr_items" >
+						<a href="#" id="${board.board.board_num}" class="btns_screp btns_scr_items" >
 							<span class="u_ico_screp">
 								<c:if test="${board.screpFlag == 'screp'}">
 									<img id="screp_img${board.board.board_num}" src="../image/screp_on.png">	  
@@ -299,12 +332,7 @@ $(function(){
 									<img id="screp_img${board.board.board_num}" src="../image/screp_off.png">	  
 								</c:if>		
 		                	</span><em class="u_txt">스크렙</em><em id="screp_cnt${board.board.board_num}" class="u_cnt"> ${board.board.screp}</em>
-							</a>
-							<div id="memList_${board.board.board_num}" class="re_btn_option">
-							<div class="ly_dimmed"></div>
-							<ul class="re_popup"></ul>
-						</div>
-					</div>
+						</a>
 		       		</div>
 		       	</div>
 			</div>
