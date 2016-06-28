@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -76,7 +77,6 @@ public class MainController {
 		List<String> categoryIdList = null;
 		HashMap<String, Integer> pageListMap = new HashMap<String, Integer>();
 		
-		
 		Integer pageno = (Integer)request.getSession().getAttribute("pageno");
 		if(pageno == null){
 			pageno = 1;
@@ -98,6 +98,21 @@ public class MainController {
 			login_status = "2";
 			request.getSession().setAttribute("login_status", login_status);
 		}
+		
+		Cookie[] cookies = request.getCookies();
+		for(int i=0; i<cookies.length; i++) {
+			if(cookies[i].getName().equals("autoLogin")) {
+				request.getSession().setAttribute("id", cookies[i].getValue());
+				request.getSession().setAttribute("login_status", "1");
+				id = cookies[i].getValue();
+				login_status = "1";
+				if(cookies[i].getValue().equals("admin")) {
+					request.getSession().setAttribute("login_status", "0");
+					login_status = "0";
+				}
+			}
+		}
+		
 		if(login_status.equals("2")){
 			boardList = mainDao.getPageList(pageListMap);
 			
