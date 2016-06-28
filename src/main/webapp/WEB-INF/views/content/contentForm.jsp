@@ -165,6 +165,43 @@ $(function(){
 		var top = $("#content_comment_area").offset().top;
 		$('html, body').animate({ scrollTop : top });
 	});
+	
+	$(".btns_scr_items").click(function(e){
+		e.preventDefault();
+		var url= "/screp/screp.do";
+		var params = "board_num=" + $(this).attr("id");
+		
+		$.ajax({
+			type:"post"		// 포스트방식
+			,url:url		// url 주소
+			,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
+			,dataType:"json"
+			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
+				if(args.error == null){
+
+					var screp_num = args.screp_num;
+					var screpFlag = args.screpFlag;
+					var selector = $("#screp_img"+args.board_num);
+					var selector2 = $("#screp_cnt"+args.board_num);
+					selector2.text(" " + screp_num);
+
+				if(screpFlag == 'screp'){
+						selector.attr("src", "../image/screp_on.png");
+					} else{
+						selector.attr("src", "../image/screp_off.png");
+					}
+				} else {
+					$(location).attr("href", "/logon/login.do");
+				}
+				
+			}
+		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+		    	alert(e.responseText);
+				$(location).attr("href", "/logon/login.do");
+		    }
+		});
+	
+	});
 });
 
 </script>
@@ -252,10 +289,17 @@ $(function(){
 					<span class="u_ico_coment">댓글</span>
 					<span class="text_num">${commentCount}</span>
 				</a>
-				<!-- <a href="#" class="btns_screp" >
-					<span class="u_ico_screp">스크렙</span>
-					<span class="text_num">19</span>
-				</a> -->
+						<a href="#" id="${board.board_num}" class="btns_screp btns_scr_items" >
+							<span class="u_ico_screp">
+								<c:if test="${screpFlag == 'screp'}">
+									<img id="screp_img${board.board_num}" src="../image/screp_on.png">	  
+								</c:if>              
+								
+								<c:if test="${screpFlag == 'nscrep'}">
+									<img id="screp_img${board.board_num}" src="../image/screp_off.png">	  
+								</c:if>		
+		                	</span><em class="u_txt">스크렙</em><em id="screp_cnt${board.board_num}" class="u_cnt"> ${board.screp}</em>
+						</a>
        		</div>
        	</div>
 	</div>
