@@ -29,12 +29,12 @@
 		</style>
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 		<script>
-			$(function(){
+		$(function(){
 				$(".follow_button").click(function(event){
 					event.preventDefault();
 					var url= "/follow/followerAdd.do";
 					var params = "profileId="+"${profileId}";
- 					params += "&add_id=" + $("#add").attr("class");
+ 					params += "&add_id=" + $(this).attr("name");
 					params += "&follow=" + $(this).attr("id");
 					$.ajax({
 						type:"post"		// 포스트방식
@@ -55,10 +55,11 @@
 					    	alert(event.responseText);
 					    }
 					});
+					location.reload(true);
 				});
 			});
+			
 		</script>
-		
 		<title>${profileId} 팔로워</title>
 	</head>
 	
@@ -66,30 +67,22 @@
 		<div id="followerTitle" align="center" >
 			 <a id="name" href="/profile/myProfile.do?id=${profileId}">${profileId}</a>님의 팔로워
 		</div>
-		<c:if test="${logId!=profileId && (login_status==0 || login_status==1)}">
-			<c:forEach items="${fromList}" var="fromId">
-				<div id="followerList" align="left" >
-					<a id="name" href="/profile/myProfile.do?id=${fromId}">${fromId}</a>
+		<c:forEach items="${fromList}" var="fromId">
+			<div id="followerList" align="left" >
+				<a id="name" href="/profile/myProfile.do?id=${fromId}">${fromId}</a>
 					<c:if test="${logId ne fromId}">
-						<c:choose>
-							<c:when test="${followCheck[fromId] eq true}">
-								<a id="unfollow" class="follow_button" href="/follow/followerAdd.do?follow=unfollow&profileId=${profileId}&add_id=${fromId}">
-									<span id="add" class="${fromId}">
-										<img id="follow_image" src="../image/icon_36.png" align="right">
-									</span>
-								</a>
-							</c:when>
-							<c:otherwise>	<!-- test="${followCheck eq 'false'}" -->
-								<a id="follow" class="follow_button" href="/follow/followerAdd.do?follow=follow&profileId=${profileId}&add_id=${fromId}">
-									<span id="add" class="${fromId}">
-										<img id="follow_image" src="../image/icon_35.png" align="right">
-									</span>
-								</a>
-							</c:otherwise>
-						</c:choose>
+						<c:if test="${followCheck[fromId] eq true}">
+							<a id="unfollow" class="follow_button" name="${fromId}" href="/follow/followerAdd.do?follow=unfollow&profileId=${profileId}&add_id=${fromId}">
+								<img class="follow_image" src="../image/icon_36.png" align="right">
+							</a>
+						</c:if>
+						<c:if test="${followCheck[fromId] eq false}">	<!-- test="${followCheck eq 'false'}" -->
+							<a id="follow" class="follow_button" name="${fromId}" href="/follow/followerAdd.do?follow=follow&profileId=${profileId}&add_id=${fromId}">
+								<img class="follow_image" src="../image/icon_35.png" align="right">
+							</a>
+						</c:if>
 					</c:if>
-				</div>
-			</c:forEach>
-		</c:if>
+			</div>
+		</c:forEach>
 	</body>
 </html>
