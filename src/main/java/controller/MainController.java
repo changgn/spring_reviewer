@@ -147,6 +147,16 @@ public class MainController {
 						boardMap.put("recommendFlag", "nrecommend");
 					}
 				}
+				
+				ScrepCommand screp = new ScrepCommand(id, vo.getBoard_num());
+				if(screp.getId() != null ){
+					ScrepCommand screps = screpDao.getScrep(screp);
+					if(screps != null){
+						boardMap.put("screpFlag", "screp");
+					}else{
+						boardMap.put("screpFlag", "nscrep");
+					}
+				}
 					
 				boardMap.put("board", vo);
 				boardMap.put("photo", photo);
