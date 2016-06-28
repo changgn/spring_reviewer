@@ -222,7 +222,7 @@ public class MainController {
 				String commentCount = commentDao.getCountByBoardNum(vo.getBoard_num());
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 				String date = sdf.format(vo.getWrite_date());
-		
+				
 				if(commentCount==null)	commentCount="0";
 				boolean contentFlag = false;
 				String[] contentSub = vo.getContent().split("\n");
