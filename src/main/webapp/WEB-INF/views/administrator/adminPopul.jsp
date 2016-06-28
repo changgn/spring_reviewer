@@ -53,14 +53,22 @@
 	</div>	 
 	<div class="board_content">
 		<c:forEach var="board" items="${populList}"> 
-			<div class="list">
-			작성자  : <a id="item" href="/profile/myProfile.do?id=${board.id}">${board.id}</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			
-				추천 : ${board.recommend_num} &nbsp;&nbsp;&nbsp;
-				<a id="item" href="/content/contentForm.do?board_num=${board.board_num}">상세보기</a> &nbsp;&nbsp;&nbsp;
-				
-				<a id="item" href="/administrator/adminDelete.do?board_num=${board.board_num}">삭제</a>
-			</div>
+			<table class="list" border="1">
+				<tr>
+					<td width="120" align="left">
+						작성자  : <a id="item" href="/profile/myProfile.do?id=${board.id}">${board.id}</a>
+					</td>
+					<td width="100" align="left">
+						추천 : ${board.recommend_num}
+					</td>
+					<td width="100">
+						<a id="item" href="/content/contentForm.do?board_num=${board.board_num}">상세보기</a> 
+					</td>
+					<td width="100">
+						<a id="item" href="/administrator/adminDelete.do?board_num=${board.board_num}">삭제</a>
+					</td>
+				</tr>
+			</table>
 		</c:forEach>
 	</div>
 	</body>

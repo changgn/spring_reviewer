@@ -65,6 +65,8 @@ public class AdminController {
 		String id = (String) request.getSession().getAttribute("id");
 		if(id.equals("admin")){
 			boardDAO.deleteContent(Integer.parseInt(board_num));
+		}else{
+			return "redirect";
 		}
 		return "administrator/adminDelete";
 	}

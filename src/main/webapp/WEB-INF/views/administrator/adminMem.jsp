@@ -17,11 +17,8 @@
 				color: #4C4C4C;
 			}
 			.list{
-				max-width: 50%;
 				margin-top: 20px;
 				margin: auto;
-				border-bottom: solid 1px;
-				text-align: center;
 				font-family: '나눔고딕', 'Nanum Gothic', sans-serif; 
 				font: 25px '나눔고딕', 'Nanum Gothic', sans-serif;
 			}
@@ -36,15 +33,23 @@
 			전체 회원 관리 (${count})
 		</div>
 		<c:forEach var="memberList" items="${memberList}">
-			<div class="list">
-				아이디 : <a id="name" href="/profile/myProfile.do?id=${memberList.id}">${memberList.id}</a>
-				||
-				추천  ${memberList.recommend_num}	
-				||
-				가입일자 : <fmt:formatDate value="${memberList.reg_date}" pattern="yyyy-MM-dd HH:mm"/>
-				||
-				<a id="name" href="/administrator/adminOutput.do?outId=${memberList.id}">탈퇴</a>
-			</div>
+			<table class="list">
+				<tr>
+					<td class="list" width="250">
+						아이디 : <a id="name" href="/profile/myProfile.do?id=${memberList.id}">${memberList.id}</a>
+					</td>
+					<td class="list" width="150">
+						추천 : ${memberList.recommend_num}
+					</td>
+					<td class="list" width="400">
+						가입일자 : <fmt:formatDate value="${memberList.reg_date}" pattern="yyyy-MM-dd HH:mm"/>
+					</td>
+					<td class="list" width="100">
+						<a id="name" href="/administrator/adminOutput.do?outId=${memberList.id}">탈퇴</a>
+					</td>
+				</tr>
+				
+			</table>
 		</c:forEach>
 	</body>
 </html>
