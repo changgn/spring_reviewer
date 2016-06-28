@@ -145,6 +145,9 @@ public class MyProfileContoroller {
 				}
 			}
 			model.addAttribute("followCheck", followCheck);
+			
+			
+		
 		}
 		
 		//게시글 가져오기
