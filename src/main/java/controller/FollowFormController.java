@@ -26,15 +26,13 @@ public class FollowFormController {
 	@RequestMapping("/follow/follower.do")
 	public ModelAndView followerForm(HttpServletRequest request, @RequestParam("id") String to_id){
 		ModelAndView mav = new ModelAndView();
-		String from_id = (String) request.getSession().getAttribute("id");	/**	로그인 ID	*/
+		/**	로그인 ID	*/
+		String from_id = (String) request.getSession().getAttribute("id");	
 		mav.addObject("logId", from_id);
-		/**	어떤 Id의 팔로워 목록	*/
+		/**	프로필 페이지 ID	*/
+		mav.addObject("profileId", to_id);
+		/**	프로필페이지 ID의 팔로워 목록	*/
 		List<String> from_id_list = followDAO.fromList(to_id);
-		if(from_id.equals(to_id)){
-			if(from_id_list.contains(from_id)){
-				from_id_list.remove(from_id);
-			}
-		}
 		mav.addObject("fromList", from_id_list);
 		System.out.println(to_id+"의 팔로워 목록 : "+from_id_list);
 		if( from_id != null ) {	/**	로그인 아이디가 있다.	*/
@@ -64,7 +62,6 @@ public class FollowFormController {
 			System.out.println("팔로워 상태값:"+map);
 			mav.addObject("followCheck", map);
 		}
-		mav.addObject("profileId", to_id);
 		mav.setViewName("follow/followerForm");
 		return mav;
 	}
@@ -73,22 +70,22 @@ public class FollowFormController {
 	@RequestMapping("/follow/follewing.do")
 	public ModelAndView followingForm(HttpServletRequest request, @RequestParam("id") String to_id ){
 		ModelAndView mav = new ModelAndView();
-		String my_to_id = (String)request.getSession().getAttribute("id");	/**	로그인 Id	*/
-		List<String> to_id_list = followDAO.toList(to_id);	/**	Id의 팔로잉 목록 조회	*/
+		/**	로그인 Id	*/
+		String my_to_id = (String)request.getSession().getAttribute("id");
+		mav.addObject("logId", my_to_id);
+		/**	프로필 페이지 ID	*/
+		mav.addObject("profileId", to_id);
+		/**	Id의 팔로잉 목록 조회	*/
+		List<String> to_id_list = followDAO.toList(to_id);	
 		mav.addObject("toIdList", to_id_list);
-		System.out.println(to_id+"의 팔로잉 목록 : "+to_id_list);
+
 		if(my_to_id!=null){
-			List<String> my_to_id_list = followDAO.toList(my_to_id);	/**	나의 팔로잉 목록	*/
+			/**	나의 팔로잉 목록	*/
+			List<String> my_to_id_list = followDAO.toList(my_to_id);	
 			System.out.println(my_to_id+"의 팔로잉 목록 : " + to_id_list);
-			
-			if(to_id_list != null && my_to_id!=null){
-				if(to_id_list.contains(my_to_id)){
-					to_id_list.remove(my_to_id);
-				}
-			}
-			
+			/**	팔로우 상태값 저장	*/
 			Map map = new HashMap();
-			if(my_to_id_list!=null){	/**	나의 팔로잉목록이 있다면	*/
+			if(my_to_id_list!=null){
 				/**	false 값으로 초기화	*/
 				for(String following : my_to_id_list){
 					for(String tofollowing : to_id_list){	
@@ -111,7 +108,7 @@ public class FollowFormController {
 			mav.addObject("followCheck", map);
 			System.out.println("팔로우 상태값 "+ map);
 		}
-		mav.addObject("profileId", to_id);
+		
 		mav.setViewName("follow/followingForm");
 		return mav;
 	}
