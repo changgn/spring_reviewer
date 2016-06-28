@@ -143,7 +143,7 @@ public class MemberController {
 
     	
 	@RequestMapping(value="/member/delete.do", method=RequestMethod.POST)
-	public String delete(HttpServletRequest request, Model model){
+	public String delete(HttpServletRequest request, HttpServletResponse resp, Model model){
 		
 		HttpSession session = request.getSession();
 		
@@ -160,6 +160,14 @@ public class MemberController {
 			memberDao.delete(map);
 			session.invalidate();
 			
+			Cookie[] cookies = request.getCookies();
+			for(int i=0; i<cookies.length; i++) {
+				if(cookies[i].getName().equals("autoLogin")) {
+					cookies[i].setMaxAge(0);
+					cookies[i].setPath("/");
+					resp.addCookie(cookies[i]);
+				}
+			}
 			return "logon/loginForm";
 		}
 		else 
