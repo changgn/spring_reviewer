@@ -19,6 +19,44 @@ $(function(){
 	$("#my_screp").click(function(){
 		$(location).attr("href", "/profile/screpList.do?id=${paramId}");
 	});
+	
+	$(function(){
+		$(".btns_re_items").click(function(e){
+			e.preventDefault();
+			var url= "/recommend/recommend.do";
+			var params = "board_num=" + $(this).attr("id");
+			
+			$.ajax({
+				type:"post"		// 포스트방식
+				,url:url		// url 주소
+				,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
+				,dataType:"json"
+				,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
+					if(args.error == null){
+						var recommend_num = args.recommend_num;
+						var recommendFlag = args.recommendFlag;
+						var selector = $("#recommend_img"+args.board_num);
+						var selector2 = $("#u_cnt"+args.board_num);
+						selector2.text(" " + recommend_num);
+						if(recommendFlag == 'recommend'){
+							selector.attr("src", "../image/recommend_off.png");
+						} else{
+							selector.attr("src", "../image/recommend_on.png");
+						}
+					} else {
+						$(location).attr("href", "/logon/login.do");
+					}
+					
+				}
+			    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+			    	alert(e.responseText);
+					$(location).attr("href", "/logon/login.do");
+			    }
+			});
+		
+		});
+	
+	
 	$(".btns_scr_items").click(function(e){
 		e.preventDefault();
 		var url= "/screp/screp.do";
@@ -73,7 +111,7 @@ $(function(){
 					$(".re_popup").append("<li><a href='/profile/myProfile.do?id=" + members[idx] + "' class='re_popup_close'>" + members[idx] + "</a></li>")
 				}
 				if(members.length==0) {
-					$(".re_popup").append("<li><a href='#' class='re_popup_close' onclick='event.preventDefault();'>게시물을 추천해 주세요</a></li>");
+					$(".re_popup").append("<li><a href='#' class='re_popup_close' onclick='event.preventDefault();'>게시물을 스크랩 해주세요</a></li>");
 				}
 				
 			}
@@ -234,10 +272,19 @@ $(function(){
 		       	<div class="cont_btns">
 		       		<div class="cont_btns_wrap">
 						<div class="btns_re">
-							<a href="/recommend/recommendPro.do?board_num=${board.board.board_num}" class="btns_re_item">
-		                		<span class="u_ico"></span><em class="u_txt">좋아요</em><em class="u_cnt"> ${board.board.recommend_num}</em>
-		                 	</a>
-						</div>
+							<a href="#" id="${board.board.board_num}" class="btns_re_item btns_re_items">
+		                		<span id="u_ico" class="u_ico">
+		                		<c:if test="${board.recommendFlag == 'recommend'}">
+		                			<img id="recommend_img${board.board.board_num}" src="../image/recommend_off.png">	                		
+		                		</c:if>
+		                		<c:if test="${board.recommendFlag == 'nrecommend'}">
+		                			<img id="recommend_img${board.board.board_num}" src="../image/recommend_on.png">	                		
+		                		</c:if>
+                		    </span><em class="u_txt">좋아요</em>
+	                 	</a>
+	                 	<a href="#" id="${board.board.board_num}" class="btns_re_item re_menu_option">
+	                		<em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
+	                	</a>
 						<a href="/content/contentForm.do?board_num=${board.board.board_num}&comment=true" class="btns_coment" >
 							<span class="u_ico_coment">댓글</span>
 							<span class="text_num">${board.commentCount}</span>				
