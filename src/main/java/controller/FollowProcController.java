@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.util.SystemOutLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -72,18 +73,13 @@ public class FollowProcController {
 	/**	팔로워 상세에서 팔로우 처리	*/
 	@ResponseBody
 	@RequestMapping("/follow/followerAdd.do")
-	public String addFollower(HttpServletRequest request, HttpServletResponse reponse , String profileId,  String add_id, String follow, Model model){
+	public String addFollower(HttpServletRequest request, HttpServletResponse reponse, String profileId,  String add_id, String follow, Model model){
 //		ModelAndView mav = new ModelAndView();
-		String from_id = (String)request.getSession().getAttribute("id");	/**	로그인 Id	*/
-		System.out.println("로그인 ID : " + from_id);
-		
 		JSONObject jso = new JSONObject();
 		
+		String from_id = (String)request.getSession().getAttribute("id");	/**	로그인 Id	*/
+		System.out.println("로그인 ID : " + from_id);
 		System.out.println("추기 또는 삭제 ID  : " + add_id);
-		
-		FollowCommand followAdd = new FollowCommand(); /**	커맨드 객체	*/
-		followAdd.setFrom_id(from_id);	/**	로그인 Id 저장	*/
-		followAdd.setTo_id(add_id);	/**	추가 Id 저장	*/
 		
 		if(from_id!=null) {	/**	로그인 Id가 있다	*/
 			if(follow.equals("follow")){ /**	팔로우와 같다면	*/
@@ -152,12 +148,12 @@ public class FollowProcController {
 	
 	/**	팔로잉 상세에서 팔로우 처리	*/
 	@RequestMapping("/follow/followingAdd.do")
-	public ModelAndView addFollowing(HttpServletRequest request, @RequestParam("profileId") String profileId, @RequestParam("add_id") String add_id, @RequestParam("follow") String follow){
-		ModelAndView mav = new ModelAndView();
-		String loginId = (String)request.getSession().getAttribute("id");	
-		FollowCommand fcAdd = new FollowCommand();
-		fcAdd.setFrom_id(loginId);	
-		fcAdd.setTo_id(add_id);	
+	public String addFollowing(HttpServletRequest request, HttpServletResponse reponse,  String profileId, String add_id,String follow, Model model){
+//		ModelAndView mav = new ModelAndView();
+		JSONObject jso = new JSONObject();
+		/**	로그인 아이디	*/
+		String loginId = (String)request.getSession().getAttribute("id");
+		
 		System.out.println("팔로우 하는, 팔로우 당하는 : " + loginId + add_id);
 		
 		if(loginId!=null) {
@@ -181,7 +177,8 @@ public class FollowProcController {
 			}
 		}
 		List<String> to_id_list = followDAO.toList(profileId);	/**	Id의 팔로잉 목록 조회	*/
-		mav.addObject("toIdList", to_id_list);
+		model.addAttribute("toIdList", to_id_list);
+//		mav.addObject("toIdList", to_id_list);
 		System.out.println(profileId+"의 팔로잉 목록 : "+to_id_list);
 		if(loginId!=null){
 			List<String> my_to_id_list = followDAO.toList(loginId);	/**	나의 팔로잉 목록	*/
@@ -210,11 +207,15 @@ public class FollowProcController {
 					}
 				}
 			}
-			mav.addObject("followCheck", map);
+//			mav.addObject("followCheck", map);
+			model.addAttribute("followCheck", map);
 			System.out.println("팔로우 상태값 "+ map);
 		}
-		mav.addObject("profileId", profileId);
-		mav.setViewName("follow/followingForm");
-		return mav;
+//		mav.addObject("profileId", profileId);
+//		mav.setViewName("follow/followingForm");
+//		return mav;
+		jso.put("follow", follow);
+		reponse.setContentType("text/html;charset=utf-8");
+		return jso.toString();
 	}
 }
