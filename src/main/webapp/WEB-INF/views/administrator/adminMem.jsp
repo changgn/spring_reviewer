@@ -42,6 +42,8 @@
 				추천  ${memberList.recommend_num}	
 				||
 				가입일자 : <fmt:formatDate value="${memberList.reg_date}" pattern="yyyy-MM-dd HH:mm"/>
+				||
+				<a id="name" href="/administrator/adminOutput.do?outId=${memberList.id}">탈퇴</a>
 			</div>
 		</c:forEach>
 	</body>

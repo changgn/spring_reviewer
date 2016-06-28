@@ -14,12 +14,12 @@
 
 $(function(){
 	var top = 0;
-	$(".cont_menu_option").click(function(e){
+	$("body").on("click", ".cont_menu_option", function(e){
 		e.preventDefault();
 		var a = $("#menu_" + $(this).attr("id"));
 		a.show();
 	});
-	$(".cont_btn_option").click(function(){
+	$("body").on("click", ".cont_btn_option", function(e){
 		$(this).hide();
 	});	
 });
@@ -127,7 +127,7 @@ $(function(){
 	$("body").on("click", ".re_btn_option", function(){
 		$(this).hide();
 	});	
-	$("#secret_content").click(function(e){
+	$("body").on("click", ".secret_content", function(e){
 		e.preventDefault();
 		var url= "/content/secret.do";
 		var params = "board_num=" + $(this).attr("id");
@@ -137,8 +137,8 @@ $(function(){
 			,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
 			,dataType:"json"
 			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
-				var nrecommend = args.recommend;
-						
+				var selector = $("#content_" + args.secret.board_num);
+				selector.remove();
 			}
 		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
 		    	alert(e.responseText);
@@ -175,9 +175,9 @@ $(function() {
 		        	  view += '<div id="menu_'+ allBoardList[idx].board.board_num +'" class="cont_btn_option"><div class="ly_dimmed"></div>';
 		        	  view += '<ul class="cont_popup">';
 		        	  view += '<li><a href="/content/reportPro.do?board_num='+ allBoardList[idx].board.board_num + '" class="cont_popup_close" >이 게시글 신고</a></li>';
+		        	  view += '<li><a href="#" id="' + allBoardList[idx].board.board_num + '" class="cont_popup_close content_secret" >게시글 숨기기</a></li>'
 		        	  if(allBoardList[idx].board.id == '${id}'){
 		        		  view += '<li><a href="/content/deleteContent.do?id=' + allBoardList[idx].board.id +'&board_num='+ allBoardList[idx].board.board_num + '" class="cont_popup_close" >이 게시글 삭제</a></li>';
-		        		  view += '<li><a href="#" id="content_secret" class="cont_popup_close" >게시글 숨기기</a></li>'
 		        	  }
 		        	  view += '</ul></div></div></div></div>';
 		        	  view += '<div class="content_second"><span class="content_view"><span><pre id="pre_' + allBoardList[idx].board.board_num + '"> ' + allBoardList[idx].board.content +'</pre>';
@@ -255,7 +255,7 @@ $(function() {
 <body>
 <div id="content_wrap_area">
 <c:forEach var="board" items="${allBoardList}">
-	<div class="content_wrap">
+	<div id="content_${board.board.board_num}" class="content_wrap">
 		<div class="content_first">	
 			<div class="cont_writer">
 				<a href="#" class="profile_photo">
@@ -278,14 +278,14 @@ $(function() {
 							<li>
 								<a href="/content/reportPro.do?board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 신고</a>
 							</li>
-						<c:if test="${board.board.id == id}">						
 							<li>
-								<a href="/content/deleteContent.do?id=${board.board.id}&board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
+								<a href="#" id="${board.board.board_num}" class="cont_popup_close secret_content" >게시글 숨기기</a>
 							</li>
-							<li>
-								<a href="#" id="content_secret" class="cont_popup_close" >게시글 숨기기</a>
-							</li>
-						</c:if>
+							<c:if test="${board.board.id == id}">						
+								<li>
+									<a href="/content/deleteContent.do?id=${board.board.id}&board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
+								</li>
+							</c:if>
 						</ul>
 					</div>
 				</div> 
