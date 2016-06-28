@@ -119,7 +119,7 @@
 		<foreach separator="," close=")" open="(" item="item" collection="categoryIdList"> #{item} 
 		</foreach>
 		AND board_num NOT IN
-		<foreach separator="," close=")" open="(" item="item" collection="boardNumList"> #{item} 
+		<foreach separator="," close=")" open="(" item="item" collection="secretBoardNumList"> #{item} 
 		</foreach>
 		ORDER BY write_date DESC 
 </select>

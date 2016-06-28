@@ -175,9 +175,11 @@ $(function() {
 		        	  view += '<div id="menu_'+ allBoardList[idx].board.board_num +'" class="cont_btn_option"><div class="ly_dimmed"></div>';
 		        	  view += '<ul class="cont_popup">';
 		        	  view += '<li><a href="/content/reportPro.do?board_num='+ allBoardList[idx].board.board_num + '" class="cont_popup_close" >이 게시글 신고</a></li>';
-		        	  view += '<li><a href="#" id="' + allBoardList[idx].board.board_num + '" class="cont_popup_close secret_content" >게시글 숨기기</a></li>'
+		        	  if("${login_status}"==0 || "${login_status}"==1) {
+		        	  	  view += '<li><a href="#" id="' + allBoardList[idx].board.board_num + '" class="cont_popup_close secret_content" >게시글 숨기기</a></li>'
+		        	  }
 		        	  if(allBoardList[idx].board.id == '${id}'){
-		        		  view += '<li><a href="/content/deleteContent.do?id=' + allBoardList[idx].board.id +'&board_num='+ allBoardList[idx].board.board_num + '" class="cont_popup_close" >이 게시글 삭제</a></li>';
+						  view += '<li><a href="/content/deleteContent.do?id=' + allBoardList[idx].board.id +'&board_num='+ allBoardList[idx].board.board_num + '" class="cont_popup_close" >이 게시글 삭제</a></li>';
 		        	  }
 		        	  view += '</ul></div></div></div></div>';
 		        	  view += '<div class="content_second"><span class="content_view"><span><pre id="pre_' + allBoardList[idx].board.board_num + '"> ' + allBoardList[idx].board.content +'</pre>';
@@ -278,9 +280,11 @@ $(function() {
 							<li>
 								<a href="/content/reportPro.do?board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 신고</a>
 							</li>
+							<c:if test="${login_status==0 || login_status==1}">
 							<li>
 								<a href="#" id="${board.board.board_num}" class="cont_popup_close secret_content" >게시글 숨기기</a>
 							</li>
+							</c:if>
 							<c:if test="${board.board.id == id}">						
 								<li>
 									<a href="/content/deleteContent.do?id=${board.board.id}&board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>

@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -73,9 +72,8 @@ public class MainController {
 		
 		
 		List<BoardCommand> boardList = null;
-		List<HashMap> allBoardList = new ArrayList<HashMap>();
+		List<HashMap<String, Object>> allBoardList = new ArrayList<HashMap<String, Object>>();
 		List<String> categoryIdList = null;
-		HashMap<String, Integer> pageListMap = new HashMap<String, Integer>();
 		
 		Integer pageno = (Integer)request.getSession().getAttribute("pageno");
 		if(pageno == null){
@@ -87,8 +85,6 @@ public class MainController {
 		int pagesize = 3;
 		startBoardNum = (pagesize * (pageno-1))+1;
 		endBoardNum = (pageno * pagesize) ;
-		pageListMap.put("startBoardNum", startBoardNum);
-		pageListMap.put("endBoardNum", endBoardNum);
 		
 		request.getSession().setAttribute("pageno", 2);
 		
@@ -114,30 +110,27 @@ public class MainController {
 		}
 		
 		if(login_status.equals("2")){
-			boardList = mainDao.getPageList(pageListMap);
+			boardList = mainDao.getPageList(startBoardNum, endBoardNum);
 			
 		}else {
 			
 			categoryIdList = memberCategoryDao.getCategoryIdById(id);
-			List<Integer> boardNumList = secretDao.getListById(id);
+			List<Integer> secretBoardNumList = secretDao.getListById(id);
 			
 			if(categoryIdList.size() == 0){
-				if(boardNumList.size() == 0){
-					boardList = mainDao.getPageList(pageListMap);
+				if(secretBoardNumList.size() == 0){
+					boardList = mainDao.getPageList(startBoardNum, endBoardNum);
 				}else {
-					boardList = boardDao.getListByExBoardNum(boardNumList);
+					boardList = boardDao.getListByExBoardNum(secretBoardNumList);
 				}
 			} else { 
-				if(boardNumList.size() == 0){
+				if(secretBoardNumList.size() == 0){
 					boardList = boardDao.getListByCategoryId(categoryIdList);
 				}else {
-					HashMap<String, Object> categoryIdBoardNumMap = new HashMap<String, Object>();
-					categoryIdBoardNumMap.put("categoryIdList", categoryIdList);
-					categoryIdBoardNumMap.put("boardNumList", boardNumList);
-					boardList = boardDao.getListByCategoryIdExBoardNum(categoryIdBoardNumMap);
+					boardList = boardDao.getListByCategoryIdExBoardNum(categoryIdList, secretBoardNumList);
 				}
+			}
 		}
-	}
 		if(boardList!=null)	{
 			for(BoardCommand vo : boardList) {
 				HashMap<String, Object> boardMap = new HashMap<String, Object>();
@@ -194,9 +187,8 @@ public class MainController {
 		
 		JSONObject jso = new JSONObject();
 		List<BoardCommand> boardList = null;
-		List<HashMap> allBoardList = new ArrayList<HashMap>();
+		List<HashMap<String, Object>> allBoardList = new ArrayList<HashMap<String, Object>>();
 		List<String> categoryIdList = null;
-		HashMap<String, Integer> pageListMap = new HashMap<String, Integer>();
 	
 		Integer pageno = (Integer)request.getSession().getAttribute("pageno");
 		if(pageno == null){
@@ -208,8 +200,6 @@ public class MainController {
 		int pagesize = 3;
 		startBoardNum = (pagesize * (pageno-1))+1;
 		endBoardNum = (pageno * pagesize) ;
-		pageListMap.put("startBoardNum", startBoardNum);
-		pageListMap.put("endBoardNum", endBoardNum);
 		
 		request.getSession().setAttribute("pageno", pageno+1);
 		
@@ -218,15 +208,23 @@ public class MainController {
 			request.getSession().setAttribute("login_status", login_status);
 		}
 		if(login_status.equals("2")){
-			boardList = mainDao.getPageList(pageListMap);
+			boardList = mainDao.getPageList(startBoardNum, endBoardNum);
 		}else {
 			categoryIdList = memberCategoryDao.getCategoryIdById(id);
+			List<Integer> secretBoardNumList = secretDao.getListById(id);
 			
 			if(categoryIdList.size() == 0){
-				boardList = mainDao.getPageList(pageListMap);
+				if(secretBoardNumList.size() == 0){
+					boardList = mainDao.getPageList(startBoardNum, endBoardNum);
+				}else {
+					boardList = boardDao.getListByExBoardNum(secretBoardNumList);
+				}
 			} else { 
-				
-				boardList = boardDao.getListByCategoryId(categoryIdList);
+				if(secretBoardNumList.size() == 0){
+					boardList = boardDao.getListByCategoryId(categoryIdList);
+				}else {
+					boardList = boardDao.getListByCategoryIdExBoardNum(categoryIdList, secretBoardNumList);
+				}
 			}
 		}
 		if(boardList!=null)	{

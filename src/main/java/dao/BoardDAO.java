@@ -58,7 +58,10 @@ public class BoardDAO extends SqlSessionDaoSupport{
 		return list;
 	}
 	
-	public List<BoardCommand> getListByCategoryIdExBoardNum(HashMap<String, Object> categoryIdBoardNumMap) {
+	public List<BoardCommand> getListByCategoryIdExBoardNum(List<String> categoryIdList, List<Integer> secretBoardNumList) {
+		HashMap<String, Object> categoryIdBoardNumMap = new HashMap<String, Object>();
+		categoryIdBoardNumMap.put("categoryIdList", categoryIdList);
+		categoryIdBoardNumMap.put("secretBoardNumList", secretBoardNumList);
 		return getSqlSession().selectList("board.getListByCategoryIdExBoardNum", categoryIdBoardNumMap);
 	}
 	

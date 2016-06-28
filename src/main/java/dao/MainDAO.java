@@ -10,8 +10,16 @@ import command.BoardCommand;
 
 public class MainDAO extends SqlSessionDaoSupport{
 	
-	public List<BoardCommand> getPageList(HashMap<String, Integer> pageListMap){
+	public List<BoardCommand> getPageList(int startBoardNum, int endBoardNum){
+
+		HashMap<String, Integer> pageListMap = new HashMap<String, Integer>();
+		pageListMap.put("startBoardNum", startBoardNum);
+		pageListMap.put("endBoardNum", endBoardNum);
 		
-		return getSqlSession().selectList("main.getPageList",pageListMap);
+		return getSqlSession().selectList("main.getPageList", pageListMap);
+	}
+	public List<BoardCommand> getPageListByExBoardNum(HashMap<String, Integer> pageListMap){
+		
+		return getSqlSession().selectList("main.getPageListByExBoardNum", pageListMap);
 	}
 }
