@@ -121,7 +121,7 @@ public class MainController {
 				if(secretBoardNumList.size() == 0){
 					boardList = mainDao.getPageList(startBoardNum, endBoardNum);
 				}else {
-					boardList = boardDao.getListByExBoardNum(secretBoardNumList);
+					boardList = mainDao.getPageListByExBoardNum(secretBoardNumList, startBoardNum, endBoardNum);
 				}
 			} else { 
 				if(secretBoardNumList.size() == 0){
@@ -217,7 +217,7 @@ public class MainController {
 				if(secretBoardNumList.size() == 0){
 					boardList = mainDao.getPageList(startBoardNum, endBoardNum);
 				}else {
-					boardList = boardDao.getListByExBoardNum(secretBoardNumList);
+					boardList = mainDao.getPageListByExBoardNum(secretBoardNumList, startBoardNum, endBoardNum);
 				}
 			} else { 
 				if(secretBoardNumList.size() == 0){

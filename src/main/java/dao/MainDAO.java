@@ -2,7 +2,6 @@ package dao;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 
@@ -18,8 +17,12 @@ public class MainDAO extends SqlSessionDaoSupport{
 		
 		return getSqlSession().selectList("main.getPageList", pageListMap);
 	}
-	public List<BoardCommand> getPageListByExBoardNum(HashMap<String, Integer> pageListMap){
-		
+	public List<BoardCommand> getPageListByExBoardNum(List<Integer> secretBoardNumList, int startBoardNum, int endBoardNum){
+
+		HashMap<String, Object> pageListMap = new HashMap<String, Object>();
+		pageListMap.put("startBoardNum", startBoardNum);
+		pageListMap.put("endBoardNum", endBoardNum);
+		pageListMap.put("secretBoardNumList", secretBoardNumList);
 		return getSqlSession().selectList("main.getPageListByExBoardNum", pageListMap);
 	}
 }
