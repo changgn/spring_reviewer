@@ -7,41 +7,41 @@
 <html>
 	<head>
 		<style>
-			#adminMemTitle{
-				min-height: 200px; 
-				padding: 20px; 
-				font-size: 20px; 
-				margin: auto; 
+			.title{
+				min-height: 100px; 
+				padding: 10px; 
+				margin: 0 auto; 
 				background-color: #F6F6F6;
-				font-size: 40px; 
+				font-family: '나눔고딕', 'Nanum Gothic', sans-serif; 
+				font: 40px '나눔고딕', 'Nanum Gothic', sans-serif; 
 				color: #4C4C4C;
 			}
-			#MemberList{
-				min-width: 200px; 
-				margin: 15px auto; 
-				background: white;
+			.list{
+				max-width: 50%;
+				margin-top: 20px;
+				margin: auto;
+				border-bottom: solid 1px;
+				text-align: center;
 				font-family: '나눔고딕', 'Nanum Gothic', sans-serif; 
-				font: 20px '나눔고딕', 'Nanum Gothic', sans-serif;
+				font: 25px '나눔고딕', 'Nanum Gothic', sans-serif;
 			}
 			#name{
 				font-family: '나눔고딕', 'Nanum Gothic', sans-serif; 
-				font: 20px '나눔고딕', 'Nanum Gothic', sans-serif;
+				font: 25px '나눔고딕', 'Nanum Gothic', sans-serif;
 			}
 		</style>
 	</head>
 	<body>
-		<div id="adminMemTitle">
+		<div class="title">
 			전체 회원 관리 (${count})
 		</div>
 		<c:forEach var="memberList" items="${memberList}">
-			<div id="MemberList" align="center">
-
-							아이디 : <a id="name" href="/profile/myProfile.do?id=${memberList.id}">${memberList.id}</a>
-
-							추천  ${memberList.recommend_num}	
-
-							가입일자 : <fmt:formatDate value="${memberList.reg_date}" pattern="yyyy-MM-dd HH:mm"/>
-
+			<div class="list">
+				아이디 : <a id="name" href="/profile/myProfile.do?id=${memberList.id}">${memberList.id}</a>
+				||
+				추천  ${memberList.recommend_num}	
+				||
+				가입일자 : <fmt:formatDate value="${memberList.reg_date}" pattern="yyyy-MM-dd HH:mm"/>
 			</div>
 		</c:forEach>
 	</body>

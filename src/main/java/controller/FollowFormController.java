@@ -27,7 +27,6 @@ public class FollowFormController {
 	public ModelAndView followerForm(HttpServletRequest request, @RequestParam("id") String to_id){
 		ModelAndView mav = new ModelAndView();
 		String from_id = (String) request.getSession().getAttribute("id");	/**	로그인 ID	*/
-		
 		mav.addObject("logId", from_id);
 		/**	어떤 Id의 팔로워 목록	*/
 		List<String> from_id_list = followDAO.fromList(to_id);
@@ -41,7 +40,6 @@ public class FollowFormController {
 		if( from_id != null ) {	/**	로그인 아이디가 있다.	*/
 			List<String> to_id_list = followDAO.toList(from_id);	/**	나의 팔로잉 목록	*/
 			System.out.println(from_id+"의 팔로잉 목록 : " + to_id_list);
-			
 			Map map = new HashMap();
 			if( to_id_list != null ) {	/**	팔로잉 목록이 있다	*/
 				/**	false 값으로 초기화	*/
@@ -57,6 +55,10 @@ public class FollowFormController {
 							map.put(follower, true);	
 						}
 					}
+				}
+			}else{
+				for(String follower : from_id_list){
+					map.put(follower, false);
 				}
 			}
 			System.out.println("팔로워 상태값:"+map);
@@ -100,6 +102,10 @@ public class FollowFormController {
 							map.put(tofollowing, true);	
 						}
 					}
+				}
+			}else{
+				for(String tofollowing : to_id_list){
+					map.put(tofollowing, false);
 				}
 			}
 			mav.addObject("followCheck", map);

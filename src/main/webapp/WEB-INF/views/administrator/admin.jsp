@@ -4,15 +4,15 @@
 	<head>
 		<style>
 			#repBoardManage{
-				margin-top: 8%; 
+				margin-top: 20px; 
 				padding: 20px;
 			}
 			#popBoardManage{
-				margin-top: 8%; 
+				margin-top: 20px; 
 				padding: 20px;
 			}
 			#allMemberManage{
-				margin-top: 8%; 
+				margin-top: 20px; 
 				padding: 20px;
 			}
 			#name{

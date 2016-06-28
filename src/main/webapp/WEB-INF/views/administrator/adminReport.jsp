@@ -7,36 +7,43 @@
 <html>
 	<head>
 		<style>
-			.repManage{
-				min-height: 200px; 
-				padding: 20px; 
-				font-size: 20px; 
+			.title{
+				min-height: 100px; 
+				padding: 10px; 
 				margin: 0 auto; 
 				background-color: #F6F6F6;
-				font-size: 40px; 
+				font-family: '나눔고딕', 'Nanum Gothic', sans-serif; 
+				font: 40px '나눔고딕', 'Nanum Gothic', sans-serif; 
 				color: #4C4C4C;
 			}
-			#repList{
-				margin-top: 1%;
+			.list{
+				max-width: 50%;
+				margin-top: 20px;
+				margin: auto;
+				border-bottom: solid 1px;
+				text-align: center;
 				font-family: '나눔고딕', 'Nanum Gothic', sans-serif; 
-				font: 35px '나눔고딕', 'Nanum Gothic', sans-serif; 
+				font: 30px '나눔고딕', 'Nanum Gothic', sans-serif; 
 			}
-			#name{
+			#text{
 				font-family: '나눔고딕', 'Nanum Gothic', sans-serif; 
-				font: 35px '나눔고딕', 'Nanum Gothic', sans-serif; 
+				font: 30px '나눔고딕', 'Nanum Gothic', sans-serif; 
 			}
 		</style>
 	</head>
 	<body>
-		<div class="repManage">
+		<div class="title">
 			신고 게시글 관리
 		</div>
 		<c:forEach var="board" items="${reportList}" > 
-			<div id="repList">
-					작성자 : <a id="name" href="/profile/myProfile.do?id=${board.id}"> ${board.id}</a>
-					신고 : ${board.report_num}
-					<a id="name" href="/content/contentForm.do?board_num=${board.board_num}">상세보기</a>
-					<a id="name" href="/administrator/adminDelete.do?board_num=${board.board_num}">삭제</a>
+			<div class="list">
+				작성자 : <a id="text" href="/profile/myProfile.do?id=${board.id}"> ${board.id}</a>
+				||
+				신고 : ${board.report_num}
+				||
+				<a id="text" href="/content/contentForm.do?board_num=${board.board_num}">상세보기</a>
+				||
+				<a id="text" href="/administrator/adminDelete.do?board_num=${board.board_num}">삭제</a>
 			</div>
 		</c:forEach>
 	</body>

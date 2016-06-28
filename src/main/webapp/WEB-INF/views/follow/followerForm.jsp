@@ -26,6 +26,9 @@
 				font-family: '나눔고딕', 'Nanum Gothic', sans-serif; 
 				font: 35px '나눔고딕', 'Nanum Gothic', sans-serif; 
 			}
+			.body{
+				overflow:scroll;
+			}
 		</style>
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 		<script>
@@ -63,7 +66,7 @@
 		<title>${profileId} 팔로워</title>
 	</head>
 	
-	<body>
+	<body class="body">
 		<div id="followerTitle" align="center" >
 			 <a id="name" href="/profile/myProfile.do?id=${profileId}">${profileId}</a>님의 팔로워
 		</div>
@@ -71,16 +74,18 @@
 			<div id="followerList" align="left" >
 				<a id="name" href="/profile/myProfile.do?id=${fromId}">${fromId}</a>
 					<c:if test="${logId ne fromId}">
-						<c:if test="${followCheck[fromId] eq true}">
-							<a id="unfollow" class="follow_button" name="${fromId}" href="/follow/followerAdd.do?follow=unfollow&profileId=${profileId}&add_id=${fromId}">
-								<img class="follow_image" src="../image/icon_36.png" align="right">
-							</a>
-						</c:if>
-						<c:if test="${followCheck[fromId] eq false}">	<!-- test="${followCheck eq 'false'}" -->
-							<a id="follow" class="follow_button" name="${fromId}" href="/follow/followerAdd.do?follow=follow&profileId=${profileId}&add_id=${fromId}">
-								<img class="follow_image" src="../image/icon_35.png" align="right">
-							</a>
-						</c:if>
+						<c:choose>
+							<c:when test="${followCheck[fromId] eq true}">
+								<a id="unfollow" class="follow_button" name="${fromId}" href="/follow/followerAdd.do?follow=unfollow&profileId=${profileId}&add_id=${fromId}">
+									<img class="follow_image" src="../image/icon_36.png" align="right">
+								</a>
+							</c:when>
+							<c:otherwise ><!-- test="${followCheck[fromId] eq false}" -->
+								<a id="follow" class="follow_button" name="${fromId}" href="/follow/followerAdd.do?follow=follow&profileId=${profileId}&add_id=${fromId}">
+									<img class="follow_image" src="../image/icon_35.png" align="right">
+								</a>
+							</c:otherwise>>
+						</c:choose>
 					</c:if>
 			</div>
 		</c:forEach>

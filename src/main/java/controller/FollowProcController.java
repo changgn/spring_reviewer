@@ -74,9 +74,8 @@ public class FollowProcController {
 	@ResponseBody
 	@RequestMapping("/follow/followerAdd.do")
 	public String addFollower(HttpServletRequest request, HttpServletResponse reponse, String profileId,  String add_id, String follow, Model model){
-//		ModelAndView mav = new ModelAndView();
 		JSONObject jso = new JSONObject();
-		
+		/**	나의 팔로잉 목록	*/
 		String from_id = (String)request.getSession().getAttribute("id");	/**	로그인 Id	*/
 		System.out.println("로그인 ID : " + from_id);
 		System.out.println("추기 또는 삭제 ID  : " + add_id);
@@ -105,18 +104,15 @@ public class FollowProcController {
 		
 		/**	어떤 Id의 팔로워 목록	*/
 		List<String> from_id_list = followDAO.fromList(profileId);
-//		mav.addObject("fromList", from_id_list);
 		System.out.println(profileId+"의 팔로워 목록 : "+from_id_list);
 		if( from_id != null ) {	/**	로그인 아이디가 있다.	*/
 			List<String> to_id_list = followDAO.toList(from_id);	/**	나의 팔로잉 목록	*/
 			System.out.println(from_id+"의 팔로잉 목록 : " + to_id_list);
-			
 			if(from_id_list != null && from_id!=null){
 				if(from_id_list.contains(from_id)){
 					from_id_list.remove(from_id);
 				}
 			}
-			
 			Map map = new HashMap();
 			if( to_id_list != null ) {	/**	팔로잉 목록이 있다	*/
 				/**	false 값으로 초기화	*/
@@ -133,14 +129,14 @@ public class FollowProcController {
 						}
 					}
 				}
+			}else{
+				for(String follower : from_id_list){
+					map.put(follower, false);
+				}
 			}
-//			mav.addObject("followCheck", map);
 			model.addAttribute("followCheck", map);
 			System.out.println("팔로워 상태값:"+map);
 		}
-//		mav.addObject("profileId", profileId);
-//		mav.setViewName("follow/followPro");
-//		return mav;
 		jso.put("follow", follow);
 		reponse.setContentType("text/html;charset=utf-8");
 		return jso.toString();
@@ -149,7 +145,6 @@ public class FollowProcController {
 	/**	팔로잉 상세에서 팔로우 처리	*/
 	@RequestMapping("/follow/followingAdd.do")
 	public String addFollowing(HttpServletRequest request, HttpServletResponse reponse,  String profileId, String add_id,String follow, Model model){
-//		ModelAndView mav = new ModelAndView();
 		JSONObject jso = new JSONObject();
 		/**	로그인 아이디	*/
 		String loginId = (String)request.getSession().getAttribute("id");
@@ -177,8 +172,6 @@ public class FollowProcController {
 			}
 		}
 		List<String> to_id_list = followDAO.toList(profileId);	/**	Id의 팔로잉 목록 조회	*/
-		model.addAttribute("toIdList", to_id_list);
-//		mav.addObject("toIdList", to_id_list);
 		System.out.println(profileId+"의 팔로잉 목록 : "+to_id_list);
 		if(loginId!=null){
 			List<String> my_to_id_list = followDAO.toList(loginId);	/**	나의 팔로잉 목록	*/
@@ -206,14 +199,13 @@ public class FollowProcController {
 						}
 					}
 				}
+			}else{
+				for(String tofollowing : to_id_list){
+					map.put(tofollowing, false);
+				}
 			}
-//			mav.addObject("followCheck", map);
-			model.addAttribute("followCheck", map);
 			System.out.println("팔로우 상태값 "+ map);
 		}
-//		mav.addObject("profileId", profileId);
-//		mav.setViewName("follow/followingForm");
-//		return mav;
 		jso.put("follow", follow);
 		reponse.setContentType("text/html;charset=utf-8");
 		return jso.toString();

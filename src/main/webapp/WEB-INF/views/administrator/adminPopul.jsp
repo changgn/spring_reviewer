@@ -7,36 +7,42 @@
 <html>
 	<head>
 		<style>
-			#populTitle{
-				min-height: 200px; 
-				padding: 20px; 
-				font-size: 20px; 
+			.title{
+				min-height: 100px; 
+				padding: 10px; 
 				margin: 0 auto; 
 				background-color: #F6F6F6;
-				font-size: 40px; 
+				font-family: '나눔고딕', 'Nanum Gothic', sans-serif; 
+				font: 40px '나눔고딕', 'Nanum Gothic', sans-serif; 
 				color: #4C4C4C;
 			}
-			#popBoardList{
-				margin-top: 1%;
+			.list{
+				max-width: 50%;
+				margin-top: 20px;
+				margin: auto;
+				border-bottom: solid 1px;
+				text-align: center;
 				font-family: '나눔고딕', 'Nanum Gothic', sans-serif; 
-				font: 35px '나눔고딕', 'Nanum Gothic', sans-serif; 
+				font: 30px '나눔고딕', 'Nanum Gothic', sans-serif;
 			}
-			#name{
+			#item{
 				font-family: '나눔고딕', 'Nanum Gothic', sans-serif; 
-				font: 35px '나눔고딕', 'Nanum Gothic', sans-serif; 
+				font: 30px '나눔고딕', 'Nanum Gothic', sans-serif;
 			}
 		</style>
 	</head>
 	<body>
-		<div id="populTitle" class="size_long title_find">
+		<div class="title">
 			인기 게시글 관리
 		</div>
 		<c:forEach var="board" items="${populList}"> 
-			<div id="popBoardList">
-					작성자 : <a id="name" href="/profile/myProfile.do?id=${board.id}">${board.id}</a>
-					추천 ${board.recommend_num}
-					<a id="name" href="/content/contentForm.do?board_num=${board.board_num}">상세보기</a>
-					<a id="name" href="/administrator/adminDelete.do?board_num=${board.board_num}">삭제</a>
+			<div class="list">
+				작성자 : <a id="item" href="/profile/myProfile.do?id=${board.id}">${board.id}</a> 
+				||
+				추천 : ${board.recommend_num} ||
+				<a id="item" href="/content/contentForm.do?board_num=${board.board_num}">상세보기</a>
+				||
+				<a id="item" href="/administrator/adminDelete.do?board_num=${board.board_num}">삭제</a>
 			</div>
 		</c:forEach>
 	</body>
