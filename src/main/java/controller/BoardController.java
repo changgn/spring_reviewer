@@ -185,8 +185,9 @@ public class BoardController {
 	public String delete(HttpSession session, Model model, String board_num, @RequestParam("id") String writer){
 
 		String id = (String)session.getAttribute("id");
+		String login_status = (String)session.getAttribute("login_status");
 		
-		if(id.equals(writer)) { 
+		if(id.equals(writer) || login_status.equals("0")) { 
 			boarddao.deleteContent(Integer.parseInt(board_num));
 			
 		} else {

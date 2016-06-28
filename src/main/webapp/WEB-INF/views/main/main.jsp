@@ -178,7 +178,7 @@ $(function() {
 		        	  if("${login_status}"==0 || "${login_status}"==1) {
 		        	  	  view += '<li><a href="#" id="' + allBoardList[idx].board.board_num + '" class="cont_popup_close secret_content" >게시글 숨기기</a></li>'
 		        	  }
-		        	  if(allBoardList[idx].board.id == '${id}'){
+		        	  if(allBoardList[idx].board.id == '${id}' || "${login_status}"==0){
 						  view += '<li><a href="/content/deleteContent.do?id=' + allBoardList[idx].board.id +'&board_num='+ allBoardList[idx].board.board_num + '" class="cont_popup_close" >이 게시글 삭제</a></li>';
 		        	  }
 		        	  view += '</ul></div></div></div></div>';
@@ -285,7 +285,7 @@ $(function() {
 								<a href="#" id="${board.board.board_num}" class="cont_popup_close secret_content" >게시글 숨기기</a>
 							</li>
 							</c:if>
-							<c:if test="${board.board.id == id}">						
+							<c:if test="${login_status==0 || board.board.id == id}">						
 								<li>
 									<a href="/content/deleteContent.do?id=${board.board.id}&board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
 								</li>
