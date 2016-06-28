@@ -35,11 +35,10 @@ $(function(){
 
 
 $(function(){
-	$(".btns_re_items").click(function(e){
+	$("body").on("click", ".btns_re_items", function(e){
 		e.preventDefault();
 		var url= "/recommend/recommend.do";
 		var params = "board_num=" + $(this).attr("id");
-		
 		$.ajax({
 			type:"post"		// 포스트방식
 			,url:url		// url 주소
@@ -70,7 +69,7 @@ $(function(){
 	
 	});
 	
-	$(".re_menu_option").click(function(e){
+	$("body").on("click", ".re_menu_option", function(e){
 		e.preventDefault();
 		var b = $("#memList_" + $(this).attr("id"));
 		var url= "/recommend/member.do";
@@ -97,7 +96,7 @@ $(function(){
 		});
 		b.css({}).show();
 	});
-	$(".re_btn_option").click(function(){
+	$("body").on("click", ".re_btn_option", function(){
 		$(this).hide();
 	});	
 	$("#secret_content").click(function(e){
@@ -169,7 +168,7 @@ $(function() {
 		        		  view += '<div class="btns_re">';
 		        		  view += '<a href="/logon/login.do" id="'+ allBoardList[idx].board.board_num +'" class="btns_re_item"><span id="u_ico" class="u_ico"><img src="../image/recommend_on.png"></span><em class="u_txt">좋아요</em></a>';
 		        		  view += '<a href="#" id="'+ allBoardList[idx].board.board_num +'" class="btns_re_item re_menu_option">';
-		        		  view += '<em id="u_cnt'+ allBoardList[idx].board.board_num +'" class="u_cnt"> '+ allBoardList[idx].board.recommend_num +'</em></a>';
+		        		  view += '<em id="u_cnt'+ allBoardList[idx].board.board_num +'" class="u_cnt">&nbsp;'+ allBoardList[idx].board.recommend_num +'</em></a>';
 		        		  view += '<div id="memList_'+ allBoardList[idx].board.board_num +'" class="re_btn_option">';	
 		        		  view += '<div class="ly_dimmed"></div>';
 		        		  view += '<ul class="re_popup"></ul>';
@@ -185,7 +184,7 @@ $(function() {
 		        		 }
 		        		 view += '</span><em class="u_txt">좋아요</em></a>'; 
 		        		 view += '<a href="#" id="'+ allBoardList[idx].board.board_num +'" class="btns_re_item re_menu_option">';
-		        		 view += '<em id="u_cnt'+ allBoardList[idx].board.board_num +'" class="u_cnt"> '+ allBoardList[idx].board.recommend_num +'</em></a>';
+		        		 view += '<em id="u_cnt'+ allBoardList[idx].board.board_num +'" class="u_cnt">&nbsp;'+ allBoardList[idx].board.recommend_num +'</em></a>';
 		        		 view += '<div id="memList_'+ allBoardList[idx].board.board_num + '" class="re_btn_option">';
 		        		 view += '<div class="ly_dimmed"></div>';
 	        		     view += '<ul class="re_popup"></ul>';
