@@ -55,7 +55,7 @@
 			<table class="list">
 				<tr>
 					<td width="24%" align="left">
-						작성자  : <a id="item" href="/profile/myProfile.do?id=${board.id}">${board.id}</a>
+						작성자  : <a id="item" href="/profile/myProfile.do?id=${board.id}">${board.id}</a> &nbsp;&nbsp;&nbsp;&nbsp;
 					</td>
 					<td width="24%" align="left">
 						추천 : ${board.recommend_num}
