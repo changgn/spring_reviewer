@@ -25,4 +25,21 @@ public class MainDAO extends SqlSessionDaoSupport{
 		pageListMap.put("secretBoardNumList", secretBoardNumList);
 		return getSqlSession().selectList("main.getPageListByExBoardNum", pageListMap);
 	}
+	public List<BoardCommand> getPageListByCategoryId(List<String> categoryIdList, int startBoardNum, int endBoardNum){
+
+		HashMap<String, Object> pageListMap = new HashMap<String, Object>();
+		pageListMap.put("startBoardNum", startBoardNum);
+		pageListMap.put("endBoardNum", endBoardNum);
+		pageListMap.put("categoryIdList", categoryIdList);
+		return getSqlSession().selectList("main.getPageListByCategoryId", pageListMap);
+	}
+	public List<BoardCommand> getPageListByCategoryIdExBoardNum(List<String> categoryIdList, List<Integer> secretBoardNumList, int startBoardNum, int endBoardNum){
+
+		HashMap<String, Object> pageListMap = new HashMap<String, Object>();
+		pageListMap.put("startBoardNum", startBoardNum);
+		pageListMap.put("endBoardNum", endBoardNum);
+		pageListMap.put("categoryIdList", categoryIdList);
+		pageListMap.put("secretBoardNumList", secretBoardNumList);
+		return getSqlSession().selectList("main.getPageListByCategoryIdExBoardNum", pageListMap);
+	}
 }

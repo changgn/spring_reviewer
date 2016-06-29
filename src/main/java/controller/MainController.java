@@ -125,9 +125,9 @@ public class MainController {
 				}
 			} else { 
 				if(secretBoardNumList.size() == 0){
-					boardList = boardDao.getListByCategoryId(categoryIdList);
+					boardList = mainDao.getPageListByCategoryId(categoryIdList, startBoardNum, endBoardNum);
 				}else {
-					boardList = boardDao.getListByCategoryIdExBoardNum(categoryIdList, secretBoardNumList);
+					boardList = mainDao.getPageListByCategoryIdExBoardNum(categoryIdList, secretBoardNumList, startBoardNum, endBoardNum);
 				}
 			}
 		}
@@ -221,9 +221,9 @@ public class MainController {
 				}
 			} else { 
 				if(secretBoardNumList.size() == 0){
-					boardList = boardDao.getListByCategoryId(categoryIdList);
+					boardList = mainDao.getPageListByCategoryId(categoryIdList, startBoardNum, endBoardNum);
 				}else {
-					boardList = boardDao.getListByCategoryIdExBoardNum(categoryIdList, secretBoardNumList);
+					boardList = mainDao.getPageListByCategoryIdExBoardNum(categoryIdList, secretBoardNumList, startBoardNum, endBoardNum);
 				}
 			}
 		}
