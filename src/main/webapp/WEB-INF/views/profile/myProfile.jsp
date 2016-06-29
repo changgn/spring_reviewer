@@ -298,7 +298,7 @@ $(function() {
       	});
     });
 });
-</script>
+</script> 
 
 <title>${paramId} 프로필</title>
 </head>
