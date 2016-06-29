@@ -96,7 +96,7 @@ public class ScrepController {
 		
 	}
 	
-	@ResponseBody
+
 	@RequestMapping(value="/profile/screpList.do")
 	public String ScrepList(HttpServletRequest request, String comment, Model model){
 
@@ -242,4 +242,104 @@ public class ScrepController {
 		resp.setContentType("text/html;charset=utf-8");
 		return jso.toString();
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="/profile/screpListAjax.do")
+	public String ScrepList(HttpServletRequest request, HttpServletResponse resp, String comment, Model model){
+		JSONObject jso = new JSONObject();
+		String id = (String) request.getSession().getAttribute("id");
+		String paramId = request.getParameter("id");
+		int screpCount = ScrepDao.getScrepCountByScrepNum(paramId);
+		model.addAttribute("screpCount", screpCount);
+		
+		int myCount = ScrepDao.getCountByBoardNum(paramId);
+		model.addAttribute("myCount", myCount);
+		
+		int followerCount =followDao.countfrom(paramId);
+		model.addAttribute("followerCount", followerCount);
+		//팔로잉 숫자 저장
+		int followingCount = followDao.countto(paramId);
+		model.addAttribute("followingCount", followingCount);
+		
+		List<BoardCommand> boardList = null;
+		List<Integer> boardNumList = ScrepDao.getScrepListById(paramId);
+		List<HashMap<String,Object>> allBoardList = new ArrayList<HashMap<String,Object>>();
+		
+		if(boardNumList.size() == 0){
+			boardList = null;
+		}else {
+			boardList = BoardDao.getListByBoardNum(boardNumList);
+		}
+		
+		
+		if(boardList!=null)	{
+			for(BoardCommand vo : boardList) {
+				HashMap<String, Object> boardMap = new HashMap<String, Object>();
+				PhotoCommand photo = PhotoDao.getOneByBoardNum(vo.getBoard_num());
+				CategoryCommand category = CategoryDao.getOne(vo.getCategory_id());
+				String commentCount = CommentDao.getCountByBoardNum(vo.getBoard_num());
+		
+				if(commentCount==null)	commentCount="0";
+				boolean contentFlag = false;
+				String[] contentSub = vo.getContent().split("\n");
+				if(contentSub.length > 3) {
+					contentFlag = true;
+					vo.setContent(contentSub[0] + contentSub[1] + contentSub[2]);
+				}
+				
+				RecommendCommand recommend = new RecommendCommand(id, vo.getBoard_num());
+				if(recommend.getId() != null ){
+					RecommendCommand recommends = RecommendDao.getRecommend(recommend);
+					if(recommends != null){
+						boardMap.put("recommendFlag", "recommend");
+					}else{
+						boardMap.put("recommendFlag", "nrecommend");
+					}
+				}
+				
+				ScrepCommand screp = new ScrepCommand(id, vo.getBoard_num());
+				if(screp.getId() != null ){
+					ScrepCommand screps = ScrepDao.getScrep(screp);
+					if(screps != null){
+						boardMap.put("screpFlag", "screp");
+					}else{
+						boardMap.put("screpFlag", "nscrep");
+					}
+				}
+				
+
+					
+				boardMap.put("board", vo);
+				boardMap.put("photo", photo);
+				boardMap.put("category", category);
+				boardMap.put("commentCount", commentCount);
+				boardMap.put("contentFlag", contentFlag);
+				allBoardList.add(boardMap);
+			}
+		}
+		
+		jso.put("allBoardList", allBoardList);
+		resp.setContentType("text/html;charset=utf-8");
+		
+		// 팔로우 상태 저장
+		if(id!=null) {
+			List<String> folloingList = followDao.toList(id);
+			boolean followCheck = false;
+			if(folloingList!=null) {
+				for(String following : folloingList) {
+					if(following.equals(paramId)) {
+						followCheck = true;
+						break;
+					}
+				}
+			}
+			model.addAttribute("followCheck", followCheck);
+		}
+		
+		model.addAttribute("paramId", paramId);
+		model.addAttribute("allBoardList", allBoardList);
+		return jso.toString();
+		
+	}
+	
 }
