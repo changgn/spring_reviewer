@@ -51,8 +51,11 @@ public class CommentController {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		String date = sdf.format(commentCommand.getWrite_date());
+
+		String commentCount = commentdao.getCountByBoardNum(command.getBoard_num());
 		
 		jso.put("data", commentCommand);
+		jso.put("cnt", commentCount);
 		jso.put("date", date);
 
 		resp.setContentType("text/html;charset=utf-8");

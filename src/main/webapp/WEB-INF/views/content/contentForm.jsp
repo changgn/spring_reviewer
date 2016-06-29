@@ -150,6 +150,9 @@ $(function(){
 					writer += '</div>';
 					writer += '</div>';	
 					
+					$("#comment_cnt").text("댓글(" + args.cnt + ")");
+					$(".text_num").text(args.cnt);
+					
 					$("#writed_comment_area").prepend(writer);
 					$("#content_comment_write").val("");
 					$("#content_comment_write").focus();
@@ -289,24 +292,24 @@ $(function(){
 					<span class="u_ico_coment">댓글</span>
 					<span class="text_num">${commentCount}</span>
 				</a>
-						<a href="#" id="${board.board_num}" class="btns_screp btns_scr_items" >
-							<span class="u_ico_screp">
-								<c:if test="${screpFlag == 'screp'}">
-									<img id="screp_img${board.board_num}" src="../image/screp_on.png">	  
-								</c:if>              
-								
-								<c:if test="${screpFlag == 'nscrep'}">
-									<img id="screp_img${board.board_num}" src="../image/screp_off.png">	  
-								</c:if>		
-		                	</span><em class="u_txt">스크렙</em><em id="screp_cnt${board.board_num}" class="u_cnt"> ${board.screp}</em>
-						</a>
+				<a href="#" id="${board.board_num}" class="btns_screp btns_scr_items" >
+					<span class="u_ico_screp">
+						<c:if test="${screpFlag == 'screp'}">
+							<img id="screp_img${board.board_num}" src="../image/screp_on.png">	  
+						</c:if>              
+						
+						<c:if test="${screpFlag == 'nscrep'}">
+							<img id="screp_img${board.board_num}" src="../image/screp_off.png">	  
+						</c:if>		
+                	</span><em class="u_txt">스크렙</em><em id="screp_cnt${board.board_num}" class="u_cnt"> ${board.screp}</em>
+				</a>
        		</div>
        	</div>
 	</div>
 </div>
 <!-- 댓글 -->
 <div id="content_comment_area">
-	댓글(${commentCount})
+	<div id="comment_cnt">댓글(${commentCount})</div>
 	<c:if test="${login_status==0 || login_status==1}">
 		<div class="size_content">
 			<form id="content_comment_write_form" method="post" action="/content/contentPro.do?board_num=${board_num}">
