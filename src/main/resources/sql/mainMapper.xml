@@ -41,7 +41,7 @@
 		select * 
 		from (select rownum rnum ,board_num,id,category_id,content,write_date,recommend_num,report_num,screp,comment_num 
 			from (select * from board where board_num NOT IN
-					<foreach separator="," close=")" open="(" item="item" collection="secretBoardNumList"> #{item}
+					<foreach separator="," close=")" open="(" item="item" collection="list"> #{item}
 			 		</foreach>
 				order by write_date DESC)
 			board ORDER BY write_date DESC) 
@@ -63,7 +63,7 @@
 		select * 
 		from (select rownum rnum ,board_num,id,category_id,content,write_date,recommend_num,report_num,screp,comment_num 
 			from (select * from board where category_id IN 
-					<foreach separator="," close=")" open="(" item="item" collection="categoryIdList"> #{item}
+					<foreach separator="," close=")" open="(" item="item" collection="list"> #{item}
 			 		</foreach>
 				order by write_date DESC)
 			board ORDER BY write_date DESC) 
