@@ -84,15 +84,6 @@ public class SearchController {
 		List<BoardCommand> boardList = null;
 		int firstCheck = 1;
 		
-		request.getSession().setAttribute("pageno", 1);
-		Integer pageno = (Integer)request.getSession().getAttribute("pageno");
-		int startBoardNum = 0;
-		int endBoardNum = 0;
-		int pagesize = 3;
-		startBoardNum = (pagesize * (pageno-1))+1;
-		endBoardNum = (pageno * pagesize) ;
-		request.getSession().setAttribute("pageno", 2);
-		
 		// 검색할 카테고리 갯수 가져오기
 		if(addcount == null) {addcount = "0";}
 		int addcount_int = Integer.parseInt(addcount);
@@ -113,13 +104,13 @@ public class SearchController {
 				}
 				this.categoryIdList = categoryIdList;
 				
-				boardList = mainDao.getPageListByCategoryIdContent(categoryIdList, searchContent, startBoardNum, endBoardNum);
+				boardList = mainDao.getPageListByCategoryIdContent(categoryIdList, searchContent);
 				System.out.println("검색할 카테고리 수 : " + addcount_int);
 				System.out.println("검색할 내용 : " + searchContent);
 				
 			} else { // 카테고리를 선택하지 않았을 때
 
-				boardList = mainDao.getPageListByContent(searchContent, startBoardNum, endBoardNum);
+				boardList = mainDao.getPageListByContent(searchContent);
 				System.out.println("검색할 카테고리 수 : " + addcount_int);
 				System.out.println("검색할 내용 : " + searchContent);
 			}
@@ -186,15 +177,7 @@ public class SearchController {
 		JSONObject jso = new JSONObject();
 		List<HashMap<String, Object>> allBoardList = new ArrayList<HashMap<String, Object>>();
 		List<BoardCommand> boardList = null;
-		
-		Integer pageno = (Integer)request.getSession().getAttribute("pageno");
-		int startBoardNum = 0;
-		int endBoardNum = 0;
-		int pagesize = 3;
-		startBoardNum = (pagesize * (pageno-1))+1;
-		endBoardNum = (pageno * pagesize) ;
-		
-		request.getSession().setAttribute("pageno", pageno+1);
+
 		
 		// 검색할 카테고리 갯수 가져오기
 		if(addcount == null) {addcount = "0";}
@@ -205,13 +188,13 @@ public class SearchController {
 			
 			if(addcount_int != 0) {	// 카테고리를 선택했을 때
 
-				boardList = mainDao.getMorePageListByCategoryIdContent(categoryIdList, searchContent, lastBoard_num, startBoardNum, endBoardNum);
+				boardList = mainDao.getMorePageListByCategoryIdContent(categoryIdList, searchContent, lastBoard_num);
 				System.out.println("검색할 카테고리 수 : " + addcount_int);
 				System.out.println("검색할 내용 : " + searchContent);
 				
 			} else { // 카테고리를 선택하지 않았을 때
 
-				boardList = mainDao.getMorePageListByContent(searchContent, lastBoard_num, startBoardNum, endBoardNum);
+				boardList = mainDao.getMorePageListByContent(searchContent, lastBoard_num);
 				System.out.println("검색할 카테고리 수 : " + addcount_int);
 				System.out.println("검색할 내용 : " + searchContent);
 			}
@@ -257,6 +240,7 @@ public class SearchController {
 					allBoardList.add(boardMap);
 				}
 				jso.put("allBoardList", allBoardList);
+				System.out.println(allBoardList.size());
 			}
 		}
 		jso.put("id", id);

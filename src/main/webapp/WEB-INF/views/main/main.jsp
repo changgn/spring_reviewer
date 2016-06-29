@@ -152,7 +152,7 @@ $(function() {
     $(".list_view_more").click(function(e) { 
     	e.preventDefault();
     	var url = "/main/mainAjax.do";
-   		var params = "board_num=" + $(this).attr("id");      // 현재 리스트의 마지막글 번호를 가져온다.
+   		var params = "lastBoard_num=" + $("#lastBoard_num").val();      // 현재 리스트의 마지막글 번호를 가져온다.
         $.ajax({
               type: "post",
               url: url,     	// 더보기 눌렀을때 데이터리스트를 html 형태로 만들어서 현재 리스트페이지로 보내준다.
@@ -162,9 +162,10 @@ $(function() {
              	 $(".view_more").append('<img id="loadingimg" src="../image/loading.gif" />');    // 로딩 진행줄일때 .gif로 로딩중이라는거 표시 
 	          },
 	          success: function(args){
+	        	  $("#loadingimg").remove();
+	        	  var lastBoard_num = $("#lastBoard_num").val();
 	        	  var allBoardList = args.allBoardList;
 	        	  var view = "";
-	        	  $("#loadingimg").remove();
 	        	  for(var idx=0; idx<allBoardList.length; idx++) {
 	        		  view += '<div id="content_' + allBoardList[idx].board.board_num + '" class="content_wrap"><div class="content_first"><div class="cont_writer">';
 		        	  view += '<a href="#" class="profile_photo"> <span class="profile_thumb"> <img src="../image/5.jpg"> <span class="profile_thumb_mask"></span></span></a>';
@@ -238,10 +239,13 @@ $(function() {
 			        	  view += '</a>';
 		        	  }
 		        	  view += '</div></div></div>';
-		        	  
+		        	  lastBoard_num = allBoardList[idx].board.board_num;
 	        	  }
-	        	  
+
+	        	  $("#lastBoard_num").remove();
+	        	  view += '<input type="hidden" id="lastBoard_num" value="' + lastBoard_num + '" />';
 	        	  $("#content_wrap_area").append(view);
+	        	  
 	        	  
 	          }
 	          ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
@@ -377,7 +381,9 @@ $(function() {
        		</div>
        	</div>
 	</div>
+	<c:set var="lastBoard_num" value="${board.board.board_num}" />
 </c:forEach>
+<input type="hidden" id="lastBoard_num" value="${lastBoard_num}" />
 </div>
 	<div id="${board.board.board_num}" class="view_more">
 	 		<a href="#" id="${board.board.board_num}" class="list_view_more">

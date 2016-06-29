@@ -28,12 +28,12 @@ $(function(){
 	var addtag = null;
 	
 	var top = 0;
-	$(".cont_menu_option").click(function(e){
+	$("body").on("click", ".cont_menu_option", function(e){
 		e.preventDefault();
 		var a = $("#menu_" + $(this).attr("id"));
 		a.css({}).show();
 	});
-	$(".cont_btn_option").click(function(){
+	$("body").on("click", ".cont_btn_option", function(){
 		$(this).hide();
 	});	
 	
@@ -1902,7 +1902,7 @@ $(function(){
 	          }
 	          ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
 			    	alert(e.responseText);
-			    }
+	          }
       	});
     });
 });
