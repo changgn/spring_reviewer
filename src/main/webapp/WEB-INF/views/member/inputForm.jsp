@@ -105,6 +105,46 @@ $(function(){
 	});
 });
 </script>
+<style>
+input[type=checkbox] {  
+    display: none;  
+}
+
+input[type=checkbox] + label{
+    display: inline-block;  
+    cursor: pointer;  
+    position: relative;  
+    padding-left: 40px;  
+    padding-bottom: 1px;
+    margin-right: 15px;  
+    font-size: 27px;
+    color: grey;
+}
+
+input[type=checkbox]+ label:before {     
+    content: "";  
+    display: inline-block;  
+    width: 27px;  
+    height: 27px;  
+    margin-right: 20px;  
+    position: absolute;  
+    left: 0;  
+    bottom: 1px;  
+    border-radius: 4px; 
+    box-shadow: inset 0px 1px 1px 0px rgba(0, 0, 0, .3), 0px 1px 0px 0px rgba(255, 255, 255, .8);  
+}
+
+input[type=checkbox]:checked + label:before { 
+    content: "\2713";  /* 체크모양 */
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);  
+    font-size: 40px; 
+    font-weight:800; 
+    color: #fff;  
+    background:#2f87c1;
+    text-align: center;  
+    line-height: 18px;  
+} 
+</style>
 <title>회원가입</title>
 </head>
 <body>
@@ -126,7 +166,7 @@ $(function(){
 		</div>
 		<div class="size_long" id="divemail"><input type="email" class="text_login" id="email" name="email" placeholder="이메일"></div>
 		<div class="size_long" id="divphone_num"><input type="text" class="text_login" id="phone_num" name="phone_num" maxlength="12" placeholder="핸드폰 번호(01012345678)"></div>
-		<div class="size_long" id="divterms"><input id="checkbox_term_agree" type="checkbox"><span id="h_term_agree"> 약 관 동 의</span></div>
+		<div class="size_long" id="divterms"><input id="checkbox_term_agree" type="checkbox"><label for="checkbox_term_agree"> 약 관 동 의 </label></div>
 		<div id="join_btn_join" class="btn_long"><a href="#" >회 원 가 입</a></div>
 		<div id="join_btn_reset" class="btn_long"><a href="#" >다 시 작 성</a></div>
 		<div id="join_btn_cancel" class="btn_long"><a href="#" >취 소</a></div>
