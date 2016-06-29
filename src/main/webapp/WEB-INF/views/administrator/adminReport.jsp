@@ -8,14 +8,19 @@
 <html>
 	<head>
 		<style>
+			.title_heder{
+				width: 40%;	
+				height: auto;
+				margin: 40 auto;
+				
+			}
 			.title{
-				min-height: 100px; 
-				padding: 10px; 
-				margin: 0 auto; 
-				background-color: #F6F6F6;
-				font-family: '나눔고딕', 'Nanum Gothic', sans-serif; 
-				font: 40px '나눔고딕', 'Nanum Gothic', sans-serif; 
-				color: #4C4C4C;
+				text-align: center;
+				font-size: 20px;
+				border: 1px solid;
+				border-color: #b9b9b9;
+				padding: 20px;
+				color: #4c4c4c;
 			}
 			.list{
 				max-width: 70%;
@@ -26,31 +31,42 @@
 				text-align: center;
 				padding : 7px;
 				color: #4c4c4c;
-				font-size: 14px;	
+				font-size: 14px;
+			}
+			.board_content{
+				border: 1px solid;
+				border-color: #f6f6f6;
+				width: 70%;	
+				height: auto;
+				margin: 40 auto;
 			}
 		</style>
 	</head>
 	<body>
-		<div class="title">
-			신고 게시글 관리
+		<div class="title_heder">
+			<div class="title">
+				신고 게시글 관리
+			</div>
 		</div>
-		<c:forEach var="board" items="${reportList}" > 
-			<table class="list">
-				<tr>
-					<td width="24%" align="left">
-						작성자 : <a id="text" href="/profile/myProfile.do?id=${board.id}"> ${board.id}</a>
-					</td>
-					<td width="24%" align="left">
-						신고 : ${board.report_num}
-					</td>
-					<td width="14%">
-						<a id="text" href="/content/contentForm.do?board_num=${board.board_num}">상세보기</a>
-					</td>
-					<td width="10%">
-						<a id="text" href="/administrator/adminDelete.do?board_num=${board.board_num}">삭제</a>
-					</td>
-				</tr>
-			</table>
-		</c:forEach>
+		<div class="board_content">
+			<c:forEach var="board" items="${reportList}" > 
+				<table class="list">
+					<tr>
+						<td width="24%" align="left">
+							작성자 : <a id="text" href="/profile/myProfile.do?id=${board.id}"> ${board.id}</a>
+						</td>
+						<td width="24%" align="left">
+							신고 : ${board.report_num}
+						</td>
+						<td width="20%">
+							<a id="text" href="/content/contentForm.do?board_num=${board.board_num}">상세보기</a>
+						</td>
+						<td width="10%">
+							<a id="text" href="/administrator/adminDelete.do?board_num=${board.board_num}">삭제</a>
+						</td>
+					</tr>
+				</table>
+			</c:forEach>
+		</div>
 	</body>
 </html>
