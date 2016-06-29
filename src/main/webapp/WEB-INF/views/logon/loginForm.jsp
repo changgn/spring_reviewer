@@ -5,39 +5,48 @@
 <html>
 <head>
 <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
-<script>
 
-$(document).ready(function(){
-    // 저장된 쿠키값을 가져와서 ID 칸에 넣어준다. 없으면 공백으로 들어감.
-    var userInputId = getCookie("userInputId");
-    
-    $("input[name='id']").val(userInputId);  
-    if($("input[name='id']").val() != ""){// 그 전에 ID를 저장해서 처음 페이지 로딩 시, 입력 칸에 저장된 ID가 표시된 상태라면,
-        $("#idSaveCheck").attr("checked", true); // ID 저장하기를 체크 상태로 두기.
-    }
-    
-    $("#idSaveCheck").change(function(){ // 체크박스에 변화가 있다면,
-        if($(this).is(":checked")){ // ID 저장하기 체크했을 때,
-            var userInputId = $("input[name='id']").val();
-            setCookie("userInputId", userInputId, 7); // 7일 동안 쿠키 보관
-        }else{ // ID 저장하기 체크 해제 시,
-            deleteCookie("userInputId");
-        }
-    });
-    $("#autologin").change(function(){ // 체크박스에 변화가 있다면,
-        if($(this).is(":checked")){ // ID 저장하기 체크했을 때,
-        }else{ // ID 저장하기 체크 해제 시,
-            deleteCookie("autoLogin");
-        }
-    });
-    // ID 저장하기를 체크한 상태에서 ID를 입력하는 경우, 이럴 때도 쿠키 저장.
-    $("input[name='id']").keyup(function(){ // ID 입력 칸에 ID를 입력할 때,
-        if($("#idSaveCheck").is(":checked")){ // ID 저장하기를 체크한 상태라면,
-            var userInputId = $("input[name='id']").val();
-            setCookie("userInputId", userInputId, 7); // 7일 동안 쿠키 보관
-        }
-    });
-});
+<style>
+input[type=checkbox] {  
+    display: none;  
+}
+
+input[type=checkbox] + label{
+    display: inline-block;  
+    cursor: pointer;  
+    position: relative;  
+    padding-left: 25px;  
+    margin-right: 15px;  
+    font-size: 13px;
+    color: grey;
+}
+
+input[type=checkbox]+ label:before {     
+    content: "";  
+    display: inline-block;  
+    width: 20px;  
+    height: 20px;  
+    margin-right: 20px;  
+    position: absolute;  
+    left: 0;  
+    bottom: 1px;  
+    border-radius: 4px; 
+    box-shadow: inset 0px 1px 1px 0px rgba(0, 0, 0, .3), 0px 1px 0px 0px rgba(255, 255, 255, .8);  
+}
+
+input[type=checkbox]:checked + label:before { 
+    content: "\2713";  /* 체크모양 */
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);  
+    font-size: 18px; 
+    font-weight:800; 
+    color: #fff;  
+    background:#2f87c1;
+    text-align: center;  
+    line-height: 18px;  
+} 
+
+</style>
+<script>
 
 function setCookie(cookieName, value, exdays){
     var exdate = new Date();
@@ -105,7 +114,7 @@ function check() {
 
 </script>
 <style>
-#div_idsave{width : 500px; height : 30px; text-align: left; margin : 0 auto; padding-left : 20px; padding-top : 3px;}
+#div_idsave{width : 500px; height : 30px; text-align: left; margin :0 auto; padding-left : 20px; padding-top : 3px;}
 </style>
 <title>로그인</title>
 </head>
@@ -116,13 +125,17 @@ function check() {
 <c:if test="${message!=null}">
 	<script>alert("아이디 또는 패스워드가 일치하지 않습니다");</script>
 </c:if>
+
+
+
 <div id="logon">  
 	<form method="post" action="/logon/login.do" name="loginFrom" id="loginForm">
 		<div id="loginForm">
 			<div id="login_logo"><a href="#"><img src="../image/reviewer_gray.png" ></a></div>
 			<div id="div_id" class="size_long"><input type="text" class="text_login" id="id" name="id" placeholder="아이디" ></div>
 			<div id="div_passwd" class="size_long"><input type="password" class="text_login" id="passwd" name="passwd" placeholder="비밀번호"></div>	
-			<div id="div_idsave"><input id="idSaveCheck" type="checkbox"> 아이디 저장&nbsp;&nbsp;&nbsp;&nbsp;<input id="autologin" name="autologin" type="checkbox"> 자동 로그인</div>
+			<div id="div_idsave" class="checkbox-style">
+			<input id="divECI_ISDVSAVE"  name="autologin" type="checkbox"><label for="divECI_ISDVSAVE"> 자동 으로 로그인 하시겠습니까? </label></div>
 			<div id="div_autologin"></div>
 			<div id="btn_login_submit" class="btn_long"><a href="#" >로 그 인</a></div>
 		</div>
