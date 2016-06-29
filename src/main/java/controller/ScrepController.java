@@ -1,5 +1,6 @@
 package controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,10 +30,13 @@ import command.RecommendCommand;
 import command.SecretCommand;
 
 import dao.ScrepDAO;
+import dao.SecretDAO;
 import dao.BoardDAO;
 import dao.CategoryDAO;
 import dao.CommentDAO;
 import dao.FollowDAO;
+import dao.MainDAO;
+import dao.MemberCategoryDAO;
 import dao.PhotoDAO;
 import dao.RecommendDAO;
 import net.sf.json.JSONObject;
@@ -40,7 +44,8 @@ import net.sf.json.JSONObject;
 
 @Controller
 public class ScrepController {
-
+	@Autowired
+	private MainDAO MainDao;
 	@Autowired
 	private ScrepDAO ScrepDao;
 	@Autowired
@@ -55,6 +60,11 @@ public class ScrepController {
 	private RecommendDAO RecommendDao;
 	@Autowired
 	private FollowDAO followDao;
+	@Autowired
+	private MemberCategoryDAO memberCategoryDao;
+	@Autowired
+	private SecretDAO secretDao;
+	
 
 	public void setBoardDao(BoardDAO boardDao) {
 		BoardDao = boardDao;
@@ -77,6 +87,15 @@ public class ScrepController {
 	public void setRecommendDao(RecommendDAO recommendDao) { this.RecommendDao = recommendDao; }
 	public void setFollowDao(FollowDAO followDao) {
 		this.followDao = followDao;
+	}
+	public void setMainDao(MainDAO MainDaO) {
+		this.MainDao = MainDao;
+	}
+	public void setSecretDao(SecretDAO secretDao) {
+		this.secretDao = secretDao;
+	}
+	public void setMemberCategoryDao(MemberCategoryDAO memberCategoryDao) {
+		this.memberCategoryDao = memberCategoryDao;
 	}
 	
 	@ResponseBody
@@ -245,10 +264,13 @@ public class ScrepController {
 	
 	@ResponseBody
 	@RequestMapping(value="/profile/screpListAjax.do")
-	public String ScrepList(HttpServletRequest request, HttpServletResponse resp, String comment, Model model){
-		JSONObject jso = new JSONObject();
-		String id = (String) request.getSession().getAttribute("id");
+	public String ScrepList(HttpServletRequest request, HttpServletResponse resp, Model model, int lastBoard_num){
+		
+		String id = (String)request.getSession().getAttribute("id"); 
+		String login_status = (String)request.getSession().getAttribute("login_status");
 		String paramId = request.getParameter("id");
+		JSONObject jso = new JSONObject();
+		
 		int screpCount = ScrepDao.getScrepCountByScrepNum(paramId);
 		model.addAttribute("screpCount", screpCount);
 		
@@ -262,15 +284,36 @@ public class ScrepController {
 		model.addAttribute("followingCount", followingCount);
 		
 		List<BoardCommand> boardList = null;
+		List<HashMap<String, Object>> allBoardList = new ArrayList<HashMap<String, Object>>();
+		List<String> categoryIdList = null;
 		List<Integer> boardNumList = ScrepDao.getScrepListById(paramId);
-		List<HashMap<String,Object>> allBoardList = new ArrayList<HashMap<String,Object>>();
-		
-		if(boardNumList.size() == 0){
-			boardList = null;
-		}else {
-			boardList = BoardDao.getListByBoardNum(boardNumList);
+	
+		if(login_status==null){
+			login_status = "2";
+			request.getSession().setAttribute("login_status", login_status);
 		}
 		
+		
+		if(login_status.equals("2")){
+			boardList = MainDao.getMorePageList(lastBoard_num);
+		}else {
+			categoryIdList = memberCategoryDao.getCategoryIdById(id);
+			List<Integer> secretBoardNumList = secretDao.getListById(id);
+			
+			if(categoryIdList.size() == 0){
+				if(secretBoardNumList.size() == 0){
+					boardList = MainDao.getMorePageList(lastBoard_num);
+				}else {
+					boardList = MainDao.getMorePageListByExBoardNum(secretBoardNumList, lastBoard_num);
+				}
+			} else { 
+				if(secretBoardNumList.size() == 0){
+					boardList = MainDao.getMorePageListByCategoryId(categoryIdList, lastBoard_num);
+				}else {
+					boardList = MainDao.getMorePageListByCategoryIdExBoardNum(categoryIdList, secretBoardNumList, lastBoard_num);
+				}
+			}
+		}
 		
 		if(boardList!=null)	{
 			for(BoardCommand vo : boardList) {
@@ -278,7 +321,9 @@ public class ScrepController {
 				PhotoCommand photo = PhotoDao.getOneByBoardNum(vo.getBoard_num());
 				CategoryCommand category = CategoryDao.getOne(vo.getCategory_id());
 				String commentCount = CommentDao.getCountByBoardNum(vo.getBoard_num());
-		
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+				String date = sdf.format(vo.getWrite_date());
+				
 				if(commentCount==null)	commentCount="0";
 				boolean contentFlag = false;
 				String[] contentSub = vo.getContent().split("\n");
@@ -286,8 +331,15 @@ public class ScrepController {
 					contentFlag = true;
 					vo.setContent(contentSub[0] + contentSub[1] + contentSub[2]);
 				}
-				
-				RecommendCommand recommend = new RecommendCommand(id, vo.getBoard_num());
+		
+		
+		if(boardNumList.size() == 0){
+			boardList = null;
+		}else {
+			boardList = BoardDao.getListByBoardNum(boardNumList);
+		}
+		
+		RecommendCommand recommend = new RecommendCommand(id, vo.getBoard_num());
 				if(recommend.getId() != null ){
 					RecommendCommand recommends = RecommendDao.getRecommend(recommend);
 					if(recommends != null){
@@ -314,6 +366,7 @@ public class ScrepController {
 				boardMap.put("category", category);
 				boardMap.put("commentCount", commentCount);
 				boardMap.put("contentFlag", contentFlag);
+				boardMap.put("date", date);	
 				allBoardList.add(boardMap);
 			}
 		}
@@ -341,5 +394,6 @@ public class ScrepController {
 		return jso.toString();
 		
 	}
-	
+		
+
 }
