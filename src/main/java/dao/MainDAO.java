@@ -83,4 +83,14 @@ public class MainDAO extends SqlSessionDaoSupport{
 		pageListMap.put("id", id);
 		return getSqlSession().selectList("main.getMorePageListById", pageListMap);
 	}
+	
+	public List<BoardCommand> getPageListByBoardNum(List<Integer> boardNumList){	
+		return getSqlSession().selectList("main.getPageListByBoardNum", boardNumList);
+	}
+	public List<BoardCommand> getMorePageListByBoardNum(List<Integer> boardNumList, int lastBoard_num){
+		HashMap<String, Object> pageListMap = new HashMap<String, Object>();
+		pageListMap.put("lastBoard_num", lastBoard_num);	
+		pageListMap.put("boardNumList", boardNumList);
+		return getSqlSession().selectList("main.getMorePageListByBoardNum", boardNumList);
+	}
 }

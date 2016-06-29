@@ -148,6 +148,27 @@
 		where rnum between 1 and 3 
 		ORDER BY write_date DESC
 	</select>
+	
+	<select parameterType="java.util.List" id="getPageListByBoardNum" resultType="command.BoardCommand">
+		select * 
+		from (select rownum rnum ,board_num,id,category_id,content,write_date,recommend_num,report_num,screp,comment_num 
+			from (select * from board where board_num IN
+					<foreach separator="," close=")" open="(" item="item" collection="list"> #{item}
+			 		</foreach>
+				order by write_date DESC)
+			ORDER BY write_date DESC) 
+		where rnum between 1 and 3 ORDER BY write_date DESC
+	</select>
+	<select parameterType="java.util.HashMap" id="getMorePageListByBoardNum" resultType="command.BoardCommand">
+		select * 
+		from (select rownum rnum ,board_num,id,category_id,content,write_date,recommend_num,report_num,screp,comment_num 
+			from (select * from board where board_num IN
+					<foreach separator="," close=")" open="(" item="item" collection="boardNumList"> #{item}
+			 		</foreach>
+				order by write_date DESC)
+			ORDER BY write_date DESC) 
+		where rnum between 1 and 3 ORDER BY write_date DESC
+	</select>
 </mapper>
 
 
