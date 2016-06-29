@@ -39,22 +39,27 @@
 		</div>
 		<div class="content">
 			<c:forEach var="memberList" items="${memberList}">
-				<table class="list">
-					<tr>
-						<td width="150">
-							아이디 : <a id="name" href="/profile/myProfile.do?id=${memberList.id}">${memberList.id}</a>
-						</td>
-						<td  width="100">
-							추천 : ${memberList.recommend_num}
-						</td>
-						<td width="200">
-							가입일자 : <fmt:formatDate value="${memberList.reg_date}" pattern="yyyy-MM-dd HH:mm"/>
-						</td>
-						<td  width="50">
-							<a id="name" href="/administrator/adminOutput.do?outId=${memberList.id}">탈퇴</a>
-						</td>
-					</tr>
-				</table>
+				<c:if test="${memberList.id ne admin}">
+					<table class="list">
+						<tr>
+							<td width="120">
+								아이디 : <a id="name" href="/profile/myProfile.do?id=${memberList.id}">${memberList.id}</a>
+							</td>
+							<td width="100">
+								<img src="../image/recommend_off.png" width="15" height="15"> : ${recommendCount[memberList.id]}
+							</td>
+							<td width="120">
+								게시글 : ${boardCount[memberList.id]}
+							</td>
+							<td width="250">
+								가입일자 : <fmt:formatDate value="${memberList.reg_date}" pattern="yyyy-MM-dd HH:mm"/>
+							</td>
+							<td  width="50">
+								<a id="name" href="/administrator/adminOutput.do?outId=${memberList.id}"><img src="../image/icon_66.png"></a>
+							</td>
+						</tr>
+					</table>
+				</c:if>
 			</c:forEach>
 		</div>
 	</body>

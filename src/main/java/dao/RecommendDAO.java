@@ -28,6 +28,9 @@ public class RecommendDAO extends SqlSessionDaoSupport{
 		return getSqlSession().delete("recommend.deleteRecommend", command);
 	}
 	
+	public int getRcommendCountById(String id){
+		return getSqlSession().selectOne("recommend.getRcommendCountById", id);
+	}
 }
 
 

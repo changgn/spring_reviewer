@@ -7,7 +7,7 @@
 </head>
 <body>
 <script>
-		alert("회원을 탈퇴시키셨습니다.");
+		alert("해당 회원은 탈퇴되었습니다..");
 		location.href=document.referrer;
 	</script>
 </body>

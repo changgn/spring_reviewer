@@ -7,7 +7,7 @@
 	<head>
 		<style>
 			#followingTitle{
-				min-height: 200px; 
+				min-height: 100px; 
 				padding: 20px; 
 				font-size: 20px; 
 				margin: 0 auto; 
@@ -53,7 +53,7 @@
 						}
 					}
 				    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
-				    	alert(e.responseText);
+				    	alert("다시 한번 눌러주세요");
 				    }
 				});
 				location.reload(true);
@@ -64,7 +64,8 @@
 	</head>
 	<body>
 		<div id="followingTitle" align="center">
-			<a id="name" href="/profile/myProfile.do?id=${profileId}">${profileId}</a>님의 팔로잉 리스트
+			<a id="name" href="/profile/myProfile.do?id=${profileId}">${profileId}</a>
+			팔로잉 리스트
 		</div>
 		<c:forEach var="toId" items="${toIdList}"> 
 			<div id="followingList" align="center">

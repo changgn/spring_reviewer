@@ -54,17 +54,20 @@
 		<c:forEach var="board" items="${populList}"> 
 			<table class="list">
 				<tr>
-					<td width="24%" align="left">
-						작성자  : <a id="item" href="/profile/myProfile.do?id=${board.id}">${board.id}</a> &nbsp;&nbsp;&nbsp;&nbsp;
+					<td width="120" align="left">
+						작성자  : <a id="item" href="/profile/myProfile.do?id=${board.id}">${board.id}</a>
 					</td>
-					<td width="24%" align="left">
-						추천 : ${board.recommend_num}
+					<td width="100" align="left">
+						<img src="../image/recommend_off.png" width="15" height="15"> : ${board.recommend_num}
 					</td>
-					<td width="20%">
+					<td width="200">
+						작성일 : <fmt:formatDate value="${board.write_date}" pattern="yyyy-MM-dd HH:mm"/>
+					</td>
+					<td width="120">
 						<a id="item" href="/content/contentForm.do?board_num=${board.board_num}">상세보기</a> 
 					</td>
-					<td width="10%">
-						<a id="item" href="/administrator/adminDelete.do?board_num=${board.board_num}">삭제</a>
+					<td width="100">
+						<a id="item" href="/administrator/adminDelete.do?board_num=${board.board_num}"><img src="../image/icon_66.png"></a>
 					</td>
 				</tr>
 			</table>

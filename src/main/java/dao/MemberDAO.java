@@ -17,7 +17,19 @@ public class MemberDAO extends SqlSessionDaoSupport{
 	public int MemberOut(String id){
 		return getSqlSession().delete("member.output", id);
 	}
-
+	/**	ID 목록	*/
+	public List<String> getIdList(){
+		return getSqlSession().selectList("member.getIdList");
+	}
+	/**	회원 수	*/
+	public int count(){
+		return getSqlSession().selectOne("member.getMemberCount");
+	}
+	/**	회원 모든 정보 목록	*/
+	public List<MemberCommand> getList(){
+		return getSqlSession().selectList("member.getList");
+	}
+	
 	public void delete(HashMap<String, String> map){
 
 		int n = getSqlSession().delete("member.delete", map);
@@ -77,14 +89,6 @@ public class MemberDAO extends SqlSessionDaoSupport{
 	public int inputPro(MemberCommand memberInfo) {
 
 		return getSqlSession().insert("member.add", memberInfo);
-	}
-
-	public int count(){
-		return getSqlSession().selectOne("member.count");
-	}
-
-	public List<MemberCommand> getList(){
-		return getSqlSession().selectList("member.getList");
 	}
 
 	public String idCheck(String id){

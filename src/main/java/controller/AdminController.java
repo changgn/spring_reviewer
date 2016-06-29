@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,23 +19,26 @@ import command.BoardCommand;
 import command.MemberCommand;
 import dao.BoardDAO;
 import dao.MemberDAO;
+import dao.RecommendDAO;
 
 @Controller
 public class AdminController {
 	@Autowired
 	BoardDAO boardDAO;
-	
 	public void setBoardDAO(BoardDAO boardDAO) {
 		this.boardDAO = boardDAO;
 	}
-
 	@Autowired
-	private MemberDAO memberDAO;
-	
+	MemberDAO memberDAO;
 	public void setMemberDAO(MemberDAO memberDAO) {
 		this.memberDAO = memberDAO;
 	}
-	
+	@Autowired
+	RecommendDAO recommendDAO;
+	public void setRecommendDAO(RecommendDAO recommendDAO) {
+		this.recommendDAO = recommendDAO;
+	}
+
 	/**	메인화면	*/
 	@RequestMapping("/administrator/adminForm.do")
 	public String adminForm(){
@@ -75,16 +79,41 @@ public class AdminController {
 	@RequestMapping("/administrator/adminMem.do")
 	public ModelAndView adminMemForm(HttpServletRequest request){
 		ModelAndView mav = new ModelAndView();
-		List<MemberCommand> member_list = null;
-		member_list = memberDAO.getList(); 
-		String id = (String)request.getSession().getAttribute("id");
-		if(member_list.contains(id)){
-			member_list.remove(id);
-		}
-		mav.addObject("memberList", member_list);	
+		// 회원 수
 		int count = 0;      
 		count = memberDAO.count();
+		count -= 1;
 		mav.addObject("count", count);
+		// 회원 정보
+		List<MemberCommand> member_list = null;
+		member_list = memberDAO.getList(); 
+		mav.addObject("memberList", member_list);	
+		// 로그인 ID
+		String id = (String)request.getSession().getAttribute("id");
+		if(id.equals("admin")){
+			mav.addObject("admin", id);
+		}
+		
+		List<String> id_list = new ArrayList<String>();
+		id_list = memberDAO.getIdList();
+		Map map = new HashMap();
+		
+		// 해당ID의 추천 수
+		int recommendCount = 0;
+		for(String list : id_list){
+			recommendCount = recommendDAO.getRcommendCountById(list);
+			map.put(list, recommendCount);
+		}
+		mav.addObject("recommendCount", map);
+		
+		// 해당ID의 게시글 수
+		int boardCount = 0;
+		for(String mid : id_list){
+			boardCount = boardDAO.getBoardCoutById(mid);
+			map.put(mid, boardCount);
+		}
+		mav.addObject("boardCount", map);
+		
 		mav.setViewName("administrator/adminMem");
 		return mav;
 	}

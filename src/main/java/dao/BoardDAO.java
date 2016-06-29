@@ -31,15 +31,18 @@ public class BoardDAO extends SqlSessionDaoSupport{
 	public Integer getRecentBoardNumById(String id){
 		return getSqlSession().selectOne("board.getRecentBoardNumById", id);
 	}
-	
+	/**	인기글	*/
 	public List<BoardCommand> pupulBoardList(){
 		return getSqlSession().selectList("board.getPopularityBoardList");
 	}
-	
+	/**	신고글	*/
 	public List<BoardCommand> reportBoardList(){
 		return getSqlSession().selectList("board.getReportBoardList");
 	}
-	
+	/**	해당 ID 작성 게시글 수	*/
+	public int getBoardCoutById(String id){
+		return getSqlSession().selectOne("board.getBoardCoutById", id);
+	}
 	public List<BoardCommand> getList(){
 		return getSqlSession().selectList("board.getList");
 	}

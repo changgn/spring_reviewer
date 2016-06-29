@@ -2,7 +2,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page isELIgnored="false"%>
-
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <html>
@@ -52,17 +51,20 @@
 			<c:forEach var="board" items="${reportList}" > 
 				<table class="list">
 					<tr>
-						<td width="24%" align="left">
+						<td width="120" align="left">
 							작성자 : <a id="text" href="/profile/myProfile.do?id=${board.id}"> ${board.id}</a>
 						</td>
-						<td width="24%" align="left">
-							신고 : ${board.report_num}
+						<td width="100" align="left">
+							<img src="../image/report.jpg"> : ${board.report_num}
 						</td>
-						<td width="20%">
+						<td width="200">
+							작성일 : <fmt:formatDate value="${board.write_date}" pattern="yyyy-MM-dd HH:mm"/>
+						</td>
+						<td width="120">
 							<a id="text" href="/content/contentForm.do?board_num=${board.board_num}">상세보기</a>
 						</td>
-						<td width="10%">
-							<a id="text" href="/administrator/adminDelete.do?board_num=${board.board_num}">삭제</a>
+						<td width="100">
+							<a id="text" href="/administrator/adminDelete.do?board_num=${board.board_num}"><img src="../image/icon_66.png"></a>
 						</td>
 					</tr>
 				</table>
