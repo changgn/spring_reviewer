@@ -197,7 +197,7 @@ $(function(){
 $(function() {
     $(".list_view_more").click(function(e) { 
     	e.preventDefault();
-    	var url = "/main/mainAjax.do";
+    	var url = "/profile/screpListAjax.do";
    		var params = "board_num=" + $(this).attr("id");      // 현재 리스트의 마지막글 번호를 가져온다.
         $.ajax({
               type: "post",
@@ -289,7 +289,13 @@ $(function() {
 	        	  view +='<a href="#" id="'+ allBoardList[idx].board.board_num +'" class="list_view_more">';
 	  	 		  view += '<span class="ico_plus"><img src="../image/plus.png"></span><span class="txt_view_more">더 많이 보기</span></a>';
 	  	 		  view += '</div>';
-	  	 	$("#board_profile").append(view);
+	  	 		  
+	  	 		 if("${login_status}"==0 || "${login_status}"==1) {
+	  	 			view += '<div class="btn_posting_wrap">'; 
+	  			    view += '<a href="/write/writeForm.do" class="btn_posting"><span class="u_vc">글쓰기</span></a>';
+	  	 		    view += '</div>';
+	  				
+	  	 		    $("#board_profile").append(view);
 	        	  
 	          }
 	          ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
