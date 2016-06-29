@@ -380,7 +380,7 @@
 													<li>
 														<a href="/content/reportPro.do?board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 신고</a>
 													</li>
-												<c:if test="${board.board.id == id}">						
+												<c:if test="${login_status==0 || board.board.id == id}">						
 													<li>
 														<a href="/content/deleteContent.do?id=${board.board.id}&board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
 													</li>
