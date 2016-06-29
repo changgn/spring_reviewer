@@ -1700,7 +1700,7 @@ $(function(){
     });
     
     // 좋아요
-	$(".btns_re_items").click(function(e){
+	$("body").on("click", ".btns_re_items", function(e){
 		e.preventDefault();
 		var url= "/recommend/recommend.do";
 		var params = "board_num=" + $(this).attr("id");
@@ -1736,7 +1736,7 @@ $(function(){
 	
 	});
 	
-	$(".re_menu_option").click(function(e){
+	$("body").on("click", ".re_menu_option", function(e){
 		e.preventDefault();
 		var b = $("#memList_" + $(this).attr("id"));
 		var url= "/recommend/member.do";
@@ -1763,9 +1763,146 @@ $(function(){
 		});
 		b.css({}).show();
 	});
-	$(".re_btn_option").click(function(){
+	$("body").on("click", ".re_btn_option", function(){
 		$(this).hide();
 	});	
 	
+	$("body").on("click", ".btns_scr_items", function(e){
+		e.preventDefault();
+		var url= "/screp/screp.do";
+		var params = "board_num=" + $(this).attr("id");
+		
+		$.ajax({
+			type:"post"		// 포스트방식
+			,url:url		// url 주소
+			,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
+			,dataType:"json"
+			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
+				if(args.error == null){
+
+					var screp_num = args.screp_num;
+					var screpFlag = args.screpFlag;
+					var selector = $("#screp_img"+args.board_num);
+					var selector2 = $("#screp_cnt"+args.board_num);
+					selector2.text(" " + screp_num);
+
+				if(screpFlag == 'screp'){
+						selector.attr("src", "../image/screp_on.png");
+					} else{
+						selector.attr("src", "../image/screp_off.png");
+					}
+				} else {
+					$(location).attr("href", "/logon/login.do");
+				}
+				
+			}
+		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+		    	alert(e.responseText);
+				$(location).attr("href", "/logon/login.do");
+		    }
+		});
+	});
 	
+    $(".list_view_more").click(function(e) { 
+    	e.preventDefault();
+    	var url = "/search/searchmore.do";
+   		var params = "lastBoard_num=" + $("#lastBoard_num").val();      // 현재 리스트의 마지막글 번호를 가져온다.
+        $.ajax({
+              type: "post",
+              url: url,     	// 더보기 눌렀을때 데이터리스트를 html 형태로 만들어서 현재 리스트페이지로 보내준다.
+              data:params,   	// 현재 리스트에 뿌려져있는 마지막 글 번호를 넣어준다. 그래야지 리스트의 마지막글 다음부터의 리스트를 가져온다.
+              dataType:"json",
+              beforeSend:  function() {
+             	 $(".view_more").append('<img id="loadingimg" src="../image/loading.gif" />');    // 로딩 진행줄일때 .gif로 로딩중이라는거 표시 
+	          },
+	          success: function(args){
+	        	  var allBoardList = args.allBoardList;
+	        	  var id = args.id;
+	        	  var login_status = args.login_status;
+	        	  var lastBoard_num = $("#lastBoard_num").val();
+	        	  var view = "";
+	        	  $("#loadingimg").remove();
+	        	  for(var idx=0; idx<allBoardList.length; idx++) {
+	        		  view += '<div id="content_' + allBoardList[idx].board.board_num + '" class="content_wrap"><div class="content_first"><div class="cont_writer">';
+		        	  view += '<a href="#" class="profile_photo"> <span class="profile_thumb"> <img src="../image/5.jpg"> <span class="profile_thumb_mask"></span></span></a>';
+		        	  view += '<a href="/profile/myProfile.do?id=' + allBoardList[idx].board.id +'" class="cont_writer_id">'+ allBoardList[idx].board.id +'</a>';
+		        	  view += '<div class="cont_wdate">' + allBoardList[idx].date + '</div>';
+		        	  view += '<div class="cont_menu">';
+		        	  view += '<a href="#" id="' + allBoardList[idx].board.board_num + '" class="cont_menu_option"><span id="cont_btn_menu">옵션</span></a>';
+		        	  view += '<div id="menu_'+ allBoardList[idx].board.board_num +'" class="cont_btn_option"><div class="ly_dimmed"></div>';
+		        	  view += '<ul class="cont_popup">';
+		        	  view += '<li><a href="/content/reportPro.do?board_num='+ allBoardList[idx].board.board_num + '" class="cont_popup_close" >이 게시글 신고</a></li>';
+		        	  if(allBoardList[idx].board.id == id || login_status=='0'){
+						  view += '<li><a href="/content/deleteContent.do?id=' + allBoardList[idx].board.id +'&board_num='+ allBoardList[idx].board.board_num + '" class="cont_popup_close" >이 게시글 삭제</a></li>';
+		        	  }
+		        	  view += '</ul></div></div></div></div>';
+		        	  view += '<div class="content_second"><span class="content_view"><span><pre id="pre_' + allBoardList[idx].board.board_num + '"> ' + allBoardList[idx].board.content +'</pre>';
+		        	  if(allBoardList[idx].contentFlag == true){
+		        		  view += '<span class="cont_theview"><span>...</span><a href="/content/contentForm.do?board_num=' + allBoardList[idx].board.board_num + '" class="btn_view_more">더보기</a></span>';
+		        	  }
+		        	  view +='</span></span></div>';
+		        	  if(allBoardList[idx].photo != null){
+		        		  view += '<a href="/content/contentForm.do?board_num=' + allBoardList[idx].board.board_num + '" class="item_info_wrap">';
+		        		  view += '<span class="item_cont" title="컨텐츠 상세페이지">';
+	        			  view += '<span class="item_thumb"><img class="list_photo" src="' + allBoardList[idx].photo.realPath + '"><span class="thumb_mask_bottom"></span></span></span></a>';
+		        	  }
+		        	  view += '<div class="cont_category_info"><p id="cont_category_info_f">' + allBoardList[idx].category.group1 + '>' + allBoardList[idx].category.group2 + '>' + allBoardList[idx].category.group3 +'</p></div>';
+		        	  view += '<div class="cont_btns"> <div class="cont_btns_wrap">';
+		        	  if(login_status != '0' && login_status != '1'){
+		        		  view += '<div class="btns_re">';
+		        		  view += '<a href="/logon/login.do" id="'+ allBoardList[idx].board.board_num +'" class="btns_re_item"><span id="u_ico" class="u_ico"><img src="../image/recommend_on.png"></span><em class="u_txt">좋아요</em></a>';
+		        		  view += '&nbsp;';
+		        		  view += '<a href="#" id="'+ allBoardList[idx].board.board_num +'" class="btns_re_item re_menu_option">';
+		        		  view += '<em id="u_cnt'+ allBoardList[idx].board.board_num +'" class="u_cnt">'+ allBoardList[idx].board.recommend_num +'</em></a>';
+		        		  view += '<div id="memList_'+ allBoardList[idx].board.board_num +'" class="re_btn_option">';	
+		        		  view += '<div class="ly_dimmed"></div>';
+		        		  view += '<ul class="re_popup"></ul>';
+		        		  view += '</div></div>'
+		        	  } else{
+		        		 view += '<div class="btns_re">';
+		        		 view += '<a href="#" id="'+ allBoardList[idx].board.board_num +'" class="btns_re_item btns_re_items">';
+		        		 view += '<span id="u_ico" class="u_ico">';
+		        		 if(allBoardList[idx].recommendFlag == 'recommend'){
+		        			 view += '<img id="recommend_img'+ allBoardList[idx].board.board_num +'" src="../image/recommend_off.png">';
+		        		 }else{
+		        			 view += '<img id="recommend_img'+ allBoardList[idx].board.board_num +'" src="../image/recommend_on.png">';
+		        		 }
+		        		 view += '</span><em class="u_txt">좋아요</em></a>'; 
+		        		 view += '&nbsp;';
+		        		 view += '<a href="#" id="'+ allBoardList[idx].board.board_num +'" class="btns_re_item re_menu_option">';
+		        		 view += '<em id="u_cnt'+ allBoardList[idx].board.board_num +'" class="u_cnt">'+ allBoardList[idx].board.recommend_num +'</em></a>';
+		        		 view += '<div id="memList_'+ allBoardList[idx].board.board_num + '" class="re_btn_option">';
+		        		 view += '<div class="ly_dimmed"></div>';
+	        		     view += '<ul class="re_popup"></ul>';
+	        		     view += '</div></div>';
+		        	  }
+		        	  view += '<a href="/content/contentForm.do?board_num='+ allBoardList[idx].board.board_num +'&comment=true" class="btns_coment">';
+		        	  view += '<span class="u_ico_coment">댓글</span>';
+		        	  view += '<span class="text_num">'+ allBoardList[idx].commentCount +'</span></a>';
+
+		        	  if(login_status == '0' || login_status == '1') {
+			        	  view += '<a href="#" id="' + allBoardList[idx].board.board_num + '" class="btns_screp btns_scr_items" >';
+			        	  view += '<span class="u_ico_screp">';
+			        	  if(allBoardList[idx].screpFlag == 'screp') {
+			        		  view += '<img id="screp_img' + allBoardList[idx].board.board_num + '" src="../image/screp_on.png">';
+			        	  } else {
+			        		  view += '<img id="screp_img' + allBoardList[idx].board.board_num + '" src="../image/screp_off.png">';
+			        	  }
+			        	  view += '</span><em class="u_txt">스크렙</em><em id="screp_cnt' + allBoardList[idx].board.board_num + '" class="u_cnt"> ' + allBoardList[idx].board.screp + '</em>';
+			        	  view += '</a>';
+		        	  }
+		        	  view += '</div></div></div>';
+		        	  lastBoard_num = allBoardList[idx].board.board_num;
+	        	  }
+	        	  
+	        	  $("#lastBoard_num").remove();
+	        	  view += '<input type="hidden" id="lastBoard_num" value="' + lastBoard_num + '" />';
+	        	  $("#search_result").append(view);
+	        	  
+	          }
+	          ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+			    	alert(e.responseText);
+			    }
+      	});
+    });
 });

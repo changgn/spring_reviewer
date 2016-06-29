@@ -363,7 +363,7 @@
 				<c:if test="${searchCount!=0}">
 					<div id="search_result">
 						<c:forEach var="board" items="${allBoardList}">
-							<div class="content_wrap">
+							<div id="content_${board.board.board_num}" class="content_wrap">
 								<div class="content_first">	
 									<div class="cont_writer">
 										<a href="/profile/myProfile.do?id=${board.board.id}" class="cont_writer_id">${board.board.id}</a>
@@ -457,14 +457,30 @@
 											<span class="u_ico_coment">댓글</span>
 											<span class="text_num">${board.commentCount}</span>				
 										</a>
-						<!-- 				<a href="#" class="btns_screp" >
-											<span class="u_ico_screp">스크렙</span>
-											<span class="text_num">19</span>
-										</a> -->
+										<c:if test="${login_status==0 || login_status==1}">
+										<a href="#" id="${board.board.board_num}" class="btns_screp btns_scr_items" >
+											<span class="u_ico_screp">
+												<c:if test="${board.screpFlag == 'screp'}">
+													<img id="screp_img${board.board.board_num}" src="../image/screp_on.png">	  
+												</c:if>              
+												
+												<c:if test="${board.screpFlag == 'nscrep'}">
+													<img id="screp_img${board.board.board_num}" src="../image/screp_off.png">	  
+												</c:if>		
+						                	</span><em class="u_txt">스크렙</em><em id="screp_cnt${board.board.board_num}" class="u_cnt"> ${board.board.screp}</em>
+										</a>
+										</c:if>
 						       		</div>
 						       	</div>
 							</div>
+							<c:set var="lastBoard_num" value="${board.board.board_num}" />
 						</c:forEach>
+						<input type="hidden" id="lastBoard_num" value="${lastBoard_num}" />
+					</div>
+					<div class="view_more">
+						<a href="#" class="list_view_more">
+				 			<span class="ico_plus"><img src="../image/plus.png"></span><span class="txt_view_more">더 많은 리뷰 보기</span>
+				 		</a>
 					</div>
 				</c:if>
 			</div>

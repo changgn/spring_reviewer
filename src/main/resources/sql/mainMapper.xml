@@ -10,6 +10,25 @@
 			from ( select * from board ORDER BY write_date DESC ) board ORDER BY write_date DESC) 
 		where rnum between #{startBoardNum} and #{endBoardNum} ORDER BY write_date DESC
 	</select>
+	<select parameterType="java.util.HashMap" id="getPageListByContent" resultType="command.BoardCommand">
+	 	select * from 
+			(select rownum rnum ,board_num,id,category_id,content,write_date,recommend_num,report_num,screp,comment_num 
+			from (select * from board 
+				 where content LIKE '%'||#{searchContent}||'%' 
+				 ORDER BY write_date DESC)
+			board ORDER BY write_date DESC) 
+		where rnum between #{startBoardNum} and #{endBoardNum} ORDER BY write_date DESC
+	</select>
+	<select parameterType="java.util.HashMap" id="getMorePageListByContent" resultType="command.BoardCommand">
+	 	select * from 
+			(select rownum rnum ,board_num,id,category_id,content,write_date,recommend_num,report_num,screp,comment_num 
+			from (select * from board 
+				 where board_num<![CDATA[<]]>#{lastBoard_num} 
+				 AND content LIKE '%'||#{searchContent}||'%' 
+				 ORDER BY write_date DESC)
+			board ORDER BY write_date DESC) 
+		where rnum between #{startBoardNum} and #{endBoardNum} ORDER BY write_date DESC
+	</select>
 	<select id="getPageListByExBoardNum" parameterType="java.util.HashMap" resultType="command.BoardCommand">
 		select * 
 		from (select rownum rnum ,board_num,id,category_id,content,write_date,recommend_num,report_num,screp,comment_num 
@@ -40,6 +59,27 @@
 					<foreach separator="," close=")" open="(" item="item" collection="secretBoardNumList"> #{item} 
 					</foreach>
 				ORDER BY write_date DESC)
+			board ORDER BY write_date DESC) 
+		where rnum between #{startBoardNum} and #{endBoardNum} ORDER BY write_date DESC
+	</select>
+	<select parameterType="java.util.HashMap" id="getPageListByCategoryIdContent" resultType="command.BoardCommand">
+		select * 
+		from (select rownum rnum ,board_num,id,category_id,content,write_date,recommend_num,report_num,screp,comment_num 
+			from (select * from board where category_id IN 
+					<foreach separator="," close=")" open="(" item="item" collection="categoryIdList"> #{item} 
+					</foreach>
+				AND content like '%'||#{searchContent}||'%' ORDER BY write_date DESC)
+			board ORDER BY write_date DESC) 
+		where rnum between #{startBoardNum} and #{endBoardNum} ORDER BY write_date DESC
+	</select>
+	<select parameterType="java.util.HashMap" id="getMorePageListByCategoryIdContent" resultType="command.BoardCommand">
+		select * 
+		from (select rownum rnum ,board_num,id,category_id,content,write_date,recommend_num,report_num,screp,comment_num 
+			from (select * from board where board_num<![CDATA[<]]>#{lastBoard_num} 
+				AND category_id IN 
+					<foreach separator="," close=")" open="(" item="item" collection="categoryIdList"> #{item} 
+					</foreach>
+				AND content like '%'||#{searchContent}||'%' ORDER BY write_date DESC)
 			board ORDER BY write_date DESC) 
 		where rnum between #{startBoardNum} and #{endBoardNum} ORDER BY write_date DESC
 	</select>
