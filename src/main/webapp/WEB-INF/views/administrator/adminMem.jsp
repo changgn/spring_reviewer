@@ -34,6 +34,7 @@
 		<script>
 			$(function(){
 				$(".member").click(function(){
+					var param = 
 					$(location).attr("href", "/administrator/adminMemInfo.do?");
 				});
 			});
