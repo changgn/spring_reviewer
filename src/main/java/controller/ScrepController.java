@@ -288,6 +288,7 @@ public class ScrepController {
 		List<BoardCommand> boardList = null;
 		List<HashMap<String, Object>> allBoardList = new ArrayList<HashMap<String, Object>>();
 		List<String> categoryIdList = null;
+		
 		List<Integer> boardNumList = ScrepDao.getScrepListById(paramId); //last로 바꿀것 !
 		if(login_status==null){
 			login_status = "2";
