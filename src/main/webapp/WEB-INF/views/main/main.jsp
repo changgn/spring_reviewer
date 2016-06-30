@@ -152,7 +152,7 @@ $(function() {
     $(".list_view_more").click(function(e) { 
     	e.preventDefault();
     	var url = "/main/mainAjax.do";
-   		var params = "board_num=" + $(this).attr("id");      // 현재 리스트의 마지막글 번호를 가져온다.
+    	var params = "lastBoard_num=" + $("#lastBoard_num").val();      // 현재 리스트의 마지막글 번호를 가져온다.
         $.ajax({
               type: "post",
               url: url,     	// 더보기 눌렀을때 데이터리스트를 html 형태로 만들어서 현재 리스트페이지로 보내준다.
@@ -238,9 +238,10 @@ $(function() {
 			        	  view += '</a>';
 		        	  }
 		        	  view += '</div></div></div>';
-		        	  
-	        	  }
-	        	  
+		        	  lastBoard_num = allBoardList[idx].board.board_num;
+	        	  } 
+	        	  view += '<input type="hidden" id="lastBoard_num" value="' + lastBoard_num + '" />';
+	        	  $("#lastBoard_num").remove();
 	        	  $("#content_wrap_area").append(view);
 	        	  
 	          }
@@ -377,7 +378,9 @@ $(function() {
        		</div>
        	</div>
 	</div>
+	<c:set var="lastBoard_num" value="${board.board.board_num}" />
 </c:forEach>
+<input type="hidden" id="lastBoard_num" value="${lastBoard_num}" />
 </div>
 	<div id="${board.board.board_num}" class="view_more">
 	 		<a href="#" id="${board.board.board_num}" class="list_view_more">
