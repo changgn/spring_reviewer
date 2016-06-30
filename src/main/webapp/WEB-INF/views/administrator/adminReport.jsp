@@ -64,7 +64,7 @@
 							<a id="text" href="/content/contentForm.do?board_num=${board.board_num}">상세보기</a>
 						</td>
 						<td width="100">
-							<a id="text" href="/administrator/adminDelete.do?board_num=${board.board_num}"><img src="../image/icon_66.png"></a>
+							<a id="text" href="/content/deleteContent.do?board_num=${board.board_num}&id=${board.id}"><img src="../image/icon_66.png"></a>
 						</td>
 					</tr>
 				</table>

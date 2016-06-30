@@ -4,6 +4,7 @@
 <%@ page isELIgnored="false"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
 		<style>
@@ -30,14 +31,6 @@
 				margin: 40 auto;
 			}
 		</style>
-		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
-		<script>
-			$(function(){
-				$(".member").click(function(){
-					$(location).attr("href", "/administrator/adminMemInfo.do?");
-				});
-			});
-		</script>
 	</head>
 	<body>
 		<div class="MemberManageTitle">
@@ -47,12 +40,35 @@
 			<table class="list">
 				<c:forEach var="memberList" items="${memberList}">
 					<c:if test="${memberList.id ne admin}">
-						<tr class="member">
+						<tr>
 							<td width="120">
-								아이디 : <a href="/administrator/adminMemInfo.do?id=${memberList.id}">${memberList.id}</a>
+								아이디 : <a id="name" href="/profile/myProfile.do?id=${memberList.id}">${memberList.id}</a>
+							</td>
+							<td>
+								이름 : ${memberList.name}
+							</td>
+							<td>
+								성별 : ${memberList.gender}
+							</td>
+							<td>
+								email : ${memberList.email}
 							</td>
 							<td width="220">
 								가입일자 : <fmt:formatDate value="${memberList.reg_date}" pattern="yyyy-MM-dd HH:mm"/>
+							</td>
+							<td  width="40">
+								<a id="name" href="/administrator/adminOutput.do?outId=${memberList.id}"><img src="../image/icon_66.png"></a>
+							</td>
+						</tr>
+						<tr>
+							<td width="120">
+								작성 게시글 : ${boardCount[memberList.id]}
+							</td>
+							<td width="130">
+								<img src="../image/recommend_off.png" width="15" height="15"> 받은 게시글 : ${recommendCount[memberList.id]}
+							</td>
+							<td>
+								<img alt="" src=""> 받은 게시글 : 
 							</td>
 						</tr>
 					</c:if>

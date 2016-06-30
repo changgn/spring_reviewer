@@ -63,21 +63,9 @@ public class AdminController {
 		return "administrator/adminReport";
 	}
 	
-	/**	게시글 삭제	*/
-	@RequestMapping("/administrator/adminDelete.do")
-	public String adminDelete(HttpServletRequest request, @RequestParam("board_num") String board_num){
-		String id = (String) request.getSession().getAttribute("id");
-		if(id.equals("admin")){
-			boardDAO.deleteContent(Integer.parseInt(board_num));
-		}else{
-			return "redirect";
-		}
-		return "administrator/adminDelete";
-	}
-	
-	/**	회원	*/
-	@RequestMapping("/administrator/adminMem.do")
-	public ModelAndView adminMemForm(HttpServletRequest request){
+	/**	회원 목록	*/
+	@RequestMapping("/administrator/adminMemInfo.do")
+	public ModelAndView adminMemInfo(HttpServletRequest request){
 		ModelAndView mav = new ModelAndView();
 		// 회원 수
 		int count = 0;      
@@ -96,24 +84,47 @@ public class AdminController {
 		
 		List<String> id_list = new ArrayList<String>();
 		id_list = memberDAO.getIdList();
-		Map map = new HashMap();
+		Map abmap = new HashMap();
+		Map rbmap = new HashMap();
 		
-		// 해당ID의 추천 수
+		// 해당ID의 추천 받은 게시글 수
 		int recommendCount = 0;
 		for(String list : id_list){
 			recommendCount = recommendDAO.getRcommendCountById(list);
-			map.put(list, recommendCount);
+			abmap.put(list, recommendCount);
 		}
-		mav.addObject("recommendCount", map);
+		mav.addObject("recommendCount", abmap);
 		
 		// 해당ID의 게시글 수
 		int boardCount = 0;
 		for(String mid : id_list){
 			boardCount = boardDAO.getBoardCoutById(mid);
-			map.put(mid, boardCount);
+			rbmap.put(mid, boardCount);
 		}
-		mav.addObject("boardCount", map);
+		mav.addObject("boardCount", rbmap);
 		
+		mav.setViewName("administrator/adminMemInfo");
+		return mav;
+	}
+	
+	/**	회원 정보	*/
+	@RequestMapping("/administrator/adminMem.do")
+	public ModelAndView adminMemForm(HttpServletRequest request){
+		ModelAndView mav = new ModelAndView();
+		// 회원 수
+		int count = 0;      
+		count = memberDAO.count();
+		count -= 1;
+		mav.addObject("count", count);
+		// 회원 정보
+		List<MemberCommand> member_list = null;
+		member_list = memberDAO.getList(); 
+		mav.addObject("memberList", member_list);	
+		// 로그인 ID
+		String id = (String)request.getSession().getAttribute("id");
+		if(id.equals("admin")){
+			mav.addObject("admin", id);
+		}
 		mav.setViewName("administrator/adminMem");
 		return mav;
 	}
