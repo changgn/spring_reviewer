@@ -52,7 +52,6 @@ public class MainController {
 	private SecretDAO secretDao;
 	@Autowired
 	private MainDAO mainDao;
-	private int lastBoard_num;
 	
 	public void setRecommendDao(RecommendDAO recommendDao) { this.recommendDao = recommendDao; }
 	public void setBoardDao(BoardDAO boardDao) { this.boardDao = boardDao; }
@@ -70,7 +69,7 @@ public class MainController {
 		String id = (String)request.getSession().getAttribute("id"); 
 		String login_status = (String)request.getSession().getAttribute("login_status");
 		
-		lastBoard_num = 0;
+		int searchCount = 0;
 		List<BoardCommand> boardList = null;
 		List<HashMap<String, Object>> allBoardList = new ArrayList<HashMap<String, Object>>();
 		List<String> categoryIdList = null;
@@ -117,6 +116,7 @@ public class MainController {
 			}
 		}
 		if(boardList!=null)	{
+			searchCount = boardList.size();
 			for(BoardCommand vo : boardList) {
 				HashMap<String, Object> boardMap = new HashMap<String, Object>();
 				PhotoCommand photo = photoDao.getOneByBoardNum(vo.getBoard_num());
@@ -159,6 +159,7 @@ public class MainController {
 				allBoardList.add(boardMap);
 			}
 		}
+		model.addAttribute("searchCount", searchCount);
 		model.addAttribute("allBoardList", allBoardList);
 		return "main/main";
 	}

@@ -164,6 +164,7 @@ $(function() {
 	          success: function(args){
 	        	  var allBoardList = args.allBoardList;
 	        	  var view = "";
+	        	  var lastBoard_num = $("#lastBoard_num").val();
 	        	  $("#loadingimg").remove();
 	        	  for(var idx=0; idx<allBoardList.length; idx++) {
 	        		  view += '<div id="content_' + allBoardList[idx].board.board_num + '" class="content_wrap"><div class="content_first"><div class="cont_writer">';
@@ -382,11 +383,13 @@ $(function() {
 </c:forEach>
 <input type="hidden" id="lastBoard_num" value="${lastBoard_num}" />
 </div>
+	<c:if test="${searchCount >= 3}">
 	<div id="${board.board.board_num}" class="view_more">
 	 		<a href="#" id="${board.board.board_num}" class="list_view_more">
 	 			<span class="ico_plus"><img src="../image/plus.png"></span><span class="txt_view_more">더 많은 리뷰 보기</span>
 	 		</a>
     </div>
+    </c:if>
 	<c:if test="${login_status==0 || login_status==1}">
 		<div class="btn_posting_wrap">
 			<a href="/write/writeForm.do" class="btn_posting">
