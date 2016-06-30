@@ -226,7 +226,7 @@ $(function(){
 					</a>
 					 <div class="cont_btn_option">
 						<div class="ly_dimmed"></div>
-						<ul class="cont_popup">
+						<ul class="cont_popup ul_list">
 							<li>
 								<a href="/content/reportPro.do?board_num=${board.board_num}" class="cont_popup_close" >이 게시글 신고</a>
 							</li>

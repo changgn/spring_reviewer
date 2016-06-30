@@ -376,7 +376,7 @@
 											</a>
 											<div id="menu_${board.board.board_num}" class="cont_btn_option">
 												<div class="ly_dimmed"></div>
-												<ul class="cont_popup">
+												<ul class="cont_popup ul_list">
 													<li>
 														<a href="/content/reportPro.do?board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 신고</a>
 													</li>
@@ -428,7 +428,7 @@
 							                	</a>
 							                 	<div id="memList_${board.board.board_num}" class="re_btn_option">
 													<div class="ly_dimmed"></div>
-													<ul class="re_popup"></ul>
+													<ul class="re_popup ul_list"></ul>
 												</div>
 											</div>
 										</c:if>
@@ -449,7 +449,7 @@
 							                	</a>
 							                 	<div id="memList_${board.board.board_num}" class="re_btn_option">
 													<div class="ly_dimmed"></div>
-													<ul class="re_popup"></ul>
+													<ul class="re_popup ul_list"></ul>
 												</div>
 											</div>
 										</c:if>

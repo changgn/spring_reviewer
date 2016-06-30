@@ -1830,7 +1830,7 @@ $(function(){
 		        	  view += '<div class="cont_menu">';
 		        	  view += '<a href="#" id="' + allBoardList[idx].board.board_num + '" class="cont_menu_option"><span id="cont_btn_menu">옵션</span></a>';
 		        	  view += '<div id="menu_'+ allBoardList[idx].board.board_num +'" class="cont_btn_option"><div class="ly_dimmed"></div>';
-		        	  view += '<ul class="cont_popup">';
+		        	  view += '<ul class="cont_popup ul_list">';
 		        	  view += '<li><a href="/content/reportPro.do?board_num='+ allBoardList[idx].board.board_num + '" class="cont_popup_close" >이 게시글 신고</a></li>';
 		        	  if(allBoardList[idx].board.id == id || login_status=='0'){
 						  view += '<li><a href="/content/deleteContent.do?id=' + allBoardList[idx].board.id +'&board_num='+ allBoardList[idx].board.board_num + '" class="cont_popup_close" >이 게시글 삭제</a></li>';
@@ -1856,7 +1856,7 @@ $(function(){
 		        		  view += '<em id="u_cnt'+ allBoardList[idx].board.board_num +'" class="u_cnt">'+ allBoardList[idx].board.recommend_num +'</em></a>';
 		        		  view += '<div id="memList_'+ allBoardList[idx].board.board_num +'" class="re_btn_option">';	
 		        		  view += '<div class="ly_dimmed"></div>';
-		        		  view += '<ul class="re_popup"></ul>';
+		        		  view += '<ul class="re_popup ul_list"></ul>';
 		        		  view += '</div></div>'
 		        	  } else{
 		        		 view += '<div class="btns_re">';
@@ -1873,7 +1873,7 @@ $(function(){
 		        		 view += '<em id="u_cnt'+ allBoardList[idx].board.board_num +'" class="u_cnt">'+ allBoardList[idx].board.recommend_num +'</em></a>';
 		        		 view += '<div id="memList_'+ allBoardList[idx].board.board_num + '" class="re_btn_option">';
 		        		 view += '<div class="ly_dimmed"></div>';
-	        		     view += '<ul class="re_popup"></ul>';
+	        		     view += '<ul class="re_popup ul_list"></ul>';
 	        		     view += '</div></div>';
 		        	  }
 		        	  view += '<a href="/content/contentForm.do?board_num='+ allBoardList[idx].board.board_num +'&comment=true" class="btns_coment">';

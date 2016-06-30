@@ -28,10 +28,10 @@
 		});
 		$(function(){		
 			
-			$("li").mouseover(function(){
+			$(".ul_list li").mouseover(function(){
 				$(this).css("background-color","#F6F6F6");
 			});
-			$("li").mouseleave(function(){
+			$(".ul_list li").mouseleave(function(){
 				$(this).css("background-color","white");
 			});
 			
@@ -117,7 +117,7 @@
 		</span>
 		<c:if test="${login_status==0 || login_status==1}">
 			<div id="user">
-				<ul id="list_user">
+				<ul id="list_user" class="ul_list">
 					<li id="btn_mod_categoty"><a href="#">카테고리 수정</a></li>
 					<c:if test="${login_status==0}">
 						<li id="btn_admin"><a href="#">관리자 페이지</a></li>
@@ -128,7 +128,7 @@
 			</div>
 		</c:if>
 	 	<div id="alarm">
-			<ul id="list_alarm">
+			<ul id="list_alarm" class="ul_list">
 				<li>알림1<br><a href="#">알림1</a></li>
 				<li>알림2<br><a href="#">알림2</a></li>
 				<li>알림3<br><a href="#">알림3</a></li>
@@ -141,7 +141,7 @@
 	
 	<div id="nav">
 	<!-- 네비게이션 -->
-		<ul id="list_nav">
+		<ul id="list_nav" class="ul_list">
 			<li>
 				<div id="btn_newsfeed"><a href="#" class="nav_btn" onclick="event.preventDefault();">뉴&nbsp;&nbsp;스&nbsp;&nbsp;피&nbsp;&nbsp;드</a></div>
 			</li>
