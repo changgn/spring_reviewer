@@ -65,6 +65,7 @@ public class ScrepController {
 	@Autowired
 	private SecretDAO secretDao;
 	
+	
 
 	public void setBoardDao(BoardDAO boardDao) {
 		BoardDao = boardDao;
@@ -270,6 +271,7 @@ public class ScrepController {
 		String login_status = (String)request.getSession().getAttribute("login_status");
 		String paramId = request.getParameter("id");
 		JSONObject jso = new JSONObject();
+		lastBoard_num = 0;
 		
 		int screpCount = ScrepDao.getScrepCountByScrepNum(paramId);
 		model.addAttribute("screpCount", screpCount);
@@ -286,8 +288,7 @@ public class ScrepController {
 		List<BoardCommand> boardList = null;
 		List<HashMap<String, Object>> allBoardList = new ArrayList<HashMap<String, Object>>();
 		List<String> categoryIdList = null;
-		List<Integer> boardNumList = ScrepDao.getScrepListById(paramId);
-	
+		List<Integer> boardNumList = ScrepDao.getScrepListById(paramId); //last로 바꿀것 !
 		if(login_status==null){
 			login_status = "2";
 			request.getSession().setAttribute("login_status", login_status);
@@ -315,64 +316,58 @@ public class ScrepController {
 			}
 		}
 		
-		if(boardList!=null)	{
-			for(BoardCommand vo : boardList) {
-				HashMap<String, Object> boardMap = new HashMap<String, Object>();
-				PhotoCommand photo = PhotoDao.getOneByBoardNum(vo.getBoard_num());
-				CategoryCommand category = CategoryDao.getOne(vo.getCategory_id());
-				String commentCount = CommentDao.getCountByBoardNum(vo.getBoard_num());
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-				String date = sdf.format(vo.getWrite_date());
-				
-				if(commentCount==null)	commentCount="0";
-				boolean contentFlag = false;
-				String[] contentSub = vo.getContent().split("\n");
-				if(contentSub.length > 3) {
-					contentFlag = true;
-					vo.setContent(contentSub[0] + contentSub[1] + contentSub[2]);
-				}
-		
-		
-		if(boardNumList.size() == 0){
-			boardList = null;
-		}else {
-			boardList = BoardDao.getListByBoardNum(boardNumList);
-		}
-		
-		RecommendCommand recommend = new RecommendCommand(id, vo.getBoard_num());
-				if(recommend.getId() != null ){
-					RecommendCommand recommends = RecommendDao.getRecommend(recommend);
-					if(recommends != null){
-						boardMap.put("recommendFlag", "recommend");
-					}else{
-						boardMap.put("recommendFlag", "nrecommend");
+		if(paramId != null) {
+			
+			boardList = MainDao.getPageListById(paramId); //getPageListById
+			
+				if(boardList!=null){
+				for(BoardCommand Command : boardList) {
+					HashMap<String, Object> boardMap = new HashMap<String, Object>();
+					PhotoCommand photo = PhotoDao.getOneByBoardNum(Command.getBoard_num());
+					CategoryCommand category = CategoryDao.getOne(Command.getCategory_id());
+					String commentCount=CommentDao.getCountByBoardNum(Command.getBoard_num());
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+					String date = sdf.format(Command.getWrite_date());
+					if(commentCount==null)	commentCount="0";
+					boolean contentFlag = false;
+					String[] contentSub = Command.getContent().split("\n");
+					if(contentSub.length > 3) {
+						contentFlag = true;
+						Command.setContent(contentSub[0] + contentSub[1] + contentSub[2]);
 					}
-				}
-				
-				ScrepCommand screp = new ScrepCommand(id, vo.getBoard_num());
-				if(screp.getId() != null ){
-					ScrepCommand screps = ScrepDao.getScrep(screp);
-					if(screps != null){
-						boardMap.put("screpFlag", "screp");
-					}else{
-						boardMap.put("screpFlag", "nscrep");
+					RecommendCommand recommend = new RecommendCommand(id, Command.getBoard_num());
+					if(recommend.getId() != null ){
+						RecommendCommand recommends = RecommendDao.getRecommend(recommend);
+						if(recommends != null){
+							boardMap.put("recommendFlag", "recommend");
+						}else{
+							boardMap.put("recommendFlag", "nrecommend");
+						}
 					}
+					ScrepCommand screp = new ScrepCommand(id, Command.getBoard_num());
+					if(screp.getId() != null ){
+						ScrepCommand screps = ScrepDao.getScrep(screp);
+						if(screps != null){
+							boardMap.put("screpFlag", "screp");
+						}else{
+							boardMap.put("screpFlag", "nscrep");
+						}
+					}
+					boardMap.put("board", Command);
+					boardMap.put("photo", photo);
+					boardMap.put("category", category);
+					boardMap.put("commentCount", commentCount);
+					boardMap.put("contentFlag", contentFlag);
+					boardMap.put("date", date);	
+					allBoardList.add(boardMap);
 				}
-				
-
-					
-				boardMap.put("board", vo);
-				boardMap.put("photo", photo);
-				boardMap.put("category", category);
-				boardMap.put("commentCount", commentCount);
-				boardMap.put("contentFlag", contentFlag);
-				boardMap.put("date", date);	
-				allBoardList.add(boardMap);
 			}
+		 	model.addAttribute("allBoardList", allBoardList);
 		}
-		
+		model.addAttribute("paramId", paramId); //키값 ?
 		jso.put("allBoardList", allBoardList);
-		resp.setContentType("text/html;charset=utf-8");
+		
+		
 		
 		// 팔로우 상태 저장
 		if(id!=null) {
@@ -391,6 +386,7 @@ public class ScrepController {
 		
 		model.addAttribute("paramId", paramId);
 		model.addAttribute("allBoardList", allBoardList);
+		resp.setContentType("text/html;charset=utf-8");
 		return jso.toString();
 		
 	}

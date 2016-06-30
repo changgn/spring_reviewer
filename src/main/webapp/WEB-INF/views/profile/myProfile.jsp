@@ -282,22 +282,12 @@ $(function() {
 			        	  view += '</a>';
 		        	  }
 		        	  view += '</div></div></div>';
-		        	  
-	        	  }
-	        	  
-	        	  view +='<div id="'+ allBoardList[idx].board.board_num +'" class="view_more">';
-	        	  view +='<a href="#" id="'+ allBoardList[idx].board.board_num +'" class="list_view_more">';
-	  	 		  view += '<span class="ico_plus"><img src="../image/plus.png"></span><span class="txt_view_more">더 많이 보기</span></a>';
-	  	 		  view += '</div>';
-	  	 		  
-	  	 		 if("${login_status}"==0 || "${login_status}"==1) {
-	  	 			view += '<div class="btn_posting_wrap">'; 
-	  			    view += '<a href="/write/writeForm.do" class="btn_posting"><span class="u_vc">글쓰기</span></a>';
-	  	 		    view += '</div>';
-	  				
-	  	 		    $("#board_profile").append(view);
-	        	  
-	          }
+		        	  lastBoard_num = allBoardList[idx].board.board_num;
+		       }
+	        	  view += '<input type="hidden" id="lastBoard_num" value="' + lastBoard_num + '" />';
+	        	  $("#lastBoard_num").remove();
+	        	  $("#board_profile").append(view);
+	     }
 	          ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
 			    	alert(e.responseText);
 			    }
@@ -466,7 +456,9 @@ $(function() {
 		       		</div>
 		       	</div>
 			</div>
+			<c:set var="lastBoard_num" value="${board.board.board_num}" />
 		</c:forEach>
+		<input type="hidden" id="lastBoard_num" value="${lastBoard_num}" />
 	</div>
 	
 	<div id="${board.board.board_num}" class="view_more">
