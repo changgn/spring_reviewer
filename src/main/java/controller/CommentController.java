@@ -1,6 +1,5 @@
 package controller;
 
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 
 import javax.servlet.http.HttpServletResponse;

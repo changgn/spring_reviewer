@@ -6,7 +6,6 @@ import java.util.List;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 
-import command.FollowCommand;
 import command.MemberCommand;
 
 
@@ -32,7 +31,7 @@ public class MemberDAO extends SqlSessionDaoSupport{
 	
 	public void delete(HashMap<String, String> map){
 
-		int n = getSqlSession().delete("member.delete", map);
+		getSqlSession().delete("member.delete", map);
 	}
 
 	public String getPasswdById(String id){
