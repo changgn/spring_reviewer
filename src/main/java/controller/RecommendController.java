@@ -43,20 +43,13 @@ public class RecommendController {
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			if(recommendselect != null){
 				recommendDao.deleteRecommend(recommendselect);
-				map.put("board_num", board_num);
-				map.put("recommend_num", recommendDao.getRecommendCountByRecommendNum(board_num));
-				boardDao.updateRecommendNumByBoardNum(map);
 				jso.put("recommendFlag", "nrecommend");
-				
-				
-				
 			} else{
 				recommendDao.insertRecommend(command);
-				map.put("board_num", board_num);
-				map.put("recommend_num", recommendDao.getRecommendCountByRecommendNum(board_num));
-				boardDao.updateRecommendNumByBoardNum(map);
 				jso.put("recommendFlag", "recommend");
 			}
+			
+			boardDao.updateRecommendNumByBoardNum(map);
 			jso.put("board_num", board_num);
 			jso.put("recommend_num", boardDao.selectContent(board_num).getRecommend_num());
 		} else {
