@@ -8,13 +8,13 @@
 		select * from 
 			(select rownum rnum ,board_num,id,category_id,content,write_date,recommend_num,report_num,screp,comment_num 
 			from ( select * from board ORDER BY write_date DESC ) board ORDER BY write_date DESC) 
-		where rnum between 1 and 3 ORDER BY write_date DESC
+		where rnum between 1 and 5 ORDER BY write_date DESC
 	</select>
 	<select id="getMorePageList" parameterType="int" resultType="command.BoardCommand" >
 		select * from 
 			(select rownum rnum ,board_num,id,category_id,content,write_date,recommend_num,report_num,screp,comment_num 
 			from ( select * from board where board_num<![CDATA[<]]>#{lastBoard_num} ORDER BY write_date DESC ) ORDER BY write_date DESC) 
-		where rnum between 1 and 3 ORDER BY write_date DESC
+		where rnum between 1 and 5 ORDER BY write_date DESC
 	</select>
 	
 	<select parameterType="String" id="getPageListByContent" resultType="command.BoardCommand">
@@ -24,7 +24,7 @@
 				 where content LIKE '%'||#{searchContent}||'%' 
 				 ORDER BY write_date DESC)
 			ORDER BY write_date DESC) 
-		where rnum between 1 and 3 ORDER BY write_date DESC
+		where rnum between 1 and 5 ORDER BY write_date DESC
 	</select>
 	<select parameterType="java.util.HashMap" id="getMorePageListByContent" resultType="command.BoardCommand">
 	 	select * from 
@@ -34,7 +34,7 @@
 				 AND content LIKE '%'||#{searchContent}||'%' 
 				 ORDER BY write_date DESC)
 			ORDER BY write_date DESC) 
-		where rnum between 1 and 3 ORDER BY write_date DESC
+		where rnum between 1 and 5 ORDER BY write_date DESC
 	</select>
 	
 	<select id="getPageListByExBoardNum" parameterType="java.util.List" resultType="command.BoardCommand">
@@ -45,7 +45,7 @@
 			 		</foreach>
 				order by write_date DESC)
 			ORDER BY write_date DESC) 
-		where rnum between 1 and 3 ORDER BY write_date DESC
+		where rnum between 1 and 5 ORDER BY write_date DESC
 	</select>
 	<select id="getMorePageListByExBoardNum" parameterType="java.util.HashMap" resultType="command.BoardCommand">
 		select * 
@@ -56,7 +56,7 @@
 			 		</foreach>
 				order by write_date DESC)
 			ORDER BY write_date DESC) 
-		where rnum between 1 and 3 ORDER BY write_date DESC
+		where rnum between 1 and 5 ORDER BY write_date DESC
 	</select>
 	
 	<select id="getPageListByCategoryId" parameterType="java.util.List" resultType="command.BoardCommand">
@@ -67,7 +67,7 @@
 			 		</foreach>
 				order by write_date DESC)
 			ORDER BY write_date DESC) 
-		where rnum between 1 and 3 ORDER BY write_date DESC
+		where rnum between 1 and 5 ORDER BY write_date DESC
 	</select>
 	<select id="getMorePageListByCategoryId" parameterType="java.util.HashMap" resultType="command.BoardCommand">
 		select * 
@@ -78,7 +78,7 @@
 			 		</foreach>
 				order by write_date DESC)
 			ORDER BY write_date DESC) 
-		where rnum between 1 and 3 ORDER BY write_date DESC
+		where rnum between 1 and 5 ORDER BY write_date DESC
 	</select>
 	
 	<select id="getPageListByCategoryIdExBoardNum" parameterType="java.util.HashMap" resultType="command.BoardCommand">	
@@ -92,7 +92,7 @@
 					</foreach>
 				ORDER BY write_date DESC)
 			ORDER BY write_date DESC) 
-		where rnum between 1 and 3 ORDER BY write_date DESC
+		where rnum between 1 and 5 ORDER BY write_date DESC
 	</select>
 	<select id="getMorePageListByCategoryIdExBoardNum" parameterType="java.util.HashMap" resultType="command.BoardCommand">	
 		select * 
@@ -106,7 +106,7 @@
 					</foreach>
 				ORDER BY write_date DESC)
 			ORDER BY write_date DESC) 
-		where rnum between 1 and 3 ORDER BY write_date DESC
+		where rnum between 1 and 5 ORDER BY write_date DESC
 	</select>
 	
 	<select parameterType="java.util.HashMap" id="getPageListByCategoryIdContent" resultType="command.BoardCommand">
@@ -117,7 +117,7 @@
 					</foreach>
 				AND content like '%'||#{searchContent}||'%' ORDER BY write_date DESC)
 			ORDER BY write_date DESC) 
-		where rnum between 1 and 3 ORDER BY write_date DESC
+		where rnum between 1 and 5 ORDER BY write_date DESC
 	</select>
 	<select parameterType="java.util.HashMap" id="getMorePageListByCategoryIdContent" resultType="command.BoardCommand">
 		select * 
@@ -128,7 +128,7 @@
 					</foreach>
 				AND content like '%'||#{searchContent}||'%' ORDER BY write_date DESC)
 			ORDER BY write_date DESC) 
-		where rnum between 1 and 3 ORDER BY write_date DESC
+		where rnum between 1 and 5 ORDER BY write_date DESC
 	</select>
 	
 	<select parameterType="java.lang.String" id="getPageListById" resultType="command.BoardCommand">
@@ -136,7 +136,7 @@
 		from (select rownum rnum ,board_num,id,category_id,content,write_date,recommend_num,report_num,screp,comment_num 
 			from (select * from board where id=#{id} ORDER BY write_date DESC)
 			ORDER BY write_date DESC) 
-		where rnum between 1 and 3 
+		where rnum between 1 and 5 
 		ORDER BY write_date DESC
 	</select>
 	<select parameterType="java.util.HashMap" id="getMorePageListById" resultType="command.BoardCommand">
@@ -145,7 +145,7 @@
 			from (select * from board where board_num<![CDATA[<]]>#{lastBoard_num} 
 				AND id=#{id} ORDER BY write_date DESC)
 			ORDER BY write_date DESC) 
-		where rnum between 1 and 3 
+		where rnum between 1 and 5 
 		ORDER BY write_date DESC
 	</select>
 	
@@ -157,7 +157,7 @@
 			 		</foreach>
 				order by write_date DESC)
 			ORDER BY write_date DESC) 
-		where rnum between 1 and 3 ORDER BY write_date DESC
+		where rnum between 1 and 5 ORDER BY write_date DESC
 	</select>
 	<select parameterType="java.util.HashMap" id="getMorePageListByBoardNum" resultType="command.BoardCommand">
 		select * 
@@ -168,7 +168,7 @@
 			 		</foreach>
 				order by write_date DESC)
 			ORDER BY write_date DESC) 
-		where rnum between 1 and 3 ORDER BY write_date DESC
+		where rnum between 1 and 5 ORDER BY write_date DESC
 	</select>
 </mapper>
 

@@ -383,7 +383,7 @@ $(function() {
 </c:forEach>
 <input type="hidden" id="lastBoard_num" value="${lastBoard_num}" />
 </div>
-	<c:if test="${boardCount >= 3}">
+	<c:if test="${boardCount >= 5}">
 	<div class="view_more">
 	 		<a href="#" class="list_view_more">
 	 			<span class="ico_plus"><img src="../image/plus.png"></span><span class="txt_view_more">더 많은 리뷰 보기</span>

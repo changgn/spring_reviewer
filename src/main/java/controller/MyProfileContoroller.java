@@ -1,5 +1,6 @@
 package controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import dao.BoardDAO;
 import dao.CategoryDAO;
 import dao.CommentDAO;
 import dao.FollowDAO;
@@ -36,8 +36,6 @@ import command.ScrepCommand;
 public class MyProfileContoroller {
 	
 	@Autowired
-	private BoardDAO BoardDao;
-	@Autowired
 	private CategoryDAO categoryDao;
 	@Autowired
 	private CommentDAO commentDao;
@@ -55,9 +53,6 @@ public class MyProfileContoroller {
 	private MainDAO mainDao;
 	
 	//DAO 초기화
-	public void setBoardDao(BoardDAO boardDao) {
-		BoardDao = boardDao;
-	}
 	public void setCategoryDao(CategoryDAO categoryDao) {
 		this.categoryDao = categoryDao;
 	}
@@ -226,7 +221,9 @@ public class MyProfileContoroller {
 				boardList = mainDao.getMorePageListById(paramId, lastBoard_num);
 			} else {
 				List<Integer> boardNumList = ScrepDao.getScrepListById(paramId);
-				boardList = mainDao.getMorePageListByBoardNum(boardNumList, lastBoard_num);
+				if(boardNumList.size() != 0){
+					boardList = mainDao.getMorePageListByBoardNum(boardNumList, lastBoard_num);
+				}
 			}
 			
 			if(boardList!=null){
@@ -235,6 +232,9 @@ public class MyProfileContoroller {
 					PhotoCommand photo = PhotoDao.getOneByBoardNum(Command.getBoard_num());
 					CategoryCommand category = categoryDao.getOne(Command.getCategory_id());
 					String commentCount=commentDao.getCountByBoardNum(Command.getBoard_num());
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+					String date = sdf.format(Command.getWrite_date());
+					
 					if(commentCount==null)	commentCount="0";
 					boolean contentFlag = false;
 					String[] contentSub = Command.getContent().split("\n");
@@ -265,6 +265,7 @@ public class MyProfileContoroller {
 					boardMap.put("category", category);
 					boardMap.put("commentCount", commentCount);
 					boardMap.put("contentFlag", contentFlag);
+					boardMap.put("date", date);
 					allBoardList.add(boardMap);
 				}
 			}

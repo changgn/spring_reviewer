@@ -20,7 +20,6 @@ import command.CategoryCommand;
 import command.PhotoCommand;
 import command.RecommendCommand;
 import command.ScrepCommand;
-import dao.BoardDAO;
 import dao.CategoryDAO;
 import dao.CommentDAO;
 import dao.MainDAO;
@@ -37,8 +36,6 @@ public class MainController {
 	@Autowired
 	private ScrepDAO screpDao;
 	@Autowired
-	private BoardDAO boardDao;
-	@Autowired
 	private PhotoDAO photoDao;
 	@Autowired
 	private CommentDAO commentDao;
@@ -54,7 +51,6 @@ public class MainController {
 	private MainDAO mainDao;
 	
 	public void setRecommendDao(RecommendDAO recommendDao) { this.recommendDao = recommendDao; }
-	public void setBoardDao(BoardDAO boardDao) { this.boardDao = boardDao; }
 	public void setPhotoDao(PhotoDAO photoDao) { this.photoDao = photoDao; }
 	public void setCommentDao(CommentDAO commentDao) { this.commentDao = commentDao; }
 	public void setCategoryDao(CategoryDAO categoryDao) { this.categoryDao = categoryDao; }
