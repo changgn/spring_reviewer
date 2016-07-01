@@ -32,7 +32,7 @@
 			</div>
 			<div id="allMemberManage">
 				<a id="name" href="/administrator/adminMem.do">
-					<img src="../image/icon_45.png" width="40" height="40">
+					<img src="../image/default_profile.png" width="50" height="50">
 					전체 회원 관리
 				</a>
 			</div>

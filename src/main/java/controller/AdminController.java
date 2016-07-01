@@ -66,10 +66,6 @@ public class AdminController {
 		List<BoardCommand> rpboardList = null;
 		rpboardList = boardDAO.reportBoardList();
 		model.addAttribute("reportList", rpboardList);
-		
-		List<BoardCommand> poboardList = null;
-		poboardList = boardDAO.pupulBoardList();
-		model.addAttribute("populList", poboardList);
 		return "administrator/adminReport";
 	}
 	
@@ -117,10 +113,13 @@ public class AdminController {
 		
 		List<BoardCommand> boardList = null;
 		boardList = boardDAO.reportBoardList();
-		int reporter =0;
+		int reporter = 0;
+		String rid;
+		int board_num;
 		
 		for(BoardCommand bc : boardList){
 			bc.getId();
+			bc.getBoard_num();
 		}
 		
 		// 해당ID의 신고받은 게시글 수
