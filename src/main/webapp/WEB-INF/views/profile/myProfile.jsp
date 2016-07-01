@@ -11,22 +11,12 @@
 
 // 스크랩 버튼
 $(function(){
-	var top = 0;
-	$(".cont_menu_option").click(function(){
+	$("body").on("click", ".cont_menu_option", function(e){
+		e.preventDefault();
 		var a = $("#menu_" + $(this).attr("id"));
-		top = a.offset().top;
-		$("body").css({
-			top: -top,
-			position: "fixed",
-			width: "100%",
-			height: "auto"
-		});
-		a.css({
-	    }).show();
+		a.show();
 	});
-	$(".cont_btn_option").click(function(){
-		$("body").removeAttr("style");
-		$('html, body').scrollTop(top);
+	$("body").on("click", ".cont_btn_option", function(e){
 		$(this).hide();
 	});	
 });
@@ -75,10 +65,11 @@ $(function(){
 	});
 	
 	
-	$(".btns_scr_items").click(function(e){
+	$("body").on("click", ".btns_scr_items", function(e){
 		e.preventDefault();
 		var url= "/screp/screp.do";
 		var params = "board_num=" + $(this).attr("id");
+		params += "&paramId=" $(".cont_writer_id").text();
 		
 		$.ajax({
 			type:"post"		// 포스트방식
@@ -90,9 +81,11 @@ $(function(){
 
 					var screp_num = args.screp_num;
 					var screpFlag = args.screpFlag;
+					var screpCount = args.screpCount;
 					var selector = $("#screp_img"+args.board_num);
 					var selector2 = $("#screp_cnt"+args.board_num);
 					selector2.text(" " + screp_num);
+					$("#nav_btn_screp").text("스 크 랩  " + screpCount);
 
 				if(screpFlag == 'screp'){
 						selector.attr("src", "../image/screp_on.png");
@@ -109,7 +102,7 @@ $(function(){
 				$(location).attr("href", "/logon/login.do");
 		    }
 		});
-		location.reload(true);
+	
 	});
 	
 	$("body").on("click", ".re_menu_option", function(e){
@@ -338,7 +331,7 @@ $(function() {
 				<div class="my_content_screp"><a class="nav_btn" href="#">게 시 물&nbsp;&nbsp;${myCount}</a></div>
 			</li>
 			<li id="my_screp">
-				<div class="my_content_screp"><a class="nav_btn" href="#">스 크 랩&nbsp;&nbsp;${screpCount}</a></div>
+				<div class="my_content_screp"><a id="nav_btn_screp" class="nav_btn" href="#">스 크 랩&nbsp;&nbsp;${screpCount}</a></div>
 			</li>
 		</ul>
 	</div>
@@ -383,13 +376,6 @@ $(function() {
 						</span>
 					</span>
 				</div>
-
-				<div class="content_second">
-					<span class="content_view_sp"> <span><pre>${board.content}</pre>
-					</span>
-					</span>
-				</div>
-
 				<c:if test="${board.photo.realPath != null}">
 			   		<a href="/content/contentForm.do?board_num=${board.board.board_num}" class="item_info_wrap">
 				        <span class="item_cont" title="컨텐츠 상세페이지">
@@ -465,7 +451,7 @@ $(function() {
 		<input type="hidden" id="lastBoard_num" value="${lastBoard_num}" />
 	</div>
 	
-	<c:if test="${searchCount >= 3}">
+	<c:if test="${boardCount >= 3}">
 	<div id="${board.board.board_num}" class="view_more">
 	 		<a href="#" id="${board.board.board_num}" class="list_view_more">
 	 			<span class="ico_plus"><img src="../image/plus.png"></span><span class="txt_view_more">더 많은 리뷰 보기</span>

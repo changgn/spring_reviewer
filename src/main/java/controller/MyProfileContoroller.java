@@ -2,12 +2,9 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,14 +17,12 @@ import dao.BoardDAO;
 import dao.CategoryDAO;
 import dao.CommentDAO;
 import dao.FollowDAO;
-import dao.MemberDAO;
 import dao.MemberCategoryDAO;
 import dao.PhotoDAO;
 import dao.RecommendDAO;
 import dao.ScrepDAO;
 import command.BoardCommand;
 import command.CategoryCommand;
-import command.FollowCommand;
 import command.MemberCategoryCommand;
 import command.MemberCommand;
 import command.PhotoCommand;
@@ -153,7 +148,7 @@ public class MyProfileContoroller {
 		//게시글 가져오기
 				if(paramId != null) {
 					List<BoardCommand> boardList = null;
-					List<HashMap> allBoardList = new ArrayList<HashMap>();
+					List<HashMap<String, Object>> allBoardList = new ArrayList<HashMap<String, Object>>();
 					
 					boardList = BoardDao.getListById(paramId);
 					
@@ -172,8 +167,8 @@ public class MyProfileContoroller {
 							}
 							RecommendCommand recommend = new RecommendCommand(id, Command.getBoard_num());
 							if(recommend.getId() != null ){
-								RecommendCommand recommends = recommendDao.getRecommend(recommend);
-								if(recommends != null){
+								List<RecommendCommand> recommends = recommendDao.getRecommend(recommend);
+								if(recommends.size() != 0){
 									boardMap.put("recommendFlag", "recommend");
 								}else{
 									boardMap.put("recommendFlag", "nrecommend");

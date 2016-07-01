@@ -162,8 +162,8 @@ public class ScrepController {
 				
 				RecommendCommand recommend = new RecommendCommand(id, vo.getBoard_num());
 				if(recommend.getId() != null ){
-					RecommendCommand recommends = RecommendDao.getRecommend(recommend);
-					if(recommends != null){
+					List<RecommendCommand> recommends = RecommendDao.getRecommend(recommend);
+					if(recommends.size() != 0){
 						boardMap.put("recommendFlag", "recommend");
 					}else{
 						boardMap.put("recommendFlag", "nrecommend");
@@ -216,7 +216,7 @@ public class ScrepController {
 	//스크랩 갯수 증가
 	@ResponseBody
 	@RequestMapping("/screp/screp.do")
-	public String Screp(HttpServletRequest request, HttpServletResponse resp, Integer board_num){
+	public String Screp(HttpServletRequest request, HttpServletResponse resp, Integer board_num, String paramId){
 
 		String login_status = (String)request.getSession().getAttribute("login_status");
 		JSONObject jso = new JSONObject();
@@ -241,8 +241,10 @@ public class ScrepController {
 				ScrepDao.updateScrepByBoardNum(map);
 				jso.put("screpFlag", "screp");
 			}
-			jso.put("board_num", board_num);
+			int screpCount = ScrepDao.getScrepCountByScrepNum(paramId);
+			jso.put("screpCount", screpCount);
 			jso.put("screp_num", BoardDao.selectContent(board_num).getScrep());
+			jso.put("board_num", board_num);
 		} else {
 			jso.put("error", "error");
 		}
@@ -338,8 +340,8 @@ public class ScrepController {
 					}
 					RecommendCommand recommend = new RecommendCommand(id, Command.getBoard_num());
 					if(recommend.getId() != null ){
-						RecommendCommand recommends = RecommendDao.getRecommend(recommend);
-						if(recommends != null){
+						List<RecommendCommand> recommends = RecommendDao.getRecommend(recommend);
+						if(recommends.size() != 0){
 							boardMap.put("recommendFlag", "recommend");
 						}else{
 							boardMap.put("recommendFlag", "nrecommend");

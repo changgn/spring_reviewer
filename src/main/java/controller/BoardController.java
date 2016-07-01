@@ -147,8 +147,8 @@ public class BoardController {
 			if(commentCount==null)	commentCount="0";
 			if(id != null ){
 				RecommendCommand recommend = new RecommendCommand(id, Integer.parseInt(board_num));
-				RecommendCommand recommends = recommendDao.getRecommend(recommend);
-				if(recommends != null){
+				List<RecommendCommand> recommends = recommendDao.getRecommend(recommend);
+				if(recommends.size() != 0){
 					model.addAttribute("recommendFlag", "recommend");
 				}else{
 					model.addAttribute("recommendFlag", "nrecommend");

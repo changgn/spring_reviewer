@@ -131,8 +131,8 @@ public class SearchController {
 					}
 					if(id != null ){
 						RecommendCommand recommend = new RecommendCommand(id, board.getBoard_num());
-						RecommendCommand recommends = recommendDao.getRecommend(recommend);
-						if(recommends != null){
+						List<RecommendCommand> recommends = recommendDao.getRecommend(recommend);
+						if(recommends.size() != 0){
 							boardMap.put("recommendFlag", "recommend");
 						}else{
 							boardMap.put("recommendFlag", "nrecommend");
@@ -215,8 +215,8 @@ public class SearchController {
 					}
 					if(id != null ){
 						RecommendCommand recommend = new RecommendCommand(id, board.getBoard_num());
-						RecommendCommand recommends = recommendDao.getRecommend(recommend);
-						if(recommends != null){
+						List<RecommendCommand> recommends = recommendDao.getRecommend(recommend);
+						if(recommends.size() != 0){
 							boardMap.put("recommendFlag", "recommend");
 						}else{
 							boardMap.put("recommendFlag", "nrecommend");

@@ -45,12 +45,12 @@ public class RecommendController {
 		if(login_status.equals("0") || login_status.equals("1")) {
 			String id = (String)request.getSession().getAttribute("id");
 			RecommendCommand command = new RecommendCommand(id, board_num);
-			RecommendCommand recommendselect = recommendDao.getRecommend(command);
 			BoardCommand board = boardDao.selectContent(board_num);
 			String writer = board.getId();
-			
-			if(recommendselect != null){
-				recommendDao.deleteRecommend(recommendselect);
+
+			List<RecommendCommand> recommendselect = recommendDao.getRecommend(command);
+			if(recommendselect.size() != 0){
+				recommendDao.deleteRecommend(recommendselect.get(0));
 				memberDao.updateDecreaseRecommendNum(writer);
 				jso.put("recommendFlag", "nrecommend");
 				

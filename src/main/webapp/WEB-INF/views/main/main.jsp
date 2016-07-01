@@ -13,7 +13,6 @@
 <script>
 
 $(function(){
-	var top = 0;
 	$("body").on("click", ".cont_menu_option", function(e){
 		e.preventDefault();
 		var a = $("#menu_" + $(this).attr("id"));
@@ -383,7 +382,7 @@ $(function() {
 </c:forEach>
 <input type="hidden" id="lastBoard_num" value="${lastBoard_num}" />
 </div>
-	<c:if test="${searchCount >= 3}">
+	<c:if test="${boardCount >= 3}">
 	<div id="${board.board.board_num}" class="view_more">
 	 		<a href="#" id="${board.board.board_num}" class="list_view_more">
 	 			<span class="ico_plus"><img src="../image/plus.png"></span><span class="txt_view_more">더 많은 리뷰 보기</span>

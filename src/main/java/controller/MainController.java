@@ -69,7 +69,7 @@ public class MainController {
 		String id = (String)request.getSession().getAttribute("id"); 
 		String login_status = (String)request.getSession().getAttribute("login_status");
 		
-		int searchCount = 0;
+		int boardCount = 0;
 		List<BoardCommand> boardList = null;
 		List<HashMap<String, Object>> allBoardList = new ArrayList<HashMap<String, Object>>();
 		List<String> categoryIdList = null;
@@ -116,7 +116,7 @@ public class MainController {
 			}
 		}
 		if(boardList!=null)	{
-			searchCount = boardList.size();
+			boardCount = boardList.size();
 			for(BoardCommand vo : boardList) {
 				HashMap<String, Object> boardMap = new HashMap<String, Object>();
 				PhotoCommand photo = photoDao.getOneByBoardNum(vo.getBoard_num());
@@ -133,8 +133,8 @@ public class MainController {
 				
 				RecommendCommand recommend = new RecommendCommand(id, vo.getBoard_num());
 				if(recommend.getId() != null ){
-					RecommendCommand recommends = recommendDao.getRecommend(recommend);
-					if(recommends != null){
+					List<RecommendCommand> recommends = recommendDao.getRecommend(recommend);
+					if(recommends.size() != 0){
 						boardMap.put("recommendFlag", "recommend");
 					}else{
 						boardMap.put("recommendFlag", "nrecommend");
@@ -159,7 +159,7 @@ public class MainController {
 				allBoardList.add(boardMap);
 			}
 		}
-		model.addAttribute("searchCount", searchCount);
+		model.addAttribute("boardCount", boardCount);
 		model.addAttribute("allBoardList", allBoardList);
 		return "main/main";
 	}
@@ -225,7 +225,7 @@ public class MainController {
 				
 				RecommendCommand recommend = new RecommendCommand(id, vo.getBoard_num());
 				if(recommend.getId() != null ){
-					RecommendCommand recommends = recommendDao.getRecommend(recommend);
+					List<RecommendCommand> recommends = recommendDao.getRecommend(recommend);
 					if(recommends != null){
 						boardMap.put("recommendFlag", "recommend");
 					}else{
