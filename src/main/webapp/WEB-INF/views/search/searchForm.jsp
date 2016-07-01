@@ -392,7 +392,7 @@
 								</div>
 								<div class="content_second">
 									<span class="content_view">
-										<span><pre>${board.board.content}</pre>
+										<span><pre style="white-space: pre-wrap;">${board.board.content}</pre>
 											<c:if test="${board.contentFlag == true}">
 												<span class="cont_theview">
 														<span>...</span>

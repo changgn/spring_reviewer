@@ -16,6 +16,7 @@ html { height: 100%; }
 ul, li { list-style: none; }
 body { margin: 0px; padding: 0px; height: 100%;}
 img { border: 0; }
+pre { white-space: pre-wrap; }
 
 /* global */
 #header { background-color: #066E9F; width: 100%; height: 80px; }
