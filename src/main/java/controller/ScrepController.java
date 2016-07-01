@@ -89,7 +89,7 @@ public class ScrepController {
 	public void setFollowDao(FollowDAO followDao) {
 		this.followDao = followDao;
 	}
-	public void setMainDao(MainDAO MainDaO) {
+	public void setMainDao(MainDAO MainDao) {
 		this.MainDao = MainDao;
 	}
 	public void setSecretDao(SecretDAO secretDao) {
@@ -122,6 +122,7 @@ public class ScrepController {
 
 		String id = (String) request.getSession().getAttribute("id");
 		String paramId = request.getParameter("id");
+		int boardCount = 0;
 		int screpCount = ScrepDao.getScrepCountByScrepNum(paramId);
 		model.addAttribute("screpCount", screpCount);
 		
@@ -141,11 +142,12 @@ public class ScrepController {
 		if(boardNumList.size() == 0){
 			boardList = null;
 		}else {
-			boardList = BoardDao.getListByBoardNum(boardNumList);
+			boardList = MainDao.getPageListByBoardNum(boardNumList);
 		}
 		
 		
 		if(boardList!=null)	{
+			boardCount = boardList.size();
 			for(BoardCommand vo : boardList) {
 				HashMap<String, Object> boardMap = new HashMap<String, Object>();
 				PhotoCommand photo = PhotoDao.getOneByBoardNum(vo.getBoard_num());
@@ -205,8 +207,10 @@ public class ScrepController {
 			}
 			model.addAttribute("followCheck", followCheck);
 		}
-		
+
+		model.addAttribute("pageInfo", "screp");
 		model.addAttribute("paramId", paramId);
+		model.addAttribute("boardCount", boardCount);
 		model.addAttribute("allBoardList", allBoardList);
 		
 		return "profile/myProfile";
@@ -267,135 +271,6 @@ public class ScrepController {
 		resp.setContentType("text/html;charset=utf-8");
 		return jso.toString();
 	}
-	
-	@ResponseBody
-	@RequestMapping(value="/profile/screpListAjax.do")
-	public String ScrepList(HttpServletRequest request, HttpServletResponse resp, Model model, int lastBoard_num){
-		
-		String id = (String)request.getSession().getAttribute("id"); 
-		String login_status = (String)request.getSession().getAttribute("login_status");
-		String paramId = request.getParameter("id");
-		JSONObject jso = new JSONObject();
-		lastBoard_num = 0;
-		
-		int screpCount = ScrepDao.getScrepCountByScrepNum(paramId);
-		model.addAttribute("screpCount", screpCount);
-		
-		int myCount = ScrepDao.getCountByBoardNum(paramId);
-		model.addAttribute("myCount", myCount);
-		
-		int followerCount =followDao.countfrom(paramId);
-		model.addAttribute("followerCount", followerCount);
-		//팔로잉 숫자 저장
-		int followingCount = followDao.countto(paramId);
-		model.addAttribute("followingCount", followingCount);
-		
-		List<BoardCommand> boardList = null;
-		List<HashMap<String, Object>> allBoardList = new ArrayList<HashMap<String, Object>>();
-		List<String> categoryIdList = null;
-		
-		List<Integer> boardNumList = ScrepDao.getScrepListById(paramId); //last로 바꿀것 !
-		if(login_status==null){
-			login_status = "2";
-			request.getSession().setAttribute("login_status", login_status);
-		}
-		
-		
-		if(login_status.equals("2")){
-			boardList = MainDao.getMorePageList(lastBoard_num);
-		}else {
-			categoryIdList = memberCategoryDao.getCategoryIdById(id);
-			List<Integer> secretBoardNumList = secretDao.getListById(id);
-			
-			if(categoryIdList.size() == 0){
-				if(secretBoardNumList.size() == 0){
-					boardList = MainDao.getMorePageList(lastBoard_num);
-				}else {
-					boardList = MainDao.getMorePageListByExBoardNum(secretBoardNumList, lastBoard_num);
-				}
-			} else { 
-				if(secretBoardNumList.size() == 0){
-					boardList = MainDao.getMorePageListByCategoryId(categoryIdList, lastBoard_num);
-				}else {
-					boardList = MainDao.getMorePageListByCategoryIdExBoardNum(categoryIdList, secretBoardNumList, lastBoard_num);
-				}
-			}
-		}
-		
-		if(paramId != null) {
-			
-			boardList = MainDao.getPageListById(paramId); //getPageListById
-			
-				if(boardList!=null){
-				for(BoardCommand Command : boardList) {
-					HashMap<String, Object> boardMap = new HashMap<String, Object>();
-					PhotoCommand photo = PhotoDao.getOneByBoardNum(Command.getBoard_num());
-					CategoryCommand category = CategoryDao.getOne(Command.getCategory_id());
-					String commentCount=CommentDao.getCountByBoardNum(Command.getBoard_num());
-					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-					String date = sdf.format(Command.getWrite_date());
-					if(commentCount==null)	commentCount="0";
-					boolean contentFlag = false;
-					String[] contentSub = Command.getContent().split("\n");
-					if(contentSub.length > 3) {
-						contentFlag = true;
-						Command.setContent(contentSub[0] + contentSub[1] + contentSub[2]);
-					}
-					RecommendCommand recommend = new RecommendCommand(id, Command.getBoard_num());
-					if(recommend.getId() != null ){
-						List<RecommendCommand> recommends = RecommendDao.getRecommend(recommend);
-						if(recommends.size() != 0){
-							boardMap.put("recommendFlag", "recommend");
-						}else{
-							boardMap.put("recommendFlag", "nrecommend");
-						}
-					}
-					ScrepCommand screp = new ScrepCommand(id, Command.getBoard_num());
-					if(screp.getId() != null ){
-						ScrepCommand screps = ScrepDao.getScrep(screp);
-						if(screps != null){
-							boardMap.put("screpFlag", "screp");
-						}else{
-							boardMap.put("screpFlag", "nscrep");
-						}
-					}
-					boardMap.put("board", Command);
-					boardMap.put("photo", photo);
-					boardMap.put("category", category);
-					boardMap.put("commentCount", commentCount);
-					boardMap.put("contentFlag", contentFlag);
-					boardMap.put("date", date);	
-					allBoardList.add(boardMap);
-				}
-			}
-		 	model.addAttribute("allBoardList", allBoardList);
-		}
-		model.addAttribute("paramId", paramId); //키값 ?
-		jso.put("allBoardList", allBoardList);
-		
-		
-		
-		// 팔로우 상태 저장
-		if(id!=null) {
-			List<String> folloingList = followDao.toList(id);
-			boolean followCheck = false;
-			if(folloingList!=null) {
-				for(String following : folloingList) {
-					if(following.equals(paramId)) {
-						followCheck = true;
-						break;
-					}
-				}
-			}
-			model.addAttribute("followCheck", followCheck);
-		}
-		
-		model.addAttribute("paramId", paramId);
-		model.addAttribute("allBoardList", allBoardList);
-		resp.setContentType("text/html;charset=utf-8");
-		return jso.toString();
-		
-	}
-		
+
 
 }

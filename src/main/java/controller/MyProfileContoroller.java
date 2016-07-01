@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,15 +13,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import dao.BoardDAO;
 import dao.CategoryDAO;
 import dao.CommentDAO;
 import dao.FollowDAO;
+import dao.MainDAO;
 import dao.MemberCategoryDAO;
 import dao.PhotoDAO;
 import dao.RecommendDAO;
 import dao.ScrepDAO;
+import net.sf.json.JSONObject;
 import command.BoardCommand;
 import command.CategoryCommand;
 import command.MemberCategoryCommand;
@@ -47,6 +51,8 @@ public class MyProfileContoroller {
 	private ScrepDAO ScrepDao;
 	@Autowired
 	private RecommendDAO recommendDao;
+	@Autowired
+	private MainDAO mainDao;
 	
 	//DAO 초기화
 	public void setBoardDao(BoardDAO boardDao) {
@@ -70,6 +76,7 @@ public class MyProfileContoroller {
 	public void setScrepDao(ScrepDAO screpDao) {
 		ScrepDao = screpDao;
 	}
+	public void setMainDao(MainDAO mainDao) { this.mainDao = mainDao; }
 	public void setRecommendDao(RecommendDAO recommendDao) { this.recommendDao = recommendDao; }
 	
 	//Command Model view 설정
@@ -92,7 +99,8 @@ public class MyProfileContoroller {
 		
 		String id = (String) request.getSession().getAttribute("id");
 		String paramId = request.getParameter("id");
-		
+
+		int boardCount = 0;
 		
 		// Command들을 담기위한 list 변수생성
 		List<MemberCategoryCommand> membersCategoryList = null;
@@ -146,55 +154,124 @@ public class MyProfileContoroller {
 		}
 		
 		//게시글 가져오기
-				if(paramId != null) {
-					List<BoardCommand> boardList = null;
-					List<HashMap<String, Object>> allBoardList = new ArrayList<HashMap<String, Object>>();
-					
-					boardList = BoardDao.getListById(paramId);
-					
-						if(boardList!=null){
-						for(BoardCommand Command : boardList) {
-							HashMap<String, Object> boardMap = new HashMap<String, Object>();
-							PhotoCommand photo = PhotoDao.getOneByBoardNum(Command.getBoard_num());
-							CategoryCommand category = categoryDao.getOne(Command.getCategory_id());
-							String commentCount=commentDao.getCountByBoardNum(Command.getBoard_num());
-							if(commentCount==null)	commentCount="0";
-							boolean contentFlag = false;
-							String[] contentSub = Command.getContent().split("\n");
-							if(contentSub.length > 3) {
-								contentFlag = true;
-								Command.setContent(contentSub[0] + contentSub[1] + contentSub[2]);
-							}
-							RecommendCommand recommend = new RecommendCommand(id, Command.getBoard_num());
-							if(recommend.getId() != null ){
-								List<RecommendCommand> recommends = recommendDao.getRecommend(recommend);
-								if(recommends.size() != 0){
-									boardMap.put("recommendFlag", "recommend");
-								}else{
-									boardMap.put("recommendFlag", "nrecommend");
-								}
-							}
-							ScrepCommand screp = new ScrepCommand(id, Command.getBoard_num());
-							if(screp.getId() != null ){
-								ScrepCommand screps = ScrepDao.getScrep(screp);
-								if(screps != null){
-									boardMap.put("screpFlag", "screp");
-								}else{
-									boardMap.put("screpFlag", "nscrep");
-								}
-							}
-							boardMap.put("board", Command);
-							boardMap.put("photo", photo);
-							boardMap.put("category", category);
-							boardMap.put("commentCount", commentCount);
-							boardMap.put("contentFlag", contentFlag);
-							allBoardList.add(boardMap);
+		if(paramId != null) {
+			List<BoardCommand> boardList = null;
+			List<HashMap<String, Object>> allBoardList = new ArrayList<HashMap<String, Object>>();
+			
+
+			boardList = mainDao.getPageListById(paramId);
+			
+			if(boardList!=null){
+					boardCount = boardList.size();
+				for(BoardCommand Command : boardList) {
+					HashMap<String, Object> boardMap = new HashMap<String, Object>();
+					PhotoCommand photo = PhotoDao.getOneByBoardNum(Command.getBoard_num());
+					CategoryCommand category = categoryDao.getOne(Command.getCategory_id());
+					String commentCount=commentDao.getCountByBoardNum(Command.getBoard_num());
+					if(commentCount==null)	commentCount="0";
+					boolean contentFlag = false;
+					String[] contentSub = Command.getContent().split("\n");
+					if(contentSub.length > 3) {
+						contentFlag = true;
+						Command.setContent(contentSub[0] + contentSub[1] + contentSub[2]);
+					}
+					RecommendCommand recommend = new RecommendCommand(id, Command.getBoard_num());
+					if(recommend.getId() != null ){
+						List<RecommendCommand> recommends = recommendDao.getRecommend(recommend);
+						if(recommends.size() != 0){
+							boardMap.put("recommendFlag", "recommend");
+						}else{
+							boardMap.put("recommendFlag", "nrecommend");
 						}
 					}
-				 	model.addAttribute("allBoardList", allBoardList);
+					ScrepCommand screp = new ScrepCommand(id, Command.getBoard_num());
+					if(screp.getId() != null ){
+						ScrepCommand screps = ScrepDao.getScrep(screp);
+						if(screps != null){
+							boardMap.put("screpFlag", "screp");
+						}else{
+							boardMap.put("screpFlag", "nscrep");
+						}
+					}
+					boardMap.put("board", Command);
+					boardMap.put("photo", photo);
+					boardMap.put("category", category);
+					boardMap.put("commentCount", commentCount);
+					boardMap.put("contentFlag", contentFlag);
+					allBoardList.add(boardMap);
 				}
-				model.addAttribute("paramId", paramId); //키값 ?
-					
-				return "/profile/myProfile";
+			}
+		 	model.addAttribute("allBoardList", allBoardList);
+		}
+		model.addAttribute("boardCount", boardCount);
+		model.addAttribute("paramId", paramId); //키값 ?
+			
+		return "/profile/myProfile";
 	}
+    
+	@ResponseBody
+    @RequestMapping(value="/profile/myProfileAjax.do")
+   	public String myProfileAjaxform(HttpServletRequest request, HttpServletResponse resp, String pageInfo, String paramId, int lastBoard_num){
+   		
+		JSONObject jso = new JSONObject();
+		
+   		String id = (String) request.getSession().getAttribute("id");
+
+   		//게시글 가져오기
+		if(paramId != null) {
+			List<BoardCommand> boardList = null;
+			List<HashMap<String, Object>> allBoardList = new ArrayList<HashMap<String, Object>>();
+			
+			if(pageInfo == null) {
+				boardList = mainDao.getMorePageListById(paramId, lastBoard_num);
+			} else {
+				List<Integer> boardNumList = ScrepDao.getScrepListById(paramId);
+				boardList = mainDao.getMorePageListByBoardNum(boardNumList, lastBoard_num);
+			}
+			
+			if(boardList!=null){
+				for(BoardCommand Command : boardList) {
+					HashMap<String, Object> boardMap = new HashMap<String, Object>();
+					PhotoCommand photo = PhotoDao.getOneByBoardNum(Command.getBoard_num());
+					CategoryCommand category = categoryDao.getOne(Command.getCategory_id());
+					String commentCount=commentDao.getCountByBoardNum(Command.getBoard_num());
+					if(commentCount==null)	commentCount="0";
+					boolean contentFlag = false;
+					String[] contentSub = Command.getContent().split("\n");
+					if(contentSub.length > 3) {
+						contentFlag = true;
+						Command.setContent(contentSub[0] + contentSub[1] + contentSub[2]);
+					}
+					RecommendCommand recommend = new RecommendCommand(id, Command.getBoard_num());
+					if(recommend.getId() != null ){
+						List<RecommendCommand> recommends = recommendDao.getRecommend(recommend);
+						if(recommends.size() != 0){
+							boardMap.put("recommendFlag", "recommend");
+						}else{
+							boardMap.put("recommendFlag", "nrecommend");
+						}
+					}
+					ScrepCommand screp = new ScrepCommand(id, Command.getBoard_num());
+					if(screp.getId() != null ){
+						ScrepCommand screps = ScrepDao.getScrep(screp);
+						if(screps != null){
+							boardMap.put("screpFlag", "screp");
+						}else{
+							boardMap.put("screpFlag", "nscrep");
+						}
+					}
+					boardMap.put("board", Command);
+					boardMap.put("photo", photo);
+					boardMap.put("category", category);
+					boardMap.put("commentCount", commentCount);
+					boardMap.put("contentFlag", contentFlag);
+					allBoardList.add(boardMap);
+				}
+			}
+			jso.put("allBoardList", allBoardList);
+		}
+			
+		resp.setContentType("text/html;charset=utf-8");
+		return jso.toString();
+   	}
 }

@@ -112,15 +112,19 @@ $(function(){
 					var screp_num = args.screp_num;
 					var screpFlag = args.screpFlag;
 					var screpCount = args.screpCount;
-					var selector = $("#screp_img"+args.board_num);
-					var selector2 = $("#screp_cnt"+args.board_num);
+					var board_num = args.board_num;
+					var selector = $("#screp_img" + board_num);
+					var selector2 = $("#screp_cnt" + board_num);
 					selector2.text(" " + screp_num);
 					$("#screpCount").text(screpCount);
 
 				if(screpFlag == 'screp'){
 						selector.attr("src", "../image/screp_on.png");
-					} else{
+					} else {
 						selector.attr("src", "../image/screp_off.png");
+						if($("#pageInfo").val()=="screp") {
+							$("#content_" + board_num).remove();
+						}
 					}
 				} else {
 					$(location).attr("href", "/logon/login.do");
@@ -190,9 +194,13 @@ $(function(){
 $(function() {
 	$(".list_view_more").click(function(e) { 
     	e.preventDefault();
-    	var url = "/main/mainAjax.do";
+    	var url = "/profile/myProfileAjax.do";
     	var params = "lastBoard_num=" + $("#lastBoard_num").val();      // 현재 리스트의 마지막글 번호를 가져온다.
-        $.ajax({
+    	params += "&paramId=" + $("#id_profile").text();  
+    	if($("#pageInfo").val()=="screp") {
+    		params += "&pageInfo=screp";
+    	}
+    	$.ajax({
               type: "post",
               url: url,     	// 더보기 눌렀을때 데이터리스트를 html 형태로 만들어서 현재 리스트페이지로 보내준다.
               data:params,   	// 현재 리스트에 뿌려져있는 마지막 글 번호를 넣어준다. 그래야지 리스트의 마지막글 다음부터의 리스트를 가져온다.
@@ -282,7 +290,7 @@ $(function() {
 	        	  } 
 	        	  view += '<input type="hidden" id="lastBoard_num" value="' + lastBoard_num + '" />';
 	        	  $("#lastBoard_num").remove();
-	        	  $("#content_wrap_area").append(view);
+	        	  $("#board_profile").append(view);
 	        	  
 	          }
 	          ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
@@ -325,7 +333,7 @@ $(function() {
 
 	</div>
 	<div id="nav_content_screp">
-		<ul id="list_nav">
+		<ul id="list_nav" class="ul_list">
 			<li id="my_content">
 				<div class="my_content_screp"><a class="nav_btn" href="#">게 시 물&nbsp;&nbsp;<span id="myCount">${myCount}</span></a></div>
 			</li>
@@ -349,11 +357,11 @@ $(function() {
 							</a>
 							 <div id="menu_${board.board.board_num}" class="cont_btn_option">
 								<div class="ly_dimmed"></div>
-								<ul class="cont_popup">
+								<ul class="cont_popup ul_list">
 									<li>
 										<a href="/content/reportPro.do?board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 신고</a>
 									</li>
-								<c:if test="${board.board.id == id}">						
+								<c:if test="${login_status==0 || board.board.id == id}">						
 									<li>
 										<a href="/content/deleteContent.do?id=${board.board.id}&board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
 									</li>
@@ -449,10 +457,10 @@ $(function() {
 		</c:forEach>
 		<input type="hidden" id="lastBoard_num" value="${lastBoard_num}" />
 	</div>
-	
+	<input type="hidden" id="pageInfo" value="${pageInfo}" />
 	<c:if test="${boardCount >= 3}">
-	<div id="${board.board.board_num}" class="view_more">
-	 		<a href="#" id="${board.board.board_num}" class="list_view_more">
+	<div class="view_more">
+	 		<a href="#" class="list_view_more">
 	 			<span class="ico_plus"><img src="../image/plus.png"></span><span class="txt_view_more">더 많은 리뷰 보기</span>
 	 		</a>
     </div>
