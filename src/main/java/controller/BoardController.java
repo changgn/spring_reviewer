@@ -109,7 +109,7 @@ public class BoardController {
 			String realPath =  savePath + "/" + fileName;
 			
 			PhotoCommand pcommand = new PhotoCommand(); 
-			pcommand.setboard_num(board_num);
+			pcommand.setBoard_num(board_num);
 			pcommand.setO_fileName(o_fileName);
 			pcommand.setFileName(fileName);
 			pcommand.setRealPath(realPath);

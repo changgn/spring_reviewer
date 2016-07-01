@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import command.BoardCommand;
 import command.CategoryCommand;
 import command.PhotoCommand;
+import command.ProfilePhotoCommand;
 import command.RecommendCommand;
 import command.ScrepCommand;
 import dao.CategoryDAO;
@@ -25,6 +26,7 @@ import dao.CommentDAO;
 import dao.MainDAO;
 import dao.MemberCategoryDAO;
 import dao.PhotoDAO;
+import dao.ProfilePhotoDAO;
 import dao.RecommendDAO;
 import dao.ScrepDAO;
 import dao.SecretDAO;
@@ -49,6 +51,8 @@ public class MainController {
 	private SecretDAO secretDao;
 	@Autowired
 	private MainDAO mainDao;
+	@Autowired
+	private ProfilePhotoDAO ProfilePhotoDao;
 	
 	public void setRecommendDao(RecommendDAO recommendDao) { this.recommendDao = recommendDao; }
 	public void setPhotoDao(PhotoDAO photoDao) { this.photoDao = photoDao; }
@@ -58,6 +62,7 @@ public class MainController {
 	public void setSecretDao(SecretDAO secretDao) {this.secretDao = secretDao; }
 	public void setMainDao(MainDAO mainDao) { this.mainDao = mainDao; }
 	public void setScrepDao(ScrepDAO screpDao) { this.screpDao = screpDao; }
+	public void setProfilePhotoDao(ProfilePhotoDAO profilePhotoDao) { ProfilePhotoDao = profilePhotoDao; }
 
 	@RequestMapping("/main/main.do")
 	public String main(HttpServletRequest request, HttpServletResponse resp, Model model){
@@ -116,6 +121,7 @@ public class MainController {
 			for(BoardCommand vo : boardList) {
 				HashMap<String, Object> boardMap = new HashMap<String, Object>();
 				PhotoCommand photo = photoDao.getOneByBoardNum(vo.getBoard_num());
+				ProfilePhotoCommand profilePhoto = ProfilePhotoDao.getOneById(vo.getId());
 				CategoryCommand category = categoryDao.getOne(vo.getCategory_id());
 				String commentCount = commentDao.getCountByBoardNum(vo.getBoard_num());
 		
@@ -149,6 +155,7 @@ public class MainController {
 					
 				boardMap.put("board", vo);
 				boardMap.put("photo", photo);
+				boardMap.put("profilePhoto", profilePhoto);
 				boardMap.put("category", category);
 				boardMap.put("commentCount", commentCount);
 				boardMap.put("contentFlag", contentFlag);
@@ -206,6 +213,7 @@ public class MainController {
 				HashMap<String, Object> boardMap = new HashMap<String, Object>();
 				PhotoCommand photo = photoDao.getOneByBoardNum(vo.getBoard_num());
 				CategoryCommand category = categoryDao.getOne(vo.getCategory_id());
+				ProfilePhotoCommand profilePhoto = ProfilePhotoDao.getOneById(vo.getId());
 				String commentCount = commentDao.getCountByBoardNum(vo.getBoard_num());
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 				String date = sdf.format(vo.getWrite_date());
@@ -242,6 +250,7 @@ public class MainController {
 				
 				boardMap.put("board", vo);
 				boardMap.put("photo", photo);
+				boardMap.put("profilePhoto", profilePhoto);
 				boardMap.put("category", category);
 				boardMap.put("commentCount", commentCount);
 				boardMap.put("contentFlag", contentFlag);

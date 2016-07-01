@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="profilephoto">
+	<insert id="add" parameterType="command.ProfilePhotoCommand">
+		insert into profilephoto values(#{fileName},#{id},#{realPath},#{o_fileName})
+	</insert>
+	<update id="modify" parameterType="command.ProfilePhotoCommand">
+		update profilephoto set fileName=#{fileName}, realPath=#{realPath}, o_fileName=#{o_fileName} where id=#{id}
+	</update>
+	<delete id="remove" parameterType="java.lang.String">
+		<!-- 조건문 -->
+	</delete>
+	<select id="getlist" resultType="command.ProfilePhotoCommand">
+		select * from profilephoto
+	</select>
+	<select id="getOneById" parameterType="java.lang.String" resultType="command.ProfilePhotoCommand">
+		select * from profilephoto where id=#{id}
+	</select>
+
+</mapper>

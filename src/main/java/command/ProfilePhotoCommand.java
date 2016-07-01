@@ -1,20 +1,20 @@
 package command;
 
-public class PhotoCommand {
+public class ProfilePhotoCommand {
 	private String fileName;
 	private String o_fileName;
-	private int board_num;
+	private String id;
 	private String realPath;
 	
-	public PhotoCommand(){
+	public ProfilePhotoCommand(){
 		
 	}
 	
-	public PhotoCommand(String fileName, String o_fileName, int board_num, String realPath) {
+	public ProfilePhotoCommand(String fileName, String o_fileName, String id, String realPath) {
 		super();
 		this.fileName = fileName;
 		this.o_fileName = o_fileName;
-		this.board_num = board_num;
+		this.id = id;
 		this.realPath = realPath;
 	}
 
@@ -34,12 +34,12 @@ public class PhotoCommand {
 		this.o_fileName = o_fileName;
 	}
 	
-	public int getBoard_num() {
-		return board_num;
+	public String getId() {
+		return id;
 	}
 
-	public void setBoard_num(int board_num) {
-		this.board_num = board_num;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getRealPath() {

@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import command.MemberCommand;
+import command.ProfilePhotoCommand;
 import dao.MemberDAO;
+import dao.ProfilePhotoDAO;
 
 
 @Controller
@@ -17,13 +19,18 @@ public class JoinController {
 	
 	@Autowired
 	private MemberDAO memberDao;
+	@Autowired
+	private ProfilePhotoDAO ProfilePhotoDao;
 	
 	public void setMemberDao(MemberDAO memberDao) {
 		this.memberDao = memberDao;
 	}
-	
-	
-	
+	public void setProfilePhotoDao(ProfilePhotoDAO profilePhotoDao) {
+		ProfilePhotoDao = profilePhotoDao;
+	}
+
+
+
 	@ModelAttribute("memberCommand")
 	public MemberCommand memberCommand(){
 		return new MemberCommand();
@@ -37,6 +44,8 @@ public class JoinController {
 	public String action(MemberCommand memberInfo, Model model){
 		int n = memberDao.inputPro(memberInfo);
 		if(n != 0 ){
+			ProfilePhotoCommand command = new ProfilePhotoCommand("default_profile.png", "default_profile.png", memberInfo.getId(), "/image/default_profile.png");
+			ProfilePhotoDao.insert(command);
 			String smessage="회원 가입에 성공하셨습니다.";
 			model.addAttribute("smessage", smessage);
 		}
