@@ -27,11 +27,10 @@
 			
 		});
 		$(function(){		
-			
-			$(".ul_list li").mouseover(function(){
+			$("body").on("mouseover", ".ul_list li", function(){
 				$(this).css("background-color","#F6F6F6");
 			});
-			$(".ul_list li").mouseleave(function(){
+			$("body").on("mouseleave", ".ul_list li", function(){
 				$(this).css("background-color","white");
 			});
 			

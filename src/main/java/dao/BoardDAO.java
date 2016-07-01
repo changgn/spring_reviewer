@@ -82,7 +82,10 @@ public class BoardDAO extends SqlSessionDaoSupport{
 	}
 	
 	// 좋아요	증가
-	public int updateRecommendNumByBoardNum (HashMap<String, Object> map){
+	public int updateRecommendNumByBoardNum (Integer board_num, Integer recommend_num){
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("board_num", board_num);
+		map.put("recommend_num", recommend_num);
 		return getSqlSession().update("board.updateRecommendNumByBoardNum", map);
 	}
 	

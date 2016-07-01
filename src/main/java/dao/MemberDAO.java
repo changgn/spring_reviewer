@@ -120,5 +120,10 @@ public class MemberDAO extends SqlSessionDaoSupport{
 		return getSqlSession().selectOne("member.pwSearch", memberInfo);
 		
 	}
-
+	public int updateIncreaseRecommendNum(String id){
+		return getSqlSession().update("member.updateIncreaseRecommendNum", id);
+	}
+	public int updateDecreaseRecommendNum(String id){
+		return getSqlSession().update("member.updateDecreaseRecommendNum", id);
+	}
 }

@@ -195,10 +195,10 @@ $(function(){
 });
 
 $(function() {
-    $(".list_view_more").click(function(e) { 
+	$(".list_view_more").click(function(e) { 
     	e.preventDefault();
-    	var url = "/profile/screpListAjax.do";
-   		var params = "board_num=" + $(this).attr("id");      // 현재 리스트의 마지막글 번호를 가져온다.
+    	var url = "/main/mainAjax.do";
+    	var params = "lastBoard_num=" + $("#lastBoard_num").val();      // 현재 리스트의 마지막글 번호를 가져온다.
         $.ajax({
               type: "post",
               url: url,     	// 더보기 눌렀을때 데이터리스트를 html 형태로 만들어서 현재 리스트페이지로 보내준다.
@@ -210,20 +210,23 @@ $(function() {
 	          success: function(args){
 	        	  var allBoardList = args.allBoardList;
 	        	  var view = "";
+	        	  var lastBoard_num = $("#lastBoard_num").val();
 	        	  $("#loadingimg").remove();
 	        	  for(var idx=0; idx<allBoardList.length; idx++) {
-	        		  view += '<div class="content_wrap"><div class="content_first"><div class="cont_writer">';
+	        		  view += '<div id="content_' + allBoardList[idx].board.board_num + '" class="content_wrap"><div class="content_first"><div class="cont_writer">';
 		        	  view += '<a href="#" class="profile_photo"> <span class="profile_thumb"> <img src="../image/5.jpg"> <span class="profile_thumb_mask"></span></span></a>';
 		        	  view += '<a href="/profile/myProfile.do?id=' + allBoardList[idx].board.id +'" class="cont_writer_id">'+ allBoardList[idx].board.id +'</a>';
 		        	  view += '<div class="cont_wdate">' + allBoardList[idx].date + '</div>';
 		        	  view += '<div class="cont_menu">';
 		        	  view += '<a href="#" id="' + allBoardList[idx].board.board_num + '" class="cont_menu_option"><span id="cont_btn_menu">옵션</span></a>';
 		        	  view += '<div id="menu_'+ allBoardList[idx].board.board_num +'" class="cont_btn_option"><div class="ly_dimmed"></div>';
-		        	  view += '<ul class="cont_popup">';
+		        	  view += '<ul class="cont_popup ul_list">';
 		        	  view += '<li><a href="/content/reportPro.do?board_num='+ allBoardList[idx].board.board_num + '" class="cont_popup_close" >이 게시글 신고</a></li>';
-		        	  if(allBoardList[idx].board.id == '${id}'){
-		        		  view += '<li><a href="/content/deleteContent.do?id=' + allBoardList[idx].board.id +'&board_num='+ allBoardList[idx].board.board_num + '" class="cont_popup_close" >이 게시글 삭제</a></li>';
-		        		  view += '<li><a href="#" id="content_secret" class="cont_popup_close" >게시글 숨기기</a></li>'
+		        	  if("${login_status}"==0 || "${login_status}"==1) {
+		        	  	  view += '<li><a href="#" id="' + allBoardList[idx].board.board_num + '" class="cont_popup_close secret_content" >게시글 숨기기</a></li>'
+		        	  }
+		        	  if(allBoardList[idx].board.id == '${id}' || "${login_status}"==0){
+						  view += '<li><a href="/content/deleteContent.do?id=' + allBoardList[idx].board.id +'&board_num='+ allBoardList[idx].board.board_num + '" class="cont_popup_close" >이 게시글 삭제</a></li>';
 		        	  }
 		        	  view += '</ul></div></div></div></div>';
 		        	  view += '<div class="content_second"><span class="content_view"><span><pre id="pre_' + allBoardList[idx].board.board_num + '"> ' + allBoardList[idx].board.content +'</pre>';
@@ -246,7 +249,7 @@ $(function() {
 		        		  view += '<em id="u_cnt'+ allBoardList[idx].board.board_num +'" class="u_cnt">'+ allBoardList[idx].board.recommend_num +'</em></a>';
 		        		  view += '<div id="memList_'+ allBoardList[idx].board.board_num +'" class="re_btn_option">';	
 		        		  view += '<div class="ly_dimmed"></div>';
-		        		  view += '<ul class="re_popup"></ul>';
+		        		  view += '<ul class="re_popup ul_list"></ul>';
 		        		  view += '</div></div>'
 		        	  } else{
 		        		 view += '<div class="btns_re">';
@@ -263,7 +266,7 @@ $(function() {
 		        		 view += '<em id="u_cnt'+ allBoardList[idx].board.board_num +'" class="u_cnt">'+ allBoardList[idx].board.recommend_num +'</em></a>';
 		        		 view += '<div id="memList_'+ allBoardList[idx].board.board_num + '" class="re_btn_option">';
 		        		 view += '<div class="ly_dimmed"></div>';
-	        		     view += '<ul class="re_popup"></ul>';
+	        		     view += '<ul class="re_popup ul_list"></ul>';
 	        		     view += '</div></div>';
 		        	  }
 		        	  view += '<a href="/content/contentForm.do?board_num='+ allBoardList[idx].board.board_num +'&comment=true" class="btns_coment">';
@@ -283,11 +286,12 @@ $(function() {
 		        	  }
 		        	  view += '</div></div></div>';
 		        	  lastBoard_num = allBoardList[idx].board.board_num;
-		       }
+	        	  } 
 	        	  view += '<input type="hidden" id="lastBoard_num" value="' + lastBoard_num + '" />';
 	        	  $("#lastBoard_num").remove();
-	        	  $("#board_profile").append(view);
-	     }
+	        	  $("#content_wrap_area").append(view);
+	        	  
+	          }
 	          ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
 			    	alert(e.responseText);
 			    }
@@ -340,7 +344,7 @@ $(function() {
 	</div>
 	<div class="my_profile" id="board_profile">
 		<c:forEach var="board" items="${allBoardList}">
-			<div class="content_wrap">
+			<div id="content_${board.board.board_num}" class="content_wrap">
 				<div class="content_first">	
 					<div class="cont_writer">
 						<a href="/profile/myProfile.do?id=${board.board.id}" class="cont_writer_id">${board.board.id}</a>
@@ -461,11 +465,13 @@ $(function() {
 		<input type="hidden" id="lastBoard_num" value="${lastBoard_num}" />
 	</div>
 	
+	<c:if test="${searchCount >= 3}">
 	<div id="${board.board.board_num}" class="view_more">
 	 		<a href="#" id="${board.board.board_num}" class="list_view_more">
-	 			<span class="ico_plus"><img src="../image/plus.png"></span><span class="txt_view_more">더 많이 보기</span>
+	 			<span class="ico_plus"><img src="../image/plus.png"></span><span class="txt_view_more">더 많은 리뷰 보기</span>
 	 		</a>
-    </div>		
+    </div>
+    </c:if>
 	<c:if test="${login_status==0 || login_status==1}">
 		<div class="btn_posting_wrap">
 			<a href="/write/writeForm.do" class="btn_posting">

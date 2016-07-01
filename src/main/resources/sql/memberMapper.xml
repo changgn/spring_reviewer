@@ -7,6 +7,12 @@
 		insert into members
 		values(#{id},#{passwd},#{name},#{birth},#{gender},#{email},#{phone_num},sysdate,#{recommend_num})
 	</insert>
+	<update id="updateIncreaseRecommendNum" parameterType="String">
+		update members set recommend_num=recommend_num+1 where id=#{id}
+	</update>
+	<update id="updateDecreaseRecommendNum" parameterType="String">
+		update members set recommend_num=recommend_num-1 where id=#{id}
+	</update>
 	<update id="modifyPro" parameterType="command.MemberCommand">
 		update members set passwd=#{passwd},name=#{name},birth=#{birth},gender=#{gender},email=#{email},phone_num=#{phone_num} where id=#{id}
 	</update>

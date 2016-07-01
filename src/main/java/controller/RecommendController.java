@@ -1,6 +1,5 @@
 package controller;
 
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,8 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import command.BoardCommand;
 import command.RecommendCommand;
 import dao.BoardDAO;
+import dao.MemberDAO;
 import dao.RecommendDAO;
 import net.sf.json.JSONObject;
 
@@ -22,7 +23,14 @@ public class RecommendController {
 	@Autowired
 	private BoardDAO boardDao;
 	@Autowired
-	private RecommendDAO recommendDao;
+	private RecommendDAO recommendDao;	
+	@Autowired
+	private MemberDAO memberDao;
+
+	
+	public void setMemberDao(MemberDAO memberDao) {
+		this.memberDao = memberDao;
+	}
 
 	public void setBoardDao(BoardDAO boardDao) { this.boardDao = boardDao; }
 	public void setRecommendDao(RecommendDAO recommendDao) { this.recommendDao = recommendDao; }
@@ -37,19 +45,22 @@ public class RecommendController {
 		if(login_status.equals("0") || login_status.equals("1")) {
 			String id = (String)request.getSession().getAttribute("id");
 			RecommendCommand command = new RecommendCommand(id, board_num);
-			
 			RecommendCommand recommendselect = recommendDao.getRecommend(command);
-		
-			HashMap<String, Object> map = new HashMap<String, Object>();
+			BoardCommand board = boardDao.selectContent(board_num);
+			String writer = board.getId();
+			
 			if(recommendselect != null){
 				recommendDao.deleteRecommend(recommendselect);
+				memberDao.updateDecreaseRecommendNum(writer);
 				jso.put("recommendFlag", "nrecommend");
+				
 			} else{
 				recommendDao.insertRecommend(command);
+				memberDao.updateIncreaseRecommendNum(writer);
 				jso.put("recommendFlag", "recommend");
 			}
 			
-			boardDao.updateRecommendNumByBoardNum(map);
+			boardDao.updateRecommendNumByBoardNum(board_num, recommendDao.getRecommendCountByRecommendNum(board_num));
 			jso.put("board_num", board_num);
 			jso.put("recommend_num", boardDao.selectContent(board_num).getRecommend_num());
 		} else {
