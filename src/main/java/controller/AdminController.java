@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import command.BoardCommand;
@@ -20,6 +19,7 @@ import command.MemberCommand;
 import dao.BoardDAO;
 import dao.MemberDAO;
 import dao.RecommendDAO;
+import dao.ReportDAO;
 
 @Controller
 public class AdminController {
@@ -37,6 +37,12 @@ public class AdminController {
 	RecommendDAO recommendDAO;
 	public void setRecommendDAO(RecommendDAO recommendDAO) {
 		this.recommendDAO = recommendDAO;
+	}
+	
+	@Autowired
+	ReportDAO reportDAO;
+	public void setReportDAO(ReportDAO reportDAO) {
+		this.reportDAO = reportDAO;
 	}
 
 	/**	메인화면	*/
@@ -57,57 +63,17 @@ public class AdminController {
 	/**	신고글	*/
 	@RequestMapping("/administrator/adminReport.do")
 	public String reportForm(Model model){
-		List<BoardCommand> boardList = null;
-		boardList = boardDAO.reportBoardList();
-		model.addAttribute("reportList", boardList);
+		List<BoardCommand> rpboardList = null;
+		rpboardList = boardDAO.reportBoardList();
+		model.addAttribute("reportList", rpboardList);
+		
+		List<BoardCommand> poboardList = null;
+		poboardList = boardDAO.pupulBoardList();
+		model.addAttribute("populList", poboardList);
 		return "administrator/adminReport";
 	}
 	
-	/**	회원 목록	*/
-	@RequestMapping("/administrator/adminMemInfo.do")
-	public ModelAndView adminMemInfo(HttpServletRequest request){
-		ModelAndView mav = new ModelAndView();
-		// 회원 수
-		int count = 0;      
-		count = memberDAO.count();
-		count -= 1;
-		mav.addObject("count", count);
-		// 회원 정보
-		List<MemberCommand> member_list = null;
-		member_list = memberDAO.getList(); 
-		mav.addObject("memberList", member_list);	
-		// 로그인 ID
-		String id = (String)request.getSession().getAttribute("id");
-		if(id.equals("admin")){
-			mav.addObject("admin", id);
-		}
-		
-		List<String> id_list = new ArrayList<String>();
-		id_list = memberDAO.getIdList();
-		Map abmap = new HashMap();
-		Map rbmap = new HashMap();
-		
-		// 해당ID의 추천 받은 게시글 수
-		int recommendCount = 0;
-		for(String list : id_list){
-			recommendCount = recommendDAO.getRcommendCountById(list);
-			abmap.put(list, recommendCount);
-		}
-		mav.addObject("recommendCount", abmap);
-		
-		// 해당ID의 게시글 수
-		int boardCount = 0;
-		for(String mid : id_list){
-			boardCount = boardDAO.getBoardCoutById(mid);
-			rbmap.put(mid, boardCount);
-		}
-		mav.addObject("boardCount", rbmap);
-		
-		mav.setViewName("administrator/adminMemInfo");
-		return mav;
-	}
-	
-	/**	회원 정보	*/
+	/**	회원 간단 정보 목록	*/
 	@RequestMapping("/administrator/adminMem.do")
 	public ModelAndView adminMemForm(HttpServletRequest request){
 		ModelAndView mav = new ModelAndView();
@@ -125,6 +91,46 @@ public class AdminController {
 		if(id.equals("admin")){
 			mav.addObject("admin", id);
 		}
+		//
+		List<String> id_list = new ArrayList<String>();
+		id_list = memberDAO.getIdList();
+		Map abmap = new HashMap();
+		Map rbmap = new HashMap();
+		Map pbmap = new HashMap();
+		
+		// 해당ID의 추천 받은 게시글 수
+		int recommendCount = 0;
+		for(String list : id_list){
+			recommendCount = recommendDAO.getRcommendCountById(list);
+			abmap.put(list, recommendCount);
+		}
+		mav.addObject("recommendCount", abmap);
+		
+		// 해당ID의 게시글 수
+		int boardCount = 0;
+		for(String mid : id_list){
+			boardCount = boardDAO.getBoardCountById(mid);
+			rbmap.put(mid, boardCount);
+			
+		}
+		mav.addObject("boardCount", rbmap);
+		
+		List<BoardCommand> boardList = null;
+		boardList = boardDAO.reportBoardList();
+		int reporter =0;
+		
+		for(BoardCommand bc : boardList){
+			bc.getId();
+		}
+		
+		// 해당ID의 신고받은 게시글 수
+		int reportCount = 0;
+		for(String list : id_list){
+			reportCount = reportDAO.getReportCountById(list);
+			pbmap.put(list,reportCount);
+		}
+		mav.addObject("reportCount", pbmap);
+
 		mav.setViewName("administrator/adminMem");
 		return mav;
 	}

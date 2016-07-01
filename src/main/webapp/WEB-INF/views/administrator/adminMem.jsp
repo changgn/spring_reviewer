@@ -18,25 +18,26 @@
 				height: auto;
 				margin: 40 auto;
 			}
-			.list{
-				margin-top: 20px;
-				margin: auto;
-			}
-			.content{
-				border: 1px solid;
-				border-color: #f6f6f6;
-				width: 70%;	
-				height: auto;
-				margin: 40 auto;
-			}
+			.Member_formality_wrap{ width:400px; height:auto;lear: both; padding: auto; margin: 50 auto; position:relative; }
+			.MemberInfo{width:400px; height:auto; lear: both; padding: auto; margin: 50 auto; position:relative; }
+			.Member{padding: 9px 100px 9px 17px; position: relative; text-align: center;}
+			
+			.Member_Detaile_Info{display: none; position: fixed; z-index: 9999;top: 0;right: 0;bottom: 0;left: 0;line-height: 100%;text-align: center;}
+			.Member_Simple_Info_Id{display: block;overflow: hidden; padding: 3px 12px;}
+			.mem_d_i{display: inline-block;position: relative;z-index: 10000;width: 500px;background-color: #fff;line-height: normal;vertical-align: middle; top:300px;}
 		</style>
+		<link href="../css/style.css" rel="stylesheet" type="text/css">
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
-		<script>
+		<script>	
 			$(function(){
-				$(".member").click(function(){
-					var param = 
-					$(location).attr("href", "/administrator/adminMemInfo.do?");
+				$("body").on("click", ".Member_Simple_Info", function(e){
+					e.preventDefault();
+					var a = $("#menu_" + $(this).attr("id"));
+				a.show();
 				});
+				$("body").on("click", ".Member_Detaile_Info", function(e){
+					$(this).hide();
+				});	
 			});
 		</script>
 	</head>
@@ -44,21 +45,80 @@
 		<div class="MemberManageTitle">
 			전체 회원 관리 (${count})
 		</div>
-		<div class="content">
-			<table class="list">
-				<c:forEach var="memberList" items="${memberList}">
-					<c:if test="${memberList.id ne admin}">
-						<tr class="member">
-							<td width="120">
-								아이디 : <a href="/administrator/adminMemInfo.do?id=${memberList.id}">${memberList.id}</a>
-							</td>
-							<td width="220">
-								가입일자 : <fmt:formatDate value="${memberList.reg_date}" pattern="yyyy-MM-dd HH:mm"/>
-							</td>
-						</tr>
-					</c:if>
-				</c:forEach>
-			</table>
-		</div>
+			<c:forEach var="memberList" items="${memberList}">
+				<c:if test="${memberList.id ne admin}">
+					<div class="Member">
+						<div id="${memberList.id}" class="Member_Simple_Info" align="center">
+							<table>
+								<tr>
+									<td width="200">
+										<a href="#" id="${memberList.id}" class="Member_Simple_Info">
+											아이디 : ${memberList.id}
+										</a>
+									</td>
+									<td width="200">
+										<a href="#" id="${memberList.id}" class="Member_Simple_Info">
+											가입일시 : <fmt:formatDate value="${memberList.reg_date}" pattern="yyyy-MM-dd HH:mm"/>
+										</a>
+									</td>
+								</tr>
+								<tr>
+									<td width="130">
+										<img src="../image/recommend_off.png" width="15" height="15"> 게시글 : ${recommendCount[memberList.id]}
+									</td>
+									<td>
+										<img src="../image/report.png"> 게시글 : ${reportCount[memberList.id]}
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div id="menu_${memberList.id}" class="Member_Detaile_Info">
+							<div class="ly_dimmed"></div>
+							<table class="mem_d_i ul_list">
+								<tr>
+									<td width="50%">
+									아이디 : ${memberList.id}
+									</td>
+									<td rowspan="6" width="50%" align="right">
+										<a href="/profile/myProfile.do?id=${memberList.id}">
+											<img src="../image/icon_45.png">
+										</a>
+									</td>
+									<td rowspan="6">
+										<a id="name" href="/administrator/adminOutput.do?outId=${memberList.id}">
+											<img src="../image/memOut_con.gif">
+										</a>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										이름 : ${memberList.name}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										성별 : ${memberList.gender}	
+									</td>
+								</tr>
+								<tr>
+									<td>
+										email : ${memberList.email}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										핸드폰 번호 : ${memberList.phone_num}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										가입일시 : <fmt:formatDate value="${memberList.reg_date}" pattern="yyyy-MM-dd HH:mm"/>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</c:if>
+			</c:forEach>
 	</body>
 </html>

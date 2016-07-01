@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="report">
+	<!-- ID, 신고받은 게시글 번호 -->
+	<insert id="insertReportBoard" parameterType="command.ReportCommand">
+		insert into recommend values(#{id},#{board_num})
+	</insert>
+	
+	<!-- 해당 ID의 신고받은 게시글 수 -->
+	<select id="getReportCountById" parameterType="String" resultType="Integer">
+		select count(report_num) from report where id=#{id}
+	</select>
+</mapper>

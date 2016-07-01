@@ -55,7 +55,7 @@
  		ORDER BY report_num DESC
  	</select>
 	<!-- 해당 ID 게시글 수 -->
-	<select id="getBoardCoutById" parameterType="String" resultType="Integer">
+	<select id="getBoardCountById" parameterType="String" resultType="Integer">
 		select count(board_num) from board where id=#{id}
 	</select>
 <!-- 글 상세보기 //content -->

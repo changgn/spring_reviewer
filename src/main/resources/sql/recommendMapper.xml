@@ -22,7 +22,7 @@
 	<delete id="deleteRecommend" parameterType="command.RecommendCommand">
 		delete from recommend where id=#{id} and recommend_num=#{recommend_num}
 	</delete>
-	
+	<!-- 해당 ID의 추천받은 게시글 수 -->
 	<select id="getRcommendCountById" parameterType="String" resultType="Integer">
 		select count(recommend_num) from recommend where id=#{id}
 	</select>

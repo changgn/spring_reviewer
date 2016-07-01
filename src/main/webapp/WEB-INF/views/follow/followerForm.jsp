@@ -68,7 +68,7 @@
 			 팔로워 리스트
 		</div>
 		<c:forEach items="${fromList}" var="fromId">
-			<div id="followerList" align="center" >
+			<div id="followerList" align="center">
 				<a id="name" href="/profile/myProfile.do?id=${fromId}">${fromId}</a>
 				<c:if test="${logId ne fromId && logId ne null}">
 					<c:choose>

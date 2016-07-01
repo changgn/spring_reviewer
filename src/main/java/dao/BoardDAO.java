@@ -40,8 +40,8 @@ public class BoardDAO extends SqlSessionDaoSupport{
 		return getSqlSession().selectList("board.getReportBoardList");
 	}
 	/**	해당 ID 작성 게시글 수	*/
-	public int getBoardCoutById(String id){
-		return getSqlSession().selectOne("board.getBoardCoutById", id);
+	public int getBoardCountById(String id){
+		return getSqlSession().selectOne("board.getBoardCountById", id);
 	}
 	public List<BoardCommand> getList(){
 		return getSqlSession().selectList("board.getList");
