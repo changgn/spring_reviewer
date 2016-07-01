@@ -226,7 +226,7 @@ public class MainController {
 				RecommendCommand recommend = new RecommendCommand(id, vo.getBoard_num());
 				if(recommend.getId() != null ){
 					List<RecommendCommand> recommends = recommendDao.getRecommend(recommend);
-					if(recommends != null){
+					if(recommends.size() != 0){
 						boardMap.put("recommendFlag", "recommend");
 					}else{
 						boardMap.put("recommendFlag", "nrecommend");

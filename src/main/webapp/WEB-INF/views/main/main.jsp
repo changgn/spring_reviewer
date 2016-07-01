@@ -58,6 +58,37 @@ $(function(){
 		});
 	
 	});
+	$("body").on("click", ".re_menu_option", function(e){
+		e.preventDefault();
+		var b = $("#memList_" + $(this).attr("id"));
+		var url= "/recommend/member.do";
+		var params = "board_num=" + $(this).attr("id");
+		$.ajax({
+			type:"post"		// 포스트방식
+			,url:url		// url 주소
+			,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
+			,dataType:"json"
+			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
+				var members = args.members;
+				$(".re_popup_close").remove();
+				for(var idx=0; idx<members.length; idx++) {
+					$(".re_popup").append("<li><a href='/profile/myProfile.do?id=" + members[idx] + "' class='re_popup_close'>" + members[idx] + "</a></li>")
+				}
+				if(members.length==0) {
+					$(".re_popup").append("<li><a href='#' class='re_popup_close' onclick='event.preventDefault();'>게시물을 추천해 주세요</a></li>");
+				}
+				
+			}
+		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+		    	alert(e.responseText);
+		    }
+		});
+		b.css({}).show();
+	});
+	$("body").on("click", ".re_btn_option", function(){
+		$(this).hide();
+	});	
+	
 	
 	$("body").on("click", ".btns_scr_items", function(e){
 		e.preventDefault();
@@ -96,36 +127,6 @@ $(function(){
 	
 	});
 	
-	$("body").on("click", ".re_menu_option", function(e){
-		e.preventDefault();
-		var b = $("#memList_" + $(this).attr("id"));
-		var url= "/recommend/member.do";
-		var params = "board_num=" + $(this).attr("id");
-		$.ajax({
-			type:"post"		// 포스트방식
-			,url:url		// url 주소
-			,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
-			,dataType:"json"
-			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
-				var members = args.members;
-				$(".re_popup_close").remove();
-				for(var idx=0; idx<members.length; idx++) {
-					$(".re_popup").append("<li><a href='/profile/myProfile.do?id=" + members[idx] + "' class='re_popup_close'>" + members[idx] + "</a></li>")
-				}
-				if(members.length==0) {
-					$(".re_popup").append("<li><a href='#' class='re_popup_close' onclick='event.preventDefault();'>게시물을 추천해 주세요</a></li>");
-				}
-				
-			}
-		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
-		    	alert(e.responseText);
-		    }
-		});
-		b.css({}).show();
-	});
-	$("body").on("click", ".re_btn_option", function(){
-		$(this).hide();
-	});	
 	$("body").on("click", ".secret_content", function(e){
 		e.preventDefault();
 		var url= "/content/secret.do";

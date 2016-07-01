@@ -216,7 +216,7 @@ public class ScrepController {
 	//스크랩 갯수 증가
 	@ResponseBody
 	@RequestMapping("/screp/screp.do")
-	public String Screp(HttpServletRequest request, HttpServletResponse resp, Integer board_num, String paramId){
+	public String Screp(HttpServletRequest request, HttpServletResponse resp, Integer board_num, String page, String paramId){
 
 		String login_status = (String)request.getSession().getAttribute("login_status");
 		JSONObject jso = new JSONObject();
@@ -241,7 +241,10 @@ public class ScrepController {
 				ScrepDao.updateScrepByBoardNum(map);
 				jso.put("screpFlag", "screp");
 			}
-			int screpCount = ScrepDao.getScrepCountByScrepNum(paramId);
+			int screpCount = 0;
+			if(page != null){
+				screpCount = ScrepDao.getScrepCountByScrepNum(paramId);
+			}
 			jso.put("screpCount", screpCount);
 			jso.put("screp_num", BoardDao.selectContent(board_num).getScrep());
 			jso.put("board_num", board_num);

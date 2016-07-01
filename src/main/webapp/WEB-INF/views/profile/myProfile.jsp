@@ -63,48 +63,6 @@ $(function(){
 		});
 	
 	});
-	
-	
-	$("body").on("click", ".btns_scr_items", function(e){
-		e.preventDefault();
-		var url= "/screp/screp.do";
-		var params = "board_num=" + $(this).attr("id");
-		params += "&paramId=" $(".cont_writer_id").text();
-		
-		$.ajax({
-			type:"post"		// 포스트방식
-			,url:url		// url 주소
-			,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
-			,dataType:"json"
-			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
-				if(args.error == null){
-
-					var screp_num = args.screp_num;
-					var screpFlag = args.screpFlag;
-					var screpCount = args.screpCount;
-					var selector = $("#screp_img"+args.board_num);
-					var selector2 = $("#screp_cnt"+args.board_num);
-					selector2.text(" " + screp_num);
-					$("#nav_btn_screp").text("스 크 랩  " + screpCount);
-
-				if(screpFlag == 'screp'){
-						selector.attr("src", "../image/screp_on.png");
-					} else{
-						selector.attr("src", "../image/screp_off.png");
-					}
-				} else {
-					$(location).attr("href", "/logon/login.do");
-				}
-				
-			}
-		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
-		    	alert(e.responseText);
-				$(location).attr("href", "/logon/login.do");
-		    }
-		});
-	
-	});
-	
 	$("body").on("click", ".re_menu_option", function(e){
 		e.preventDefault();
 		var b = $("#memList_" + $(this).attr("id"));
@@ -135,6 +93,48 @@ $(function(){
 	$("body").on("click", ".re_btn_option", function(){
 		$(this).hide();
 	});	
+	
+	$("body").on("click", ".btns_scr_items", function(e){
+		e.preventDefault();
+		var url= "/screp/screp.do";
+		var params = "board_num=" + $(this).attr("id");
+		params += "&page=profile";
+		params += "&paramId=" + $("#id_profile").text();
+		
+		$.ajax({
+			type:"post"		// 포스트방식
+			,url:url		// url 주소
+			,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
+			,dataType:"json"
+			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
+				if(args.error == null){
+
+					var screp_num = args.screp_num;
+					var screpFlag = args.screpFlag;
+					var screpCount = args.screpCount;
+					var selector = $("#screp_img"+args.board_num);
+					var selector2 = $("#screp_cnt"+args.board_num);
+					selector2.text(" " + screp_num);
+					$("#screpCount").text(screpCount);
+
+				if(screpFlag == 'screp'){
+						selector.attr("src", "../image/screp_on.png");
+					} else{
+						selector.attr("src", "../image/screp_off.png");
+					}
+				} else {
+					$(location).attr("href", "/logon/login.do");
+				}
+				
+			}
+		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+		    	alert(e.responseText);
+				$(location).attr("href", "/logon/login.do");
+		    }
+		});
+	
+	});
+	
 	$(".follow_btn").click(function(e){
 		e.preventDefault();
 		var url= "/follow/follow.do";
@@ -299,7 +299,6 @@ $(function() {
 #nav_content_screp { position: static; width: 100%; height: 40px; z-index: 999; background-color: white; border-bottom: 1px solid #E6E6E6; padding: 0; }
 </style>
 <body>
-
 	<div id="my_profile_info_area">
 		<div id="my_profile_name">
 			<c:if test="${id!=paramId && (login_status==0 || login_status==1)}">
@@ -328,10 +327,10 @@ $(function() {
 	<div id="nav_content_screp">
 		<ul id="list_nav">
 			<li id="my_content">
-				<div class="my_content_screp"><a class="nav_btn" href="#">게 시 물&nbsp;&nbsp;${myCount}</a></div>
+				<div class="my_content_screp"><a class="nav_btn" href="#">게 시 물&nbsp;&nbsp;<span id="myCount">${myCount}</span></a></div>
 			</li>
 			<li id="my_screp">
-				<div class="my_content_screp"><a id="nav_btn_screp" class="nav_btn" href="#">스 크 랩&nbsp;&nbsp;${screpCount}</a></div>
+				<div class="my_content_screp"><a id="nav_btn_screp" class="nav_btn" href="#">스 크 랩&nbsp;&nbsp;<span id="screpCount">${screpCount}</span></a></div>
 			</li>
 		</ul>
 	</div>
@@ -399,11 +398,11 @@ $(function() {
 			                		<span id="u_ico" class="u_ico"><img src="../image/recommend_on.png"></span><em class="u_txt">좋아요</em>
 			                 	</a>
 			                 	<a href="#" id="${board.board.board_num}" class="btns_re_item re_menu_option">
-				              		<em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
+				              		<em id="u_cnt${board.board.board_num}" class="u_cnt">${board.board.recommend_num}</em>
 				              	</a>
 		           				<div id="memList_${board.board.board_num}" class="re_btn_option">
 									<div class="ly_dimmed"></div>
-									<ul class="re_popup"></ul>
+									<ul class="re_popup ul_list"></ul>
 								</div>
 							</div>
 						</c:if>
@@ -420,11 +419,11 @@ $(function() {
 		                		    </span><em class="u_txt">좋아요</em>
 			                 	</a>
 			                 	<a href="#" id="${board.board.board_num}" class="btns_re_item re_menu_option">
-			                		<em id="u_cnt${board.board.board_num}" class="u_cnt"> ${board.board.recommend_num}</em>
+			                		<em id="u_cnt${board.board.board_num}" class="u_cnt">${board.board.recommend_num}</em>
 			                	</a>
 			                	<div id="memList_${board.board.board_num}" class="re_btn_option">
 									<div class="ly_dimmed"></div>
-									<ul class="re_popup"></ul>
+									<ul class="re_popup ul_list"></ul>
 								</div>
 							</div>
 						</c:if>
