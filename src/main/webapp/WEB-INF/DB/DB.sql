@@ -8,6 +8,7 @@ DROP TRIGGER TRI_board_recommend_num;
 DROP TABLE comments CASCADE CONSTRAINTS;
 DROP TABLE notice CASCADE CONSTRAINTS;
 DROP TABLE photo CASCADE CONSTRAINTS;
+DROP TABLE profilephoto CASCADE CONSTRAINTS;
 DROP TABLE recommend CASCADE CONSTRAINTS;
 DROP TABLE report CASCADE CONSTRAINTS;
 DROP TABLE screp CASCADE CONSTRAINTS;
@@ -118,6 +119,13 @@ CREATE TABLE photo
 	o_fileName varchar2(100) NOT NULL
 );
 
+CREATE TABLE profilephoto
+(
+	fileName varchar2(100) NOT NULL,
+	id varchar2(20) NOT NULL,
+	realPath varchar2(200) NOT NULL,
+	o_fileName varchar2(100) NOT NULL
+);
 
 CREATE TABLE recommend
 (
@@ -192,6 +200,11 @@ ALTER TABLE photo
 	REFERENCES board (board_num)
 	ON DELETE CASCADE;
 
+ALTER TABLE profilephoto
+	ADD FOREIGN KEY (id)
+	REFERENCES members (id)
+	ON DELETE CASCADE;
+	
 ALTER TABLE screp
 	ADD FOREIGN KEY (board_num)
 	REFERENCES board (board_num)
