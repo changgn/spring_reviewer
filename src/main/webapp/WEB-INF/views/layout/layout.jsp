@@ -17,7 +17,7 @@
 			$("#alarm").css("display","none");
 			$("#user").css("display","none");
 			$(window).scroll(function(){
-				if($(window).scrollTop()>40) {
+				if($(window).scrollTop()>79) {
 					$("#nav").css("position", "fixed");
 					$("#nav").css('top', "0px");
 				} else {

@@ -51,27 +51,7 @@
 		</div>
 	</div>	 
 	<div class="board_content">
-		<c:forEach var="board" items="${populList}"> 
-			<table class="list">
-				<tr>
-					<td width="120" align="left">
-						작성자  : <a id="item" href="/profile/myProfile.do?id=${board.id}">${board.id}</a>
-					</td>
-					<td width="100" align="left">
-						<img src="../image/recommend_off.png" width="15" height="15"> : ${board.recommend_num}
-					</td>
-					<td width="200">
-						작성일 : <fmt:formatDate value="${board.write_date}" pattern="yyyy-MM-dd HH:mm"/>
-					</td>
-					<td width="120">
-						<a id="item" href="/content/contentForm.do?board_num=${board.board_num}">상세보기</a> 
-					</td>
-					<td width="100">
-						<a id="item" href="/content/deleteContent.do?board_num=${board.board_num}&id=${board.id}"><img src="../image/icon_66.png"></a>
-					</td>
-				</tr>
-			</table>
-		</c:forEach>
+		
 	</div>
 	</body>
 </html>

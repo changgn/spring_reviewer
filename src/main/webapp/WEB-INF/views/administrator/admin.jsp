@@ -25,14 +25,14 @@
 	<body>
 		<div id="adminMain" align="center">
 			<div id="repBoardManage" >
-				<a id="name" href="/administrator/adminReport.do">신고 게시글 관리</a>
-			</div>
-			<div id="popBoardManage">
-				<a id="name" href="/administrator/adminPopul.do">인기 게시글 관리</a>
+				<a id="name" href="/administrator/adminBoard.do">
+					<img src="../image/list_icon.png" width="35" height="35">
+					전체 게시글 관리
+				</a>
 			</div>
 			<div id="allMemberManage">
 				<a id="name" href="/administrator/adminMem.do">
-					<img src="../image/default_profile.png" width="50" height="50">
+					<img src="../image/default_profile.png" width="35" height="35">
 					전체 회원 관리
 				</a>
 			</div>

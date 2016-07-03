@@ -358,7 +358,7 @@
 		<div id="upload_area">
 			<input type="file" id="afile" name="afile" class="multi" maxlength="5">
 		</div>
-		<div id="write_area">
+		<div id="text_content">
 			<div id="btn_write" class="btn_long"><a href="#" onclick="event.preventDefault();">작&nbsp; 성&nbsp; 완&nbsp; 료</a></div>
 			<div id="join_btn_cancel" class="btn_long" onclick="event.preventDefault();"><a href="#" >취&nbsp;  소</a></div>
 		</div>

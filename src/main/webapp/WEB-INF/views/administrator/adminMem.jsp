@@ -16,7 +16,7 @@
 				color: #4c4c4c;
 				width: 40%;	
 				height: auto;
-				margin: 40 auto;
+				margin: 50 auto;
 			}
 			.Member_formality_wrap{ width:400px; height:auto;lear: both; padding: auto; margin: 50 auto; position:relative; }
 			.MemberInfo{width:400px; height:auto; lear: both; padding: auto; margin: 50 auto; position:relative; }
@@ -43,7 +43,7 @@
 	</head>
 	<body>
 		<div class="MemberManageTitle">
-			전체 회원 관리 (${count})
+			전체 회원 (${count})
 		</div>
 			<c:forEach var="memberList" items="${memberList}">
 				<c:if test="${memberList.id ne admin}">

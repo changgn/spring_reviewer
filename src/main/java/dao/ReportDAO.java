@@ -6,7 +6,7 @@ import command.ReportCommand;
 
 public class ReportDAO extends SqlSessionDaoSupport{
 	/**	신고받은 게시글 번호, ID 저장	*/
-	public int insertRecommend(ReportCommand rc){
+	public int insertReport(ReportCommand rc){
 		return getSqlSession().insert("report.insertReportBoard", rc);
 	}
 	

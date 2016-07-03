@@ -18,6 +18,7 @@ import command.BoardCommand;
 import command.MemberCommand;
 import dao.BoardDAO;
 import dao.MemberDAO;
+import dao.ProfilePhotoDAO;
 import dao.RecommendDAO;
 import dao.ReportDAO;
 
@@ -38,11 +39,15 @@ public class AdminController {
 	public void setRecommendDAO(RecommendDAO recommendDAO) {
 		this.recommendDAO = recommendDAO;
 	}
-	
 	@Autowired
 	ReportDAO reportDAO;
 	public void setReportDAO(ReportDAO reportDAO) {
 		this.reportDAO = reportDAO;
+	}
+	@Autowired
+	private ProfilePhotoDAO ProfilePhotoDao;
+	public void setProfilePhotoDao(ProfilePhotoDAO profilePhotoDao) {
+		ProfilePhotoDao = profilePhotoDao;
 	}
 
 	/**	메인화면	*/
@@ -51,25 +56,21 @@ public class AdminController {
 		return "administrator/admin";
 	}
 	
-	/**	인기글	*/
-	@RequestMapping("/administrator/adminPopul.do")
-	public String populForm(Model model){
-		List<BoardCommand> boardList = null;
-		boardList = boardDAO.pupulBoardList();
-		model.addAttribute("populList", boardList);
-		return "administrator/adminPopul";
-	}
-	
-	/**	신고글	*/
-	@RequestMapping("/administrator/adminReport.do")
+	/**	게시글 관리	*/
+	@RequestMapping("/administrator/adminBoard.do")
 	public String reportForm(Model model){
+		// 신고 게시글
 		List<BoardCommand> rpboardList = null;
 		rpboardList = boardDAO.reportBoardList();
-		model.addAttribute("reportList", rpboardList);
-		return "administrator/adminReport";
+		model.addAttribute("reportBoardList", rpboardList);
+		// 추천 게시글
+		List<BoardCommand> boardList = null;
+		boardList = boardDAO.pupulBoardList();
+		model.addAttribute("populBoardList", boardList);
+		return "administrator/adminBoard";
 	}
 	
-	/**	회원 간단 정보 목록	*/
+	/**	회원 관리	*/
 	@RequestMapping("/administrator/adminMem.do")
 	public ModelAndView adminMemForm(HttpServletRequest request){
 		ModelAndView mav = new ModelAndView();

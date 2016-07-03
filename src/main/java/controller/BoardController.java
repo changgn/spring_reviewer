@@ -25,6 +25,7 @@ import command.CategoryCommand;
 import command.CommentCommand;
 import command.PhotoCommand;
 import command.RecommendCommand;
+import command.ReportCommand;
 import command.ScrepCommand;
 import command.SecretCommand;
 import dao.BoardDAO;
@@ -32,6 +33,7 @@ import dao.CategoryDAO;
 import dao.CommentDAO;
 import dao.PhotoDAO;
 import dao.RecommendDAO;
+import dao.ReportDAO;
 import dao.ScrepDAO;
 import dao.SecretDAO;
 import net.sf.json.JSONObject;
@@ -55,7 +57,12 @@ public class BoardController {
 	private SecretDAO secretDao;
 	@Autowired
 	private ScrepDAO ScrepDao;
-
+	@Autowired
+	private ReportDAO reportDAO;
+	
+	public void setReportDAO(ReportDAO reportDAO) {
+		this.reportDAO = reportDAO;
+	}
 	public void setCategorydao(CategoryDAO categorydao) {
 		this.categorydao = categorydao;
 	}
@@ -200,11 +207,14 @@ public class BoardController {
 	public String report(HttpServletRequest request, Model model){
 
 		String board_num_str = request.getParameter("board_num");
+		String id = (String) request.getSession().getAttribute("id");
 		
 		if(board_num_str != null){
 			Integer board_num = Integer.parseInt(board_num_str);
 			
 			int reportupdateok = boarddao.updateReportNumByBoardNum(board_num);
+			ReportCommand rc = new ReportCommand(id, board_num);
+			reportDAO.insertReport(rc);
 			if(reportupdateok > 0){
 				model.addAttribute("reportok", "reportok");
 			}else{
