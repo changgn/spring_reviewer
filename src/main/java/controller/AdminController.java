@@ -60,13 +60,18 @@ public class AdminController {
 	@RequestMapping("/administrator/adminBoard.do")
 	public String reportForm(Model model){
 		// 신고 게시글
-		List<BoardCommand> rpboardList = null;
-		rpboardList = boardDAO.reportBoardList();
-		model.addAttribute("reportBoardList", rpboardList);
+		List<BoardCommand> ReportBoardList = null;
+		ReportBoardList = boardDAO.reportBoardList();
+		model.addAttribute("reportBoardList", ReportBoardList);
 		// 추천 게시글
-		List<BoardCommand> boardList = null;
-		boardList = boardDAO.pupulBoardList();
-		model.addAttribute("populBoardList", boardList);
+		List<BoardCommand> PopulBoardList = null;
+		PopulBoardList = boardDAO.pupulBoardList();
+		model.addAttribute("populBoardList", PopulBoardList);
+		
+		List<BoardCommand> BoardList = null;
+		BoardList = boardDAO.getList();
+		model.addAttribute("boardList", BoardList);
+		
 		return "administrator/adminBoard";
 	}
 	

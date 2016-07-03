@@ -26,26 +26,19 @@
 				color: #4c4c4c;
 				font-size: 14px;
 			}
-			.report_board{
-				border: 1px solid;
-				border-color: #f6f6f6;
-				width: 50%;	
-				height: auto;
-				margin: 40 auto;
-			}
 		</style>
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 		<script>
-		$(document).ready(function(){
-			$(window).scroll(function(){
-				if($(window).scrollTop()>79) {
-					$("#tab").css("position", "fixed");
-					$("#tab").css('top', "40px");
-				} else {
-					$("#tab").css("position", "static");
-				}
+			$(document).ready(function(){
+				$(window).scroll(function(){
+					if($(window).scrollTop()>79) {
+						$("#tab").css("position", "fixed");
+						$("#tab").css('top', "40px");
+					} else {
+						$("#tab").css("position", "static");
+					}
+				});
 			});
-		});
 			$(function () {	
 				tab('#tab',0);	
 			});
@@ -84,7 +77,35 @@
 
 		<div class="tab_con" id="tab_con">
     		<div>
-    			
+    			<c:forEach var="board" items="${boardList}"> 
+					<table class="list">
+						<tr>
+							<td width="20%">
+								작성자 : <a id="text" href="/profile/myProfile.do?id=${board.id}"> ${board.id}</a>
+							</td>
+							<td class="space" width="10"></td>
+							<td width="20%" >
+								<img src="../image/report.png"> : ${board.report_num}
+							</td>
+							<td class="space" width="10"></td>
+							<td width="20%" >
+								<img src="../image/recommend_off.png" width="15" height="15"> : ${board.recommend_num}
+							</td>
+							<td class="space" width="10"></td>
+							<td width="30%">
+								작성일 : <fmt:formatDate value="${board.write_date}" pattern="yyyy-MM-dd HH:mm"/>
+							</td>
+							<td class="space" width="10"></td>
+							<td width="20%">
+								<a id="text" href="/content/contentForm.do?board_num=${board.board_num}">상세보기</a>
+							</td>
+							<td class="space" width="10"></td>
+							<td width="10%">
+								<a id="text" href="/content/deleteContent.do?board_num=${board.board_num}&id=${board.id}"><img src="../image/icon_66.png"></a>
+							</td>
+						</tr>
+					</table>
+				</c:forEach>
     		</div>	
     		<div>
     			<c:forEach var="reportBoard" items="${reportBoardList}"> 
@@ -106,7 +127,7 @@
 								<a id="text" href="/content/contentForm.do?board_num=${reportBoard.board_num}">상세보기</a>
 							</td>
 							<td class="space" width="10"></td>
-							<td width="20%">
+							<td width="10%">
 								<a id="text" href="/content/deleteContent.do?board_num=${reportBoard.board_num}&id=${reportBoard.id}"><img src="../image/icon_66.png"></a>
 							</td>
 						</tr>
@@ -133,7 +154,7 @@
 								<a id="text" href="/content/contentForm.do?board_num=${populBoard.board_num}">상세보기</a> 
 							</td>
 							<td class="space" width="10"></td>
-							<td width="20%">
+							<td width="10%">
 							<a id="text" href="/content/deleteContent.do?board_num=${populBoard.board_num}&id=${populBoard.id}"><img src="../image/icon_66.png"></a>
 							</td>
 						</tr>
