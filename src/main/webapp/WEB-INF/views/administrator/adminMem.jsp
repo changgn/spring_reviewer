@@ -80,9 +80,18 @@
 									아이디 : ${memberList.id}
 									</td>
 									<td rowspan="6" align="right">
-										<a href="/profile/myProfile.do?id=${memberList.id}">
-											<img src="../image/default_profile.png">
-										</a>
+										<c:choose>
+											<c:when test="${profilePhoto[memberList.id].realPath != null}">
+												<a href="/profile/myProfile.do?id=${memberList.id}">
+													<img src="${profilePhoto[memberList.id].realPath}">
+												</a>
+											</c:when>
+											<c:otherwise>
+												<a href="/profile/myProfile.do?id=${memberList.id}">
+													<img src="../image/default_profile.png">
+												</a>
+											</c:otherwise>
+										</c:choose>
 									</td>
 									<td rowspan="6" align="right">
 										<a id="name" href="/administrator/adminOutput.do?outId=${memberList.id}">

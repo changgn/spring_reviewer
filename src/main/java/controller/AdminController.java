@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import command.BoardCommand;
 import command.MemberCommand;
+import command.ProfilePhotoCommand;
 import dao.BoardDAO;
 import dao.MemberDAO;
 import dao.ProfilePhotoDAO;
@@ -45,11 +46,11 @@ public class AdminController {
 		this.reportDAO = reportDAO;
 	}
 	@Autowired
-	private ProfilePhotoDAO ProfilePhotoDao;
-	public void setProfilePhotoDao(ProfilePhotoDAO profilePhotoDao) {
-		ProfilePhotoDao = profilePhotoDao;
+	private ProfilePhotoDAO profilePhotoDAO;
+	public void setProfilePhotoDao(ProfilePhotoDAO profilePhotoDAO) {
+		this.profilePhotoDAO = profilePhotoDAO;
 	}
-
+	
 	/**	메인화면	*/
 	@RequestMapping("/administrator/adminForm.do")
 	public String adminForm(){
@@ -67,7 +68,7 @@ public class AdminController {
 		List<BoardCommand> PopulBoardList = null;
 		PopulBoardList = boardDAO.pupulBoardList();
 		model.addAttribute("populBoardList", PopulBoardList);
-		
+		// 전체 게시글
 		List<BoardCommand> BoardList = null;
 		BoardList = boardDAO.getList();
 		model.addAttribute("boardList", BoardList);
@@ -99,14 +100,7 @@ public class AdminController {
 		Map abmap = new HashMap();
 		Map rbmap = new HashMap();
 		Map pbmap = new HashMap();
-		
-		// 해당ID의 추천 받은 게시글 수
-		int recommendCount = 0;
-		for(String list : id_list){
-			recommendCount = recommendDAO.getRcommendCountById(list);
-			abmap.put(list, recommendCount);
-		}
-		mav.addObject("recommendCount", abmap);
+		Map ppmap = new HashMap();
 		
 		// 해당ID의 게시글 수
 		int boardCount = 0;
@@ -117,16 +111,13 @@ public class AdminController {
 		}
 		mav.addObject("boardCount", rbmap);
 		
-		List<BoardCommand> boardList = null;
-		boardList = boardDAO.reportBoardList();
-		int reporter = 0;
-		String rid;
-		int board_num;
-		
-		for(BoardCommand bc : boardList){
-			bc.getId();
-			bc.getBoard_num();
+		// 해당ID의 추천 받은 게시글 수
+		int recommendCount = 0;
+		for(String list : id_list){
+			recommendCount = recommendDAO.getRcommendCountById(list);
+			abmap.put(list, recommendCount);
 		}
+		mav.addObject("recommendCount", abmap);
 		
 		// 해당ID의 신고받은 게시글 수
 		int reportCount = 0;
@@ -135,7 +126,15 @@ public class AdminController {
 			pbmap.put(list,reportCount);
 		}
 		mav.addObject("reportCount", pbmap);
-
+		
+		ProfilePhotoCommand ppc = new ProfilePhotoCommand();
+		
+		for(String list : id_list){
+			ppc = profilePhotoDAO.getOneById(list);
+			ppmap.put(list, ppc);
+		}
+		mav.addObject("profilePhoto", ppmap);
+		
 		mav.setViewName("administrator/adminMem");
 		return mav;
 	}
