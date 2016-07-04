@@ -31,6 +31,10 @@ public class RecommendDAO extends SqlSessionDaoSupport{
 	public int getRcommendCountById(String id){
 		return getSqlSession().selectOne("recommend.getRcommendCountById", id);
 	}
+	
+	public int deleteRecommendByBoardDelete(int board_num){
+		return getSqlSession().selectOne("recommend.deleteRecommendByBoardDelete", board_num);
+	}
 }
 
 

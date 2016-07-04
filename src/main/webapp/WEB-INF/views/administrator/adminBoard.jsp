@@ -10,12 +10,12 @@
 			* { margin:0; padding:0; }
 			ul,li { list-style:none; }
 			a { text-decoration:none; color:#000; }
-			.tab { border:1px solid #ddd; border-left:none; background:#fff; overflow:hidden;  position: static; width: 100%}
+			.tab {border:1px solid #ddd; border-left:none; background:#fff; overflow:hidden;  position: static; width: 100%}
 			.tab li { float:left; width:33.3%; border-left:1px solid #ddd; text-align:center; box-sizing:border-box; }
 			.tab li { display:inline-block; padding:20px; cursor:pointer; }
 			.tab li.on { background-color:#eee; color:#f00; }
-			.tab_con { clear:both; margin-top:5px; border:1px solid #ddd; }
-			.tab_con div { display:none; height:100%; background:#fff; line-height:100px; text-align:center; }
+			.tab_con { clear:both; margin-top:50px auto; border:1px solid #ddd;}
+			.tab_con div { display:none; height:100%; background:#fff; line-height:100px; text-align:center;}
 			.list{
 				margin-top: 20px;
 				margin: auto;
@@ -40,7 +40,7 @@
 				});
 			});
 			$(function () {	
-				tab('#tab',0);	
+				tab('#tab',0);
 			});
 	
 			function tab(e, num){
@@ -66,60 +66,67 @@
 			        con.eq(i).show();
 			    });
 			}
+			
+			
 		</script>
 	</head>
 	<body>
 		<ul class="tab" id="tab">
     		<li>전체 게시글</li>
-    		<li>신고 게시글</li>
-    		<li>추천 게시글</li>	
+    		<li>신고 받은 게시글</li>
+    		<li>추천 받은 게시글</li>	
 		</ul>
-
+		<div style="height: 5%;">
+		</div>
 		<div class="tab_con" id="tab_con">
-    		<div>
+    		<div id="board">
     			<c:forEach var="board" items="${boardList}"> 
 					<table class="list">
 						<tr>
-							<td width="20%">
-								작성자 : <a id="text" href="/profile/myProfile.do?id=${board.id}"> ${board.id}</a>
+							<td class="space" width="10"></td>
+							<td width="16%" align="left">
+								<a id="text" href="/profile/myProfile.do?id=${board.id}"> 작성자 : ${board.id}</a>
 							</td>
 							<td class="space" width="10"></td>
-							<td width="20%" >
-								<img src="../image/report.png"> : ${board.report_num}
+							<td width="16%" >
+								<img src="../image/report.png"> ${board.report_num}
 							</td>
 							<td class="space" width="10"></td>
-							<td width="20%" >
-								<img src="../image/recommend_off.png" width="15" height="15"> : ${board.recommend_num}
+							<td width="16%" >
+								<img src="../image/recommend_off.png" width="15" height="15"> ${board.recommend_num}
 							</td>
 							<td class="space" width="10"></td>
-							<td width="30%">
+							<td width="16%">
 								작성일 : <fmt:formatDate value="${board.write_date}" pattern="yyyy-MM-dd HH:mm"/>
 							</td>
 							<td class="space" width="10"></td>
-							<td width="20%">
+							<td width="16%">
 								<a id="text" href="/content/contentForm.do?board_num=${board.board_num}">상세보기</a>
 							</td>
 							<td class="space" width="10"></td>
-							<td width="10%">
-								<a id="text" href="/content/deleteContent.do?board_num=${board.board_num}&id=${board.id}"><img src="../image/icon_66.png"></a>
+							<td width="16%">
+								<a id="text" href="/content/deleteContent.do?board_num=${board.board_num}&id=${board.id}">
+									삭제 <img src="../image/icon_66.png">
+								</a>
 							</td>
 						</tr>
 					</table>
 				</c:forEach>
     		</div>	
-    		<div>
+    		<div id="report">
     			<c:forEach var="reportBoard" items="${reportBoardList}"> 
 					<table class="list">
 						<tr>
-							<td width="20%">
-								작성자 : <a id="text" href="/profile/myProfile.do?id=${reportBoard.id}"> ${reportBoard.id}</a>
+							<td class="space" width="10"></td>
+							<td width="20%" align="left">
+								<a id="text" href="/profile/myProfile.do?id=${reportBoard.id}">작성자 : ${reportBoard.id}</a>
 							</td>
 							<td class="space" width="10"></td>
 							<td width="20%" >
 								<img src="../image/report.png"> : ${reportBoard.report_num}
 							</td>
 							<td class="space" width="10"></td>
-							<td width="30%">
+							<td width="25%">
 								작성일 : <fmt:formatDate value="${reportBoard.write_date}" pattern="yyyy-MM-dd HH:mm"/>
 							</td>
 							<td class="space" width="10"></td>
@@ -127,26 +134,29 @@
 								<a id="text" href="/content/contentForm.do?board_num=${reportBoard.board_num}">상세보기</a>
 							</td>
 							<td class="space" width="10"></td>
-							<td width="10%">
-								<a id="text" href="/content/deleteContent.do?board_num=${reportBoard.board_num}&id=${reportBoard.id}"><img src="../image/icon_66.png"></a>
+							<td width="20%">
+								<a id="text" href="/content/deleteContent.do?board_num=${reportBoard.board_num}&id=${reportBoard.id}">
+									삭제 <img src="../image/icon_66.png">
+								</a>
 							</td>
 						</tr>
 					</table>
 				</c:forEach>
 			</div>
-    		<div>
+    		<div id="popul">
     			<c:forEach var="populBoard" items="${populBoardList}"> 
 					<table class="list">
 						<tr>
-							<td width="20%" align="left">
-								작성자  : <a id="text" href="/profile/myProfile.do?id=${populBoard.id}">${populBoard.id}</a>
-							</td>
 							<td class="space" width="10"></td>
 							<td width="20%" align="left">
+								<a id="text" href="/profile/myProfile.do?id=${populBoard.id}">작성자  : ${populBoard.id}</a>
+							</td>
+							<td class="space" width="10"></td>
+							<td width="20%">
 								<img src="../image/recommend_off.png" width="15" height="15"> : ${populBoard.recommend_num}
 							</td>
 							<td class="space" width="10"></td>
-							<td width="30%">
+							<td width="25%">
 								작성일 : <fmt:formatDate value="${populBoard.write_date}" pattern="yyyy-MM-dd HH:mm"/>
 							</td>
 							<td class="space" width="10"></td>
@@ -154,13 +164,17 @@
 								<a id="text" href="/content/contentForm.do?board_num=${populBoard.board_num}">상세보기</a> 
 							</td>
 							<td class="space" width="10"></td>
-							<td width="10%">
-							<a id="text" href="/content/deleteContent.do?board_num=${populBoard.board_num}&id=${populBoard.id}"><img src="../image/icon_66.png"></a>
+							<td width="20%">
+								<a id="text" href="/content/deleteContent.do?board_num=${populBoard.board_num}&id=${populBoard.id}">
+									삭제 <img src="../image/icon_66.png">
+								</a>
 							</td>
 						</tr>
 					</table>
 				</c:forEach>
     		</div>
+		</div>
+		<div style="height: 5%;">
 		</div>
 	</body>
 </html>

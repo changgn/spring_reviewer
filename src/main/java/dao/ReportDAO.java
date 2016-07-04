@@ -14,4 +14,9 @@ public class ReportDAO extends SqlSessionDaoSupport{
 	public int getReportCountById(String id){
 		return getSqlSession().selectOne("report.getReportCountById", id);
 	}
+	
+	/**	게시글 삭제 시 해당 게시글의 신고 삭제	*/
+	public int deleteReport(int board_num){
+		return getSqlSession().delete("report.delete", board_num);
+	}
 }

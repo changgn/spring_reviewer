@@ -193,10 +193,11 @@ public class BoardController {
 
 		String id = (String)session.getAttribute("id");
 		String login_status = (String)session.getAttribute("login_status");
-		
+
 		if(id.equals(writer) || login_status.equals("0")) { 
 			boarddao.deleteContent(Integer.parseInt(board_num));
-			
+			reportDAO.deleteReport(Integer.parseInt(board_num));
+			recommendDao.deleteRecommendByBoardDelete(Integer.parseInt(board_num));
 		} else {
 			model.addAttribute("errorId", "errorId");
 		}

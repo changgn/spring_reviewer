@@ -60,15 +60,15 @@ public class AdminController {
 	/**	게시글 관리	*/
 	@RequestMapping("/administrator/adminBoard.do")
 	public String reportForm(Model model){
-		// 신고 게시글
+		// 신고 게시글 목록
 		List<BoardCommand> ReportBoardList = null;
 		ReportBoardList = boardDAO.reportBoardList();
 		model.addAttribute("reportBoardList", ReportBoardList);
-		// 추천 게시글
+		// 추천 게시글 목록
 		List<BoardCommand> PopulBoardList = null;
 		PopulBoardList = boardDAO.pupulBoardList();
 		model.addAttribute("populBoardList", PopulBoardList);
-		// 전체 게시글
+		// 전체 게시글 목록
 		List<BoardCommand> BoardList = null;
 		BoardList = boardDAO.getList();
 		model.addAttribute("boardList", BoardList);
@@ -85,16 +85,15 @@ public class AdminController {
 		count = memberDAO.count();
 		count -= 1;
 		mav.addObject("count", count);
-		// 회원 정보
+		// 회원 정보 목록
 		List<MemberCommand> member_list = null;
 		member_list = memberDAO.getList(); 
 		mav.addObject("memberList", member_list);	
-		// 로그인 ID
+		// 관리자 로그인 ID
 		String id = (String)request.getSession().getAttribute("id");
 		if(id.equals("admin")){
 			mav.addObject("admin", id);
 		}
-		//
 		List<String> id_list = new ArrayList<String>();
 		id_list = memberDAO.getIdList();
 		Map abmap = new HashMap();
@@ -111,7 +110,7 @@ public class AdminController {
 		}
 		mav.addObject("boardCount", rbmap);
 		
-		// 해당ID의 추천 받은 게시글 수
+		// 해당ID가 추천한 게시글 수
 		int recommendCount = 0;
 		for(String list : id_list){
 			recommendCount = recommendDAO.getRcommendCountById(list);
@@ -119,16 +118,16 @@ public class AdminController {
 		}
 		mav.addObject("recommendCount", abmap);
 		
-		// 해당ID의 신고받은 게시글 수
+		// 해당ID가 신고한  게시글 수
 		int reportCount = 0;
 		for(String list : id_list){
 			reportCount = reportDAO.getReportCountById(list);
-			pbmap.put(list,reportCount);
+			pbmap.put(list, reportCount);
 		}
 		mav.addObject("reportCount", pbmap);
 		
+		// 해당 ID의 프로필 사진
 		ProfilePhotoCommand ppc = new ProfilePhotoCommand();
-		
 		for(String list : id_list){
 			ppc = profilePhotoDAO.getOneById(list);
 			ppmap.put(list, ppc);

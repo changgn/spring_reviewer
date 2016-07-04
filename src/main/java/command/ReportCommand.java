@@ -22,5 +22,9 @@ public class ReportCommand {
 		this.id = id;
 		this.board_num = board_num;
 	}
+	public ReportCommand() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	
 }

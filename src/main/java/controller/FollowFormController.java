@@ -90,7 +90,8 @@ public class FollowFormController {
 				}
 			}
 			/**	나의 팔로잉 목록	*/
-			List<String> my_to_id_list = followDAO.toList(my_to_id);	
+			List<String> my_to_id_list = null;
+			my_to_id_list = followDAO.toList(my_to_id);	
 			System.out.println(my_to_id+"의 팔로잉 목록 : " + to_id_list);
 			/**	팔로우 상태값 저장	*/
 			Map map = new HashMap();

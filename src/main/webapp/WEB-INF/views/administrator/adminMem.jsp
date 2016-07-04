@@ -51,23 +51,25 @@
 						<div align="center">
 							<table>
 								<tr id="${memberList.id}" class="Member_Simple_Info">
-									<td width="200">
+									<td class="space" width="50"></td>
+									<td width="auto" align="left">
 										<a href="#" id="${memberList.id}" class="Member_Simple_Info">
 											아이디 : ${memberList.id}
 										</a>
 									</td>
-									<td width="200">
+									<td class="space" width="50"></td>
+									<td width="auto">
+										<img src="../image/recommend_off.png" width="15" height="15"> 추천한 게시글 : ${recommendCount[memberList.id]}
+									</td>
+									<td class="space" width="50"></td>
+									<td width="auto">
+										<img src="../image/report.png"> 신고한 게시글 : ${reportCount[memberList.id]}
+									</td>
+									<td class="space" width="50"></td>
+									<td width="auto">
 										<a href="#" id="${memberList.id}" class="Member_Simple_Info">
 											가입일시 : <fmt:formatDate value="${memberList.reg_date}" pattern="yyyy-MM-dd HH:mm"/>
 										</a>
-									</td>
-								</tr>
-								<tr>
-									<td width="130">
-										<img src="../image/recommend_off.png" width="15" height="15"> 게시글 : ${recommendCount[memberList.id]}
-									</td>
-									<td>
-										<img src="../image/report.png"> 게시글 : ${reportCount[memberList.id]}
 									</td>
 								</tr>
 							</table>
@@ -129,5 +131,8 @@
 					</div>
 				</c:if>
 			</c:forEach>
+			<div style="height: 5%;">
+			
+			</div>
 	</body>
 </html>
