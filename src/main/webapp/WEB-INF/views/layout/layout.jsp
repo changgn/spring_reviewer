@@ -68,8 +68,25 @@
 						,dataType:"json"
 						,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
 							$(".li_notice").remove();
-							
-							
+							var view = "";
+							var noticeList = args.noticeList;
+							for(var idx=0; idx<noticeList.length; idx++) {
+								if(noticeList[i].kind == 'like') {
+									view += '<li class="li_notice"><a href="/content/contentForm.do?board_num=' + noticeList[i].board_num +'">' + noticeList[i].id + '님이 회원님의 게시물을 추천하였습니다.' +'</a></li>';
+								}
+								if(noticeList[i].kind == 'report') {
+									view += '<li class="li_notice"><a href="/content/contentForm.do?board_num=' + noticeList[i].board_num +'">' + noticeList[i].id + '님이 회원님의 게시물을 신고하였습니다.' +'</a></li>';
+								}
+								if(noticeList[i].kind == 'comment') {
+									view += '<li class="li_notice"><a href="/content/contentForm.do?board_num=' + noticeList[i].board_num +'&comment=true">' + noticeList[i].id + '님이 회원님의 게시물에 댓글을 남겼습니다.' +'</a></li>';
+								}
+								if(noticeList[i].kind == 'follow') {
+									view += '<li class="li_notice"><a href="/profile/myProfile.do?id=' + noticeList[i].id + '">' + noticeList[i].id + '님이 회원님을 팔로우 하였습니다.' +'</a></li>';
+								}
+								if(noticeList[i].kind == 'unfollow') {
+									view += '<li class="li_notice"><a href="/profile/myProfile.do?id=' + noticeList[i].id + '">' + noticeList[i].id + '님이 회원님을 언팔로우 하였습니다.' +'</a></li>';
+								}
+							}
 						}
 					    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
 					    	alert(e.responseText);
