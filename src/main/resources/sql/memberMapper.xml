@@ -13,6 +13,9 @@
 	<update id="updateDecreaseRecommendNum" parameterType="String">
 		update members set recommend_num=recommend_num-1 where id=#{id}
 	</update>
+	<update id="updateDecreaseRecommendNumByDeleteBoard" parameterType="command.MemberRecommendDeleteCommand">
+		update members set recommend_num=recommend_num-#{board_recommend_num} where id=#{id} 
+	</update>
 	<update id="modifyPro" parameterType="command.MemberCommand">
 		update members set passwd=#{passwd},name=#{name},birth=#{birth},gender=#{gender},email=#{email},phone_num=#{phone_num} where id=#{id}
 	</update>

@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import command.BoardCommand;
 import command.CategoryCommand;
 import command.CommentCommand;
+import command.MemberRecommendDeleteCommand;
 import command.PhotoCommand;
 import command.RecommendCommand;
 import command.ReportCommand;
@@ -201,9 +202,18 @@ public class BoardController {
 		String login_status = (String)session.getAttribute("login_status");
 
 		if(id.equals(writer) || login_status.equals("0")) { 
-			boarddao.deleteContent(Integer.parseInt(board_num));
+			BoardCommand bc = new BoardCommand();
+			bc = boarddao.selectContent(Integer.parseInt(board_num));
+			int recommend_num = 0 ;
+			recommend_num = bc.getRecommend_num();
+
+			MemberRecommendDeleteCommand mrdc = new MemberRecommendDeleteCommand();
+			mrdc.setBoard_recommend_num(recommend_num);
+			mrdc.setId(writer);
+			memberDAO.updateDecreaseRecommendNumByDeleteBoard(mrdc);
+			
 			reportDAO.deleteReport(Integer.parseInt(board_num));
-			memberDAO.updateDecreaseRecommendNum(writer);
+			boarddao.deleteContent(Integer.parseInt(board_num));
 		} else {
 			model.addAttribute("errorId", "errorId");
 		}

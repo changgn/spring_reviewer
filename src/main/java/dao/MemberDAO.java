@@ -7,6 +7,7 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import command.MemberCommand;
+import command.MemberRecommendDeleteCommand;
 
 
 @Repository
@@ -124,5 +125,9 @@ public class MemberDAO extends SqlSessionDaoSupport{
 	}
 	public int updateDecreaseRecommendNum(String id){
 		return getSqlSession().update("member.updateDecreaseRecommendNum", id);
+	}
+	
+	public int updateDecreaseRecommendNumByDeleteBoard(MemberRecommendDeleteCommand mrdc){
+		return getSqlSession().update("member.updateDecreaseRecommendNumByDeleteBoard", mrdc);
 	}
 }
