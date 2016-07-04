@@ -97,6 +97,13 @@
 								view += '<span class="notice_time">' + dateList[idx] + '</span>';
 								view += '</li>';
 							}
+							if(noticeList.length==0) {
+								view += '<li class="li_notice">';
+								view += '<span class="notice_text">';
+								view += '알림이 없습니다.';
+								view += '</span>';
+								view += '</li>';
+							}
 							$("#list_notice").append(view);
 						}
 					    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
@@ -140,6 +147,7 @@
 		}
 		.notice_time {
 			float: right;
+			display : inline-block;
 		}
 	</style>
 </head>
