@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import command.BoardCommand;
+import command.NoticeCommand;
 import command.RecommendCommand;
 import dao.BoardDAO;
 import dao.MemberDAO;
+import dao.NoticeDAO;
 import dao.RecommendDAO;
 import net.sf.json.JSONObject;
 
@@ -26,14 +28,13 @@ public class RecommendController {
 	private RecommendDAO recommendDao;	
 	@Autowired
 	private MemberDAO memberDao;
-
+	@Autowired
+	NoticeDAO noticeDao;
 	
-	public void setMemberDao(MemberDAO memberDao) {
-		this.memberDao = memberDao;
-	}
-
+	public void setMemberDao(MemberDAO memberDao) { this.memberDao = memberDao; }
 	public void setBoardDao(BoardDAO boardDao) { this.boardDao = boardDao; }
 	public void setRecommendDao(RecommendDAO recommendDao) { this.recommendDao = recommendDao; }
+	public void setNoticeDao(NoticeDAO noticeDao) { this.noticeDao = noticeDao; }
 		
 	@ResponseBody
 	@RequestMapping("/recommend/recommend.do")
@@ -57,6 +58,14 @@ public class RecommendController {
 			} else{
 				recommendDao.insertRecommend(command);
 				memberDao.updateIncreaseRecommendNum(writer);
+				
+				NoticeCommand noticeCommand = new NoticeCommand("recommend",id,writer,board_num);
+				List<NoticeCommand> noticeList = noticeDao.getListByBoard(noticeCommand);
+				if(noticeList.size() != 0) {
+					noticeDao.removeByBoard(noticeCommand);
+				}
+				noticeDao.insert(noticeCommand);
+				
 				jso.put("recommendFlag", "recommend");
 			}
 			

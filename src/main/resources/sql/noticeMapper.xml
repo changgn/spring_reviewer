@@ -4,9 +4,15 @@
 
 <mapper namespace="notice">
 	<insert id="add" parameterType="command.NoticeCommand">
-		insert into notice values(#{kind},#{id},#{targetid},#{board_num},sysdate,0)
+		insert into notice values(#{kind},#{id},#{targetid},#{board_num},0,sysdate)
 	</insert>
+	<delete id="removeByBoard" parameterType="command.NoticeCommand">
+		delete from notice where kind=#{kind} AND id=#{id} AND targetid=#{targetid} AND board_num=#{board_num}
+	</delete>
 	<select id="getListById" parameterType="String" resultType="command.NoticeCommand">
-		select * from notice where id=#{id} ORDER BY notice_date DESC
+		select * from notice where targetid=#{id} ORDER BY notice_date DESC
+	</select>
+	<select id="getListByBoard" parameterType="command.NoticeCommand" resultType="command.NoticeCommand">
+		select * from notice where kind=#{kind} AND id=#{id} AND targetid=#{targetid} AND board_num=#{board_num}
 	</select>
 </mapper>

@@ -59,6 +59,7 @@
 				}
 				else {
 					//ajax
+					$(".li_notice").remove();
 					var url= "/notice/notice.do";
 					var params = "notice=true";
 					$.ajax({
@@ -67,26 +68,26 @@
 						,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
 						,dataType:"json"
 						,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
-							$(".li_notice").remove();
 							var view = "";
 							var noticeList = args.noticeList;
 							for(var idx=0; idx<noticeList.length; idx++) {
-								if(noticeList[i].kind == 'like') {
-									view += '<li class="li_notice"><a href="/content/contentForm.do?board_num=' + noticeList[i].board_num +'">' + noticeList[i].id + '님이 회원님의 게시물을 추천하였습니다.' +'</a></li>';
+								if(noticeList[idx].kind == 'recommend') {
+									view += '<li class="li_notice"><a href="/content/contentForm.do?board_num=' + noticeList[idx].board_num +'">' + noticeList[idx].id + '님이 회원님의 게시물을 추천하였습니다.</a></li>';
 								}
-								if(noticeList[i].kind == 'report') {
-									view += '<li class="li_notice"><a href="/content/contentForm.do?board_num=' + noticeList[i].board_num +'">' + noticeList[i].id + '님이 회원님의 게시물을 신고하였습니다.' +'</a></li>';
+								if(noticeList[idx].kind == 'report') {
+									view += '<li class="li_notice"><a href="/content/contentForm.do?board_num=' + noticeList[idx].board_num +'">' + noticeList[idx].id + '님이 회원님의 게시물을 신고하였습니다.</a></li>';
 								}
-								if(noticeList[i].kind == 'comment') {
-									view += '<li class="li_notice"><a href="/content/contentForm.do?board_num=' + noticeList[i].board_num +'&comment=true">' + noticeList[i].id + '님이 회원님의 게시물에 댓글을 남겼습니다.' +'</a></li>';
+								if(noticeList[idx].kind == 'comment') {
+									view += '<li class="li_notice"><a href="/content/contentForm.do?board_num=' + noticeList[idx].board_num +'&comment=true">' + noticeList[idx].id + '님이 회원님의 게시물에 댓글을 남겼습니다.</a></li>';
 								}
-								if(noticeList[i].kind == 'follow') {
-									view += '<li class="li_notice"><a href="/profile/myProfile.do?id=' + noticeList[i].id + '">' + noticeList[i].id + '님이 회원님을 팔로우 하였습니다.' +'</a></li>';
+								if(noticeList[idx].kind == 'follow') {
+									view += '<li class="li_notice"><a href="/profile/myProfile.do?id=' + noticeList[idx].id + '">' + noticeList[idx].id + '님이 회원님을 팔로우 하였습니다.</a></li>';
 								}
-								if(noticeList[i].kind == 'unfollow') {
-									view += '<li class="li_notice"><a href="/profile/myProfile.do?id=' + noticeList[i].id + '">' + noticeList[i].id + '님이 회원님을 언팔로우 하였습니다.' +'</a></li>';
+								if(noticeList[idx].kind == 'unfollow') {
+									view += '<li class="li_notice"><a href="/profile/myProfile.do?id=' + noticeList[idx].id + '">' + noticeList[idx].id + '님이 회원님을 언팔로우 하였습니다.</a></li>';
 								}
 							}
+							$("#list_notice").append(view);
 						}
 					    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
 					    	alert(e.responseText);
@@ -162,13 +163,7 @@
 			</div>
 		</c:if>
 	 	<div id="notice">
-			<ul id="list_notice" class="ul_list">
-				<li class="li_notice">알림1<br><a href="#">알림1</a></li>
-				<li class="li_notice">알림2<br><a href="#">알림2</a></li>
-				<li class="li_notice">알림3<br><a href="#">알림3</a></li>
-				<li class="li_notice">알림4<br><a href="#">알림4</a></li>
-				<li class="li_notice">알림5<br><a href="#">알림5</a></li>
-			</ul>
+			<ul id="list_notice" class="ul_list"></ul>
 		</div> 
 
 	</div>

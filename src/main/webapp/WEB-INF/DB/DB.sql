@@ -1,7 +1,8 @@
-
+/*
 /* Drop Triggers */
 
 DROP TRIGGER TRI_board_recommend_num;
+*/
 
 /* Drop Tables */
 
@@ -266,7 +267,7 @@ ALTER TABLE recommend
 	REFERENCES board (board_num)
 	ON DELETE CASCADE;
 
-
+/*
 /* Create Triggers */
 
 CREATE OR REPLACE TRIGGER TRI_board_recommend_num AFTER UPDATE ON board
@@ -287,7 +288,7 @@ BEGIN
 END;
 
 /
-
+*/
 
 
 
