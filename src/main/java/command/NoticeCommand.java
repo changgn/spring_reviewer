@@ -1,10 +1,14 @@
 package command;
 
+import java.util.Date;
+
 public class NoticeCommand {
 	private String kind;
 	private String id;
 	private String targetid;
 	private int board_num;
+	private Date notice_date;
+	private int read;
 
 	public NoticeCommand(){
 		
@@ -48,6 +52,22 @@ public class NoticeCommand {
 
 	public void setBoard_num(int board_num) {
 		this.board_num = board_num;
+	}
+
+	public Date getNotice_date() {
+		return notice_date;
+	}
+
+	public void setNotice_date(Date notice_date) {
+		this.notice_date = notice_date;
+	}
+
+	public int getRead() {
+		return read;
+	}
+
+	public void setRead(int read) {
+		this.read = read;
 	}
 
 	

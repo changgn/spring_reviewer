@@ -23,15 +23,14 @@ public class NoticeController {
 	
 	@ResponseBody
 	@RequestMapping(value="/notice/notice.do", method = RequestMethod.POST)
-	public String Comment(HttpServletResponse resp, CommentCommand command, int board_num, HttpSession session,
-				@RequestParam("comment_textarea") String content ) throws Exception{
+	public String Comment(HttpServletResponse resp, HttpSession session, String notice ) throws Exception{
 		
 		//session 에서 id값을 가지고 온다.
 		String id = (String)session.getAttribute("id");
 
 		JSONObject jso = new JSONObject();
 
-		jso.put("date", id);
+		jso.put("id", id);
 
 		resp.setContentType("text/html;charset=utf-8");
 		return jso.toString();

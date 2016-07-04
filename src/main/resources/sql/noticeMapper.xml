@@ -4,9 +4,9 @@
 
 <mapper namespace="notice">
 	<insert id="add" parameterType="command.NoticeCommand">
-		insert into notice values(#{kind},#{id},#{targetid},#{board_num})
+		insert into notice values(#{kind},#{id},#{targetid},#{board_num},sysdate,0)
 	</insert>
 	<select id="getListById" parameterType="String" resultType="command.NoticeCommand">
-		select * from notice where id=#{id}
+		select * from notice where id=#{id} ORDER BY notice_date DESC
 	</select>
 </mapper>

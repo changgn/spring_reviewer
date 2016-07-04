@@ -14,7 +14,7 @@
 	<decorator:head />
 	<script>
 		$(document).ready(function(){
-			$("#alarm").css("display","none");
+			$("#notice").css("display","none");
 			$("#user").css("display","none");
 			$(window).scroll(function(){
 				if($(window).scrollTop()>79) {
@@ -49,19 +49,37 @@
 			});	
 			
 			$("#nav, #content").click(function(){
-				$("#alarm, #user").slideUp("fast");
-				$("#alarm, #user").removeAttr("class");
+				$("#notice, #user").slideUp("fast");
+				$("#notice, #user").removeAttr("class");
 			});			
-			$(".btn_alarm_toggle").click(function(){
-				if($("#alarm").attr("class")=="selected"){
-					$("#alarm").slideUp("fast");
-					$("#alarm").removeAttr("class");
+			$(".btn_notice_toggle").click(function(){
+				if($("#notice").attr("class")=="selected"){
+					$("#notice").slideUp("fast");
+					$("#notice").removeAttr("class");
 				}
 				else {
+					//ajax
+					var url= "/notice/notice.do";
+					var params = "notice=true";
+					$.ajax({
+						type:"post"		// 포스트방식
+						,url:url		// url 주소
+						,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
+						,dataType:"json"
+						,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
+							$(".li_notice").remove();
+							
+							
+						}
+					    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+					    	alert(e.responseText);
+					    }
+					});
+					
 					$("[class='selected']").css("display","none");
 					$("[class='selected']").removeAttr("class");
-					$("#alarm").attr("class","selected");
-					$("#alarm").slideDown("fast");
+					$("#notice").attr("class","selected");
+					$("#notice").slideDown("fast");
 				}
 			});
 			$(".btn_user_toggle").click(function(){
@@ -95,8 +113,8 @@
 		<span id="main_btn">
 		
 			<c:if test="${login_status==0 || login_status==1}">
-			<a class="btn_gnb btn_alarm_toggle" href="#" onclick="event.preventDefault();">
-				<span id="btn_alarm">알림버튼</span>
+			<a class="btn_gnb btn_notice_toggle" href="#" onclick="event.preventDefault();">
+				<span id="btn_notice">알림버튼</span>
 			</a> 
 			</c:if>
 			<a class="btn_gnb" href="/search/searchForm.do">
@@ -126,13 +144,13 @@
 				</ul>
 			</div>
 		</c:if>
-	 	<div id="alarm">
-			<ul id="list_alarm" class="ul_list">
-				<li>알림1<br><a href="#">알림1</a></li>
-				<li>알림2<br><a href="#">알림2</a></li>
-				<li>알림3<br><a href="#">알림3</a></li>
-				<li>알림4<br><a href="#">알림4</a></li>
-				<li>알림5<br><a href="#">알림5</a></li>
+	 	<div id="notice">
+			<ul id="list_notice" class="ul_list">
+				<li class="li_notice">알림1<br><a href="#">알림1</a></li>
+				<li class="li_notice">알림2<br><a href="#">알림2</a></li>
+				<li class="li_notice">알림3<br><a href="#">알림3</a></li>
+				<li class="li_notice">알림4<br><a href="#">알림4</a></li>
+				<li class="li_notice">알림5<br><a href="#">알림5</a></li>
 			</ul>
 		</div> 
 

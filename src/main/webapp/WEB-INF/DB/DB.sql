@@ -108,6 +108,7 @@ CREATE TABLE notice
 	id varchar2(20),
 	targetid varchar2(20),
 	board_num number,
+	notice_date date NOT NULL,
 	read number DEFAULT 0
 );
 
