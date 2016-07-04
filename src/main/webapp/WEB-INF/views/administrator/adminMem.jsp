@@ -28,7 +28,7 @@
 		</style>
 		<link href="../css/style.css" rel="stylesheet" type="text/css">
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
-		<script>	
+		<script>			
 			$(function(){
 				$("body").on("click", ".Member_Simple_Info", function(e){
 					e.preventDefault();
@@ -101,7 +101,7 @@
 										</c:choose>
 									</td>
 									<td class="space" width="10"></td>
-									<td rowspan="9" align="right">
+									<td rowspan="9" align="right" >
 										<a id="name" href="/administrator/adminOutput.do?outId=${memberList.id}">
 											<img src="../image/memOut_con.gif" width="160" height="180" align="right">
 										</a>

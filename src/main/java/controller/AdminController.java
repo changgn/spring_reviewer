@@ -144,6 +144,13 @@ public class AdminController {
 		String id = (String)request.getSession().getAttribute("id");
 		session = request.getSession();
 		if(id.equals("admin")){
+			List<BoardCommand> bc = new ArrayList<BoardCommand>();
+			bc = boardDAO.getList();
+			for(BoardCommand bdcmd : bc){
+				if(bdcmd.getId().equals(outId)){
+					reportDAO.deleteReport(bdcmd.getBoard_num());
+				}
+			}
 			reportDAO.deleteReportById(outId);
 			memberDAO.MemberOut(outId);
 		}
