@@ -174,7 +174,7 @@ public class MemberController {
 					reportDAO.deleteReport(bdcmd.getBoard_num());
 				}
 			}
-			
+			reportDAO.deleteReportById(id);
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("id", id);
 			map.put("passwd", passwd);
