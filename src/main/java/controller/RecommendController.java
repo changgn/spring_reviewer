@@ -29,7 +29,7 @@ public class RecommendController {
 	@Autowired
 	private MemberDAO memberDao;
 	@Autowired
-	NoticeDAO noticeDao;
+	private NoticeDAO noticeDao;
 	
 	public void setMemberDao(MemberDAO memberDao) { this.memberDao = memberDao; }
 	public void setBoardDao(BoardDAO boardDao) { this.boardDao = boardDao; }

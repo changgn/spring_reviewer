@@ -70,22 +70,32 @@
 						,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
 							var view = "";
 							var noticeList = args.noticeList;
+							var dateList = args.dateList;
 							for(var idx=0; idx<noticeList.length; idx++) {
+								view += '<li class="li_notice">';
+								view += '<span class="notice_text">';
+								
+								if(noticeList[idx].kind == 'content') {
+									view += '<a href="/content/contentForm.do?board_num=' + noticeList[idx].board_num +'">' + noticeList[idx].id + '님이 새 리뷰를 작성하셨습니다.</a>';
+								}
 								if(noticeList[idx].kind == 'recommend') {
-									view += '<li class="li_notice"><a href="/content/contentForm.do?board_num=' + noticeList[idx].board_num +'">' + noticeList[idx].id + '님이 회원님의 게시물을 추천하였습니다.</a></li>';
+									view += '<a href="/content/contentForm.do?board_num=' + noticeList[idx].board_num +'">' + noticeList[idx].id + '님이 회원님의 게시물을 추천하였습니다.</a>';
 								}
 								if(noticeList[idx].kind == 'report') {
-									view += '<li class="li_notice"><a href="/content/contentForm.do?board_num=' + noticeList[idx].board_num +'">' + noticeList[idx].id + '님이 회원님의 게시물을 신고하였습니다.</a></li>';
+									view += '<a href="/content/contentForm.do?board_num=' + noticeList[idx].board_num +'">' + noticeList[idx].id + '님이 회원님의 게시물을 신고하였습니다.</a>';
 								}
 								if(noticeList[idx].kind == 'comment') {
-									view += '<li class="li_notice"><a href="/content/contentForm.do?board_num=' + noticeList[idx].board_num +'&comment=true">' + noticeList[idx].id + '님이 회원님의 게시물에 댓글을 남겼습니다.</a></li>';
+									view += '<a href="/content/contentForm.do?board_num=' + noticeList[idx].board_num +'&comment=true">' + noticeList[idx].id + '님이 회원님의 게시물에 댓글을 남겼습니다.</a>';
 								}
 								if(noticeList[idx].kind == 'follow') {
-									view += '<li class="li_notice"><a href="/profile/myProfile.do?id=' + noticeList[idx].id + '">' + noticeList[idx].id + '님이 회원님을 팔로우 하였습니다.</a></li>';
+									view += '<a href="/profile/myProfile.do?id=' + noticeList[idx].id + '">' + noticeList[idx].id + '님이 회원님을 팔로우 하였습니다.</a>';
 								}
 								if(noticeList[idx].kind == 'unfollow') {
-									view += '<li class="li_notice"><a href="/profile/myProfile.do?id=' + noticeList[idx].id + '">' + noticeList[idx].id + '님이 회원님을 언팔로우 하였습니다.</a></li>';
+									view += '<a href="/profile/myProfile.do?id=' + noticeList[idx].id + '">' + noticeList[idx].id + '님이 회원님을 언팔로우 하였습니다.</a>';
 								}
+								view += '</span>';
+								view += '<span class="notice_time">' + dateList[idx] + '</span>';
+								view += '</li>';
 							}
 							$("#list_notice").append(view);
 						}
@@ -112,6 +122,7 @@
 					$("#user").slideDown("fast");
 				}
 			});
+
 			$("#btn_newsfeed").click(function(){
 				$(location).attr("href", "/main/main.do");
 			});
@@ -121,6 +132,16 @@
 			});
 		});
 	</script>
+	<style>
+		.notice_text {
+			width: 230px;
+			overflow: hidden;
+			display : inline-block;
+		}
+		.notice_time {
+			float: right;
+		}
+	</style>
 </head>
 <body>
 	<div id="header">

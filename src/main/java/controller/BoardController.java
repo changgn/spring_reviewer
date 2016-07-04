@@ -24,6 +24,7 @@ import command.BoardCommand;
 import command.CategoryCommand;
 import command.CommentCommand;
 import command.MemberRecommendDeleteCommand;
+import command.NoticeCommand;
 import command.PhotoCommand;
 import command.RecommendCommand;
 import command.ReportCommand;
@@ -32,7 +33,9 @@ import command.SecretCommand;
 import dao.BoardDAO;
 import dao.CategoryDAO;
 import dao.CommentDAO;
+import dao.FollowDAO;
 import dao.MemberDAO;
+import dao.NoticeDAO;
 import dao.PhotoDAO;
 import dao.RecommendDAO;
 import dao.ReportDAO;
@@ -63,30 +66,22 @@ public class BoardController {
 	private ReportDAO reportDAO;
 	@Autowired
 	private MemberDAO memberDAO;
-	
-	public void setMemberDAO(MemberDAO memberDAO) {
-		this.memberDAO = memberDAO;
-	}
-	public void setReportDAO(ReportDAO reportDAO) {
-		this.reportDAO = reportDAO;
-	}
-	public void setCategorydao(CategoryDAO categorydao) {
-		this.categorydao = categorydao;
-	}
-	public void setPhotodao(PhotoDAO photodao) {
-		this.photodao = photodao;
-	}
-	public void setCommentdao(CommentDAO commentdao) {
-		this.commentdao = commentdao;
-	}
-	public void setBoarddao(BoardDAO boarddao) {
-		this.boarddao = boarddao;
-	}
+	@Autowired
+	private NoticeDAO noticeDao;
+	@Autowired
+	private FollowDAO followDao;
+
+	public void setMemberDAO(MemberDAO memberDAO) { this.memberDAO = memberDAO; }
+	public void setReportDAO(ReportDAO reportDAO) { this.reportDAO = reportDAO; }
+	public void setCategorydao(CategoryDAO categorydao) { this.categorydao = categorydao; }
+	public void setPhotodao(PhotoDAO photodao) { this.photodao = photodao; }
+	public void setCommentdao(CommentDAO commentdao) { this.commentdao = commentdao; }
+	public void setBoarddao(BoardDAO boarddao) { this.boarddao = boarddao; }
 	public void setRecommendDao(RecommendDAO recommendDao) { this.recommendDao = recommendDao; }
-	public void setSecretDao(SecretDAO secretDao) {this.secretDao = secretDao; }
-	public void setScrepDao(ScrepDAO screpDao) {
-		ScrepDao = screpDao;
-	}
+	public void setSecretDao(SecretDAO secretDao) { this.secretDao = secretDao; }
+	public void setScrepDao(ScrepDAO screpDao) { ScrepDao = screpDao; }
+	public void setNoticeDao(NoticeDAO noticeDao) { this.noticeDao = noticeDao; }
+	public void setFollowDAO(FollowDAO followDAO) { this.followDao = followDAO; }
 
 	@RequestMapping(value="write/writeForm.do", method=RequestMethod.GET)
 	public String insertboard(){
@@ -107,10 +102,15 @@ public class BoardController {
 		command.setId(id);
 		command.setCategory_id(addCategory);
 		command.setContent(boardContent);
-		boarddao.insertBoard(command);
-		
+		int n = boarddao.insertBoard(command);
 		int board_num = boarddao.getRecentBoardNumById(id).intValue();
-
+		if(n>0) {
+			List<String> followerList = followDao.fromList(id);
+			for(String follower : followerList) {
+				NoticeCommand noticeCommand = new NoticeCommand("content",id,follower,board_num);
+				noticeDao.insert(noticeCommand);
+			}
+		}
 	
 		Iterator<String> filenames = mhsq.getFileNames();
 		while (filenames.hasNext()) {
@@ -135,7 +135,7 @@ public class BoardController {
 				file.transferTo(f2);
 			}
 		}
-	/*	boarddao.insertBoard(command);*/
+		
 		return "redirect:/content/contentForm.do?board_num=" + board_num;
 	}
 
@@ -180,9 +180,6 @@ public class BoardController {
 		} else {
 			model.addAttribute("error", "error");
 		}
-
-
-		
 
 		model.addAttribute("board_num", board_num);
 		model.addAttribute("board", board);

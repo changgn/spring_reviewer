@@ -51,9 +51,9 @@ pre { white-space: pre-wrap; }
 #list_user { border-right: 1px solid #E6E6E6; border-left: 1px solid #E6E6E6; border-bottom: 1px solid #E6E6E6; background-color: white; }
 #list_user li { padding: 9px; border-top: 1px solid #E6E6E6; text-align: center; background-color: white; }
 #list_user li a { font-size: 17px; }
-#notice { display: none; position: absolute; top: 80px; right: 0px; width: 300px; height: auto; }
-#list_notice { border-right: 1px solid #E6E6E6; border-left: 1px solid #E6E6E6; border-bottom: 1px solid #E6E6E6; background-color: white; }
-#list_notice li { padding: 7px; border-top: 1px solid #E6E6E6; }
+#notice { display: none; z-index: 9998; position: absolute; top: 80px; right: 0px; width: 300px; height: auto; }
+#list_notice { border-right: 1px solid #E6E6E6; z-index: 9999; border-left: 1px solid #E6E6E6; border-bottom: 1px solid #E6E6E6; background-color: white; }
+#list_notice li { padding: 7px; z-index: 10000; border-top: 1px solid #E6E6E6; }
 #list_nav { width: 100%; height: 100%; display: inline-block; vertical-align: top; text-align: center; }
 #list_nav li { float: left; width: 50%; height: 100%; text-align: center; }
 #list_nav li div { padding-top: 10px; height: 100%; }

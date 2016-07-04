@@ -1,6 +1,7 @@
 package controller;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -13,19 +14,27 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import command.BoardCommand;
 import command.CommentCommand;
+import command.NoticeCommand;
+import dao.BoardDAO;
 import dao.CommentDAO;
+import dao.NoticeDAO;
 import net.sf.json.JSONObject;
 
 @Controller
 public class CommentController {
-	
-	@Autowired
-	CommentDAO commentdao;
 
-	public void setCommentdao(CommentDAO commentdao) {
-		this.commentdao = commentdao;
-	}
+	@Autowired
+	private BoardDAO boardDao;
+	@Autowired
+	private CommentDAO commentdao;
+	@Autowired
+	private NoticeDAO noticeDao;
+
+	public void setBoardDao(BoardDAO boardDao) { this.boardDao = boardDao; }
+	public void setCommentdao(CommentDAO commentdao) { this.commentdao = commentdao; }
+	public void setNoticeDao(NoticeDAO noticeDao) { this.noticeDao = noticeDao; }
 	
 	@ResponseBody
 	@RequestMapping(value="/content/comment.do", method = RequestMethod.POST)
@@ -37,10 +46,14 @@ public class CommentController {
 		command.setId(id);
 		command.setContent(content);
 		JSONObject jso = new JSONObject();
-		 // jason은 map구조(키,값), data라는 key(이름)로 command데이터를 주입했다.
+
 		int check = commentdao.insert(command);
 		if(check>0) {
 			System.out.println("댓글 저장 완료");
+			BoardCommand board = boardDao.selectContent(board_num);
+			String writer = board.getId();
+			NoticeCommand noticeCommand = new NoticeCommand("comment",id,writer,board_num);
+			noticeDao.insert(noticeCommand);
 		} else {
 			System.out.println("댓글 저장 실패");
 		}
