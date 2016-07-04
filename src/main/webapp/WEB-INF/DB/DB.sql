@@ -104,10 +104,11 @@ CREATE TABLE members_category
 
 CREATE TABLE notice
 (
-	kind number,
+	kind varchar2(20) NOT NULL,
 	id varchar2(20),
 	targetid varchar2(20),
-	board_num number
+	board_num number,
+	read number DEFAULT 0
 );
 
 

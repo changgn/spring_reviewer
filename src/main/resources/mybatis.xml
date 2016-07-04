@@ -36,5 +36,6 @@
 	<bean id="secretDao" class="dao.SecretDAO" p:sqlSessionFactory-ref="sqlSessionFactory" />
 	<bean id="mainDao" class="dao.MainDAO" p:sqlSessionFactory-ref="sqlSessionFactory" />
 	<bean id="reportDao" class="dao.ReportDAO" p:sqlSessionFactory-ref="sqlSessionFactory" />
+	<bean id="noticeDao" class="dao.NoticeDAO" p:sqlSessionFactory-ref="sqlSessionFactory" />
 	
 </beans> 
