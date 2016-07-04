@@ -24,7 +24,7 @@
 			
 			.Member_Detaile_Info{display: none; position: fixed; z-index: 9999;top: 0;right: 0;bottom: 0;left: 0;line-height: 100%;text-align: center;}
 			.Member_Simple_Info_Id{display: block;overflow: hidden; padding: 3px 12px;}
-			.mem_d_i{display: inline-block;position: relative;z-index: 10000;width: 430px;background-color: #fff;line-height: normal;vertical-align: middle; top:300px;}
+			.mem_d_i{display: inline-block;position: relative;z-index: 10000;width: 500px;background-color: #fff;line-height: normal;vertical-align: middle; top:300px;}
 		</style>
 		<link href="../css/style.css" rel="stylesheet" type="text/css">
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
@@ -79,25 +79,27 @@
 							<table class="mem_d_i ul_list">
 								<tr>
 									<td>
-									아이디 : ${memberList.id}
+										아이디 : ${memberList.id}
 									</td>
-									<td rowspan="6" align="right">
+									<td class="space" width="10"></td>
+									<td rowspan="8" align="right">
 										<c:choose>
 											<c:when test="${profilePhoto[memberList.id].realPath != null}">
 												<a href="/profile/myProfile.do?id=${memberList.id}">
-													<img src="${profilePhoto[memberList.id].realPath}">
+													<img src="${profilePhoto[memberList.id].realPath}" align="right">
 												</a>
 											</c:when>
 											<c:otherwise>
 												<a href="/profile/myProfile.do?id=${memberList.id}">
-													<img src="../image/default_profile.png">
+													<img src="../image/default_profile.png" align="right">
 												</a>
 											</c:otherwise>
 										</c:choose>
 									</td>
-									<td rowspan="6" align="right">
+									<td class="space" width="10"></td>
+									<td rowspan="8" align="right">
 										<a id="name" href="/administrator/adminOutput.do?outId=${memberList.id}">
-											<img src="../image/memOut_con.gif">
+											<img src="../image/memOut_con.gif" align="right">
 										</a>
 									</td>
 								</tr>
@@ -123,7 +125,22 @@
 								</tr>
 								<tr>
 									<td>
+										추천 받은 수 : ${memberList.recommend_num }
+									</td>
+								</tr>
+								<tr>
+									<td>
 										가입일시 : <fmt:formatDate value="${memberList.reg_date}" pattern="yyyy-MM-dd HH:mm"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<img src="../image/recommend_off.png" width="15" height="15"> 추천한 게시글 : ${recommendCount[memberList.id]}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<img src="../image/report.png"> 신고한 게시글 : ${reportCount[memberList.id]}
 									</td>
 								</tr>
 							</table>

@@ -31,6 +31,7 @@ import command.SecretCommand;
 import dao.BoardDAO;
 import dao.CategoryDAO;
 import dao.CommentDAO;
+import dao.MemberDAO;
 import dao.PhotoDAO;
 import dao.RecommendDAO;
 import dao.ReportDAO;
@@ -59,7 +60,12 @@ public class BoardController {
 	private ScrepDAO ScrepDao;
 	@Autowired
 	private ReportDAO reportDAO;
+	@Autowired
+	private MemberDAO memberDAO;
 	
+	public void setMemberDAO(MemberDAO memberDAO) {
+		this.memberDAO = memberDAO;
+	}
 	public void setReportDAO(ReportDAO reportDAO) {
 		this.reportDAO = reportDAO;
 	}
@@ -197,7 +203,7 @@ public class BoardController {
 		if(id.equals(writer) || login_status.equals("0")) { 
 			boarddao.deleteContent(Integer.parseInt(board_num));
 			reportDAO.deleteReport(Integer.parseInt(board_num));
-			recommendDao.deleteRecommendByBoardDelete(Integer.parseInt(board_num));
+			memberDAO.updateDecreaseRecommendNum(writer);
 		} else {
 			model.addAttribute("errorId", "errorId");
 		}
