@@ -15,8 +15,12 @@ public class ReportDAO extends SqlSessionDaoSupport{
 		return getSqlSession().selectOne("report.getReportCountById", id);
 	}
 	
-	/**	게시글 삭제 시 해당 게시글의 신고 삭제	*/
+	/**	신고 테이블 해당 board_num 데이터 삭제 BY 게시글 삭제	*/
 	public int deleteReport(int board_num){
 		return getSqlSession().delete("report.delete", board_num);
+	}
+	/**	신고 테이블 해당 ID 데이터 삭제 BY 게시글 삭제	*/
+	public int deleteReportById(String id){
+		return getSqlSession().delete("report.deleteById", id);
 	}
 }

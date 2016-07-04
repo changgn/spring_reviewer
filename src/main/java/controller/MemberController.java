@@ -1,6 +1,8 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +16,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import dao.BoardDAO;
 import dao.MemberDAO;
+import dao.ReportDAO;
+import command.BoardCommand;
 import command.MemberCommand;
 
 
@@ -23,8 +28,17 @@ public class MemberController {
 
 	@Autowired
 	private MemberDAO memberDao;
-
+	@Autowired
+	private ReportDAO reportDAO;
+	@Autowired
+	private BoardDAO boardDAO;
 	
+	public void setBoardDAO(BoardDAO boardDAO) {
+		this.boardDAO = boardDAO;
+	}
+	public void setReportDAO(ReportDAO reportDAO) {
+		this.reportDAO = reportDAO;
+	}
 	public void setMemberDao(MemberDAO memberDao) {
 		this.memberDao = memberDao;
 	}
@@ -153,6 +167,13 @@ public class MemberController {
 		String SavePasswd = memberDao.getPasswdById(id);
 		
 		if (passwd.equals(SavePasswd)) {
+			List<BoardCommand> bc = new ArrayList<BoardCommand>();
+			bc = boardDAO.getList();
+			for(BoardCommand bdcmd : bc){
+				if(bdcmd.getId().equals(id)){
+					reportDAO.deleteReport(bdcmd.getBoard_num());
+				}
+			}
 			
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("id", id);

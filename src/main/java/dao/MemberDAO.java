@@ -126,7 +126,7 @@ public class MemberDAO extends SqlSessionDaoSupport{
 	public int updateDecreaseRecommendNum(String id){
 		return getSqlSession().update("member.updateDecreaseRecommendNum", id);
 	}
-	
+	/**	추천수 변경 By 게시글 삭제	*/
 	public int updateDecreaseRecommendNumByDeleteBoard(MemberRecommendDeleteCommand mrdc){
 		return getSqlSession().update("member.updateDecreaseRecommendNumByDeleteBoard", mrdc);
 	}

@@ -143,6 +143,7 @@ public class FollowProcController {
 	}
 	
 	/**	팔로잉 상세에서 팔로우 처리	*/
+	@ResponseBody
 	@RequestMapping("/follow/followingAdd.do")
 	public String addFollowing(HttpServletRequest request, HttpServletResponse reponse,  String profileId, String add_id,String follow, Model model){
 		JSONObject jso = new JSONObject();

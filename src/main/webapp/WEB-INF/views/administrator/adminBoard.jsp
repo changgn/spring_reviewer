@@ -16,16 +16,8 @@
 			.tab li.on { background-color:#eee; color:#f00; }
 			.tab_con { clear:both; margin-top:50px auto; border:1px solid #ddd;}
 			.tab_con div { display:none; height:100%; background:#fff; line-height:100px; text-align:center;}
-			.list{
-				margin-top: 20px;
-				margin: auto;
-				border-bottom: solid 1px;
-				border-bottom-color: #f6f6f6;
-				text-align: center;
-				padding : 7px;
-				color: #4c4c4c;
-				font-size: 14px;
-			}
+			.list{ margin-top: 20px; margin: auto; border-bottom: solid 1px; border-bottom-color: #f6f6f6; text-align: center;
+				padding : 7px; color: #4c4c4c; font-size: 14px; }
 		</style>
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 		<script>
@@ -42,7 +34,6 @@
 			$(function () {	
 				tab('#tab',0);
 			});
-	
 			function tab(e, num){
 			    var num = num || 0;
 			    var menu = $(e).children();
@@ -66,8 +57,6 @@
 			        con.eq(i).show();
 			    });
 			}
-			
-			
 		</script>
 	</head>
 	<body>
@@ -76,8 +65,7 @@
     		<li>신고 받은 게시글</li>
     		<li>추천 받은 게시글</li>	
 		</ul>
-		<div style="height: 5%;">
-		</div>
+		<div style="height: 5%;"></div>
 		<div class="tab_con" id="tab_con">
     		<div id="board">
     			<c:forEach var="board" items="${boardList}"> 
@@ -174,7 +162,6 @@
 				</c:forEach>
     		</div>
 		</div>
-		<div style="height: 5%;">
-		</div>
+		<div style="height: 5%;"></div>
 	</body>
 </html>

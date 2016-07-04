@@ -144,6 +144,7 @@ public class AdminController {
 		String id = (String)request.getSession().getAttribute("id");
 		session = request.getSession();
 		if(id.equals("admin")){
+			reportDAO.deleteReportById(outId);
 			memberDAO.MemberOut(outId);
 		}
 		return "administrator/adminOutput";

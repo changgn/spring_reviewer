@@ -11,8 +11,12 @@
 	<select id="getReportCountById" parameterType="java.lang.String" resultType="java.lang.Integer">
 		select count(report_num) from report where id=#{id}
 	</select>
-	<!-- 해당 신고 게시글 삭제 -->
+	<!-- 신고 테이블 변경 By 게시글 삭제-->
 	<delete id="delete" parameterType="java.lang.Integer">
 		delete from report where report_num=#{board_num}
+	</delete>
+	<!-- 신고 테이블 변경 By 회원 탈퇴 -->
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from report where id=#{id}
 	</delete>
 </mapper>
