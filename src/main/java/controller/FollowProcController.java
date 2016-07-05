@@ -7,26 +7,27 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.poi.util.SystemOutLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import command.FollowCommand;
+import command.NoticeCommand;
 import dao.FollowDAO;
+import dao.NoticeDAO;
 import net.sf.json.JSONObject;
 
 @Controller
 public class FollowProcController {
 	@Autowired
 	private FollowDAO followDAO;
-	public void setFollowDAO(FollowDAO followDAO) {
-		this.followDAO = followDAO;
-	}
+	@Autowired
+	private NoticeDAO noticeDao;
+	
+	public void setFollowDAO(FollowDAO followDAO) { this.followDAO = followDAO; }
+	public void setNoticeDao(NoticeDAO noticeDao) { this.noticeDao = noticeDao; }
 
 	@ResponseBody
 	@RequestMapping("/follow/follow.do")
@@ -44,6 +45,16 @@ public class FollowProcController {
 				FollowCommand followVo = new FollowCommand(from_id, to_id);
 				int n = followDAO.followInsert(followVo);
 				if(n>0) {
+					NoticeCommand noticeCommand = new NoticeCommand();
+					noticeCommand.setKind("follow");
+					noticeCommand.setId(from_id);
+					noticeCommand.setTargetid(to_id);
+					List<NoticeCommand> noticeList = noticeDao.getListByMember(noticeCommand);
+					if(noticeList.size() != 0) {
+						noticeDao.removeByMember(noticeCommand);
+					}
+					noticeDao.insert2(noticeCommand);
+					
 					model.addAttribute("followCheck", false);
 					System.out.println(from_id + "가" + to_id + "팔로우"); 
 				} else {
@@ -54,6 +65,16 @@ public class FollowProcController {
 				FollowCommand followVo = new FollowCommand(from_id, to_id);
 				int n = followDAO.remove(followVo);
 				if(n>0) {
+					NoticeCommand noticeCommand = new NoticeCommand();
+					noticeCommand.setKind("unfollow");
+					noticeCommand.setId(from_id);
+					noticeCommand.setTargetid(to_id);
+					List<NoticeCommand> noticeList = noticeDao.getListByMember(noticeCommand);
+					if(noticeList.size() != 0) {
+						noticeDao.removeByMember(noticeCommand);
+					}
+					noticeDao.insert2(noticeCommand);
+
 					model.addAttribute("followCheck", true);
 					System.out.println(from_id + "가" + to_id + "언팔로우");
 				} else {
@@ -85,6 +106,16 @@ public class FollowProcController {
 				FollowCommand followVo = new FollowCommand(from_id, add_id);	/**	formId - toId	*/
 				int n = followDAO.followInsert(followVo); /**	팔로우 등록 처리	*/
 				if(n>0) {	/**	성공	*/
+					NoticeCommand noticeCommand = new NoticeCommand();
+					noticeCommand.setKind("follow");
+					noticeCommand.setId(from_id);
+					noticeCommand.setTargetid(add_id);
+					List<NoticeCommand> noticeList = noticeDao.getListByMember(noticeCommand);
+					if(noticeList.size() != 0) {
+						noticeDao.removeByMember(noticeCommand);
+					}
+					noticeDao.insert2(noticeCommand);
+					
 					System.out.println(from_id + "가" + add_id + "팔로우"); 
 					
 				} else {	/**	실패	*/
@@ -95,6 +126,16 @@ public class FollowProcController {
 				FollowCommand followVo = new FollowCommand(from_id, add_id);
 				int n = followDAO.remove(followVo);
 				if(n>0) {
+					NoticeCommand noticeCommand = new NoticeCommand();
+					noticeCommand.setKind("unfollow");
+					noticeCommand.setId(from_id);
+					noticeCommand.setTargetid(add_id);
+					List<NoticeCommand> noticeList = noticeDao.getListByMember(noticeCommand);
+					if(noticeList.size() != 0) {
+						noticeDao.removeByMember(noticeCommand);
+					}
+					noticeDao.insert2(noticeCommand);
+					
 					System.out.println(from_id + "가" + add_id + "언팔로우");
 				} else {
 					System.out.println("언팔로우 실패");
@@ -113,7 +154,7 @@ public class FollowProcController {
 					from_id_list.remove(from_id);
 				}
 			}
-			Map map = new HashMap();
+			Map<String, Object> map = new HashMap<String, Object>();
 			if( to_id_list != null ) {	/**	팔로잉 목록이 있다	*/
 				/**	false 값으로 초기화	*/
 				for( String follower : from_id_list ) {	
@@ -184,7 +225,7 @@ public class FollowProcController {
 				}
 			}
 			
-			Map map = new HashMap();
+			Map<String, Object> map = new HashMap<String, Object>();
 			if(my_to_id_list!=null){	/**	나의 팔로잉목록이 있다면	*/
 				/**	false 값으로 초기화	*/
 				for(String following : my_to_id_list){

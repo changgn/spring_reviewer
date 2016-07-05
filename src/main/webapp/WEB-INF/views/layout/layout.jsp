@@ -141,7 +141,7 @@
 	</script>
 	<style>
 		.notice_text {
-			width: 230px;
+			width: 225px;
 			overflow: hidden;
 			display : inline-block;
 		}

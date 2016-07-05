@@ -6,13 +6,22 @@
 	<insert id="add" parameterType="command.NoticeCommand">
 		insert into notice values(#{kind},#{id},#{targetid},#{board_num},0,sysdate)
 	</insert>
+	<insert id="add2" parameterType="command.NoticeCommand">
+		insert into notice values(#{kind},#{id},#{targetid},null,0,sysdate)
+	</insert>
 	<delete id="removeByBoard" parameterType="command.NoticeCommand">
 		delete from notice where kind=#{kind} AND id=#{id} AND targetid=#{targetid} AND board_num=#{board_num}
+	</delete>
+	<delete id="removeByMember" parameterType="command.NoticeCommand">
+		delete from notice where kind=#{kind} AND id=#{id} AND targetid=#{targetid}
 	</delete>
 	<select id="getListById" parameterType="String" resultType="command.NoticeCommand">
 		select * from notice where targetid=#{id} ORDER BY notice_date DESC
 	</select>
 	<select id="getListByBoard" parameterType="command.NoticeCommand" resultType="command.NoticeCommand">
 		select * from notice where kind=#{kind} AND id=#{id} AND targetid=#{targetid} AND board_num=#{board_num}
+	</select>
+	<select id="getListByMember" parameterType="command.NoticeCommand" resultType="command.NoticeCommand">
+		select * from notice where kind=#{kind} AND id=#{id} AND targetid=#{targetid}
 	</select>
 </mapper>
