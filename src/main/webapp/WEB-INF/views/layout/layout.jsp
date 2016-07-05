@@ -143,17 +143,6 @@
 			});
 		});
 	</script>
-	<style>
-		.notice_text {
-			width: 225px;
-			overflow: hidden;
-			display : inline-block;
-		}
-		.notice_time {
-			float: right;
-			display : inline-block;
-		}
-	</style>
 </head>
 <body>
 	<div id="header">
