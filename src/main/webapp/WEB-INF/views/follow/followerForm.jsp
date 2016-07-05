@@ -15,7 +15,7 @@
 				font-size: 40px; 
 				color: #4C4C4C;
 			}
-			#followerList{
+			.follower{
 				max-width: 300px;
 				min-width: 200px; 
 				margin: 5px auto; 
@@ -31,7 +31,8 @@
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 		<script>
 		$(function(){
-			$(".follow_button").click(function(event){
+			$("#followList").on("click", ".follow_button", function(e){
+			/* $(".follow_button").click(function(event){ */
 				event.preventDefault();
 				var url= "/follow/followerAdd.do";
 				var params = "profileId=" + "${profileId}";
@@ -44,19 +45,20 @@
 					,dataType:"json"
 					,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
 						var follow = args.follow;
+						var id = args.id;
+						var select = $(".follow_image_"+id);
 						if(follow == 'follow'){
 							$(".follow_button").attr("id", "unfollow");
-							$("#follow_image").attr("src", "../image/icon_36.png");
+							select.attr("src", "../image/icon_36.png");
 						} else{
 							$(".follow_button").attr("id", "follow");
-							$("#follow_image").attr("src", "../image/icon_35.png");
+							select.attr("src", "../image/icon_35.png");
 						}
 					}
 				    ,error:function(event) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
 				    	alert("다시 한번 눌러주세요");
 				    }
 				});
-				location.reload(true);
 			});
 		});
 		</script>
@@ -67,24 +69,26 @@
 			 <a id="name" href="/profile/myProfile.do?id=${profileId}">${profileId}</a>
 			 팔로워 리스트
 		</div>
-		<c:forEach items="${fromList}" var="fromId">
-			<div id="followerList" align="center">
-				<a id="name" href="/profile/myProfile.do?id=${fromId}">${fromId}</a>
-				<c:if test="${logId ne fromId && logId ne null}">
-					<c:choose>
-						<c:when test="${followCheck[fromId] eq true}">
-							<a id="unfollow" class="follow_button" name="${fromId}" href="/follow/followerAdd.do?follow=unfollow&profileId=${profileId}&add_id=${fromId}">
-								<img class="follow_image" src="../image/icon_36.png" align="right">
-							</a>
-						</c:when>
-						<c:otherwise ><!-- test="${followCheck[fromId] eq false}" -->
-							<a id="follow" class="follow_button" name="${fromId}" href="/follow/followerAdd.do?follow=follow&profileId=${profileId}&add_id=${fromId}">
-								<img class="follow_image" src="../image/icon_35.png" align="right">
-							</a>
-						</c:otherwise>
-					</c:choose>
-				</c:if>
-			</div>
-		</c:forEach>
+		<div id="followList">
+			<c:forEach items="${fromList}" var="fromId">
+				<div id="follower_${fromId}" class="follower">
+					<a id="name" href="/profile/myProfile.do?id=${fromId}">${fromId}</a>
+					<c:if test="${logId ne fromId && logId ne null}">
+						<c:choose>
+							<c:when test="${followCheck[fromId] eq true}">
+								<a id="unfollow" class="follow_button" name="${fromId}" href="/follow/followerAdd.do?follow=unfollow&profileId=${profileId}&add_id=${fromId}">
+									<img class="follow_image_${fromId}" src="../image/icon_36.png" align="right">
+								</a>
+							</c:when>
+							<c:otherwise ><!-- test="${followCheck[fromId] eq false}" -->
+								<a id="follow" class="follow_button" name="${fromId}" href="/follow/followerAdd.do?follow=follow&profileId=${profileId}&add_id=${fromId}">
+									<img class="follow_image_${fromId}" src="../image/icon_35.png" align="right">
+								</a>
+							</c:otherwise>
+						</c:choose>
+					</c:if>
+				</div>
+			</c:forEach>
+		</div>
 	</body>
 </html>
