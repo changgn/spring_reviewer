@@ -217,9 +217,9 @@ $(function(){
 		<div class="content_first">	
 			<div class="cont_writer">
 				<c:if test="${profilePhoto.realPath != null}">
-				<a href="/profile/myProfile.do?id=${board.board.id}" class="profile_photo">
+				<a href="/profile/myProfile.do?id=${board.id}" class="profile_photo">
 					<span class="profile_thumb">
-	                    <img src="${board.profilePhoto.realPath}">
+	                    <img src="${profilePhoto.realPath}">
 	                    <span class="profile_thumb_mask"></span>
                		</span>
 				</a>
