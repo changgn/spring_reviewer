@@ -81,15 +81,17 @@ public class MainController {
 		}
 		
 		Cookie[] cookies = request.getCookies();
-		for(int i=0; i<cookies.length; i++) {
-			if(cookies[i].getName().equals("autoLogin")) {
-				request.getSession().setAttribute("id", cookies[i].getValue());
-				request.getSession().setAttribute("login_status", "1");
-				id = cookies[i].getValue();
-				login_status = "1";
-				if(cookies[i].getValue().equals("admin")) {
-					request.getSession().setAttribute("login_status", "0");
-					login_status = "0";
+		if(cookies!=null) {
+			for(int i=0; i<cookies.length; i++) {
+				if(cookies[i].getName().equals("autoLogin")) {
+					request.getSession().setAttribute("id", cookies[i].getValue());
+					request.getSession().setAttribute("login_status", "1");
+					id = cookies[i].getValue();
+					login_status = "1";
+					if(cookies[i].getValue().equals("admin")) {
+						request.getSession().setAttribute("login_status", "0");
+						login_status = "0";
+					}
 				}
 			}
 		}

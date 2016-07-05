@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,23 +33,25 @@ public class FollowFormController {
 		/**	프로필 페이지 ID	*/
 		mav.addObject("profileId", to_id);
 		/**	프로필페이지 ID의 팔로워 목록	*/
-		List<String> from_id_list = followDAO.fromList(to_id);
+		List<String> from_id_list = null;
+		from_id_list = followDAO.fromList(to_id);
 		mav.addObject("fromList", from_id_list);
 		System.out.println(to_id+"의 팔로워 목록 : "+from_id_list);
 		if( from_id != null ) {	/**	로그인 아이디가 있다.	*/
 			if(from_id.equals(to_id)){
 				if(from_id_list.contains(to_id)){
-					if(from_id_list.remove(from_id));
+					from_id_list.remove(from_id);
 				}
 			}
-			List<String> to_id_list = followDAO.toList(from_id);	/**	나의 팔로잉 목록	*/
+			List<String> to_id_list = new ArrayList<String>();
+			to_id_list = followDAO.toList(from_id);	/**	나의 팔로잉 목록	*/
 			System.out.println(from_id+"의 팔로잉 목록 : " + to_id_list);
 			Map map = new HashMap();
-			if( to_id_list != null ) {	/**	팔로잉 목록이 있다	*/
+			if( to_id_list != null ) {
 				/**	false 값으로 초기화	*/
 				for( String follower : from_id_list ) {	
 					for(String following : to_id_list){	
-							map.put(follower, false);
+						map.put(follower, false);
 					}
 				}
 				/**	팔로잉목록과 비교하여 있을 경우만 true값으로 저장	*/

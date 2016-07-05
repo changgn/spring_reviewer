@@ -94,12 +94,13 @@ public class FollowProcController {
 	/**	팔로워 상세에서 팔로우 처리	*/
 	@ResponseBody
 	@RequestMapping("/follow/followerAdd.do")
-	public String addFollower(HttpServletRequest request, HttpServletResponse reponse, String profileId,  String add_id, String follow, Model model){
+	public String addFollower(HttpServletRequest request, HttpServletResponse reponse, String profileId, String add_id, String follow, Model model){
 		JSONObject jso = new JSONObject();
 		/**	나의 팔로잉 목록	*/
 		String from_id = (String)request.getSession().getAttribute("id");	/**	로그인 Id	*/
 		System.out.println("로그인 ID : " + from_id);
 		System.out.println("추기 또는 삭제 ID  : " + add_id);
+		Map<String, Object> map = new HashMap<String, Object>();
 		
 		if(from_id!=null) {	/**	로그인 Id가 있다	*/
 			if(follow.equals("follow")){ /**	팔로우와 같다면	*/
@@ -115,9 +116,9 @@ public class FollowProcController {
 						noticeDao.removeByMember(noticeCommand);
 					}
 					noticeDao.insert2(noticeCommand);
-					
+					map.put(add_id, true);
+					model.addAttribute("followCheck", map);
 					System.out.println(from_id + "가" + add_id + "팔로우"); 
-					
 				} else {	/**	실패	*/
 					System.out.println("팔로우 실패");
 				}
@@ -135,49 +136,17 @@ public class FollowProcController {
 						noticeDao.removeByMember(noticeCommand);
 					}
 					noticeDao.insert2(noticeCommand);
-					
+					map.put(add_id, false);
+					model.addAttribute("followCheck", map);
 					System.out.println(from_id + "가" + add_id + "언팔로우");
 				} else {
 					System.out.println("언팔로우 실패");
 				}
 			}
 		}
-		
-		/**	어떤 Id의 팔로워 목록	*/
-		List<String> from_id_list = followDAO.fromList(profileId);
-		System.out.println(profileId+"의 팔로워 목록 : "+from_id_list);
-		if( from_id != null ) {	/**	로그인 아이디가 있다.	*/
-			List<String> to_id_list = followDAO.toList(from_id);	/**	나의 팔로잉 목록	*/
-			System.out.println(from_id+"의 팔로잉 목록 : " + to_id_list);
-			if(from_id_list != null && from_id!=null){
-				if(from_id_list.contains(from_id)){
-					from_id_list.remove(from_id);
-				}
-			}
-			Map<String, Object> map = new HashMap<String, Object>();
-			if( to_id_list != null ) {	/**	팔로잉 목록이 있다	*/
-				/**	false 값으로 초기화	*/
-				for( String follower : from_id_list ) {	
-					for(String following : to_id_list){	
-							map.put(follower, false);
-					}
-				}
-				/**	팔로잉목록과 비교하여 있을 경우만 true값으로 저장	*/
-				for( String follower : from_id_list ) {	
-					for(String following : to_id_list){	
-						if(following.equals(follower)){
-							map.put(follower, true);	
-						}
-					}
-				}
-			}else{
-				for(String follower : from_id_list){
-					map.put(follower, false);
-				}
-			}
-			model.addAttribute("followCheck", map);
-			System.out.println("팔로워 상태값:"+map);
-		}
+//		model.addAttribute("followCheck", map);
+		System.out.println("팔로워 상태값:"+map);
+		jso.put("id", add_id);
 		jso.put("follow", follow);
 		reponse.setContentType("text/html;charset=utf-8");
 		return jso.toString();
@@ -188,16 +157,29 @@ public class FollowProcController {
 	@RequestMapping("/follow/followingAdd.do")
 	public String addFollowing(HttpServletRequest request, HttpServletResponse reponse,  String profileId, String add_id,String follow, Model model){
 		JSONObject jso = new JSONObject();
+		Map<String, Object> map = new HashMap<String, Object>();
 		/**	로그인 아이디	*/
 		String loginId = (String)request.getSession().getAttribute("id");
-		
-		System.out.println("팔로우 하는, 팔로우 당하는 : " + loginId + add_id);
+		System.out.println("로그인 ID : " + loginId);
+		System.out.println("추기 또는 삭제 ID  : " + add_id);
 		
 		if(loginId!=null) {
 			if(follow.equals("follow")){
 				FollowCommand followVo = new FollowCommand(loginId, add_id);	/**	formId - toId	*/
 				int n = followDAO.followInsert(followVo);
 				if(n>0) {	
+					NoticeCommand noticeCommand = new NoticeCommand();
+					noticeCommand.setKind("follow");
+					noticeCommand.setId(loginId);
+					noticeCommand.setTargetid(add_id);
+					List<NoticeCommand> noticeList = noticeDao.getListByMember(noticeCommand);
+					if(noticeList.size() != 0) {
+						noticeDao.removeByMember(noticeCommand);
+					}
+					noticeDao.insert2(noticeCommand);
+					
+					map.put(add_id, true);
+					model.addAttribute("followCheck", map);
 					System.out.println(loginId + "가" + add_id + "팔로우"); 
 				} else {	
 					System.out.println("팔로우 실패");
@@ -207,47 +189,32 @@ public class FollowProcController {
 				FollowCommand followVo = new FollowCommand(loginId, add_id);
 				int n = followDAO.remove(followVo);
 				if(n>0) {
-					System.out.println(loginId + "가" + add_id + "를 언팔로우");
+					NoticeCommand noticeCommand = new NoticeCommand();
+					noticeCommand.setKind("unfollow");
+					noticeCommand.setId(loginId);
+					noticeCommand.setTargetid(add_id);
+					List<NoticeCommand> noticeList = noticeDao.getListByMember(noticeCommand);
+					if(noticeList.size() != 0) {
+						noticeDao.removeByMember(noticeCommand);
+					}
+					noticeDao.insert2(noticeCommand);
+					
+					map.put(add_id, false);
+					model.addAttribute("followCheck", map);
+					System.out.println(loginId + "가" + add_id + "언팔로우");
+					if(loginId.equals(profileId)){
+						List<String> to_id_list = followDAO.toList(profileId);
+						to_id_list.remove(add_id);
+						jso.put("toIdList", to_id_list);
+						jso.put("myPofile", true);
+					}
 				} else {
 					System.out.println("언팔로우 실패");
 				}
 			}
 		}
-		List<String> to_id_list = followDAO.toList(profileId);	/**	Id의 팔로잉 목록 조회	*/
-		System.out.println(profileId+"의 팔로잉 목록 : "+to_id_list);
-		if(loginId!=null){
-			List<String> my_to_id_list = followDAO.toList(loginId);	/**	나의 팔로잉 목록	*/
-			System.out.println(loginId+"의 팔로잉 목록 : " + to_id_list);
-			
-			if(to_id_list != null && loginId!=null){
-				if(to_id_list.contains(loginId)){
-					to_id_list.remove(loginId);
-				}
-			}
-			
-			Map<String, Object> map = new HashMap<String, Object>();
-			if(my_to_id_list!=null){	/**	나의 팔로잉목록이 있다면	*/
-				/**	false 값으로 초기화	*/
-				for(String following : my_to_id_list){
-					for(String tofollowing : to_id_list){	
-						map.put(tofollowing, false);
-					}
-				}
-				/**	팔로잉목록과 비교하여 있을 경우만 true값으로 전환	*/
-				for(String following : my_to_id_list){
-					for(String tofollowing : to_id_list){
-						if(tofollowing.equals(following)){
-							map.put(tofollowing, true);	
-						}
-					}
-				}
-			}else{
-				for(String tofollowing : to_id_list){
-					map.put(tofollowing, false);
-				}
-			}
-			System.out.println("팔로우 상태값 "+ map);
-		}
+		System.out.println("팔로워 상태값:"+map);
+		jso.put("id", add_id);
 		jso.put("follow", follow);
 		reponse.setContentType("text/html;charset=utf-8");
 		return jso.toString();
