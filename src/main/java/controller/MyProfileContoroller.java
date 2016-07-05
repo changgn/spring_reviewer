@@ -22,6 +22,7 @@ import dao.FollowDAO;
 import dao.MainDAO;
 import dao.MemberCategoryDAO;
 import dao.PhotoDAO;
+import dao.ProfilePhotoDAO;
 import dao.RecommendDAO;
 import dao.ScrepDAO;
 import net.sf.json.JSONObject;
@@ -30,6 +31,7 @@ import command.CategoryCommand;
 import command.MemberCategoryCommand;
 import command.MemberCommand;
 import command.PhotoCommand;
+import command.ProfilePhotoCommand;
 import command.RecommendCommand;
 import command.ScrepCommand;
 @Controller
@@ -51,29 +53,20 @@ public class MyProfileContoroller {
 	private RecommendDAO recommendDao;
 	@Autowired
 	private MainDAO mainDao;
+	@Autowired
+	private ProfilePhotoDAO ProfilePhotoDao;
 	
 	//DAO 초기화
-	public void setCategoryDao(CategoryDAO categoryDao) {
-		this.categoryDao = categoryDao;
-	}
-	public void setCommentDao(CommentDAO commentDao) {
-		this.commentDao = commentDao;
-	}
-	public void setFollowDao(FollowDAO followDao) {
-		this.followDao = followDao;
-	}
-	public void setMemberCategoryDao(MemberCategoryDAO memberCategoryDao) {
-		MemberCategoryDao = memberCategoryDao;
-	}
-	public void setPhotoDao(PhotoDAO photoDao) {
-		PhotoDao = photoDao;
-	}
-	public void setScrepDao(ScrepDAO screpDao) {
-		ScrepDao = screpDao;
-	}
+	public void setCategoryDao(CategoryDAO categoryDao) { this.categoryDao = categoryDao; }
+	public void setCommentDao(CommentDAO commentDao) { this.commentDao = commentDao; }
+	public void setFollowDao(FollowDAO followDao) { this.followDao = followDao; }
+	public void setMemberCategoryDao(MemberCategoryDAO memberCategoryDao) { MemberCategoryDao = memberCategoryDao; }
+	public void setPhotoDao(PhotoDAO photoDao) { PhotoDao = photoDao; }
+	public void setScrepDao(ScrepDAO screpDao) { ScrepDao = screpDao; }
 	public void setMainDao(MainDAO mainDao) { this.mainDao = mainDao; }
 	public void setRecommendDao(RecommendDAO recommendDao) { this.recommendDao = recommendDao; }
-	
+	public void setProfilePhotoDao(ProfilePhotoDAO profilePhotoDao) { ProfilePhotoDao = profilePhotoDao; }
+
 	//Command Model view 설정
 	@ModelAttribute("screpCommand")
 	public MemberCommand getMember(){
@@ -143,9 +136,6 @@ public class MyProfileContoroller {
 				}
 			}
 			model.addAttribute("followCheck", followCheck);
-			
-			
-		
 		}
 		
 		//게시글 가져오기
@@ -161,6 +151,7 @@ public class MyProfileContoroller {
 				for(BoardCommand Command : boardList) {
 					HashMap<String, Object> boardMap = new HashMap<String, Object>();
 					PhotoCommand photo = PhotoDao.getOneByBoardNum(Command.getBoard_num());
+					ProfilePhotoCommand profilePhoto = ProfilePhotoDao.getOneById(Command.getId());
 					CategoryCommand category = categoryDao.getOne(Command.getCategory_id());
 					String commentCount=commentDao.getCountByBoardNum(Command.getBoard_num());
 					if(commentCount==null)	commentCount="0";
@@ -190,6 +181,7 @@ public class MyProfileContoroller {
 					}
 					boardMap.put("board", Command);
 					boardMap.put("photo", photo);
+					boardMap.put("profilePhoto", profilePhoto);
 					boardMap.put("category", category);
 					boardMap.put("commentCount", commentCount);
 					boardMap.put("contentFlag", contentFlag);
@@ -230,6 +222,7 @@ public class MyProfileContoroller {
 				for(BoardCommand Command : boardList) {
 					HashMap<String, Object> boardMap = new HashMap<String, Object>();
 					PhotoCommand photo = PhotoDao.getOneByBoardNum(Command.getBoard_num());
+					ProfilePhotoCommand profilePhoto = ProfilePhotoDao.getOneById(Command.getId());
 					CategoryCommand category = categoryDao.getOne(Command.getCategory_id());
 					String commentCount=commentDao.getCountByBoardNum(Command.getBoard_num());
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -262,6 +255,7 @@ public class MyProfileContoroller {
 					}
 					boardMap.put("board", Command);
 					boardMap.put("photo", photo);
+					boardMap.put("profilePhoto", profilePhoto);
 					boardMap.put("category", category);
 					boardMap.put("commentCount", commentCount);
 					boardMap.put("contentFlag", contentFlag);
