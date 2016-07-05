@@ -2,6 +2,7 @@ package dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
@@ -29,7 +30,13 @@ public class CommentDAO extends SqlSessionDaoSupport{
 		return getSqlSession().delete("comment.removeByCommentNum", board_num);
 	}
 	
+	public List<CommentCommand> getCommentByNum(Integer comment_num){
+		
+		return getSqlSession().selectOne("comment.getCommentByNum",comment_num);
+	}
+	
 	public List<CommentCommand> updateByCommentNum(HashMap<String, Object> map) {
+		
 		return getSqlSession().selectList("comment.updateByCommentNum", map);
 	}
 	

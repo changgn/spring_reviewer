@@ -113,6 +113,9 @@ public class CommentController {
 			map.put("content",content);
 			map.put("comment_num",comment_num);
 			commentdao.updateByCommentNum(map);
+			System.out.println(command.getContent());
+			System.out.println(command.getId());
+			System.out.println(command.getBoard_num());
 		} else {
 			return "redirect:/content/contentForm.do?board_num=" + board_num + "&comment=true&errorId=error";
 		}
