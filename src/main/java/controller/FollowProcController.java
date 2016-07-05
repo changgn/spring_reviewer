@@ -146,7 +146,6 @@ public class FollowProcController {
 		}
 //		model.addAttribute("followCheck", map);
 		System.out.println("팔로워 상태값:"+map);
-		jso.put("followCheck", map);
 		jso.put("id", add_id);
 		jso.put("follow", follow);
 		reponse.setContentType("text/html;charset=utf-8");
@@ -169,6 +168,16 @@ public class FollowProcController {
 				FollowCommand followVo = new FollowCommand(loginId, add_id);	/**	formId - toId	*/
 				int n = followDAO.followInsert(followVo);
 				if(n>0) {	
+					NoticeCommand noticeCommand = new NoticeCommand();
+					noticeCommand.setKind("follow");
+					noticeCommand.setId(loginId);
+					noticeCommand.setTargetid(add_id);
+					List<NoticeCommand> noticeList = noticeDao.getListByMember(noticeCommand);
+					if(noticeList.size() != 0) {
+						noticeDao.removeByMember(noticeCommand);
+					}
+					noticeDao.insert2(noticeCommand);
+					
 					map.put(add_id, true);
 					model.addAttribute("followCheck", map);
 					System.out.println(loginId + "가" + add_id + "팔로우"); 
@@ -180,16 +189,31 @@ public class FollowProcController {
 				FollowCommand followVo = new FollowCommand(loginId, add_id);
 				int n = followDAO.remove(followVo);
 				if(n>0) {
+					NoticeCommand noticeCommand = new NoticeCommand();
+					noticeCommand.setKind("unfollow");
+					noticeCommand.setId(loginId);
+					noticeCommand.setTargetid(add_id);
+					List<NoticeCommand> noticeList = noticeDao.getListByMember(noticeCommand);
+					if(noticeList.size() != 0) {
+						noticeDao.removeByMember(noticeCommand);
+					}
+					noticeDao.insert2(noticeCommand);
+					
 					map.put(add_id, false);
 					model.addAttribute("followCheck", map);
 					System.out.println(loginId + "가" + add_id + "언팔로우");
+					if(loginId.equals(profileId)){
+						List<String> to_id_list = followDAO.toList(profileId);
+						to_id_list.remove(add_id);
+						jso.put("toIdList", to_id_list);
+						jso.put("myPofile", true);
+					}
 				} else {
 					System.out.println("언팔로우 실패");
 				}
 			}
 		}
 		System.out.println("팔로워 상태값:"+map);
-		jso.put("followCheck", map);
 		jso.put("id", add_id);
 		jso.put("follow", follow);
 		reponse.setContentType("text/html;charset=utf-8");

@@ -46,12 +46,19 @@
 						var follow = args.follow;
 						var id = args.id;
 						var select = $("#follow_image_"+id);
+						var myPofile = args.myPofile;
 						if(follow == 'follow'){
 							$(".follow_button").attr("id", "unfollow");
 							select.attr("src", "../image/icon_36.png");
 						} else{
-							$(".follow_button").attr("id", "follow");
-							select.attr("src", "../image/icon_35.png");
+							if(myPofile == true){
+								var removeId = $("#following_"+id);
+								removeId.remove();
+							}else{
+								$(".follow_button").attr("id", "follow");
+								select.attr("src", "../image/icon_35.png");
+							}
+							
 						}
 					}
 				    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
