@@ -130,6 +130,10 @@
 				}
 			});
 
+			$("body").on("click", ".li_notice", function(){
+				$(location).attr("href", $(this).find("a").attr("href"));
+			});
+			
 			$("#btn_newsfeed").click(function(){
 				$(location).attr("href", "/main/main.do");
 			});
