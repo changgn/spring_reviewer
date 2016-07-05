@@ -1824,8 +1824,10 @@ $(function(){
 	        	  $("#loadingimg").remove();
 	        	  for(var idx=0; idx<allBoardList.length; idx++) {
 	        		  view += '<div id="content_' + allBoardList[idx].board.board_num + '" class="content_wrap"><div class="content_first"><div class="cont_writer">';
-		        	  view += '<a href="#" class="profile_photo"> <span class="profile_thumb"> <img src="../image/5.jpg"> <span class="profile_thumb_mask"></span></span></a>';
-		        	  view += '<a href="/profile/myProfile.do?id=' + allBoardList[idx].board.id +'" class="cont_writer_id">'+ allBoardList[idx].board.id +'</a>';
+	        		  if(allBoardList[idx].profilePhoto != null){
+		        	  	  view += '<a href="/profile/myProfile.do?id=' + allBoardList[idx].board.id +'" class="profile_photo"> <span class="profile_thumb"> <img src="' + allBoardList[idx].profilePhoto.realPath + '"> <span class="profile_thumb_mask"></span></span></a>';
+	        		  }
+	        		  view += '<a href="/profile/myProfile.do?id=' + allBoardList[idx].board.id +'" class="cont_writer_id">'+ allBoardList[idx].board.id +'</a>';
 		        	  view += '<div class="cont_wdate">' + allBoardList[idx].date + '</div>';
 		        	  view += '<div class="cont_menu">';
 		        	  view += '<a href="#" id="' + allBoardList[idx].board.board_num + '" class="cont_menu_option"><span id="cont_btn_menu">옵션</span></a>';

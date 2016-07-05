@@ -366,6 +366,14 @@
 							<div id="content_${board.board.board_num}" class="content_wrap">
 								<div class="content_first">	
 									<div class="cont_writer">
+										<c:if test="${board.profilePhoto.realPath != null}">
+										<a href="/profile/myProfile.do?id=${board.board.id}" class="profile_photo">
+											<span class="profile_thumb">
+							                    <img src="${board.profilePhoto.realPath}">
+							                    <span class="profile_thumb_mask"></span>
+						               		</span>
+										</a>
+										</c:if>
 										<a href="/profile/myProfile.do?id=${board.board.id}" class="cont_writer_id">${board.board.id}</a>
 										<div class="cont_wdate">
 											<fmt:formatDate value="${board.board.write_date}" pattern="yyyy-MM-dd HH:mm"/>

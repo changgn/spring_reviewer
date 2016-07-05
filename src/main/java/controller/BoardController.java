@@ -26,6 +26,7 @@ import command.CommentCommand;
 import command.MemberRecommendDeleteCommand;
 import command.NoticeCommand;
 import command.PhotoCommand;
+import command.ProfilePhotoCommand;
 import command.RecommendCommand;
 import command.ReportCommand;
 import command.ScrepCommand;
@@ -37,6 +38,7 @@ import dao.FollowDAO;
 import dao.MemberDAO;
 import dao.NoticeDAO;
 import dao.PhotoDAO;
+import dao.ProfilePhotoDAO;
 import dao.RecommendDAO;
 import dao.ReportDAO;
 import dao.ScrepDAO;
@@ -70,6 +72,8 @@ public class BoardController {
 	private NoticeDAO noticeDao;
 	@Autowired
 	private FollowDAO followDao;
+	@Autowired
+	private ProfilePhotoDAO ProfilePhotoDao;
 
 	public void setMemberDAO(MemberDAO memberDAO) { this.memberDAO = memberDAO; }
 	public void setReportDAO(ReportDAO reportDAO) { this.reportDAO = reportDAO; }
@@ -82,6 +86,7 @@ public class BoardController {
 	public void setScrepDao(ScrepDAO screpDao) { ScrepDao = screpDao; }
 	public void setNoticeDao(NoticeDAO noticeDao) { this.noticeDao = noticeDao; }
 	public void setFollowDAO(FollowDAO followDAO) { this.followDao = followDAO; }
+	public void setProfilePhotoDao(ProfilePhotoDAO profilePhotoDao) { ProfilePhotoDao = profilePhotoDao; }
 
 	@RequestMapping(value="write/writeForm.do", method=RequestMethod.GET)
 	public String insertboard(){
@@ -143,7 +148,7 @@ public class BoardController {
 	
 	@RequestMapping(value="/content/contentForm.do")
 	public String selectcontent(HttpServletRequest request, String board_num, String comment, Model model){
-	
+		ProfilePhotoCommand profilePhoto = null;
 		List<PhotoCommand> photoList = null;
 		List<CommentCommand> commentList = null;
 		BoardCommand board = null;
@@ -154,6 +159,7 @@ public class BoardController {
 		
 		board = boarddao.selectContent(Integer.parseInt(board_num));
 		if(board != null) {
+			profilePhoto = ProfilePhotoDao.getOneById(board.getId());
 			photoList = photodao.getListByBoardNum(Integer.parseInt(board_num));
 			commentList = commentdao.getListByBoardNum(Integer.parseInt(board_num));
 			category = categorydao.getOne(board.getCategory_id());
@@ -184,6 +190,7 @@ public class BoardController {
 		model.addAttribute("board_num", board_num);
 		model.addAttribute("board", board);
 		model.addAttribute("photoList", photoList);
+		model.addAttribute("profilePhoto", profilePhoto);
 		model.addAttribute("category", category);
 		model.addAttribute("comment", comment);
 		model.addAttribute("commentList", commentList);
@@ -230,6 +237,14 @@ public class BoardController {
 			ReportCommand rc = new ReportCommand(id, board_num);
 			reportDAO.insertReport(rc);
 			if(reportupdateok > 0){
+				BoardCommand board = boarddao.selectContent(board_num);
+				NoticeCommand noticeCommand = new NoticeCommand("report", id, board.getId(), board_num);
+				List<NoticeCommand> noticeList = noticeDao.getListByBoard(noticeCommand);
+				if(noticeList.size() != 0) {
+					noticeDao.removeByBoard(noticeCommand);
+				}
+				noticeDao.insert(noticeCommand);
+				
 				model.addAttribute("reportok", "reportok");
 			}else{
 

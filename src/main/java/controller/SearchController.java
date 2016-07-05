@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import command.BoardCommand;
 import command.CategoryCommand;
 import command.PhotoCommand;
+import command.ProfilePhotoCommand;
 import command.RecommendCommand;
 import command.ScrepCommand;
 import dao.BoardDAO;
@@ -24,6 +25,7 @@ import dao.CategoryDAO;
 import dao.CommentDAO;
 import dao.MainDAO;
 import dao.PhotoDAO;
+import dao.ProfilePhotoDAO;
 import dao.RecommendDAO;
 import dao.ScrepDAO;
 import net.sf.json.JSONObject;
@@ -44,31 +46,21 @@ public class SearchController {
 	private ScrepDAO screpDao;
 	@Autowired
 	private MainDAO mainDao;
+	@Autowired
+	private ProfilePhotoDAO ProfilePhotoDao;
 	private String addcount;
 	private String searchContent;
 	private List<String> categoryIdList;
 	
-	public void setCategorydao(CategoryDAO categoryDao) {
-		this.categoryDao = categoryDao;
-	}
-	public void setPhotodao(PhotoDAO photoDao) {
-		this.photoDao = photoDao;
-	}
-	public void setCommentdao(CommentDAO commentDao) {
-		this.commentDao = commentDao;
-	}
-	public void setBoarddao(BoardDAO boardDao) {
-		this.boardDao = boardDao;
-	}
-	public void setMainDao(MainDAO mainDao) { 
-		this.mainDao = mainDao; 
-	}
-	public void setScrepDao(ScrepDAO screpDao) { 
-		this.screpDao = screpDao; 
-	}
+	public void setCategorydao(CategoryDAO categoryDao) { this.categoryDao = categoryDao; }
+	public void setPhotodao(PhotoDAO photoDao) { this.photoDao = photoDao; }
+	public void setCommentdao(CommentDAO commentDao) { this.commentDao = commentDao; }
+	public void setBoarddao(BoardDAO boardDao) { this.boardDao = boardDao; }
+	public void setMainDao(MainDAO mainDao) { this.mainDao = mainDao; }
+	public void setScrepDao(ScrepDAO screpDao) { this.screpDao = screpDao; }
 	
 	public void setRecommendDao(RecommendDAO recommendDao) { this.recommendDao = recommendDao; }
-	
+	public void setProfilePhotoDao(ProfilePhotoDAO profilePhotoDao) { ProfilePhotoDao = profilePhotoDao; }
 	@RequestMapping(value="/search/searchForm.do")
 	public String searchForm(Model model){
 		model.addAttribute("firstCheck", 0);
@@ -120,6 +112,7 @@ public class SearchController {
 				for(BoardCommand board : boardList) {
 					HashMap<String, Object> boardMap = new HashMap<String, Object>();
 					PhotoCommand photo = photoDao.getOneByBoardNum(board.getBoard_num());
+					ProfilePhotoCommand profilePhoto = ProfilePhotoDao.getOneById(board.getId());
 					CategoryCommand category = categoryDao.getOne(board.getCategory_id());
 					String commentCount = commentDao.getCountByBoardNum(board.getBoard_num());
 					if(commentCount==null)	commentCount="0";
@@ -149,6 +142,7 @@ public class SearchController {
 					}
 					boardMap.put("board", board);
 					boardMap.put("photo", photo);
+					boardMap.put("profilePhoto", profilePhoto);
 					boardMap.put("category", category);
 					boardMap.put("commentCount", commentCount);
 					boardMap.put("contentFlag", contentFlag);
@@ -202,6 +196,7 @@ public class SearchController {
 				for(BoardCommand board : boardList) {
 					HashMap<String, Object> boardMap = new HashMap<String, Object>();
 					PhotoCommand photo = photoDao.getOneByBoardNum(board.getBoard_num());
+					ProfilePhotoCommand profilePhoto = ProfilePhotoDao.getOneById(board.getId());
 					CategoryCommand category = categoryDao.getOne(board.getCategory_id());
 					String commentCount = commentDao.getCountByBoardNum(board.getBoard_num());
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -233,6 +228,7 @@ public class SearchController {
 					}
 					boardMap.put("board", board);
 					boardMap.put("photo", photo);
+					boardMap.put("profilePhoto", profilePhoto);
 					boardMap.put("category", category);
 					boardMap.put("commentCount", commentCount);
 					boardMap.put("contentFlag", contentFlag);
