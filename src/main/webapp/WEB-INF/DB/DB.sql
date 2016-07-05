@@ -267,6 +267,19 @@ ALTER TABLE recommend
 	REFERENCES board (board_num)
 	ON DELETE CASCADE;
 
+	
+ALTER TABLE report
+	ADD FOREIGN KEY (id)
+	REFERENCES members (id)
+	ON DELETE CASCADE;
+
+	
+ALTER TABLE report
+	ADD FOREIGN KEY (report_num)
+	REFERENCES board (board_num)
+	ON DELETE CASCADE;
+
+
 /*
 /* Create Triggers */
 

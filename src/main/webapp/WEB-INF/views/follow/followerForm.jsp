@@ -32,7 +32,6 @@
 		<script>
 		$(function(){
 			$("#followList").on("click", ".follow_button", function(e){
-			/* $(".follow_button").click(function(event){ */
 				event.preventDefault();
 				var url= "/follow/followerAdd.do";
 				var params = "profileId=" + "${profileId}";

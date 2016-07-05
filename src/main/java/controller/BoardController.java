@@ -216,7 +216,7 @@ public class BoardController {
 			mrdc.setId(writer);
 			memberDAO.updateDecreaseRecommendNumByDeleteBoard(mrdc);
 			
-			reportDAO.deleteReport(Integer.parseInt(board_num));
+			
 			boarddao.deleteContent(Integer.parseInt(board_num));
 		} else {
 			model.addAttribute("errorId", "errorId");
