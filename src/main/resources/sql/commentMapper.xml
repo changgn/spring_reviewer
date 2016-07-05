@@ -15,6 +15,10 @@
 	<delete id="removeByCommentNum" parameterType="java.lang.Integer">
 		delete from comments where comment_num=#{comment_num}
 	</delete>
+	<update id="updateByCommentNum" parameterType="hashmap">
+		update comments set content=#{content} 
+		where comment_num=#{comment_num}
+	</update>
 	<select id="getlist" resultType="command.CommentCommand">
 		<!-- 조건문 -->
 	</select>

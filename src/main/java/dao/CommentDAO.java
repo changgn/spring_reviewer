@@ -1,10 +1,12 @@
 package dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 
+import command.BoardCommand;
 import command.CommentCommand;
 
 @Repository
@@ -18,16 +20,27 @@ public class CommentDAO extends SqlSessionDaoSupport{
 		return getSqlSession().selectList("comment.getListByBoardNum", board_num);
 	}
 
-	//comment ����
+	//comment 占쏙옙占쏙옙
 	public String getCountByBoardNum(Integer board_num){
 		return getSqlSession().selectOne("comment.getCountByBoardNum", board_num);
 	}
 	
-	public int removeByCommentNum(Integer comment_num) {
-		return getSqlSession().delete("comment.removeByCommentNum", comment_num);
+	public int removeByCommentNum(Integer board_num) {
+		return getSqlSession().delete("comment.removeByCommentNum", board_num);
 	}
 	
-	//MaxCommentNum 정보 가져오기
+	public List<CommentCommand> updateByCommentNum(HashMap<String, Object> map) {
+		return getSqlSession().selectList("comment.updateByCommentNum", map);
+	}
+	
+	public List<BoardCommand> getPageListByCategoryIdContent(List<String> categoryIdList, String searchContent){
+		HashMap<String, Object> pageListMap = new HashMap<String, Object>();
+		pageListMap.put("categoryIdList", categoryIdList);
+		pageListMap.put("searchContent", searchContent);
+		return getSqlSession().selectList("main.getPageListByCategoryIdContent", pageListMap);
+	}
+	
+	//MaxCommentNum �젙蹂� 媛��졇�삤湲�
 	public CommentCommand getOne(Integer comment_num) {
 		return getSqlSession().selectOne("comment.getOne", comment_num);
 	}
@@ -37,6 +50,8 @@ public class CommentDAO extends SqlSessionDaoSupport{
 	public int getRecentCommentNum() {
 		return getSqlSession().selectOne("comment.getRecentCommentNum");
 	}
+
+	
 
 	
 	

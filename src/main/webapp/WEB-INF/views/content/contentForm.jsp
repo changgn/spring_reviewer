@@ -147,6 +147,14 @@ $(function(){
 					else{
 						writer += '<a href="#" id="noDelete">삭&nbsp;&nbsp;&nbsp;제</a>';
 					}
+					
+					writer += '<div id="comment_btn_modify" class="btn_short">';
+					if(args.data.id=='${id}'){
+						writer += '<a href="/content/commentMod.do?board_num=' + args.data.board_num + '&comment_num=' + args.data.comment_num + '">수&nbsp;&nbsp;&nbsp;정</a>';	
+					}
+					else{
+						writer += '<a href="#" id="noModify">수&nbsp;&nbsp;&nbsp;정</a>';
+					}
 					writer += '</div>';
 					writer += '</div>';	
 					
@@ -165,6 +173,12 @@ $(function(){
 	
 	$("#noDelete").click(function(){
 		alert("댓글 작성자만 삭제할 수 있습니다");
+		var top = $("#content_comment_area").offset().top;
+		$('html, body').animate({ scrollTop : top });
+	});
+	
+	$("#noModify").click(function(){
+		alert("댓글 작성자만 수정할 수 있습니다");
 		var top = $("#content_comment_area").offset().top;
 		$('html, body').animate({ scrollTop : top });
 	});
@@ -345,6 +359,14 @@ $(function(){
 				</c:if>
 				<c:if test="${comment.id!=id}">
 					<a href="#" id="noDelete" onclick="event.preventDefault();">삭&nbsp;&nbsp;&nbsp;제</a>
+				</c:if>
+			</div>
+			<div id="comment_btn_modify" class="btn_short">
+				<c:if test="${comment.id==id}">
+					<a href="/content/commentMod.do?board_num=${board_num}&comment_num=${comment.comment_num}">수&nbsp;&nbsp;&nbsp;정</a>
+				</c:if>
+				<c:if test="${comment.id!=id}">
+					<a href="#" id="noModify" onclick="event.preventDefault();">수&nbsp;&nbsp;&nbsp;정</a>
 				</c:if>
 			</div>
 		</div>

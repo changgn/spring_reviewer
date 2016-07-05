@@ -1,6 +1,9 @@
 package controller;
 
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -39,7 +42,7 @@ public class CommentController {
 	public String Comment(HttpServletResponse resp, CommentCommand command, int board_num, HttpSession session,
 				@RequestParam("comment_textarea") String content ) throws Exception{
 		
-		//session 에서 id값을 가지고 온다.
+		//session �뿉�꽌 id媛믪쓣 媛�吏�怨� �삩�떎.
 		String id = (String)session.getAttribute("id");
 		command.setId(id);
 		command.setContent(content);
@@ -47,13 +50,13 @@ public class CommentController {
 
 		int check = commentdao.insert(command);
 		if(check>0) {
-			System.out.println("댓글 저장 완료");
+			System.out.println("�뙎湲� ���옣 �셿猷�");
 			BoardCommand board = boardDao.selectContent(board_num);
 			String writer = board.getId();
 			NoticeCommand noticeCommand = new NoticeCommand("comment",id,writer,board_num);
 			noticeDao.insert(noticeCommand);
 		} else {
-			System.out.println("댓글 저장 실패");
+			System.out.println("�뙎湲� ���옣 �떎�뙣");
 		}
 		
 		int commetNum = commentdao.getRecentCommentNum();
@@ -92,6 +95,32 @@ public class CommentController {
 		
 		return "redirect:/content/contentForm.do?board_num=" + board_num + "&comment=true";
 	}
+	
+	@RequestMapping(value="/content/commentMod.do")
+	public String CommentMod(HttpServletResponse resp, CommentCommand command, Model model, int board_num, HttpSession session,
+				@RequestParam("comment_num") String comment_num_str ){
+		CommentCommand commentCommand = new CommentCommand();
+		String id = (String)session.getAttribute("id");
+		String content = commentCommand.getContent();
+		Integer comment_num = null;
+		if(comment_num_str!=null) {
+			comment_num = Integer.parseInt(comment_num_str);
+		}
+		
+		String commentId = commentdao.getId(comment_num);
+		if(comment_num!=null && commentId.equals(id)) {
+			HashMap<String, Object> map = new HashMap();
+			map.put("content",content);
+			map.put("comment_num",comment_num);
+			commentdao.updateByCommentNum(map);
+		} else {
+			return "redirect:/content/contentForm.do?board_num=" + board_num + "&comment=true&errorId=error";
+		}
+		
+		return "redirect:/content/contentForm.do?board_num=" + board_num + "&comment=true";
+	}
+	
+	
 	
 	
 	
