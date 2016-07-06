@@ -29,6 +29,9 @@ $(function(){
 		$(location).attr("href", "/profile/screpList.do?id=${paramId}");
 	});
 	
+	$("#u_photo").change(function(){
+		$("#profilePhotoForm").submit();	
+	});
 
 	$("body").on("click", ".btns_re_items", function(e){
 		e.preventDefault();
@@ -307,9 +310,19 @@ $(function() {
 </head>
 <style>
 #nav_content_screp { position: static; width: 100%; height: 40px; z-index: 999; background-color: white; border-bottom: 1px solid #E6E6E6; padding: 0; }
+.user_photo {display:none}   
 </style>
 <body>
 	<div id="my_profile_info_area">
+		<form action="/profile/profile_photo.do" id="profilePhotoForm" method="post" enctype="multipart/form-data">
+			<div class="profile_photo" id="file_input_hidden">		
+				<input type="file" id="u_photo" name="u_photo" class="user_photo" maxlength="5" onchange="check();">
+				<span class="profile_thumb" >
+                    <img src="${myProfilePhoto.realPath}">
+                    <span class="profile_thumb_mask"></span>
+              	</span>
+			</div>
+		</form>
 		<div id="my_profile_name">
 			<c:if test="${id!=paramId && (login_status==0 || login_status==1)}">
 				<div id="btn_follow_add">
@@ -495,6 +508,12 @@ $(function() {
 <div id="content_comment_area">
 </div>
 </div> --%>
+
+ <script>
+document.querySelector('.profile_thumb').addEventListener('click', function(e) {
+ 	document.querySelector('.user_photo').click();
+}, false);
+</script> 
 
 </body>
 </html>

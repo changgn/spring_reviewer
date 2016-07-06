@@ -1,9 +1,12 @@
 package controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +17,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import dao.CategoryDAO;
 import dao.CommentDAO;
@@ -273,4 +279,55 @@ public class MyProfileContoroller {
 		resp.setContentType("text/html;charset=utf-8");
 		return jso.toString();
    	}
+	
+	@RequestMapping(value="/profile/profile_photo.do", method=RequestMethod.POST)
+	public String insertboard(@RequestParam("u_photo") MultipartFile file, HttpServletRequest request, Model model)
+			throws IOException {
+
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+
+		System.out.println("o_fileName : " + file.getOriginalFilename());
+		String id = (String)request.getSession().getAttribute("id");
+		String savePath = "/fileSave";
+		
+			System.out.println(file + " : file");
+
+			
+			String genId = UUID.randomUUID().toString(); 
+			String o_fileName= file.getOriginalFilename();
+			String fileName = genId + "_" + o_fileName;
+			String realPath =  savePath + "/" + fileName;
+			
+			System.out.println(o_fileName + "   : o_fileName");
+			System.out.println(fileName + "   : fileName");
+			System.out.println(realPath+ "     : realPath");
+			
+			ProfilePhotoCommand profilephot = new ProfilePhotoCommand(); 
+			profilephot.setFileName(fileName);
+			profilephot.setId(id);
+			profilephot.setRealPath(realPath);
+			profilephot.setO_fileName(o_fileName);
+			
+			
+			if(!o_fileName.equals("")){
+				ProfilePhotoDao.modify(profilephot);
+				File f = new File(request.getSession().getServletContext().getRealPath(savePath));
+				File f2 = new File(f, fileName);
+				file.transferTo(f2);
+			}
+			
+			ProfilePhotoDao.modify(profilephot);
+		/*	profilephotoDao.getOneById(profilephoto.getId());
+			*/
+			
+			ProfilePhotoCommand profilephoto = ProfilePhotoDao.getOneById(profilephot.getId());
+	
+			model.addAttribute("profilephoto", profilephoto);
+			
+		
+	
+		return "redirect:/profile/myProfile.do?id=" + profilephot.getId();
+
+	}
+	
 }
