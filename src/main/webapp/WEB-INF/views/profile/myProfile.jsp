@@ -315,8 +315,10 @@ $(function() {
 <body>
 	<div id="my_profile_info_area">
 		<form action="/profile/profile_photo.do" id="profilePhotoForm" method="post" enctype="multipart/form-data">
-			<div class="profile_photo" id="file_input_hidden">		
+			<div class="profile_photo" id="file_input_hidden">
+				<c:if test="${id==paramId }">
 				<input type="file" id="u_photo" name="u_photo" class="user_photo" maxlength="5" onchange="check();">
+				</c:if>
 				<span class="profile_thumb" >
                     <img src="${myProfilePhoto.realPath}">
                     <span class="profile_thumb_mask"></span>
