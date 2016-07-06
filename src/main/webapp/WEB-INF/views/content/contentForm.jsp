@@ -19,11 +19,30 @@ $(document).ready(function(){
 	$(".cont_popup li").mouseleave(function(){
 		$(this).css("background-color","white");
 	});
+	$(document).mousedown(function(e) {
+		$('.comment_menu').each(function() {
+			if( $(this).css('display') == 'block' ) {
+				var objPos = $(this).offset();
+				objPos.right = (objPos.left + $(this).width());
+				objPos.bottom = (objPos.top + $(this).height());
+				if( e.pageX < objPos.left || e.pageX > objPos.right
+				 || e.pageY < objPos.top || e.pageY > objPos.bottom ) {
+					$(this).slideUp('fast');
+				}
+			}
+		});
+	});
 });
 $(document).on("mouseover", ".re_popup li", function(){
 	$(this).css("background-color","#F6F6F6");
 });
 $(document).on("mouseleave", ".re_popup li", function(){
+	$(this).css("background-color","white");
+});
+$(document).on("mouseover", ".comment_menu div", function(){
+	$(this).css("background-color","#F6F6F6");
+});
+$(document).on("mouseleave", ".comment_menu div", function(){
 	$(this).css("background-color","white");
 });
 $(window).load(function(){
@@ -38,11 +57,21 @@ $(function(){
 	
 	$(".cont_menu_option").click(function(e){
 		e.preventDefault();
-		$(".cont_btn_option").css({
-	    }).show();
+		$(".cont_btn_option").show();
 	});
 	$(".cont_btn_option").click(function(){
 		$(this).hide();
+	});
+
+	$("body").on("click", ".comment_menu_btn", function(e){
+		e.preventDefault();
+		var top = $(this).find("span").find("span").offset().top + 27;
+		var left = $(this).find("span").find("span").offset().left - 37;
+		var selector = $("#comment_menu_" + $(this).attr("id"));
+		
+		selector.css("top", top);
+		selector.css("left", left);
+		selector.slideDown("fast");
 	});
 	
 	$(".re_menu_option").click(function(e){
@@ -135,26 +164,21 @@ $(function(){
 					writer += '<div id="content_comment_writed_area" >';
 					writer += '<div id="content_comment_info">';
 					writer += '작성자 : <a href="/profile/myProfile.do?id=' + args.data.id + '">' + args.data.id + '</a>&nbsp;&nbsp;&nbsp; 작성시간 : ' + args.date;
-					writer += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-					writer += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-					writer += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 					if(args.data.id=='${id}'){
-						writer += '<a id="' + args.data.comment_num + '" class="comment_mod" href="#">수 정</a>';
+						writer += '<a id="' + args.data.comment_num + '" class="comment_menu_btn" href="#"><span id="comment_menu_btn_img_rap"><span id="comment_menu_btn_img">메 뉴</span></span></a>';
 					}
 					writer += '</div>';
 					writer += '<div id="content_comment_writed_area">';
 					writer += '<textarea id="content_comment_writed_' + args.data.comment_num + '" class="content_comment_writed" readonly>' + args.data.content + '</textarea>';
 					writer += '</div>';
 					writer += '</div>';
-					writer += '<div id="comment_btn_delete" class="btn_short">';
-					if(args.data.id=='${id}'){
-						writer += '<a href="/content/commentdel.do?board_num=' + args.data.board_num + '&comment_num=' + args.data.comment_num + '">삭&nbsp;&nbsp;&nbsp;제</a>';	
-					}
-					else{
-						writer += '<a href="#" id="noDelete">삭&nbsp;&nbsp;&nbsp;제</a>';
-					}
-					writer += '</div>';	
 					
+					writer += '<div id="comment_menu_' + args.data.comment_num + '" class="comment_menu">';
+					writer += '<div><a id="' + args.data.comment_num + '" class="comment_mod" href="#">수 정</a></div>';
+					writer += '<div><a href="/content/commentdel.do?board_num=' + args.data.board_num + '&comment_num=' + args.data.comment_num + '">삭 제</a></div>';
+					writer += '</div>';
+
+					writer += '</div>';
 					$("#comment_cnt").text("댓글(" + args.cnt + ")");
 					$(".text_num").text(args.cnt);
 					
@@ -200,7 +224,8 @@ $(function(){
 		    	alert(e.responseText);
 		    }
 		});
-		
+
+		$('.comment_menu').slideUp('fast');
 		selector.attr("readonly", "true");
 		$(this).text("수 정");
 		$(this).attr("class", "comment_mod");
@@ -258,6 +283,11 @@ $(function(){
 
 </script>
 <style>
+.comment_menu{display: none; position: absolute; border: 1px solid #c6c6c6; z-index: 9999; width: 50px; top: 0;left: 0;text-align: center; background-color: white;}
+.comment_menu div{padding: 5px;}
+#comment_menu_btn_img_rap { display: block; float: right; width: 20px; padding-right: 8px;}
+#comment_menu_btn_img{display: block; float: right; width: 4px;height: 22px; background-position: -300px 0;overflow: hidden;line-height: 999px;vertical-align: top;background-image: url("../image/icon_08.png");}
+
 </style>
 </head>
 <body>
@@ -383,25 +413,18 @@ $(function(){
 			<div id="content_comment_writed_area" >
 				<div id="content_comment_info">
 					작성자 : <a href="/profile/myProfile.do?id=${comment.id}">${comment.id}</a>&nbsp;&nbsp;&nbsp; 작성시간 : <fmt:formatDate value="${comment.write_date}" pattern="yyyy-MM-dd HH:mm"/>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<c:if test="${comment.id==id}">
-						<a id="${comment.comment_num}" class="comment_mod" href="#">수 정</a>
-						<%-- <a id="comment_mod" href="/content/commentMod.do?board_num=${board_num}&comment_num=${comment.comment_num}">수 정</a> --%>
+					<c:if test="${comment.id == id}">
+						<a id="${comment.comment_num}" class="comment_menu_btn" href="#"><span id="comment_menu_btn_img_rap"><span id="comment_menu_btn_img">메 뉴</span></span></a>
 					</c:if>
 				</div>
 				<div id="content_comment_writed_area">
 					<textarea id="content_comment_writed_${comment.comment_num}" class="content_comment_writed" readonly>${comment.content}</textarea>
 				</div>
 			</div>
-			<div id="comment_btn_delete" class="btn_short">
-				<c:if test="${comment.id==id}">
-					<a href="/content/commentdel.do?board_num=${board_num}&comment_num=${comment.comment_num}">삭&nbsp;&nbsp;&nbsp;제</a>
-				</c:if>
-				<c:if test="${comment.id!=id}">
-					<a href="#" id="noDelete" onclick="event.preventDefault();">삭&nbsp;&nbsp;&nbsp;제</a>
-				</c:if>
+
+			<div id="comment_menu_${comment.comment_num}" class="comment_menu">
+				<div><a id="${comment.comment_num}" class="comment_mod" href="#">수 정</a></div>
+				<div><a href="/content/commentdel.do?board_num=${board_num}&comment_num=${comment.comment_num}">삭 제</a></div>
 			</div>
 		</div>
 	</c:forEach>
