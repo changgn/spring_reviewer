@@ -96,31 +96,17 @@ public class CommentController {
 		return "redirect:/content/contentForm.do?board_num=" + board_num + "&comment=true";
 	}
 	
+	@ResponseBody
 	@RequestMapping(value="/content/commentMod.do")
-	public String CommentMod(HttpServletResponse resp, CommentCommand command, Model model, int board_num, HttpSession session,
-				@RequestParam("comment_num") String comment_num_str ){
-		CommentCommand commentCommand = new CommentCommand();
-		String id = (String)session.getAttribute("id");
-		String content = commentCommand.getContent();
-		Integer comment_num = null;
-		if(comment_num_str!=null) {
-			comment_num = Integer.parseInt(comment_num_str);
-		}
+	public String CommentMod(HttpServletResponse resp, Model model, HttpSession session, CommentCommand command ){
 		
-		String commentId = commentdao.getId(comment_num);
-		if(comment_num!=null && commentId.equals(id)) {
-			HashMap<String, Object> map = new HashMap();
-			map.put("content",content);
-			map.put("comment_num",comment_num);
-			commentdao.updateByCommentNum(map);
-			System.out.println(command.getContent());
-			System.out.println(command.getId());
-			System.out.println(command.getBoard_num());
-		} else {
-			return "redirect:/content/contentForm.do?board_num=" + board_num + "&comment=true&errorId=error";
-		}
+		JSONObject jso = new JSONObject();
 		
-		return "redirect:/content/contentForm.do?board_num=" + board_num + "&comment=true";
+		commentdao.updateByCommentNum(command);
+		
+		jso.put("comment", command);
+		resp.setContentType("text/html;charset=utf-8");
+		return jso.toString();
 	}
 	
 	

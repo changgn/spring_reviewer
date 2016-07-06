@@ -135,9 +135,15 @@ $(function(){
 					writer += '<div id="content_comment_writed_area" >';
 					writer += '<div id="content_comment_info">';
 					writer += '작성자 : <a href="/profile/myProfile.do?id=' + args.data.id + '">' + args.data.id + '</a>&nbsp;&nbsp;&nbsp; 작성시간 : ' + args.date;
+					writer += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					writer += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					writer += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					if(args.data.id=='${id}'){
+						writer += '<a id="' + args.data.comment_num + '" class="comment_mod" href="#">수 정</a>';
+					}
 					writer += '</div>';
 					writer += '<div id="content_comment_writed_area">';
-					writer += '<textarea id="content_comment_writed" readonly>' + args.data.content + '</textarea>';
+					writer += '<textarea id="content_comment_writed_' + args.data.comment_num + '" class="content_comment_writed" readonly>' + args.data.content + '</textarea>';
 					writer += '</div>';
 					writer += '</div>';
 					writer += '<div id="comment_btn_delete" class="btn_short">';
@@ -147,15 +153,6 @@ $(function(){
 					else{
 						writer += '<a href="#" id="noDelete">삭&nbsp;&nbsp;&nbsp;제</a>';
 					}
-					
-					writer += '<div id="comment_btn_modify" class="btn_short">';
-					if(args.data.id=='${id}'){
-						writer += '<a href="/content/commentMod.do?board_num=' + args.data.board_num + '&comment_num=' + args.data.comment_num + '">수&nbsp;&nbsp;&nbsp;정</a>';	
-					}
-					else{
-						writer += '<a href="#" id="noModify">수&nbsp;&nbsp;&nbsp;정</a>';
-					}
-					writer += '</div>';
 					writer += '</div>';	
 					
 					$("#comment_cnt").text("댓글(" + args.cnt + ")");
@@ -170,6 +167,44 @@ $(function(){
 			/* $("#content_comment_write_form").submit(); */
 		}
 	});
+	
+	
+	$("body").on("click", ".comment_mod", function(e){
+		e.preventDefault();
+		var selector = $("#content_comment_writed_" + $(this).attr("id"));
+		selector.removeAttr("readonly");
+		selector.focus();
+		$(this).text("완 료");
+		$(this).attr("class", "comment_mod_ok");
+	});
+
+	$("body").on("click", ".comment_mod_ok", function(e){
+		e.preventDefault();
+		var selector = $("#content_comment_writed_" + $(this).attr("id"));
+		
+		var url= "/content/commentMod.do";
+		var params = "comment_num=" + $(this).attr("id");
+		params += "&content=" + selector.val();
+		
+		$.ajax({
+			type:"post"		// 포스트방식
+			,url:url		// url 주소
+			,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
+			,dataType:"json"
+			,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
+				var comment = args.comment;
+				selector.text(comment.content);
+				
+			}
+		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+		    	alert(e.responseText);
+		    }
+		});
+		
+		selector.attr("readonly", "true");
+		$(this).text("수 정");
+		$(this).attr("class", "comment_mod");
+	});	
 	
 	$("#noDelete").click(function(){
 		alert("댓글 작성자만 삭제할 수 있습니다");
@@ -348,9 +383,16 @@ $(function(){
 			<div id="content_comment_writed_area" >
 				<div id="content_comment_info">
 					작성자 : <a href="/profile/myProfile.do?id=${comment.id}">${comment.id}</a>&nbsp;&nbsp;&nbsp; 작성시간 : <fmt:formatDate value="${comment.write_date}" pattern="yyyy-MM-dd HH:mm"/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<c:if test="${comment.id==id}">
+						<a id="${comment.comment_num}" class="comment_mod" href="#">수 정</a>
+						<%-- <a id="comment_mod" href="/content/commentMod.do?board_num=${board_num}&comment_num=${comment.comment_num}">수 정</a> --%>
+					</c:if>
 				</div>
 				<div id="content_comment_writed_area">
-					<textarea id="content_comment_writed" readonly>${comment.content}</textarea>
+					<textarea id="content_comment_writed_${comment.comment_num}" class="content_comment_writed" readonly>${comment.content}</textarea>
 				</div>
 			</div>
 			<div id="comment_btn_delete" class="btn_short">
@@ -359,14 +401,6 @@ $(function(){
 				</c:if>
 				<c:if test="${comment.id!=id}">
 					<a href="#" id="noDelete" onclick="event.preventDefault();">삭&nbsp;&nbsp;&nbsp;제</a>
-				</c:if>
-			</div>
-			<div id="comment_btn_modify" class="btn_short">
-				<c:if test="${comment.id==id}">
-					<a href="/content/commentMod.do?board_num=${board_num}&comment_num=${comment.comment_num}">수&nbsp;&nbsp;&nbsp;정</a>
-				</c:if>
-				<c:if test="${comment.id!=id}">
-					<a href="#" id="noModify" onclick="event.preventDefault();">수&nbsp;&nbsp;&nbsp;정</a>
 				</c:if>
 			</div>
 		</div>

@@ -35,9 +35,8 @@ public class CommentDAO extends SqlSessionDaoSupport{
 		return getSqlSession().selectOne("comment.getCommentByNum",comment_num);
 	}
 	
-	public List<CommentCommand> updateByCommentNum(HashMap<String, Object> map) {
-		
-		return getSqlSession().selectList("comment.updateByCommentNum", map);
+	public int updateByCommentNum(CommentCommand command) {
+		return getSqlSession().update("comment.updateByCommentNum", command);
 	}
 	
 	public List<BoardCommand> getPageListByCategoryIdContent(List<String> categoryIdList, String searchContent){
