@@ -282,13 +282,6 @@ $(function(){
 });
 
 </script>
-<style>
-.comment_menu{display: none; position: absolute; border: 1px solid #c6c6c6; z-index: 9999; width: 50px; top: 0;left: 0;text-align: center; background-color: white;}
-.comment_menu div{padding: 5px;}
-#comment_menu_btn_img_rap { display: block; float: right; width: 20px; padding-right: 8px;}
-#comment_menu_btn_img{display: block; float: right; width: 4px;height: 22px; background-position: -300px 0;overflow: hidden;line-height: 999px;vertical-align: top;background-image: url("../image/icon_08.png");}
-
-</style>
 </head>
 <body>
 <div id="content_area">
