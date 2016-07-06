@@ -100,6 +100,10 @@ public class MyProfileContoroller {
 			CategoryCommand Category = categoryDao.getOne(Command.getCategory_id());
 			CategoryList.add(Category);
 		}
+
+		ProfilePhotoCommand myProfilePhoto = ProfilePhotoDao.getOneById(paramId);
+
+		model.addAttribute("myProfilePhoto", myProfilePhoto);
 		model.addAttribute("CategoryList", CategoryList);
 		model.addAttribute("id", id);
 		

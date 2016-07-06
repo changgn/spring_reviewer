@@ -303,7 +303,7 @@ $(function() {
 });
 </script> 
 
-<title>${paramId} 프로필</title>
+<title>${paramId} 프로필</title> 
 </head>
 <style>
 #nav_content_screp { position: static; width: 100%; height: 40px; z-index: 999; background-color: white; border-bottom: 1px solid #E6E6E6; padding: 0; }
