@@ -5,33 +5,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<style>
-			#followerTitle{
-				min-height: 100px; 
-				padding: 20px; 
-				font-size: 20px; 
-				margin: 0 auto; 
-				background-color: #F6F6F6;
-				font-size: 40px; 
-				color: #4C4C4C;
-			}
-			.follower{
-				max-width: 300px;
-				min-width: 200px; 
-				margin: 5px auto; 
-				border-bottom: solid 1px;
-				background: white;
-				text-align: left;
-			}
-			#name{
-				font-family: '나눔고딕', 'Nanum Gothic', sans-serif; 
-				font: 35px '나눔고딕', 'Nanum Gothic', sans-serif; 
-			}
-		</style>
+		<link href="../css/style.css" rel="stylesheet" type="text/css">
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 		<script>
 		$(function(){
-			$("#followList").on("click", ".follow_button", function(e){
+			$(".follow_List_item").on("click", ".follow_button", function(e){
 				event.preventDefault();
 				var url= "/follow/followerAdd.do";
 				var params = "profileId=" + "${profileId}";
@@ -64,30 +42,62 @@
 		<title>${profileId} 팔로워</title>
 	</head>
 	<body>
-		<div id="followerTitle" align="center" >
-			 <a id="name" href="/profile/myProfile.do?id=${profileId}">${profileId}</a>
-			 팔로워 리스트
+		<!-- 프로필 정보 -->
+		<div class="profile_follow_header" id="profile_name">
+			<h2 class="follow_header">
+				<a href="/profile/myProfile.do?id=${profileId}" title="프로필 정보" class="link_profile">
+					<span class="profile_thumb">
+						<img src="${profileIdPhoto.realPath}" width="55" height="55" align="middle"> 
+					    <span class="profile_thumb_mask"></span>
+					</span>
+					&nbsp;&nbsp;&nbsp;
+					<span class="profile_name">
+						<span class="user_name">
+							${profileId}
+						</span>
+						님의 팔로워
+					</span>
+				</a>
+			</h2>
 		</div>
-		<div id="followList">
-			<c:forEach items="${fromList}" var="fromId">
-				<div id="follower_${fromId}" class="follower">
-					<a id="name" href="/profile/myProfile.do?id=${fromId}">${fromId}</a>
-					<c:if test="${logId ne fromId && logId ne null}">
-						<c:choose>
-							<c:when test="${followCheck[fromId] eq true}">
-								<a id="unfollow" class="follow_button" name="${fromId}" href="/follow/followerAdd.do?follow=unfollow&profileId=${profileId}&add_id=${fromId}">
-									<img class="follow_image_${fromId}" src="../image/icon_36.png" align="right">
-								</a>
-							</c:when>
-							<c:otherwise ><!-- test="${followCheck[fromId] eq false}" -->
-								<a id="follow" class="follow_button" name="${fromId}" href="/follow/followerAdd.do?follow=follow&profileId=${profileId}&add_id=${fromId}">
-									<img class="follow_image_${fromId}" src="../image/icon_35.png" align="right">
-								</a>
-							</c:otherwise>
-						</c:choose>
-					</c:if>
-				</div>
-			</c:forEach>
+		<!-- 팔로우 목록 -->
+		<div class="profile_follow_body" id="follower_body">
+			<div class="follow_list_wrap" id="follower_wrap">
+				<ul class="follow_list" id="list">
+					<c:forEach items="${fromList}" var="fromId">
+						<li class="follow_list_item_wrap">
+							<div class="follow_List_item" id="follower_info">
+								<div class="follow_profile_info_wrap">
+									<a href="/profile/myProfile.do?id=${fromId}" title="팔로워 정보" class="link_follow_profile">
+										<span class="profile_thumb">
+											<img src="${list_profile_photo[fromId].realPath}" width="55" height="55" align="middle"> 
+					  						<span class="profile_thumb_mask"></span>
+										</span>
+										&nbsp;&nbsp;&nbsp;
+										<span class="profile_name">
+											${fromId}
+										</span>
+									</a>
+									<c:if test="${logId ne fromId && logId ne null}">
+										<c:choose>
+											<c:when test="${followCheck[fromId] eq true}">
+												<a id="unfollow" class="follow_button" name="${fromId}" href="/follow/followerAdd.do?follow=unfollow&profileId=${profileId}&add_id=${fromId}" title="팔로우 버튼" class="btn_follow">
+													<img class="follow_image_${fromId}" src="../image/icon_36.png" align="right">
+												</a>
+											</c:when>
+											<c:otherwise >
+												<a id="follow" class="follow_button" name="${fromId}" href="/follow/followerAdd.do?follow=follow&profileId=${profileId}&add_id=${fromId}" title="팔로우 버튼" class="btn_follow">
+													<img class="follow_image_${fromId}" src="../image/icon_35.png" align="right">
+												</a>
+											</c:otherwise>
+										</c:choose>
+									</c:if>
+								</div>
+							</div>
+						</li>
+					</c:forEach>
+				</ul>
+			</div>
 		</div>
 	</body>
 </html>

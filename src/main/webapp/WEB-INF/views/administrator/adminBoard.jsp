@@ -15,7 +15,7 @@
 			.tab li { display:inline-block; padding:20px; cursor:pointer; }
 			.tab li.on { background-color:#eee; color:#f00; }
 			.tab_con { clear:both; margin-top:50px auto; border:1px solid #ddd;}
-			.tab_con div { display:none; height:100%; background:#fff; line-height:100px; text-align:center;}
+			.tab_con div { display:none; height: 100% auto; background:#fff; line-height:100px; text-align:center;}
 			.list{ margin-top: 20px; margin: auto; border-bottom: solid 1px; border-bottom-color: #f6f6f6; text-align: center;
 				padding : 7px; color: #4c4c4c; font-size: 14px; }
 		</style>
@@ -60,6 +60,8 @@
 		</script>
 	</head>
 	<body>
+		<div class="board_tab">
+		
 		<ul class="tab" id="tab">
     		<li>전체 게시글</li>
     		<li>신고 받은 게시글</li>
@@ -163,5 +165,6 @@
     		</div>
 		</div>
 		<div style="height: 5%;"></div>
+		</div>
 	</body>
 </html>

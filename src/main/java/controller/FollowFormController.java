@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import command.ProfilePhotoCommand;
 import dao.FollowDAO;
+import dao.ProfilePhotoDAO;
 
 @Controller
 public class FollowFormController { 
@@ -22,7 +24,12 @@ public class FollowFormController {
 	public void setFollowDAO(FollowDAO followDAO) {
 		this.followDAO = followDAO;
 	}
-	
+	@Autowired
+	private ProfilePhotoDAO ProfilePhotoDAO;
+	public void setProfilePhotoDao(ProfilePhotoDAO ProfilePhotoDAO) {
+		this.ProfilePhotoDAO = ProfilePhotoDAO;
+	}
+
 	/**	팔로워 상세 페이지	*/
 	@RequestMapping("/follow/follower.do")
 	public ModelAndView followerForm(HttpServletRequest request, @RequestParam("id") String to_id){
@@ -32,20 +39,31 @@ public class FollowFormController {
 		mav.addObject("logId", from_id);
 		/**	프로필 페이지 ID	*/
 		mav.addObject("profileId", to_id);
+		/**	프로필 페이지 프로필 사진	*/
+		ProfilePhotoCommand profile_photo = ProfilePhotoDAO.getOneById(to_id);
+		mav.addObject("profileIdPhoto", profile_photo);
 		/**	프로필페이지 ID의 팔로워 목록	*/
 		List<String> from_id_list = null;
 		from_id_list = followDAO.fromList(to_id);
 		mav.addObject("fromList", from_id_list);
-		System.out.println(to_id+"의 팔로워 목록 : "+from_id_list);
 		if( from_id != null ) {	/**	로그인 아이디가 있다.	*/
-			if(from_id.equals(to_id)){
+			if(from_id.equals(to_id)){ /**	내 프로필 페이지	*/
 				if(from_id_list.contains(to_id)){
 					from_id_list.remove(from_id);
 				}
 			}
+			
+			/**	팔로워 리스트 프로필 사진	*/
+			ProfilePhotoCommand list_profile_photo = new ProfilePhotoCommand();
+			Map list_profile_photo_map = new HashMap();
+			for(String id : from_id_list){
+				list_profile_photo = ProfilePhotoDAO.getOneById(id);
+				list_profile_photo_map.put(id, list_profile_photo);
+			}
+			mav.addObject("list_profile_photo", list_profile_photo_map);
+			
 			List<String> to_id_list = new ArrayList<String>();
 			to_id_list = followDAO.toList(from_id);	/**	나의 팔로잉 목록	*/
-			System.out.println(from_id+"의 팔로잉 목록 : " + to_id_list);
 			Map map = new HashMap();
 			if( to_id_list != null ) {
 				/**	false 값으로 초기화	*/
@@ -67,9 +85,10 @@ public class FollowFormController {
 					map.put(follower, false);
 				}
 			}
-			System.out.println("팔로워 상태값:"+map);
 			mav.addObject("followCheck", map);
 		}
+
+		
 		mav.setViewName("follow/followerForm");
 		return mav;
 	}
@@ -83,6 +102,9 @@ public class FollowFormController {
 		mav.addObject("logId", my_to_id);
 		/**	프로필 페이지 ID	*/
 		mav.addObject("profileId", to_id);
+		/**	프로필 페이지 프로필 사진	*/
+		ProfilePhotoCommand profile_photo = ProfilePhotoDAO.getOneById(to_id);
+		mav.addObject("profileIdPhoto", profile_photo);
 		/**	Id의 팔로잉 목록 조회	*/
 		List<String> to_id_list = followDAO.toList(to_id);	
 		mav.addObject("toIdList", to_id_list);
@@ -92,10 +114,19 @@ public class FollowFormController {
 					to_id_list.remove(my_to_id);
 				}
 			}
+			
+			/**	팔로워 리스트 프로필 사진	*/
+			ProfilePhotoCommand list_profile_photo = new ProfilePhotoCommand();
+			Map list_profile_photo_map = new HashMap();
+			for(String id : to_id_list){
+				list_profile_photo = ProfilePhotoDAO.getOneById(id);
+				list_profile_photo_map.put(id, list_profile_photo);
+			}
+			mav.addObject("list_profile_photo", list_profile_photo_map);
+			
 			/**	나의 팔로잉 목록	*/
 			List<String> my_to_id_list = null;
 			my_to_id_list = followDAO.toList(my_to_id);	
-			System.out.println(my_to_id+"의 팔로잉 목록 : " + to_id_list);
 			/**	팔로우 상태값 저장	*/
 			Map map = new HashMap();
 			if(my_to_id_list!=null){
@@ -119,7 +150,6 @@ public class FollowFormController {
 				}
 			}
 			mav.addObject("followCheck", map);
-			System.out.println("팔로우 상태값 "+ map);
 		}
 		
 		mav.setViewName("follow/followingForm");

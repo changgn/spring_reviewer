@@ -96,6 +96,9 @@ public class AdminController {
 		}
 		List<String> id_list = new ArrayList<String>();
 		id_list = memberDAO.getIdList();
+		if(id_list.contains(id)){
+			id_list.remove(id);
+		}
 		Map abmap = new HashMap();
 		Map rbmap = new HashMap();
 		Map pbmap = new HashMap();
@@ -112,25 +115,25 @@ public class AdminController {
 		
 		// 해당ID가 추천한 게시글 수
 		int recommendCount = 0;
-		for(String list : id_list){
-			recommendCount = recommendDAO.getRcommendCountById(list);
-			abmap.put(list, recommendCount);
+		for(String plist : id_list){
+			recommendCount = recommendDAO.getRcommendCountById(plist);
+			abmap.put(plist, recommendCount);
 		}
 		mav.addObject("recommendCount", abmap);
 		
 		// 해당ID가 신고한  게시글 수
 		int reportCount = 0;
-		for(String list : id_list){
-			reportCount = reportDAO.getReportCountById(list);
-			pbmap.put(list, reportCount);
+		for(String rlist : id_list){
+			reportCount = reportDAO.getReportCountById(rlist);
+			pbmap.put(rlist, reportCount);
 		}
 		mav.addObject("reportCount", pbmap);
 		
 		// 해당 ID의 프로필 사진
 		ProfilePhotoCommand ppc = new ProfilePhotoCommand();
-		for(String list : id_list){
-			ppc = profilePhotoDAO.getOneById(list);
-			ppmap.put(list, ppc);
+		for(String pplist : id_list){
+			ppc = profilePhotoDAO.getOneById(pplist);
+			ppmap.put(pplist, ppc);
 		}
 		mav.addObject("profilePhoto", ppmap);
 		

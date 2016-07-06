@@ -98,8 +98,7 @@ public class FollowProcController {
 		JSONObject jso = new JSONObject();
 		/**	나의 팔로잉 목록	*/
 		String from_id = (String)request.getSession().getAttribute("id");	/**	로그인 Id	*/
-		System.out.println("로그인 ID : " + from_id);
-		System.out.println("추기 또는 삭제 ID  : " + add_id);
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		if(from_id!=null) {	/**	로그인 Id가 있다	*/
@@ -144,8 +143,6 @@ public class FollowProcController {
 				}
 			}
 		}
-//		model.addAttribute("followCheck", map);
-		System.out.println("팔로워 상태값:"+map);
 		jso.put("id", add_id);
 		jso.put("follow", follow);
 		reponse.setContentType("text/html;charset=utf-8");
@@ -160,8 +157,6 @@ public class FollowProcController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		/**	로그인 아이디	*/
 		String loginId = (String)request.getSession().getAttribute("id");
-		System.out.println("로그인 ID : " + loginId);
-		System.out.println("추기 또는 삭제 ID  : " + add_id);
 		
 		if(loginId!=null) {
 			if(follow.equals("follow")){
@@ -213,7 +208,6 @@ public class FollowProcController {
 				}
 			}
 		}
-		System.out.println("팔로워 상태값:"+map);
 		jso.put("id", add_id);
 		jso.put("follow", follow);
 		reponse.setContentType("text/html;charset=utf-8");

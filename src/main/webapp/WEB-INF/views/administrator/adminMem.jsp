@@ -18,13 +18,11 @@
 				height: auto;
 				margin: 50 auto;
 			}
-			.Member_formality_wrap{ width:400px; height:auto;lear: both; padding: auto; margin: 50 auto; position:relative; }
-			.MemberInfo{width:400px; height:auto; lear: both; padding: auto; margin: 50 auto; position:relative; }
-			.Member{padding: 9px 100px 9px 17px; position: relative; text-align: center;}
-			
+			.Member_List_wrap{ margin: 10px;}
+			.Member{padding: 9px 100px 9px 17px; position: relative;}
 			.Member_Detaile_Info{display: none; position: fixed; z-index: 9999;top: 0;right: 0;bottom: 0;left: 0;line-height: 100%;text-align: center;}
 			.Member_Simple_Info_Id{display: block;overflow: hidden; padding: 3px 12px;}
-			.mem_d_i{display: inline-block;position: relative;z-index: 10000;width: 525px;background-color: #fff;line-height: normal;vertical-align: middle; top:300px;}
+			.mem_d_i{display: inline-block;position: relative;z-index: 10000;width: 460px;background-color: #fff;line-height: normal;vertical-align: middle; top:300px;}
 		</style>
 		<link href="../css/style.css" rel="stylesheet" type="text/css">
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
@@ -45,6 +43,7 @@
 		<div class="MemberManageTitle">
 			전체 회원 (${count})
 		</div>
+		<div class="Member_List_wrap">
 			<c:forEach var="memberList" items="${memberList}">
 				<c:if test="${memberList.id ne admin}">
 					<div class="Member">
@@ -60,6 +59,10 @@
 									<td class="space" width="50"></td>
 									<td>
 										<img src="../image/recommend_off.png" width="15" height="15"> 추천 받은 수 : ${memberList.recommend_num }
+									</td>
+									<td class="space" width="50"></td>
+									<td width="auto">
+										<img src="../image/list_icon.png" width="15" height="15">작성 게시글 : ${boardCount[memberList.id]}
 									</td>
 									<td class="space" width="50"></td>
 									<td width="auto">
@@ -86,24 +89,24 @@
 										아이디 : ${memberList.id}
 									</td>
 									<td class="space" width="10"></td>
-									<td rowspan="9" align="right">
+									<td rowspan="10" align="right">
 										<c:choose>
 											<c:when test="${profilePhoto[memberList.id].realPath != null}">
 												<a href="/profile/myProfile.do?id=${memberList.id}">
-													<img src="${profilePhoto[memberList.id].realPath}" width="160" height="180" align="right">
+													<img src="${profilePhoto[memberList.id].realPath}" width="120" height="120" align="middle">
 												</a>
 											</c:when>
 											<c:otherwise>
 												<a href="/profile/myProfile.do?id=${memberList.id}">
-													<img src="../image/default_profile.png" width="160" height="180" align="right">
+													<img src="../image/default_profile.png" width="120" height="120" align="middle">
 												</a>
 											</c:otherwise>
 										</c:choose>
 									</td>
 									<td class="space" width="10"></td>
-									<td rowspan="9" align="right" >
+									<td rowspan="10" align="right" >
 										<a id="name" href="/administrator/adminOutput.do?outId=${memberList.id}">
-											<img src="../image/memOut_con.gif" width="160" height="180" align="right">
+											<img src="../image/memOut_con.gif" width="120" height="120" align="middle">
 										</a>
 									</td>
 								</tr>
@@ -139,6 +142,11 @@
 								</tr>
 								<tr>
 									<td>
+										<img src="../image/list_icon.png" width="15" height="15">작성 게시글 : ${boardCount[memberList.id]}
+									</td>
+								</tr>
+								<tr>
+									<td>
 										<img src="../image/recommend_off.png" width="15" height="15"> 추천한 게시글 : ${recommendCount[memberList.id]}
 									</td>
 								</tr>
@@ -155,5 +163,6 @@
 			<div style="height: 5%;">
 			
 			</div>
+		</div>
 	</body>
 </html>
