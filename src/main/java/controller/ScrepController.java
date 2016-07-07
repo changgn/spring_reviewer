@@ -140,6 +140,7 @@ public class ScrepController {
 			for(BoardCommand vo : boardList) {
 				HashMap<String, Object> boardMap = new HashMap<String, Object>();
 				PhotoCommand photo = PhotoDao.getOneByBoardNum(vo.getBoard_num());
+				ProfilePhotoCommand profilePhoto = ProfilePhotoDao.getOneById(vo.getId());
 				CategoryCommand category = CategoryDao.getOne(vo.getCategory_id());
 				String commentCount = CommentDao.getCountByBoardNum(vo.getBoard_num());
 		
@@ -175,6 +176,7 @@ public class ScrepController {
 					
 				boardMap.put("board", vo);
 				boardMap.put("photo", photo);
+				boardMap.put("profilePhoto", profilePhoto);
 				boardMap.put("category", category);
 				boardMap.put("commentCount", commentCount);
 				boardMap.put("contentFlag", contentFlag);
