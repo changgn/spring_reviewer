@@ -228,9 +228,6 @@ $(function() {
 		        	  view += '<div id="menu_'+ allBoardList[idx].board.board_num +'" class="cont_btn_option"><div class="ly_dimmed"></div>';
 		        	  view += '<ul class="cont_popup ul_list">';
 		        	  view += '<li><a href="/content/reportPro.do?board_num='+ allBoardList[idx].board.board_num + '" class="cont_popup_close" >이 게시글 신고</a></li>';
-		        	  if("${login_status}"==0 || "${login_status}"==1) {
-		        	  	  view += '<li><a href="#" id="' + allBoardList[idx].board.board_num + '" class="cont_popup_close secret_content" >게시글 숨기기</a></li>'
-		        	  }
 		        	  if(allBoardList[idx].board.id == '${id}' || "${login_status}"==0){
 						  view += '<li><a href="/content/deleteContent.do?id=' + allBoardList[idx].board.id +'&board_num='+ allBoardList[idx].board.board_num + '" class="cont_popup_close" >이 게시글 삭제</a></li>';
 		        	  }
