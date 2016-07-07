@@ -159,10 +159,10 @@ $(function(){
 				
 				if(follow == 'follow'){
 					$(".follow_btn").attr("id", "unfollow");
-					$("#follow_sta").attr("src", "../image/icon_36.png");
+					$(".follow_btn").css("background-image", "url('../image/icon_36.png')");
 				} else{
 					$(".follow_btn").attr("id", "follow");
-					$("#follow_sta").attr("src", "../image/icon_35.png");
+					$(".follow_btn").css("background-image", "url('../image/icon_35.png')");
 				}
 				
 				$("#follower_profile a").text("팔로워  " + followerCount + " >");
@@ -310,33 +310,48 @@ $(function() {
 </head>
 <style>
 #nav_content_screp { position: static; width: 100%; height: 40px; z-index: 999; background-color: white; border-bottom: 1px solid #E6E6E6; padding: 0; }
-.user_photo {display:none}   
+.user_photo {display:none}
+#myProfilePhoto{display: block; width: 130px;height: 130px;}
+.profile_thumb2{ display: inline-block;overflow: hidden;position: relative;width: 130px;height: 130px;vertical-align: middle; }
+.profile_thumb_mask2{position: absolute;top: 0;right: 0;bottom: 0;left: 0;z-index: 10; background-image: url("../image/mask1.png"); background-repeat: no-repeat; background-size: 100%;}
+.follow_btn {position: absolute; top: 85;right: 5;bottom: 10;left: 90;z-index: 10; background-repeat: no-repeat; background-position: }
 </style>
 <body>
 	<div id="my_profile_info_area">
-		<form action="/profile/profile_photo.do" id="profilePhotoForm" method="post" enctype="multipart/form-data">
-			<div class="profile_photo" id="file_input_hidden">
-				<c:if test="${id==paramId }">
-				<input type="file" id="u_photo" name="u_photo" class="user_photo" maxlength="5" onchange="check();">
-				</c:if>
-				<span class="profile_thumb" >
-                    <img src="${myProfilePhoto.realPath}">
-                    <span class="profile_thumb_mask"></span>
-              	</span>
-			</div>
-		</form>
 		<div id="my_profile_name">
-			<c:if test="${id!=paramId && (login_status==0 || login_status==1)}">
-				<div id="btn_follow_add">
-					<c:if test="${followCheck == true}">
-						<a id="unfollow" class="follow_btn" href="/follow/follow.do?follow=unfollow&to_id=${paramId}"><img id="follow_sta" src='../image/icon_36.png'></a>
+			<form action="/profile/profile_photo.do" id="profilePhotoForm" method="post" enctype="multipart/form-data">
+				<div class="profile_photo2" id="file_input_hidden">
+					<c:if test="${id==paramId }">
+					<input type="file" id="u_photo" name="u_photo" class="user_photo" maxlength="5" onchange="check();">
 					</c:if>
-					<c:if test="${followCheck == false}">
-						<a id="follow" class="follow_btn" href="/follow/follow.do?follow=follow&to_id=${paramId}"><img id="follow_sta" src='../image/icon_35.png'></a>
-					</c:if>
+					<a href="#">
+						<span class="profile_thumb2" >
+		                    <img id="myProfilePhoto" src="${myProfilePhoto.realPath}">
+		                    <span class="profile_thumb_mask2"></span>
+							<c:if test="${id!=paramId && (login_status==0 || login_status==1)}">
+								<c:if test="${followCheck == true}">
+									<span id="unfollow" class="follow_btn" style="background-image: url('../image/icon_36.png')"></span>
+								</c:if>
+								<c:if test="${followCheck == false}">
+									<span id="follow" class="follow_btn" style="background-image: url('../image/icon_35.png')"></span>
+								</c:if>
+							
+<%-- 								<span id="btn_follow_add">
+									<c:if test="${followCheck == true}">
+										<a id="unfollow" class="follow_btn" href="/follow/follow.do?follow=unfollow&to_id=${paramId}"><img id="follow_sta" src='../image/icon_36.png'></a>
+									</c:if>
+									<c:if test="${followCheck == false}">
+										<a id="follow" class="follow_btn" href="/follow/follow.do?follow=follow&to_id=${paramId}"><img id="follow_sta" src='../image/icon_35.png'></a>
+									</c:if>
+								</span> --%>
+							</c:if>
+		              	</span>
+	              	</a>
 				</div>
-			</c:if>
+			</form>
+
 			<div class="my_profile" id="id_profile">${paramId}</div>
+
 		</div>
 		<div id="my_profile_follow">
 			<div class="follow_profile" id="follower_profile"><a href="/follow/follower.do?id=${paramId}">팔로워  ${followerCount } ></a></div>
@@ -510,12 +525,12 @@ $(function() {
 <div id="content_comment_area">
 </div>
 </div> --%>
-
- <script>
-document.querySelector('.profile_thumb').addEventListener('click', function(e) {
+<c:if test="${id==paramId }">
+<script>
+document.querySelector('.profile_thumb2').addEventListener('click', function(e) {
  	document.querySelector('.user_photo').click();
 }, false);
 </script> 
-
+</c:if>
 </body>
 </html>
