@@ -23,6 +23,7 @@ import command.RecommendCommand;
 import command.ScrepCommand;
 import dao.CategoryDAO;
 import dao.CommentDAO;
+import dao.FollowDAO;
 import dao.MainDAO;
 import dao.MemberCategoryDAO;
 import dao.PhotoDAO;
@@ -53,6 +54,9 @@ public class MainController {
 	private MainDAO mainDao;
 	@Autowired
 	private ProfilePhotoDAO ProfilePhotoDao;
+	@Autowired
+	private FollowDAO followDao;
+
 	
 	public void setRecommendDao(RecommendDAO recommendDao) { this.recommendDao = recommendDao; }
 	public void setPhotoDao(PhotoDAO photoDao) { this.photoDao = photoDao; }
@@ -63,9 +67,10 @@ public class MainController {
 	public void setMainDao(MainDAO mainDao) { this.mainDao = mainDao; }
 	public void setScrepDao(ScrepDAO screpDao) { this.screpDao = screpDao; }
 	public void setProfilePhotoDao(ProfilePhotoDAO profilePhotoDao) { ProfilePhotoDao = profilePhotoDao; }
-
+	public void setFollowDAO(FollowDAO followDao) { this.followDao = followDao; }
+	
 	@RequestMapping("/main/main.do")
-	public String main(HttpServletRequest request, HttpServletResponse resp, Model model){
+	public String main(HttpServletRequest request, HttpServletResponse resp, Model model, String sort){
 		
 		String id = (String)request.getSession().getAttribute("id"); 
 		String login_status = (String)request.getSession().getAttribute("login_status");
@@ -79,6 +84,7 @@ public class MainController {
 			login_status = "2";
 			request.getSession().setAttribute("login_status", login_status);
 		}
+		if(sort==null)	sort="all";
 		
 		Cookie[] cookies = request.getCookies();
 		if(cookies!=null) {
@@ -99,22 +105,82 @@ public class MainController {
 		if(login_status.equals("2")){
 			boardList = mainDao.getPageList();
 			
-		}else {
+		} else {
 			
-			categoryIdList = memberCategoryDao.getCategoryIdById(id);
 			List<Integer> secretBoardNumList = secretDao.getListById(id);
 			
-			if(categoryIdList.size() == 0){
-				if(secretBoardNumList.size() == 0){
-					boardList = mainDao.getPageList();
-				}else {
+			if(sort.equals("all")) {
+				if(secretBoardNumList.size() != 0){
 					boardList = mainDao.getPageListByExBoardNum(secretBoardNumList);
-				}
-			} else { 
-				if(secretBoardNumList.size() == 0){
-					boardList = mainDao.getPageListByCategoryId(categoryIdList);
 				}else {
-					boardList = mainDao.getPageListByCategoryIdExBoardNum(categoryIdList, secretBoardNumList);
+					boardList = mainDao.getPageList();
+				}
+			} else if(sort.equals("catagory")) {
+				categoryIdList = memberCategoryDao.getCategoryIdById(id);
+				if(categoryIdList.size() != 0){
+					if(secretBoardNumList.size() != 0){
+						boardList = mainDao.getPageListByCategoryIdExBoardNum(categoryIdList, secretBoardNumList);
+					}else {
+						boardList = mainDao.getPageListByCategoryId(categoryIdList);
+					}
+				} else { 
+					model.addAttribute("error", "noCatagory");
+					if(secretBoardNumList.size() != 0){
+						boardList = mainDao.getPageListByExBoardNum(secretBoardNumList);
+					} else {
+						boardList = mainDao.getPageList();
+					}
+				}
+			} else if(sort.equals("follow")) {
+				List<String> idList = followDao.toList(id);
+				if(idList.size() != 0){
+					if(secretBoardNumList.size() != 0){
+						boardList = mainDao.getPageListByIdListExBoardNum(idList, secretBoardNumList);
+					}else {
+						boardList = mainDao.getPageListByIdList(idList);}
+				} else {
+					model.addAttribute("error", "noFollow");
+					if(secretBoardNumList.size() != 0){
+						boardList = mainDao.getPageListByExBoardNum(secretBoardNumList);
+					} else {
+						boardList = mainDao.getPageList();
+					}
+				}
+				
+			} else if(sort.equals("catagory_follow")) {
+				categoryIdList = memberCategoryDao.getCategoryIdById(id);
+				List<String> idList = followDao.toList(id);
+				if(categoryIdList.size() != 0){
+					if(idList.size() != 0){
+						if(secretBoardNumList.size() != 0){
+							boardList = mainDao.getPageListByIdCategoryIdListExBoardNum(idList, categoryIdList, secretBoardNumList);
+						}else {
+							boardList = mainDao.getPageListByIdCategoryIdList(idList, categoryIdList);
+						}
+					} else {
+						model.addAttribute("error", "noFollow");
+						if(secretBoardNumList.size() != 0){
+							boardList = mainDao.getPageListByCategoryIdExBoardNum(categoryIdList, secretBoardNumList);
+						}else {
+							boardList = mainDao.getPageListByCategoryId(categoryIdList);
+						}
+					}
+				} else {
+					if(idList.size() != 0){
+						model.addAttribute("error", "noCatagory");
+						if(secretBoardNumList.size() != 0){
+							boardList = mainDao.getPageListByIdListExBoardNum(idList, secretBoardNumList);
+						}else {
+							boardList = mainDao.getPageListByIdList(idList);
+						}
+					} else {
+						model.addAttribute("error", "noCatagoryFollow");
+						if(secretBoardNumList.size() != 0){
+							boardList = mainDao.getPageListByExBoardNum(secretBoardNumList);
+						} else {
+							boardList = mainDao.getPageList();
+						}
+					}
 				}
 			}
 		}
@@ -165,13 +231,14 @@ public class MainController {
 			}
 		}
 		model.addAttribute("boardCount", boardCount);
+		model.addAttribute("sort", sort);
 		model.addAttribute("allBoardList", allBoardList);
 		return "main/main";
 	}
 	
 	@ResponseBody
 	@RequestMapping("/main/mainAjax.do")
-	public String mainAjax(HttpServletRequest request, HttpServletResponse resp, int lastBoard_num){
+	public String mainAjax(HttpServletRequest request, HttpServletResponse resp, String sort, int lastBoard_num){
 		
 		String id = (String)request.getSession().getAttribute("id"); 
 		String login_status = (String)request.getSession().getAttribute("login_status");
@@ -193,20 +260,76 @@ public class MainController {
 		if(login_status.equals("2")){
 			boardList = mainDao.getMorePageList(lastBoard_num);
 		}else {
-			categoryIdList = memberCategoryDao.getCategoryIdById(id);
 			List<Integer> secretBoardNumList = secretDao.getListById(id);
 			
-			if(categoryIdList.size() == 0){
-				if(secretBoardNumList.size() == 0){
-					boardList = mainDao.getMorePageList(lastBoard_num);
-				}else {
+			if(sort.equals("all")) {
+				if(secretBoardNumList.size() != 0){
 					boardList = mainDao.getMorePageListByExBoardNum(secretBoardNumList, lastBoard_num);
+				} else {
+					boardList = mainDao.getMorePageList(lastBoard_num);
 				}
-			} else { 
-				if(secretBoardNumList.size() == 0){
-					boardList = mainDao.getMorePageListByCategoryId(categoryIdList, lastBoard_num);
-				}else {
-					boardList = mainDao.getMorePageListByCategoryIdExBoardNum(categoryIdList, secretBoardNumList, lastBoard_num);
+			} else if(sort.equals("catagory")) {
+				categoryIdList = memberCategoryDao.getCategoryIdById(id);
+				if(categoryIdList.size() != 0){
+					if(secretBoardNumList.size() != 0){
+						boardList = mainDao.getMorePageListByCategoryIdExBoardNum(categoryIdList, secretBoardNumList, lastBoard_num);
+					} else {
+						boardList = mainDao.getMorePageListByCategoryId(categoryIdList, lastBoard_num);
+					}
+				} else { 
+					if(secretBoardNumList.size() != 0){
+						boardList = mainDao.getMorePageListByExBoardNum(secretBoardNumList, lastBoard_num);
+					} else {
+						boardList = mainDao.getMorePageList(lastBoard_num);
+					}
+				}
+			} else if(sort.equals("follow")) {
+				List<String> idList = followDao.toList(id);
+				if(idList.size() != 0){
+					if(secretBoardNumList.size() != 0){
+						boardList = mainDao.getMorePageListByIdListExBoardNum(idList, secretBoardNumList, lastBoard_num);
+					} else {
+						boardList = mainDao.getMorePageListByIdList(idList, lastBoard_num);
+					}
+				} else {
+					if(secretBoardNumList.size() != 0){
+						boardList = mainDao.getMorePageListByExBoardNum(secretBoardNumList, lastBoard_num);
+					} else {
+						boardList = mainDao.getMorePageList(lastBoard_num);
+					}
+				}
+				
+			} else if(sort.equals("catagory_follow")) {
+				categoryIdList = memberCategoryDao.getCategoryIdById(id);
+				List<String> idList = followDao.toList(id);
+				if(categoryIdList.size() != 0){
+					if(idList.size() != 0){
+						if(secretBoardNumList.size() != 0){
+							boardList = mainDao.getMorePageListByIdCategoryIdListExBoardNum(idList, categoryIdList, secretBoardNumList, lastBoard_num);
+						}else {
+							boardList = mainDao.getMorePageListByIdCategoryIdList(idList, categoryIdList, lastBoard_num);
+						}
+					} else {
+						if(secretBoardNumList.size() != 0){
+							boardList = mainDao.getMorePageListByCategoryIdExBoardNum(categoryIdList, secretBoardNumList, lastBoard_num);
+						}else {
+							boardList = mainDao.getMorePageListByCategoryId(categoryIdList, lastBoard_num);
+						}
+					}
+				} else {
+					if(idList.size() != 0){
+						if(secretBoardNumList.size() != 0){
+							boardList = mainDao.getMorePageListByIdListExBoardNum(idList, secretBoardNumList, lastBoard_num);
+						}else {
+							boardList = mainDao.getMorePageListByIdList(idList, lastBoard_num);
+						}
+					} else {
+						if(secretBoardNumList.size() != 0){
+							boardList = mainDao.getMorePageListByExBoardNum(secretBoardNumList, lastBoard_num);
+						} else {
+							boardList = mainDao.getMorePageList(lastBoard_num);
+						}
+					}
 				}
 			}
 		}

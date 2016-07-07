@@ -21,6 +21,17 @@ $(function(){
 	$("body").on("click", ".cont_btn_option", function(e){
 		$(this).hide();
 	});	
+	$(".btn_sort_area").mouseover(function(){
+		$(".btn_sort_list_area").show();
+	});
+	
+	$(".btn_sort_list_area").mouseleave(function(){
+		$(this).hide();
+	});
+	
+	$(".li_sort").click(function(){
+		$(location).attr("href", "/main/main.do?sort=" + $(this).find("span").attr("id"));
+	});
 });
 
 
@@ -152,7 +163,8 @@ $(function() {
     $(".list_view_more").click(function(e) { 
     	e.preventDefault();
     	var url = "/main/mainAjax.do";
-    	var params = "lastBoard_num=" + $("#lastBoard_num").val();      // 현재 리스트의 마지막글 번호를 가져온다.
+    	var params = "sort=" + $(".btn_sort_text").attr("id");
+    	params += "&lastBoard_num=" + $("#lastBoard_num").val();      // 현재 리스트의 마지막글 번호를 가져온다.
         $.ajax({
               type: "post",
               url: url,     	// 더보기 눌렀을때 데이터리스트를 html 형태로 만들어서 현재 리스트페이지로 보내준다.
@@ -256,7 +268,12 @@ $(function() {
 });
 
 </script>
-
+<style>
+.btn_sort_area { position:fixed; width: 60px; height: 40px; left: 0px; top: 170px; padding: 10px 5px 10px 5px; border: 1px solid #E6E6E6;}
+.btn_sort_list_area { display: none; z-index:9999; position:fixed; width: 200px; left: 0px; top: 170px; border: 1px solid #E6E6E6;}
+.btn_sort_list_area li { padding: 10px; background-color: white;}
+.btn_sort_area span { size: 15px; }
+</style>
 </head>
 <body>
 <div id="content_wrap_area">
@@ -399,6 +416,35 @@ $(function() {
 			<a href="/write/writeForm.do" class="btn_posting">
 				<span class="u_vc">글쓰기</span>
 			</a>
+		</div>
+		<div class="btn_sort_area">
+			<a href="#" class="btn_sort">
+				<span id="${sort}" class="btn_sort_text">분 류 ></span>
+			</a>
+		</div>
+		<div class="btn_sort_list_area">
+			<ul id="ul_sort" class="ul_list">
+				<li class="li_sort">
+					<a href="#" class="btn_sort_option">
+						<span id="all" class="btn_sort_option_text">전체 게시글</span>
+					</a>
+				</li>
+				<li class="li_sort">
+					<a href="#" class="btn_sort_option">
+						<span id="catagory" class="btn_sort_option_text">카테고리 게시글</span>
+					</a>
+				</li>
+				<li class="li_sort">
+					<a href="#" class="btn_sort_option">
+						<span id="follow" class="btn_sort_option_text">팔로우 게시글</span>
+					</a>
+				</li>
+				<li class="li_sort">
+					<a href="#" class="btn_sort_option">
+						<span id="catagory_follow" class="btn_sort_option_text">카테고리, 팔로우 게시글</span>
+					</a>
+				</li>
+			</ul>
 		</div>
 	</c:if>
 </html>

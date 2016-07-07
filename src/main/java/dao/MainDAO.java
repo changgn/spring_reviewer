@@ -93,4 +93,58 @@ public class MainDAO extends SqlSessionDaoSupport{
 		pageListMap.put("boardNumList", boardNumList);
 		return getSqlSession().selectList("main.getMorePageListByBoardNum", pageListMap);
 	}
+	
+	public List<BoardCommand> getPageListByIdList(List<String> idList){	
+		return getSqlSession().selectList("main.getPageListByIdList", idList);
+	}
+	public List<BoardCommand> getMorePageListByIdList(List<String> idList, int lastBoard_num){
+		HashMap<String, Object> pageListMap = new HashMap<String, Object>();
+		pageListMap.put("lastBoard_num", lastBoard_num);	
+		pageListMap.put("idList", idList);
+		return getSqlSession().selectList("main.getMorePageListByIdList", pageListMap);
+	}
+	
+	public List<BoardCommand> getPageListByIdListExBoardNum(List<String> idList, List<Integer> secretBoardNumList){
+		HashMap<String, Object> pageListMap = new HashMap<String, Object>();
+		pageListMap.put("idList", idList);
+		pageListMap.put("secretBoardNumList", secretBoardNumList);
+		return getSqlSession().selectList("main.getPageListByIdListExBoardNum", pageListMap);
+	}
+	public List<BoardCommand> getMorePageListByIdListExBoardNum(List<String> idList, List<Integer> secretBoardNumList, int lastBoard_num){
+		HashMap<String, Object> pageListMap = new HashMap<String, Object>();
+		pageListMap.put("idList", idList);
+		pageListMap.put("secretBoardNumList", secretBoardNumList);
+		pageListMap.put("lastBoard_num", lastBoard_num);
+		return getSqlSession().selectList("main.getMorePageListByIdListExBoardNum", pageListMap);
+	}
+	
+	public List<BoardCommand> getPageListByIdCategoryIdList(List<String> idList, List<String> categoryIdList){
+		HashMap<String, Object> pageListMap = new HashMap<String, Object>();
+		pageListMap.put("idList", idList);
+		pageListMap.put("categoryIdList", categoryIdList);
+		return getSqlSession().selectList("main.getPageListByIdCategoryIdList", pageListMap);
+	}
+	public List<BoardCommand> getMorePageListByIdCategoryIdList(List<String> idList, List<String> categoryIdList, int lastBoard_num){
+		HashMap<String, Object> pageListMap = new HashMap<String, Object>();
+		pageListMap.put("idList", idList);
+		pageListMap.put("categoryIdList", categoryIdList);
+		pageListMap.put("lastBoard_num", lastBoard_num);
+		return getSqlSession().selectList("main.getMorePageListByIdCategoryIdList", pageListMap);
+	}
+	
+	public List<BoardCommand> getPageListByIdCategoryIdListExBoardNum(List<String> idList, List<String> categoryIdList, List<Integer> secretBoardNumList){
+		HashMap<String, Object> pageListMap = new HashMap<String, Object>();
+		pageListMap.put("idList", idList);
+		pageListMap.put("categoryIdList", categoryIdList);
+		pageListMap.put("secretBoardNumList", secretBoardNumList);
+		return getSqlSession().selectList("main.getPageListByIdCategoryIdListExBoardNum", pageListMap);
+	}
+	public List<BoardCommand> getMorePageListByIdCategoryIdListExBoardNum(List<String> idList, List<String> categoryIdList, List<Integer> secretBoardNumList, int lastBoard_num){
+		HashMap<String, Object> pageListMap = new HashMap<String, Object>();
+		pageListMap.put("idList", idList);
+		pageListMap.put("categoryIdList", categoryIdList);
+		pageListMap.put("secretBoardNumList", secretBoardNumList);
+		pageListMap.put("lastBoard_num", lastBoard_num);
+		return getSqlSession().selectList("main.getMorePageListByIdCategoryIdListExBoardNum", pageListMap);
+	}
 }

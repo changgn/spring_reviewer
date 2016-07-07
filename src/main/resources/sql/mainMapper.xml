@@ -170,6 +170,118 @@
 			ORDER BY write_date DESC) 
 		where rnum between 1 and 5 ORDER BY write_date DESC
 	</select>
+	
+	<select parameterType="java.util.List" id="getPageListByIdList" resultType="command.BoardCommand">
+		select * 
+		from (select rownum rnum ,board_num,id,category_id,content,write_date,recommend_num,report_num,screp,comment_num 
+			from (select * from board where id IN
+					<foreach separator="," close=")" open="(" item="item" collection="list"> #{item}
+			 		</foreach>
+				order by write_date DESC)
+			ORDER BY write_date DESC) 
+		where rnum between 1 and 5 ORDER BY write_date DESC
+	</select>
+	<select parameterType="java.util.HashMap" id="getMorePageListByIdList" resultType="command.BoardCommand">
+		select * 
+		from (select rownum rnum ,board_num,id,category_id,content,write_date,recommend_num,report_num,screp,comment_num 
+			from (select * from board where board_num<![CDATA[<]]>#{lastBoard_num} 
+				AND id IN
+					<foreach separator="," close=")" open="(" item="item" collection="idList"> #{item}
+			 		</foreach>
+				order by write_date DESC)
+			ORDER BY write_date DESC) 
+		where rnum between 1 and 5 ORDER BY write_date DESC
+	</select>
+	
+	<select id="getPageListByIdListExBoardNum" parameterType="java.util.HashMap" resultType="command.BoardCommand">	
+		select * 
+		from (select rownum rnum ,board_num,id,category_id,content,write_date,recommend_num,report_num,screp,comment_num 
+			from (select * from board where id IN 
+					<foreach separator="," close=")" open="(" item="item" collection="idList"> #{item} 
+					</foreach>
+				AND board_num NOT IN
+					<foreach separator="," close=")" open="(" item="item" collection="secretBoardNumList"> #{item} 
+					</foreach>
+				ORDER BY write_date DESC)
+			ORDER BY write_date DESC) 
+		where rnum between 1 and 5 ORDER BY write_date DESC
+	</select>
+	<select id="getMorePageListByIdListExBoardNum" parameterType="java.util.HashMap" resultType="command.BoardCommand">	
+		select * 
+		from (select rownum rnum ,board_num,id,category_id,content,write_date,recommend_num,report_num,screp,comment_num 
+			from (select * from board where board_num<![CDATA[<]]>#{lastBoard_num}
+				AND id IN 
+					<foreach separator="," close=")" open="(" item="item" collection="idList"> #{item} 
+					</foreach>
+				AND board_num NOT IN
+					<foreach separator="," close=")" open="(" item="item" collection="secretBoardNumList"> #{item} 
+					</foreach>
+				ORDER BY write_date DESC)
+			ORDER BY write_date DESC) 
+		where rnum between 1 and 5 ORDER BY write_date DESC
+	</select>
+	
+	<select id="getPageListByIdCategoryIdList" parameterType="java.util.HashMap" resultType="command.BoardCommand">	
+		select * 
+		from (select rownum rnum ,board_num,id,category_id,content,write_date,recommend_num,report_num,screp,comment_num 
+			from (select * from board where id IN 
+					<foreach separator="," close=")" open="(" item="item" collection="idList"> #{item} 
+					</foreach>
+				AND category_id IN
+					<foreach separator="," close=")" open="(" item="item" collection="categoryIdList"> #{item} 
+					</foreach>
+				ORDER BY write_date DESC)
+			ORDER BY write_date DESC) 
+		where rnum between 1 and 5 ORDER BY write_date DESC
+	</select>
+	<select id="getMorePageListByIdCategoryIdList" parameterType="java.util.HashMap" resultType="command.BoardCommand">	
+		select * 
+		from (select rownum rnum ,board_num,id,category_id,content,write_date,recommend_num,report_num,screp,comment_num 
+			from (select * from board where board_num<![CDATA[<]]>#{lastBoard_num}
+				AND id IN 
+					<foreach separator="," close=")" open="(" item="item" collection="idList"> #{item} 
+					</foreach>
+				AND category_id IN
+					<foreach separator="," close=")" open="(" item="item" collection="categoryIdList"> #{item} 
+					</foreach>
+				ORDER BY write_date DESC)
+			ORDER BY write_date DESC) 
+		where rnum between 1 and 5 ORDER BY write_date DESC
+	</select>
+	
+	<select id="getPageListByIdCategoryIdListExBoardNum" parameterType="java.util.HashMap" resultType="command.BoardCommand">	
+		select * 
+		from (select rownum rnum ,board_num,id,category_id,content,write_date,recommend_num,report_num,screp,comment_num 
+			from (select * from board where id IN 
+					<foreach separator="," close=")" open="(" item="item" collection="idList"> #{item} 
+					</foreach>
+				AND category_id IN
+					<foreach separator="," close=")" open="(" item="item" collection="categoryIdList"> #{item} 
+					</foreach>
+				AND board_num NOT IN
+					<foreach separator="," close=")" open="(" item="item" collection="secretBoardNumList"> #{item} 
+					</foreach>
+				ORDER BY write_date DESC)
+			ORDER BY write_date DESC) 
+		where rnum between 1 and 5 ORDER BY write_date DESC
+	</select>
+	<select id="getMorePageListByIdCategoryIdListExBoardNum" parameterType="java.util.HashMap" resultType="command.BoardCommand">	
+		select * 
+		from (select rownum rnum ,board_num,id,category_id,content,write_date,recommend_num,report_num,screp,comment_num 
+			from (select * from board where board_num<![CDATA[<]]>#{lastBoard_num}
+				AND id IN 
+					<foreach separator="," close=")" open="(" item="item" collection="idList"> #{item} 
+					</foreach>
+				AND category_id IN
+					<foreach separator="," close=")" open="(" item="item" collection="categoryIdList"> #{item} 
+					</foreach>
+				AND board_num NOT IN
+					<foreach separator="," close=")" open="(" item="item" collection="secretBoardNumList"> #{item} 
+					</foreach>
+				ORDER BY write_date DESC)
+			ORDER BY write_date DESC) 
+		where rnum between 1 and 5 ORDER BY write_date DESC
+	</select>
 </mapper>
 
 

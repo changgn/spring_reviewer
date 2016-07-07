@@ -308,14 +308,6 @@ $(function() {
 
 <title>${paramId} 프로필</title> 
 </head>
-<style>
-#nav_content_screp { position: static; width: 100%; height: 40px; z-index: 999; background-color: white; border-bottom: 1px solid #E6E6E6; padding: 0; }
-.user_photo {display:none}
-#myProfilePhoto{display: block; width: 130px;height: 130px;}
-.profile_thumb2{ display: inline-block;overflow: hidden;position: relative;width: 130px;height: 130px;vertical-align: middle; }
-.profile_thumb_mask2{position: absolute;top: 0;right: 0;bottom: 0;left: 0;z-index: 10; background-image: url("../image/mask1.png"); background-repeat: no-repeat; background-size: 100%;}
-.follow_btn {position: absolute; top: 85;right: 5;bottom: 10;left: 90;z-index: 10; background-repeat: no-repeat; background-position: }
-</style>
 <body>
 	<div id="my_profile_info_area">
 		<div id="my_profile_name">
@@ -491,9 +483,9 @@ $(function() {
 	<input type="hidden" id="pageInfo" value="${pageInfo}" />
 	<c:if test="${boardCount >= 5}">
 	<div class="view_more">
-	 		<a href="#" class="list_view_more">
-	 			<span class="ico_plus"><img src="../image/plus.png"></span><span class="txt_view_more">더 많은 리뷰 보기</span>
-	 		</a>
+ 		<a href="#" class="list_view_more">
+ 			<span class="ico_plus"><img src="../image/plus.png"></span><span class="txt_view_more">더 많은 리뷰 보기</span>
+ 		</a>
     </div>
     </c:if>
 	<c:if test="${login_status==0 || login_status==1}">
