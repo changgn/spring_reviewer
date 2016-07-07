@@ -335,15 +335,6 @@ $(function() {
 								<c:if test="${followCheck == false}">
 									<span id="follow" class="follow_btn" style="background-image: url('../image/icon_35.png')"></span>
 								</c:if>
-							
-<%-- 								<span id="btn_follow_add">
-									<c:if test="${followCheck == true}">
-										<a id="unfollow" class="follow_btn" href="/follow/follow.do?follow=unfollow&to_id=${paramId}"><img id="follow_sta" src='../image/icon_36.png'></a>
-									</c:if>
-									<c:if test="${followCheck == false}">
-										<a id="follow" class="follow_btn" href="/follow/follow.do?follow=follow&to_id=${paramId}"><img id="follow_sta" src='../image/icon_35.png'></a>
-									</c:if>
-								</span> --%>
 							</c:if>
 		              	</span>
 	              	</a>
@@ -512,19 +503,6 @@ $(function() {
 			</a>
 		</div>
 	</c:if>
-
-
-<%-- <div id="content_area">
-	${board.id}, ${board.content}
-</div>
-<div id="content_photo_area">
-	<c:forEach var="photo" items="${photoList}">
-		<div class="content_photo"><img src="${photo.realPath}"></div>
-	</c:forEach>
-</div>
-<div id="content_comment_area">
-</div>
-</div> --%>
 <c:if test="${id==paramId }">
 <script>
 document.querySelector('.profile_thumb2').addEventListener('click', function(e) {
