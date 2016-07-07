@@ -11,7 +11,17 @@
 <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 <title>메인페이지</title>
 <script>
-
+$(document).ready(function(){
+	if("${error}"=="noCategory") {
+		alert("설정된 카테고리가 없습니다.");
+	}
+	if("${error}"=="noFollow") {
+		alert("팔로우하는 리뷰어가 없습니다.");
+	}
+	if("${error}"=="noCategoryFollow") {
+		alert("설정된 카테고리가 없습니다. 팔로우하는 리뷰어가 없습니다.");
+	}
+});
 $(function(){
 	$("body").on("click", ".cont_menu_option", function(e){
 		e.preventDefault();
@@ -425,7 +435,7 @@ $(function() {
 				</li>
 				<li class="li_sort">
 					<a href="#" class="btn_sort_option">
-						<span id="catagory" class="btn_sort_option_text">카테고리 게시글</span>
+						<span id="category" class="btn_sort_option_text">카테고리 게시글</span>
 					</a>
 				</li>
 				<li class="li_sort">
@@ -435,7 +445,7 @@ $(function() {
 				</li>
 				<li class="li_sort">
 					<a href="#" class="btn_sort_option">
-						<span id="catagory_follow" class="btn_sort_option_text">카테고리, 팔로우 게시글</span>
+						<span id="category_follow" class="btn_sort_option_text">카테고리, 팔로우 게시글</span>
 					</a>
 				</li>
 			</ul>

@@ -18,6 +18,7 @@ import command.ScrepCommand;
 import command.BoardCommand;
 import command.CategoryCommand;
 import command.PhotoCommand;
+import command.ProfilePhotoCommand;
 import command.RecommendCommand;
 
 import dao.ScrepDAO;
@@ -27,6 +28,7 @@ import dao.CommentDAO;
 import dao.FollowDAO;
 import dao.MainDAO;
 import dao.PhotoDAO;
+import dao.ProfilePhotoDAO;
 import dao.RecommendDAO;
 import net.sf.json.JSONObject;
 
@@ -49,6 +51,8 @@ public class ScrepController {
 	private RecommendDAO RecommendDao;
 	@Autowired
 	private FollowDAO followDao;
+	@Autowired
+	private ProfilePhotoDAO ProfilePhotoDao;
 	
 	
 
@@ -76,6 +80,9 @@ public class ScrepController {
 	}
 	public void setMainDao(MainDAO MainDao) {
 		this.MainDao = MainDao;
+	}
+	public void setProfilePhotoDao(ProfilePhotoDAO profilePhotoDao) { 
+		ProfilePhotoDao = profilePhotoDao; 
 	}
 	
 	@ResponseBody
@@ -113,6 +120,9 @@ public class ScrepController {
 		//팔로잉 숫자 저장
 		int followingCount = followDao.countto(paramId);
 		model.addAttribute("followingCount", followingCount);
+		
+		ProfilePhotoCommand myProfilePhoto = ProfilePhotoDao.getOneById(paramId);
+		model.addAttribute("myProfilePhoto", myProfilePhoto);
 		
 		List<BoardCommand> boardList = null;
 		List<Integer> boardNumList = ScrepDao.getScrepListById(paramId);

@@ -115,7 +115,7 @@ public class MainController {
 				}else {
 					boardList = mainDao.getPageList();
 				}
-			} else if(sort.equals("catagory")) {
+			} else if(sort.equals("category")) {
 				categoryIdList = memberCategoryDao.getCategoryIdById(id);
 				if(categoryIdList.size() != 0){
 					if(secretBoardNumList.size() != 0){
@@ -124,7 +124,7 @@ public class MainController {
 						boardList = mainDao.getPageListByCategoryId(categoryIdList);
 					}
 				} else { 
-					model.addAttribute("error", "noCatagory");
+					model.addAttribute("error", "noCategory");
 					if(secretBoardNumList.size() != 0){
 						boardList = mainDao.getPageListByExBoardNum(secretBoardNumList);
 					} else {
@@ -147,7 +147,7 @@ public class MainController {
 					}
 				}
 				
-			} else if(sort.equals("catagory_follow")) {
+			} else if(sort.equals("category_follow")) {
 				categoryIdList = memberCategoryDao.getCategoryIdById(id);
 				List<String> idList = followDao.toList(id);
 				if(categoryIdList.size() != 0){
@@ -167,14 +167,14 @@ public class MainController {
 					}
 				} else {
 					if(idList.size() != 0){
-						model.addAttribute("error", "noCatagory");
+						model.addAttribute("error", "noCategory");
 						if(secretBoardNumList.size() != 0){
 							boardList = mainDao.getPageListByIdListExBoardNum(idList, secretBoardNumList);
 						}else {
 							boardList = mainDao.getPageListByIdList(idList);
 						}
 					} else {
-						model.addAttribute("error", "noCatagoryFollow");
+						model.addAttribute("error", "noCategoryFollow");
 						if(secretBoardNumList.size() != 0){
 							boardList = mainDao.getPageListByExBoardNum(secretBoardNumList);
 						} else {
@@ -268,7 +268,7 @@ public class MainController {
 				} else {
 					boardList = mainDao.getMorePageList(lastBoard_num);
 				}
-			} else if(sort.equals("catagory")) {
+			} else if(sort.equals("category")) {
 				categoryIdList = memberCategoryDao.getCategoryIdById(id);
 				if(categoryIdList.size() != 0){
 					if(secretBoardNumList.size() != 0){
@@ -299,7 +299,7 @@ public class MainController {
 					}
 				}
 				
-			} else if(sort.equals("catagory_follow")) {
+			} else if(sort.equals("category_follow")) {
 				categoryIdList = memberCategoryDao.getCategoryIdById(id);
 				List<String> idList = followDao.toList(id);
 				if(categoryIdList.size() != 0){
