@@ -233,5 +233,5 @@ pre { white-space: pre-wrap; }
 .profile_name{ font-size: 25px; font-family: sans-serif;}
 .user_name{	font-size: 25px; font-family: sans-serif;}
 .follow_list_item_wrap{ border-bottom: 1px; border-bottom-color: #D5D5D5; border-bottom-style: solid; border-bottom-width: 100%;}
-.follow_List_item{ margin-left: 100px; margin-right: 100px; }
+.follow_List_item{ margin-left: 15%; margin-right: 15%; }
 .follow_profile_info_wrap{margin-top: 10px; margin-bottom: 10px; text-align: justify;}
