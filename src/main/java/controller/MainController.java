@@ -158,7 +158,6 @@ public class MainController {
 							boardList = mainDao.getPageListByIdCategoryIdList(idList, categoryIdList);
 						}
 					} else {
-						model.addAttribute("error", "noFollow");
 						if(secretBoardNumList.size() != 0){
 							boardList = mainDao.getPageListByCategoryIdExBoardNum(categoryIdList, secretBoardNumList);
 						}else {
@@ -167,7 +166,6 @@ public class MainController {
 					}
 				} else {
 					if(idList.size() != 0){
-						model.addAttribute("error", "noCategory");
 						if(secretBoardNumList.size() != 0){
 							boardList = mainDao.getPageListByIdListExBoardNum(idList, secretBoardNumList);
 						}else {

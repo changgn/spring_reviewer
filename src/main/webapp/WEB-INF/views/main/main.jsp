@@ -19,7 +19,7 @@ $(window).load(function(){
 		alert("팔로우하는 리뷰어가 없습니다.");
 	}
 	if("${error}"=="noCategoryFollow") {
-		alert("설정된 카테고리가 없습니다. 팔로우하는 리뷰어가 없습니다.");
+		alert("설정된 카테고리와 팔로우하는 리뷰어가 없습니다.");
 	}
 });
 $(function(){
