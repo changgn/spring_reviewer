@@ -108,6 +108,7 @@ pre { white-space: pre-wrap; }
 .item_cont{padding-top: 28px;}
 .item_thumb{display: block;overflow: hidden;position: relative;text-align: center;}
 .list_photo{width:100%;height:auto;vertical-align:top; border-left: 1px solid #e6e6e6; border-right: 1px solid #e6e6e6;}
+
 /* recommend btn */
 .cont_btns{border: 1px solid #e6e6e6;border-top: 0 none;}
 .cont_btns_wrap{height: auto;padding-left: 20px;padding-bottom: 20px;padding-top: 20px;position: relative;padding: 27px 0 0 6px; margin-bottom: 22px; }
