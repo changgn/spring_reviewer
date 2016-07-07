@@ -423,7 +423,7 @@ $(function() {
 		</div>
 		<div class="btn_sort_area">
 			<a href="#" class="btn_sort">
-				<span id="${sort}" class="btn_sort_text">분 류 ></span>
+				<span id="${sort}" class="btn_sort_text">분<br /><br />류<br /><br />설<br /><br />정</span>
 			</a>
 		</div>
 		<div class="btn_sort_list_area">

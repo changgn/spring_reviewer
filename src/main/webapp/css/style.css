@@ -147,10 +147,12 @@ pre { white-space: pre-wrap; }
 .follow_btn {position: absolute; top: 85;right: 5;bottom: 10;left: 90;z-index: 10; background-repeat: no-repeat; background-position: }
 
 /* sort btn */
-.btn_sort_area { position:fixed; width: 60px; height: 40px; left: 0px; top: 170px; padding: 10px 5px 10px 5px; border: 1px solid #E6E6E6;}
+.btn_sort_area { position:fixed; width: 30px; height: 142px; left: 0px; top: 170px; padding: 15px 5px 15px 5px; border: 1px solid #E6E6E6;}
 .btn_sort_list_area { display: none; z-index:9999; position:fixed; width: 200px; left: 0px; top: 170px; border: 1px solid #E6E6E6;}
 .btn_sort_list_area li { padding: 10px; background-color: white;}
 .btn_sort_area span { size: 15px; }	
+.btn_sort_text { color: #C6C6C6; }
+.btn_sort_option_text { color: #C6C6C6; }
 
 /* loginFrom */
 #logon { min-height: 800px; }
