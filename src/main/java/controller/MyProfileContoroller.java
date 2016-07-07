@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import dao.CategoryDAO;
 import dao.CommentDAO;
@@ -283,8 +282,6 @@ public class MyProfileContoroller {
 	@RequestMapping(value="/profile/profile_photo.do", method=RequestMethod.POST)
 	public String insertboard(@RequestParam("u_photo") MultipartFile file, HttpServletRequest request, Model model)
 			throws IOException {
-
-		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 
 		System.out.println("o_fileName : " + file.getOriginalFilename());
 		String id = (String)request.getSession().getAttribute("id");
