@@ -9,11 +9,11 @@
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 		<script>
 		$(function(){
-			$(".follow_profile_info_wrap").on("click", ".follow_button", function(e){
+			$(".follow_List_item").on("click", ".follow_button", function(e){
 				event.preventDefault();
 				var url= "/follow/followerAdd.do";
 				var params = "profileId=" + "${profileId}";
-	 			params += "&add_id=" + $(this).attr("name");
+ 				params += "&add_id=" + $(this).attr("name");
 				params += "&follow=" + $(this).attr("id");
 				$.ajax({
 					type:"post"		// 포스트방식
@@ -81,13 +81,13 @@
 									<c:if test="${logId ne fromId && logId ne null}">
 										<c:choose>
 											<c:when test="${followCheck[fromId] eq true}">
-												<a id="unfollow" class="follow_button" name="${fromId}" href="/follow/followerAdd.do?follow=unfollow&profileId=${profileId}&add_id=${fromId}" title="팔로우 버튼">
-													<img class="follow_image_${fromId}" src="../image/icon_36.png" width="45" height="45" align="right">
+												<a id="unfollow" class="follow_button" name="${fromId}" href="/follow/followerAdd.do?follow=unfollow&profileId=${profileId}&add_id=${fromId}" title="팔로우 버튼" class="btn_follow">
+													<img class="follow_image_${fromId}" src="../image/icon_36.png" align="right">
 												</a>
 											</c:when>
 											<c:otherwise >
-												<a id="follow" class="follow_button" name="${fromId}" href="/follow/followerAdd.do?follow=follow&profileId=${profileId}&add_id=${fromId}" title="팔로우 버튼">
-													<img class="follow_image_${fromId}" src="../image/icon_35.png" width="45" height="45" align="right">
+												<a id="follow" class="follow_button" name="${fromId}" href="/follow/followerAdd.do?follow=follow&profileId=${profileId}&add_id=${fromId}" title="팔로우 버튼" class="btn_follow">
+													<img class="follow_image_${fromId}" src="../image/icon_35.png" align="right">
 												</a>
 											</c:otherwise>
 										</c:choose>

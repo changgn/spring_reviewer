@@ -116,7 +116,8 @@ public class FollowProcController {
 					}
 					noticeDao.insert2(noticeCommand);
 					map.put(add_id, true);
-					model.addAttribute("followCheck", map);
+					jso.put("followCheck", map);
+//					model.addAttribute("followCheck", map);
 					System.out.println(from_id + "가" + add_id + "팔로우"); 
 				} else {	/**	실패	*/
 					System.out.println("팔로우 실패");
@@ -136,7 +137,8 @@ public class FollowProcController {
 					}
 					noticeDao.insert2(noticeCommand);
 					map.put(add_id, false);
-					model.addAttribute("followCheck", map);
+					jso.put("followCheck", map);
+//					model.addAttribute("followCheck", map);
 					System.out.println(from_id + "가" + add_id + "언팔로우");
 				} else {
 					System.out.println("언팔로우 실패");
