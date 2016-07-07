@@ -307,14 +307,25 @@ $(function(){
 					 <div class="cont_btn_option">
 						<div class="ly_dimmed"></div>
 						<ul class="cont_popup ul_list">
-							<li>
-								<a href="/content/reportPro.do?board_num=${board.board_num}" class="cont_popup_close" >이 게시글 신고</a>
-							</li>
-						<c:if test="${board.id == id}">						
-							<li>
-								<a href="/content/deleteContent.do?id=${board.id}&board_num=${board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
-							</li>
-						</c:if>
+							<c:choose>
+								<c:when test="${id != 'admin' }">
+									<c:if test="${board.id != id}">
+										<li>
+											<a href="/content/reportPro.do?board_num=${board.board_num}" class="cont_popup_close" >이 게시글 신고</a>
+										</li>
+									</c:if>
+									<c:if test="${board.id == id}">						
+										<li>
+											<a href="/content/deleteContent.do?id=${board.id}&board_num=${board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
+										</li>
+									</c:if>
+								</c:when>
+								<c:otherwise>>						
+									<li>
+										<a href="/content/deleteContent.do?id=${board.id}&board_num=${board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
+									</li>
+								</c:otherwise>
+							</c:choose>
 						</ul>
 					</div>
 				</div>
@@ -406,7 +417,7 @@ $(function(){
 			<div id="content_comment_writed_area" >
 				<div id="content_comment_info">
 					작성자 : <a href="/profile/myProfile.do?id=${comment.id}">${comment.id}</a>&nbsp;&nbsp;&nbsp; 작성시간 : <fmt:formatDate value="${comment.write_date}" pattern="yyyy-MM-dd HH:mm"/>
-					<c:if test="${comment.id == id}">
+					<c:if test="${comment.id == id || login_status==0}">
 						<a id="${comment.comment_num}" class="comment_menu_btn" href="#"><span id="comment_menu_btn_img_rap"><span id="comment_menu_btn_img">메 뉴</span></span></a>
 					</c:if>
 				</div>
@@ -416,7 +427,10 @@ $(function(){
 			</div>
 
 			<div id="comment_menu_${comment.comment_num}" class="comment_menu">
-				<div><a id="${comment.comment_num}" class="comment_mod" href="#">수 정</a></div>
+				<c:if test="${login_status !=0}">
+					<div><a id="${comment.comment_num}" class="comment_mod" href="#">수 정</a></div>
+				</c:if>
+				
 				<div><a href="/content/commentdel.do?board_num=${board_num}&comment_num=${comment.comment_num}">삭 제</a></div>
 			</div>
 		</div>

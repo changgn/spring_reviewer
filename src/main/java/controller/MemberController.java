@@ -128,6 +128,7 @@ public class MemberController {
 		
 		HttpSession session = request.getSession();
 		String id = (String) session.getAttribute("id");
+		model.addAttribute("id", id);
 		
 		MemberCommand memberInfo = memberDao.modifyForm(id);
 		model.addAttribute("m", memberInfo);

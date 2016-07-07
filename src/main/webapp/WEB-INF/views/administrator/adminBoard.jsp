@@ -16,7 +16,7 @@
 			.tab li.on { background-color:#eee; color:#f00; }
 			.tab_con { clear:both; margin-top:50px auto; border:1px solid #ddd;}
 			.tab_con div { display:none; height: 100% auto; background:#fff; line-height:100px; text-align:center;}
-			.list{ margin-top: 20px; margin: auto; border-bottom: solid 1px; border-bottom-color: #f6f6f6; text-align: center;
+			.list_table{ margin-top: 20px; margin: auto; border-bottom: solid 1px; border-bottom-color: #f6f6f6; text-align: center;
 				padding : 7px; color: #4c4c4c; font-size: 14px; }
 		</style>
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
@@ -71,41 +71,48 @@
 		<div class="tab_con" id="tab_con">
     		<div id="board">
     			<c:forEach var="board" items="${boardList}"> 
-					<table class="list">
-						<tr>
+					<table class="list_table" id="simple_info">
+						<tr class="simple_info">
 							<td class="space" width="10"></td>
-							<td width="16%" align="left">
+							<td width="14%" align="left">
 								<a id="text" href="/profile/myProfile.do?id=${board.id}"> 작성자 : ${board.id}</a>
 							</td>
 							<td class="space" width="10"></td>
-							<td width="16%" >
+							<td width="14%" >
+								게시글 번호 : ${board.board_num}
+							</td>
+							<td class="space" width="10"></td>
+							<td width="14%" >
 								<img src="../image/report.png"> ${board.report_num}
 							</td>
 							<td class="space" width="10"></td>
-							<td width="16%" >
+							<td width="14%" >
 								<img src="../image/recommend_off.png" width="15" height="15"> ${board.recommend_num}
 							</td>
 							<td class="space" width="10"></td>
-							<td width="16%">
+							<td width="14%">
 								작성일 : <fmt:formatDate value="${board.write_date}" pattern="yyyy-MM-dd HH:mm"/>
 							</td>
 							<td class="space" width="10"></td>
-							<td width="16%">
-								<a id="text" href="/content/contentForm.do?board_num=${board.board_num}">상세보기</a>
+							<td width="14%">
+								<a id="text" href="/content/contentForm.do?board_num=${board.board_num}">게시글 페이지</a>
 							</td>
 							<td class="space" width="10"></td>
-							<td width="16%">
+							<td width="14%">
 								<a id="text" href="/content/deleteContent.do?board_num=${board.board_num}&id=${board.id}">
 									삭제 <img src="../image/icon_66.png">
 								</a>
 							</td>
 						</tr>
 					</table>
+					<div id="detail_info">
+						${board.id}
+					</div>
 				</c:forEach>
     		</div>	
     		<div id="report">
     			<c:forEach var="reportBoard" items="${reportBoardList}"> 
-					<table class="list">
+					<table class="list_table">
 						<tr>
 							<td class="space" width="10"></td>
 							<td width="20%" align="left">
@@ -135,7 +142,7 @@
 			</div>
     		<div id="popul">
     			<c:forEach var="populBoard" items="${populBoardList}"> 
-					<table class="list">
+					<table class="list_table">
 						<tr>
 							<td class="space" width="10"></td>
 							<td width="20%" align="left">

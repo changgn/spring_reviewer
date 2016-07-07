@@ -5,14 +5,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<style type="text/css">
-			.profile_follow_body{ border-top-style: solid; border-right-color: #D5D5D5; border-top: 2px; width: 100%;}
-		</style>
 		<link href="../css/style.css" rel="stylesheet" type="text/css">
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 		<script>
 		$(function(){
-			$(".follow_List_item").on("click", ".follow_button", function(e){
+			$(".profile_follow_body").on("click", ".follow_button", function(e){
 				e.preventDefault();
 				var url= "/follow/followingAdd.do";
 				var params = "profileId=" + "${profileId}";
@@ -33,7 +30,7 @@
 							select.attr("src", "../image/icon_36.png");
 						} else{
 							if(myPofile == true){
-								var removeId = $("#following_"+id);
+								var removeId = $("#follow_list_item_wrap_"+id);
 								removeId.remove();
 							}else{
 								$(".follow_button").attr("id", "follow");
@@ -75,7 +72,7 @@
 			<div class="follow_list_wrap" id="follower_wrap">
 				<ul class="follow_list" id="list">
 					<c:forEach var="toId" items="${toIdList}"> 
-						<li class="follow_list_item_wrap">
+						<li class="follow_list_item_wrap" id="follow_list_item_wrap_${toId}">
 							<div class="follow_List_item" id="follower_info">
 								<div class="follow_profile_info_wrap">
 									<a href="/profile/myProfile.do?id=${toId}"title="팔로우 정보" class="link_follow_profile">
@@ -92,12 +89,12 @@
  										<c:choose>
 											<c:when test="${followCheck[toId] eq true}">
 												<a id="unfollow" class="follow_button" name="${toId}" href="/follow/followingAdd.do?follow=unfollow&profileId=${profileId}&add_id=${toId}">
-													<img id="follow_image_${toId}" src="../image/icon_36.png" align="right">
+													<img id="follow_image_${toId}" src="../image/icon_36.png" width="45" height="45" align="right">
 												</a>
 											</c:when>
 											<c:otherwise>
 												<a id="follow" class="follow_button" name="${toId}" href="/follow/followingAdd.do?follow=follow&profileId=${profileId}&add_id=${toId}">
-													<img id="follow_image_${toId}" src="../image/icon_35.png" align="right">
+													<img id="follow_image_${toId}" src="../image/icon_35.png" width="45" height="45" align="right">
 												</a>
 											</c:otherwise>
 										</c:choose>

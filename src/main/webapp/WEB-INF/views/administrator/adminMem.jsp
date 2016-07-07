@@ -19,7 +19,7 @@
 				margin: 50 auto;
 			}
 			.Member_List_wrap{ margin: 10px;}
-			.Member{padding: 9px 100px 9px 17px; position: relative;}
+			.Member{padding: 9px 100px 9px 17px; position: relative; border: 1px; border-color: #D5D5D5; border-style: solid;}
 			.Member_Detaile_Info{display: none; position: fixed; z-index: 9999;top: 0;right: 0;bottom: 0;left: 0;line-height: 100%;text-align: center;}
 			.Member_Simple_Info_Id{display: block;overflow: hidden; padding: 3px 12px;}
 			.mem_d_i{display: inline-block;position: relative;z-index: 10000;width: 460px;background-color: #fff;line-height: normal;vertical-align: middle; top:300px;}
@@ -49,34 +49,30 @@
 					<div class="Member">
 						<div align="center">
 							<table>
-								<tr id="${memberList.id}" class="Member_Simple_Info">
-									<td class="space" width="50"></td>
-									<td width="auto" align="left">
-										<a href="#" id="${memberList.id}" class="Member_Simple_Info">
-											아이디 : ${memberList.id}
-										</a>
+								<tr id="${memberList.id}" class="Member_Simple_Info" >
+									<td class="space" width="30"></td>
+									<td width="10%" align="left">
+										아이디 : ${memberList.id}
 									</td>
-									<td class="space" width="50"></td>
-									<td>
+									<td class="space" width="30"></td>
+									<td width="15%">
 										<img src="../image/recommend_off.png" width="15" height="15"> 추천 받은 수 : ${memberList.recommend_num }
 									</td>
-									<td class="space" width="50"></td>
-									<td width="auto">
+									<td class="space" width="30"></td>
+									<td width="15%">
 										<img src="../image/list_icon.png" width="15" height="15">작성 게시글 : ${boardCount[memberList.id]}
 									</td>
-									<td class="space" width="50"></td>
-									<td width="auto">
+									<td class="space" width="30"></td>
+									<td width="15%">
 										<img src="../image/recommend_off.png" width="15" height="15"> 추천한 게시글 : ${recommendCount[memberList.id]}
 									</td>
-									<td class="space" width="50"></td>
-									<td width="auto">
+									<td class="space" width="30"></td>
+									<td width="15%">
 										<img src="../image/report.png"> 신고한 게시글 : ${reportCount[memberList.id]}
 									</td>
-									<td class="space" width="50"></td>
-									<td width="auto">
-										<a href="#" id="${memberList.id}" class="Member_Simple_Info">
-											가입일시 : <fmt:formatDate value="${memberList.reg_date}" pattern="yyyy-MM-dd HH:mm"/>
-										</a>
+									<td class="space" width="30"></td>
+									<td width="20%">
+										가입일시 : <fmt:formatDate value="${memberList.reg_date}" pattern="yyyy-MM-dd HH:mm"/>
 									</td>
 								</tr>
 							</table>
