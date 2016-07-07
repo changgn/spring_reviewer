@@ -11,7 +11,7 @@
 <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 <title>메인페이지</title>
 <script>
-$(document).ready(function(){
+$(window).load(function(){
 	if("${error}"=="noCategory") {
 		alert("설정된 카테고리가 없습니다.");
 	}
