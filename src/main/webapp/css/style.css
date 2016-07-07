@@ -72,20 +72,23 @@ pre { white-space: pre-wrap; }
 .cont_writer{padding: 9px 100px 9px 17px; position: relative; text-align: left;}
 .cont_writer_id{padding-right: 2px;font-size: 20px;font-weight: bold;letter-spacing: -1px;line-height: 58px;vertical-align: top;margin-left: 10px;}
 
-/* 湲��벐湲� 踰꾪듉 */
+/* write btn */
 .btn_posting_wrap{position : fixed;z-index: 2100;bottom: 30px;right: 30px;width:82px;height: 82px;background-image: url("../image/icon_55.png");}
 .btn_posting_wrap .btn_posting {display: block;width: 82px;height: 82px;background-position: -220px -130px;}
 .btn_posting_wrap .brn_posting:hover{background-position: -310px -13px}
 .btn_posting_wrap .brn_posting.scroll_down{display: none;}
 .btn_upload_file{display: block; width: 100%;height: 100%;opacity: 0.01;filter: alpha(opacity=1);cursor: pointer}
 .u_vc{overflow: hidden!important;position: absolute!important;visibility: hidden;top:0;left:0;width:1px!important;height: 1px!important;padding: 0!important;font-size: 1px!important;line-height: 1px!important;color: transparent!important;}
-/* 硫붿씤�럹�씠吏� �뙏濡쒖슦 踰꾪듉 */
+
+/* main follow btn */
 .control_box{top: 23px;right: 54px; left: 80px; position: absolute; z-index: 10;}
 .btn_follow {width: 30px;height: 29px;margin-right: 3px;background-position: -180px -40px;overflow: hidden;float: left;vertical-align: top;}
 #cont_btn_follow {display: inline-block;overflow: hidden;line-height: 999px;vertical-align: top;background-image: url("../image/icon_18.png");}
-/* 硫붿씤�럹�씠吏� �옉�꽦�떆媛� */
+
+/* main write date */
  .cont_wdate{top: 30px;right: 54px; position: absolute; z-index: 10; vertical-align: top; color: #828282; }
-/* 硫붿씤�럹�씠吏� 硫붾돱(�떊怨�, �궘�젣) */
+
+/* main menu */
 .cont_menu{right: 25px;position: absolute;top: 24px;}
 .cont_menu_option{display: block;overflow: hidden;line-height: 999px;padding: 3px 12px;	}
 #cont_btn_menu{display: block;width: 4px;height: 22px;background-position: -300px 0;overflow: hidden;line-height: 999px;vertical-align: top;background-image: url("../image/icon_08.png");}
@@ -97,7 +100,7 @@ pre { white-space: pre-wrap; }
 .re_popup{display: inline-block;position: relative;z-index: 10000;width: 384px;background-color: #fff;line-height: normal;vertical-align: middle; top:300px;}
 .re_popup_close{display: inline-block;overflow: hidden;width: 100%;height: 60px;border: none;font-size: 16px;color: #414042;line-height: 60px;text-align: center;vertical-align: top;}
 
-/* 蹂몃Ц�궡�슜 */
+/* content */
 .content_second{padding: 6px 26px 30px;border: 1px solid #e6e6e6;border-top: 0 none;border-bottom: 0 none; }
 .content_view{display: block;overflow: hidden;max-height: 110px;line-height: 1.6em;word-wrap: break-word;text-align: left;}
 .cont_theview{display: inline;}
@@ -105,7 +108,7 @@ pre { white-space: pre-wrap; }
 .item_cont{padding-top: 28px;}
 .item_thumb{display: block;overflow: hidden;position: relative;text-align: center;}
 .list_photo{width:100%;height:auto;vertical-align:top; border-left: 1px solid #e6e6e6; border-right: 1px solid #e6e6e6;}
-/* 異붿쿇 踰꾪듉 */
+/* recommend btn */
 .cont_btns{border: 1px solid #e6e6e6;border-top: 0 none;}
 .cont_btns_wrap{height: auto;padding-left: 20px;padding-bottom: 20px;padding-top: 20px;position: relative;padding: 27px 0 0 6px; margin-bottom: 22px; }
 .btns_re{float: left;}
@@ -113,18 +116,21 @@ pre { white-space: pre-wrap; }
 .u_ico{display: inline-block;overflow: hidden;line-height: 999px;vertical-align: top;width: 31px;height: 27px;}
 .u_txt{overflow: hidden;position: absolute;top: -999px;z-index: -1;width: 1px;height: 1px;font-size: 1px;line-height: 10px;color: transparent;}
 .u_cnt{font-size: 16px;color: #828282;line-height: 26px;}
-/* �뙎湲� 踰꾪듉 */
+
+/* comment btn */
 .btns_coment{float: left; margin-left: 35px;position: relative;bottom: 36;}
 .u_ico_coment{width: 31px;height: 29px; display: inline-block;overflow: hidden;margin-right: 3px;line-height: 999px;vertical-align: top;background-image: url("../image/icon_14.png");}
 .text_num{font-size: 16px;color: #828282;line-height: 26px;}	
-/* �뒪�겕�옪 踰꾪듉 */
+
+/* screp btn */
 .btns_screp{float: left; margin-left: 15px;position: relative;bottom: 36;}
 .u_ico_screp{width: 25px;height: 26px;    display: inline-block;overflow: hidden;margin-right: 3px;line-height: 999px;vertical-align: top;}
-/* 移댄뀒怨좊━ �젙蹂� */
+
+/* category info */
 .cont_category_info{padding: 6px 26px 40px; text-align: left; border: 1px solid #e6e6e6;border-top: 0 none;border-bottom: 0 none;}
 #cont_category_info_f{font-size: 14px; margin-top: 30px; color: rgba(76, 76, 76, 0.84);}
 
-/* 異붽� 踰꾪듉 */
+/* etc btn */
 .profile_thumb{ display: inline-block;overflow: hidden;position: relative;width: 52px;height: 52px;vertical-align: middle; }
 .profile_thumb_mask{position: absolute;top: 0;right: 0;bottom: 0;left: 0;z-index: 10;background-position: -381px 0;background-image: url(https://ssl.pstatic.net/static/m/pholar/img/sp_pholar_160421.png);background-repeat: no-repeat;}
 .profile_photo img{display: block; width: 52px;height: 52px;}
@@ -139,7 +145,12 @@ pre { white-space: pre-wrap; }
 .profile_thumb_mask2{position: absolute;top: 0;right: 0;bottom: 0;left: 0;z-index: 10; background-image: url("../image/mask1.png"); background-repeat: no-repeat; background-size: 100%;}
 .follow_btn {position: absolute; top: 85;right: 5;bottom: 10;left: 90;z-index: 10; background-repeat: no-repeat; background-position: }
 
-	
+/* sort btn */
+.btn_sort_area { position:fixed; width: 60px; height: 40px; left: 0px; top: 170px; padding: 10px 5px 10px 5px; border: 1px solid #E6E6E6;}
+.btn_sort_list_area { display: none; z-index:9999; position:fixed; width: 200px; left: 0px; top: 170px; border: 1px solid #E6E6E6;}
+.btn_sort_list_area li { padding: 10px; background-color: white;}
+.btn_sort_area span { size: 15px; }	
+
 /* loginFrom */
 #logon { min-height: 800px; }
 #login_logo { width : 300px; height: 50px; margin: 0 auto; margin-top: 150px; margin-bottom: 40px; }

@@ -268,12 +268,6 @@ $(function() {
 });
 
 </script>
-<style>
-.btn_sort_area { position:fixed; width: 60px; height: 40px; left: 0px; top: 170px; padding: 10px 5px 10px 5px; border: 1px solid #E6E6E6;}
-.btn_sort_list_area { display: none; z-index:9999; position:fixed; width: 200px; left: 0px; top: 170px; border: 1px solid #E6E6E6;}
-.btn_sort_list_area li { padding: 10px; background-color: white;}
-.btn_sort_area span { size: 15px; }
-</style>
 </head>
 <body>
 <div id="content_wrap_area">
