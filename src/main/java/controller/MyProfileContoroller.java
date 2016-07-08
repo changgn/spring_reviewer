@@ -281,7 +281,7 @@ public class MyProfileContoroller {
    	}
 	
 	@RequestMapping(value="/profile/profile_photo.do", method=RequestMethod.POST)
-	public String insertboard(@RequestParam("u_photo") MultipartFile file, HttpSession session, Model model)
+	public String insertProfilePhoto(@RequestParam("u_photo") MultipartFile file, HttpSession session, Model model)
 			throws IOException {
 
 		String id = (String)session.getAttribute("id");
@@ -309,4 +309,15 @@ public class MyProfileContoroller {
 
 	}
 	
+	@RequestMapping(value="/profile/profile_photo_remove.do")
+	public String removeProfilePhoto(HttpSession session, Model model) {
+
+		String id = (String)session.getAttribute("id");
+		
+		ProfilePhotoCommand command = new ProfilePhotoCommand("default_profile.png", "default_profile.png", id, "/image/default_profile.png");
+		ProfilePhotoDao.modify(command);
+			
+		return "redirect:/profile/myProfile.do?id=" + id;
+
+	}
 }

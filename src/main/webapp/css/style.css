@@ -145,6 +145,7 @@ pre { white-space: pre-wrap; }
 .profile_thumb2{ display: inline-block;overflow: hidden;position: relative;width: 130px;height: 130px;vertical-align: middle; }
 .profile_thumb_mask2{position: absolute;top: 0;right: 0;bottom: 0;left: 0;z-index: 10; background-image: url("../image/mask1.png"); background-repeat: no-repeat; background-size: 100%;}
 .follow_btn {position: absolute; top: 85;right: 5;bottom: 10;left: 90;z-index: 10; background-repeat: no-repeat; background-position: }
+.remove_profilePhoto_btn {position: absolute; top: 10;right: 5;bottom: 105;left: 110;z-index: 100; background-repeat: no-repeat; background-position: }
 
 /* sort btn */
 .btn_sort_area { position:fixed; width: 30px; height: 142px; left: 0px; top: 170px; padding: 15px 5px 15px 5px; border: 1px solid #E6E6E6;}

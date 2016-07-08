@@ -32,7 +32,11 @@ $(function(){
 	$("#u_photo").change(function(){
 		$("#profilePhotoForm").submit();	
 	});
-
+	$(".remove_profilePhoto_btn").click(function(event){
+		event.stopPropagation();
+		$(location).attr("href", "/profile/profile_photo_remove.do");
+	});
+	
 	$("body").on("click", ".btns_re_items", function(e){
 		e.preventDefault();
 		var url= "/recommend/recommend.do";
@@ -311,12 +315,15 @@ $(function() {
 			<form action="/profile/profile_photo.do" id="profilePhotoForm" method="post" enctype="multipart/form-data">
 				<div class="profile_photo2" id="file_input_hidden">
 					<c:if test="${id==paramId }">
-					<input type="file" id="u_photo" name="u_photo" class="user_photo" maxlength="5" onchange="check();">
-					</c:if>
+						<input type="file" id="u_photo" name="u_photo" class="user_photo" maxlength="5" onchange="check();">
+						</c:if>
 					<a href="#">
 						<span class="profile_thumb2" >
 		                    <img id="myProfilePhoto" src="${myProfilePhoto.realPath}">
 		                    <span class="profile_thumb_mask2"></span>
+		                    <c:if test="${id==paramId && (login_status==0 || login_status==1)}">
+								<span id="remove_profilePhoto" class="remove_profilePhoto_btn" style="background-image: url('../image/X2.png')"></span>
+							</c:if>
 							<c:if test="${id!=paramId && (login_status==0 || login_status==1)}">
 								<c:if test="${followCheck == true}">
 									<span id="unfollow" class="follow_btn" style="background-image: url('../image/icon_36.png')"></span>
