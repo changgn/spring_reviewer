@@ -18,7 +18,9 @@ import command.BoardCommand;
 import command.MemberCommand;
 import command.ProfilePhotoCommand;
 import dao.BoardDAO;
+import dao.CategoryDAO;
 import dao.CommentDAO;
+import dao.MemberCategoryDAO;
 import dao.MemberDAO;
 import dao.ProfilePhotoDAO;
 import dao.RecommendDAO;
@@ -57,7 +59,16 @@ public class AdminController {
 	public void setScrepDAO(ScrepDAO screpDAO) {
 		this.screpDAO = screpDAO;
 	}
-
+	@Autowired
+	private CategoryDAO categoryDao;
+	public void setCategoryDao(CategoryDAO categoryDao) {
+		this.categoryDao = categoryDao;
+	}
+	@Autowired
+	private MemberCategoryDAO memberCategoryDao;
+	public void setMemberCategoryDao(MemberCategoryDAO memberCategoryDao) {
+		this.memberCategoryDao = memberCategoryDao;
+	}
 	/**	메인화면	*/
 	@RequestMapping("/administrator/adminForm.do")
 	public String adminForm(){
@@ -67,26 +78,14 @@ public class AdminController {
 	/**	게시글 관리	*/
 	@RequestMapping("/administrator/adminBoard.do")
 	public String reportForm(Model model){
-		// 신고 게시글 목록
-		List<BoardCommand> ReportBoardList = null;
-		ReportBoardList = boardDAO.reportBoardList();
-		model.addAttribute("reportBoardList", ReportBoardList);
-		// 추천 게시글 목록
-		List<BoardCommand> PopulBoardList = null;
-		PopulBoardList = boardDAO.pupulBoardList();
-		model.addAttribute("populBoardList", PopulBoardList);
 		// 전체 게시글 목록
 		List<BoardCommand> BoardList = null;
 		BoardList = boardDAO.getList();
 		model.addAttribute("boardList", BoardList);
-		
 		List<Integer> board_num_list = new ArrayList<Integer>();
 		board_num_list = boardDAO.getBoardNumList();
 		Map commentCountMap = new HashMap();
 		Map screpCountMap = new HashMap();
-		
-		System.out.println(board_num_list);
-		
 		// 게시글 코멘트 개수
 		int commentCount = 0;
 		for(int board_num : board_num_list){
@@ -94,16 +93,57 @@ public class AdminController {
 			commentCountMap.put(board_num, commentCount);
 		}
 		model.addAttribute("commentCount", commentCountMap);
-		
 		// 게시글 스크랩 개수
 		int screpCount = 0;
 		for(int board_num : board_num_list){
 			screpCount = screpDAO.getBoardScrepCountById(board_num);
 			screpCountMap.put(board_num, screpCount);
 		}
-		System.out.println(screpCountMap);
-		model.addAttribute("screpCount", screpCount);
-		
+		model.addAttribute("screpCount", screpCountMap);
+		// 신고 게시글 목록
+		List<BoardCommand> ReportBoardList = null;
+		ReportBoardList = boardDAO.reportBoardList();
+		model.addAttribute("reportBoardList", ReportBoardList);
+		List<Integer> report_board_num_list = new ArrayList<Integer>();
+		report_board_num_list = boardDAO.getReportBoardNumList();
+		Map rccmap = new HashMap();
+		Map rscmap = new HashMap();
+		// 신고 게시글 코멘트 개수
+		int rcCount = 0;
+		for(int board_num : report_board_num_list){
+			rcCount = boardDAO.getCommentCountByBoardNum(board_num);
+			commentCountMap.put(board_num, rcCount);
+		}
+		model.addAttribute("reportCommentCount", rccmap);
+		// 신고 게시글 스크랩 개수
+		int rsCount = 0;
+		for(int board_num : report_board_num_list){
+			rsCount = screpDAO.getBoardScrepCountById(board_num);
+			screpCountMap.put(board_num, rsCount);
+		}
+		model.addAttribute("reportScrepCount", rscmap);
+		// 추천 게시글 목록
+		List<BoardCommand> PopulBoardList = null;
+		PopulBoardList = boardDAO.pupulBoardList();
+		model.addAttribute("populBoardList", PopulBoardList);
+		List<Integer> popul_board_num_list = new ArrayList<Integer>();
+		report_board_num_list = boardDAO.getPopulBoardNumList();
+		Map pccmap = new HashMap();
+		Map pscmap = new HashMap();
+		// 인기 게시글 코멘트 개수
+		int pcCount = 0;
+		for(int board_num : popul_board_num_list){
+			pcCount = boardDAO.getCommentCountByBoardNum(board_num);
+			commentCountMap.put(board_num, pcCount);
+		}
+		model.addAttribute("populCommentCount", pccmap);
+		// 인기 게시글 스크랩 개수
+		int psCount = 0;
+		for(int board_num : popul_board_num_list){
+			psCount = screpDAO.getBoardScrepCountById(board_num);
+			screpCountMap.put(board_num, psCount);
+		}
+		model.addAttribute("populScrepCount", pscmap);
 		return "administrator/adminBoard";
 	}
 	

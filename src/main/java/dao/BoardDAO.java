@@ -51,6 +51,15 @@ public class BoardDAO extends SqlSessionDaoSupport{
 	public List<Integer> getBoardNumList(){
 		return getSqlSession().selectList("board.getBoardNumList");
 	}
+	/**	신고 게시글 번호 목록	*/
+	public List<Integer> getReportBoardNumList(){
+		return getSqlSession().selectList("board.getReportBoardNumList");
+	}
+	/**	인기 게시글 번호 목록	*/
+	public List<Integer> getPopulBoardNumList(){
+		return getSqlSession().selectList("board.getPopulBoardNumList");
+	}
+	
 	public List<BoardCommand> getList(){
 		return getSqlSession().selectList("board.getList");
 	}

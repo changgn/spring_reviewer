@@ -40,8 +40,13 @@
 					e.preventDefault();
 					var a = $("#menu_" + $(this).attr("id"));
 					a.show();
+					$(this).hide();
 				});
 				$("body").on("click", ".Board_Detaile_Info", function(e){
+					e.preventDefault();
+					var b = $(this).attr("id");
+					var c = $(b);
+					c.show();
 					$(this).hide();
 				});	
 			});
@@ -85,7 +90,7 @@
 		<div class="tab_con" id="tab_con">
     		<div id="board">
     			<c:forEach var="board" items="${boardList}"> 
-					<table class="list_table Board_Simple_Info" id="${board.board_num}">
+					<table class="list_table Board_Simple_Info" id="${board.board_num}" title="">
 						<tr>
 							<td class="space" width="5%"></td>
 							<td width="20%" >
@@ -93,7 +98,7 @@
 							</td>
 							<td class="space" width="5%"></td>
 							<td width="20%" >
-								작성자 : ${board.id}</a>
+								작성자 : ${board.id}
 							</td>
 							<td class="space" width="5%"></td>
 							<td width="20%">
@@ -137,22 +142,22 @@
 							</tr>
 							<tr>
 								<td>
-									추천 : ${board.recommend_num}
+									추천 <img src="../image/recommend_off.png" width="10" height="10"> : ${board.recommend_num}
 								</td>
 							</tr>
 							<tr>
 								<td>
-									신고 : ${board.report_num}
+									신고 <img src="../image/report.png" width="10" height="10"> : ${board.report_num}
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<%-- 스크랩 :${screpCount[board.board_num]} --%>
+									댓글 <img src="../image/icon_14.png" width="10" height="10"> : ${commentCount[board.board_num]}
 								</td>
 							</tr>
 							<tr>
 								<td>
-									댓글 : ${commentCount[board.board_num]}
+									스크랩 <img src="../image/screp_on.png" width="10" height="10"> :${screpCount[board.board_num]}
 								</td>
 							</tr>
 						</table>
@@ -222,12 +227,12 @@
 							</tr>
 							<tr>
 								<td>
-									<%-- 스크랩 :${screpCount[reportBoard.board_num]} --%>
+									스크랩 :${reportScrepCount[reportBoard.board_num]}
 								</td>
 							</tr>
 							<tr>
 								<td>
-									댓글 : ${commentCount[reportBoard.board_num]}
+									댓글 : ${reportCommentCount[reportBoard.board_num]}
 								</td>
 							</tr>
 						</table>
@@ -297,12 +302,12 @@
 							</tr>
 							<tr>
 								<td>
-									<%-- 스크랩 :${screpCount[populBoard.board_num]} --%>
+									스크랩 :${populScrepCount[populBoard.board_num]}
 								</td>
 							</tr>
 							<tr>
 								<td>
-									댓글 : ${commentCount[populBoard.board_num]}
+									댓글 : ${populCommentCount[populBoard.board_num]}
 								</td>
 							</tr>
 						</table>
