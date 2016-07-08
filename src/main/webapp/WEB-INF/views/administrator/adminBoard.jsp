@@ -6,6 +6,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <html>
 	<head>
+		<link href="../css/style.css" rel="stylesheet" type="text/css">
 		<style>
 			* { margin:0; padding:0; }
 			ul,li { list-style:none; }
@@ -18,6 +19,9 @@
 			.tab_con div { display:none; height: 100% auto; background:#fff; line-height:100px; text-align:center;}
 			.list_table{ margin-top: 20px; margin: auto; border-bottom: solid 1px; border-bottom-color: #f6f6f6; text-align: center;
 				padding : 7px; color: #4c4c4c; font-size: 14px; }
+				
+			.Board_Detaile_Info{display: none; position: relative; z-index: 9999;top: 0;right: 0;bottom: 0;left: 0;line-height: 100%;text-align: center;}
+			.Board_Info{display: inline-block;position: relative; z-index: 10000;width: 460px;background-color: #fff;line-height: normal;vertical-align: middle; }
 		</style>
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 		<script>
@@ -30,6 +34,16 @@
 						$("#tab").css("position", "static");
 					}
 				});
+			});
+			$(function(){
+				$("body").on("click", ".Board_Simple_Info", function(e){
+					e.preventDefault();
+					var a = $("#menu_" + $(this).attr("id"));
+					a.show();
+				});
+				$("body").on("click", ".Board_Detaile_Info", function(e){
+					$(this).hide();
+				});	
 			});
 			$(function () {	
 				tab('#tab',0);
@@ -71,42 +85,76 @@
 		<div class="tab_con" id="tab_con">
     		<div id="board">
     			<c:forEach var="board" items="${boardList}"> 
-					<table class="list_table" id="simple_info">
-						<tr class="simple_info">
+					<table class="list_table Board_Simple_Info" id="${board.id}" >
+						<tr class="Board_Simple_Info" id="${board.id}">
 							<td class="space" width="10"></td>
-							<td width="14%" align="left">
-								<a id="text" href="/profile/myProfile.do?id=${board.id}"> 작성자 : ${board.id}</a>
-							</td>
-							<td class="space" width="10"></td>
-							<td width="14%" >
+							<td width="20%" align="left">
 								게시글 번호 : ${board.board_num}
 							</td>
 							<td class="space" width="10"></td>
-							<td width="14%" >
-								<img src="../image/report.png"> ${board.report_num}
+							<td width="20%" >
+								<a id="text" href="/profile/myProfile.do?id=${board.id}"> 작성자 : ${board.id}</a>
 							</td>
 							<td class="space" width="10"></td>
-							<td width="14%" >
-								<img src="../image/recommend_off.png" width="15" height="15"> ${board.recommend_num}
-							</td>
-							<td class="space" width="10"></td>
-							<td width="14%">
+							<td width="20%">
 								작성일 : <fmt:formatDate value="${board.write_date}" pattern="yyyy-MM-dd HH:mm"/>
 							</td>
 							<td class="space" width="10"></td>
-							<td width="14%">
-								<a id="text" href="/content/contentForm.do?board_num=${board.board_num}">게시글 페이지</a>
+							<td width="20%">
+								<a id="text" href="/content/contentForm.do?board_num=${board.board_num}">게시글 보기</a>
 							</td>
 							<td class="space" width="10"></td>
-							<td width="14%">
+							<td width="20%">
 								<a id="text" href="/content/deleteContent.do?board_num=${board.board_num}&id=${board.id}">
-									삭제 <img src="../image/icon_66.png">
+									<img src="../image/icon_66.png"> 삭제 
 								</a>
 							</td>
 						</tr>
 					</table>
-					<div id="detail_info">
-						${board.id}
+					<div id="menu_${board.id}" class="Board_Detaile_Info">
+						<div class="ly_dimmed"></div>
+						<table class="Board_Info ul_list">
+							<tr>
+								<td>
+									글 번호 : ${board.board_num}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									작성자 : ${board.id}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									카테고리 : ${board.category_id}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									작성일시 : <fmt:formatDate value="${board.write_date}" pattern="yyyy-MM-dd HH:mm"/>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									추천 : ${board.recommend_num}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									신고 : ${board.report_num}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<%-- 스크랩 :${screpCount[board.board_num]} --%>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									댓글 : ${commentCount[board.board_num]}
+								</td>
+							</tr>
+						</table>
 					</div>
 				</c:forEach>
     		</div>	

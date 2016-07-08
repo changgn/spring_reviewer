@@ -18,10 +18,12 @@ import command.BoardCommand;
 import command.MemberCommand;
 import command.ProfilePhotoCommand;
 import dao.BoardDAO;
+import dao.CommentDAO;
 import dao.MemberDAO;
 import dao.ProfilePhotoDAO;
 import dao.RecommendDAO;
 import dao.ReportDAO;
+import dao.ScrepDAO;
 
 @Controller
 public class AdminController {
@@ -50,7 +52,12 @@ public class AdminController {
 	public void setProfilePhotoDao(ProfilePhotoDAO profilePhotoDAO) {
 		this.profilePhotoDAO = profilePhotoDAO;
 	}
-	
+	@Autowired
+	private ScrepDAO screpDAO;
+	public void setScrepDAO(ScrepDAO screpDAO) {
+		this.screpDAO = screpDAO;
+	}
+
 	/**	메인화면	*/
 	@RequestMapping("/administrator/adminForm.do")
 	public String adminForm(){
@@ -72,6 +79,30 @@ public class AdminController {
 		List<BoardCommand> BoardList = null;
 		BoardList = boardDAO.getList();
 		model.addAttribute("boardList", BoardList);
+		
+		List<Integer> board_num_list = new ArrayList<Integer>();
+		board_num_list = boardDAO.getBoardNumList();
+		Map commentCountMap = new HashMap();
+		Map screpCountMap = new HashMap();
+		
+		System.out.println(board_num_list);
+		
+		// 게시글 코멘트 개수
+		int commentCount = 0;
+		for(int board_num : board_num_list){
+			commentCount = boardDAO.getCommentCountByBoardNum(board_num);
+			commentCountMap.put(board_num, commentCount);
+		}
+		model.addAttribute("commentCount", commentCountMap);
+		
+		// 게시글 스크랩 개수
+		int screpCount = 0;
+		for(int board_num : board_num_list){
+			screpCount = screpDAO.getBoardScrepCountById(board_num);
+			screpCountMap.put(board_num, screpCount);
+		}
+		System.out.println(screpCountMap);
+		model.addAttribute("screpCount", screpCount);
 		
 		return "administrator/adminBoard";
 	}
@@ -103,6 +134,7 @@ public class AdminController {
 		Map rbmap = new HashMap();
 		Map pbmap = new HashMap();
 		Map ppmap = new HashMap();
+		Map sbmap = new HashMap();
 		
 		// 해당ID의 게시글 수
 		int boardCount = 0;
@@ -128,6 +160,14 @@ public class AdminController {
 			pbmap.put(rlist, reportCount);
 		}
 		mav.addObject("reportCount", pbmap);
+		
+		// 해당 ID가 스크랩 한 게시글 수
+		int screpCount = 0;
+		for(String slist : id_list){
+			screpCount = screpDAO.getScrepCountByScrepNum(slist);
+			sbmap.put(slist, screpCount);
+		}
+		mav.addObject("scropCount", sbmap);
 		
 		// 해당 ID의 프로필 사진
 		ProfilePhotoCommand ppc = new ProfilePhotoCommand();

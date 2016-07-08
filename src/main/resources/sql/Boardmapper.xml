@@ -58,6 +58,14 @@
 	<select id="getBoardCountById" parameterType="String" resultType="Integer">
 		select count(board_num) from board where id=#{id}
 	</select>
+	<!-- 해당 게시글의 댓글 수 -->
+	<select id="getCommentCountByBoardNum" parameterType="Integer" resultType="Integer">
+		select count(comment_num) from board where board_num=#{board_num}
+	</select>
+	<!-- 게시글 번호 리스트 -->
+	<select id="getBoardNumList" resultType="Integer">
+		select board_num from board
+	</select>
 <!-- 글 상세보기 //content -->
  <select parameterType="java.lang.Integer" id="getByBoardNum" resultType="command.BoardCommand"> 
  	select * from board where board_num=#{board_num}

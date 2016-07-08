@@ -117,7 +117,6 @@ public class FollowProcController {
 					noticeDao.insert2(noticeCommand);
 					map.put(add_id, true);
 					jso.put("followCheck", map);
-//					model.addAttribute("followCheck", map);
 					System.out.println(from_id + "가" + add_id + "팔로우"); 
 				} else {	/**	실패	*/
 					System.out.println("팔로우 실패");
@@ -138,7 +137,6 @@ public class FollowProcController {
 					noticeDao.insert2(noticeCommand);
 					map.put(add_id, false);
 					jso.put("followCheck", map);
-//					model.addAttribute("followCheck", map);
 					System.out.println(from_id + "가" + add_id + "언팔로우");
 				} else {
 					System.out.println("언팔로우 실패");
@@ -176,7 +174,6 @@ public class FollowProcController {
 					noticeDao.insert2(noticeCommand);
 					map.put(add_id, true);
 					jso.put("followCheck", map);
-//					model.addAttribute("followCheck", map);
 					System.out.println(loginId + "가" + add_id + "팔로우"); 
 				} else {	
 					System.out.println("팔로우 실패");
@@ -198,15 +195,12 @@ public class FollowProcController {
 					
 					map.put(add_id, false);
 					jso.put("followCheck", map);
-//					model.addAttribute("followCheck", map);
 					System.out.println(loginId + "가" + add_id + "언팔로우");
 					if(loginId.equals(profileId)){
 						List<String> to_id_list = followDAO.toList(profileId);
 						to_id_list.remove(add_id);
 						jso.put("toIdList", to_id_list);
-						jso.put("myProfile", true);
-					}else{
-						jso.put("myProfile", false);
+						jso.put("myProfile", "true");
 					}
 				} else {
 					System.out.println("언팔로우 실패");

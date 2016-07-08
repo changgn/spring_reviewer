@@ -8,7 +8,7 @@
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 		<script>
 		$(function(){
-			$(".follow_List_item").on("click", ".link_follow_button", function(e){
+			$(".profile_follow_body").on("click", ".link_follow_button", function(e){
 				event.preventDefault();
 				var add_id = $(this).attr("name");
 				var follow_selector = $(".follow_image_"+add_id);

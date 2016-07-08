@@ -9,7 +9,7 @@
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 		<script>
 		$(function(){
-			$(".follow_List_item").on("click", ".link_follow_button", function(e){
+			$(".profile_follow_body").on("click", ".link_follow_button", function(e){
 				e.preventDefault();
 				var add_id = $(this).attr("name");
 				var follow_selector = $(".follow_image_"+add_id);
@@ -27,12 +27,12 @@
 						var follow = args.follow;
 						var id = args.id;
 						var select = $(".follow_image_"+id);
-						var myProfile = args.myPofile;
+						var myProfile = args.myProfile;
 						if(follow == 'follow_off'){
 							select.attr("id", "follow_on");
 							select.attr("src", "../image/icon_36.png");
 						} else{
-							if(myProfile == true){
+							if(myProfile == 'true'){
 								var removeId = $("#follow_list_item_wrap_"+id);
 								removeId.remove();
 							}else{
@@ -75,7 +75,7 @@
 				<ul class="follow_list" id="list">
 					<c:forEach var="toId" items="${toIdList}"> 
 						<li class="follow_list_item_wrap" id="follow_list_item_wrap_${toId}">
-							<div class="follow_List_item" id="follower_info">
+							<div class="follow_List_item">
 								<div class="follow_List_item_profile_info_wrap">
 									<a href="/profile/myProfile.do?id=${toId}"title="팔로우 정보" class="link_follow_profile">
 										<span class="profile_thumb">
