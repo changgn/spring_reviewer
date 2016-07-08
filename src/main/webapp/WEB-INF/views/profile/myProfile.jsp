@@ -316,7 +316,7 @@ $(function() {
 				<div class="profile_photo2" id="file_input_hidden">
 					<c:if test="${id==paramId }">
 						<input type="file" id="u_photo" name="u_photo" class="user_photo" maxlength="5" onchange="check();">
-						</c:if>
+					</c:if>
 					<a href="#">
 						<span class="profile_thumb2" >
 		                    <img id="myProfilePhoto" src="${myProfilePhoto.realPath}">

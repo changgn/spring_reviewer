@@ -54,7 +54,7 @@ $(window).load(function(){
 });
 
 $(function(){
-	
+
 	$(".cont_menu_option").click(function(e){
 		e.preventDefault();
 		$(".cont_btn_option").show();
@@ -72,6 +72,59 @@ $(function(){
 		selector.css("top", top);
 		selector.css("left", left);
 		selector.slideDown("fast");
+	});
+	
+	
+	$(".content_photo_a").click(function(e){
+		e.preventDefault();
+		$(".view_content_photo_list").show();
+		var src = $(this).find("img").attr("src");
+		$(".view_content_photo_img[src='" + src +"']").parent().css("z-index", "10001");
+		$(".view_content_photo_img[src='" + src +"']").parent().addClass("selected");
+		
+	});
+	$(".view_content_photo_list").click(function(){
+		$(".view_content_photo").css("z-index", "10000");
+		$(".view_content_photo").removeClass("selected");
+		$(this).hide();
+	});
+	$("#left_btn_a").click(function(e){
+		e.preventDefault();
+		e.stopPropagation();
+
+		var maxlength = Number($("#ul_view_content_photo_list li:last-child img").attr("id"));
+		var currlength = Number($("li[class='view_content_photo selected'] img").attr("id"));
+
+		if(currlength > 1) {
+			$(".view_content_photo").css("z-index", "10000");
+			$(".view_content_photo").removeClass("selected");
+			$("li img[id='" + (currlength-1) + "']").parent().css("z-index", "10001");
+			$("li img[id='" + (currlength-1) + "']").parent().addClass("selected");
+		} else {
+			$(".view_content_photo").css("z-index", "10000");
+			$(".view_content_photo").removeClass("selected");
+			$("li img[id='" + maxlength + "']").parent().css("z-index", "10001");
+			$("li img[id='" + maxlength + "']").parent().addClass("selected");
+		}
+	});
+	$("#right_btn_a").click(function(e){
+		e.preventDefault();
+		e.stopPropagation();
+		
+		var maxlength = Number($("#ul_view_content_photo_list li:last-child img").attr("id"));
+		var currlength = Number($("li[class='view_content_photo selected'] img").attr("id"));
+		
+		if(currlength < maxlength) {
+			$(".view_content_photo").css("z-index", "10000");
+			$(".view_content_photo").removeClass("selected");
+			$("li img[id='" + (currlength+1) + "']").parent().css("z-index", "10001");
+			$("li img[id='" + (currlength+1) + "']").parent().addClass("selected");
+		} else {
+			$(".view_content_photo").css("z-index", "10000");
+			$(".view_content_photo").removeClass("selected");
+			$("li img[id='1']").parent().css("z-index", "10001");
+			$("li img[id='1']").parent().addClass("selected");
+		}
 	});
 	
 	$(".re_menu_option").click(function(e){
@@ -320,7 +373,7 @@ $(function(){
 										</li>
 									</c:if>
 								</c:when>
-								<c:otherwise>>						
+								<c:otherwise>						
 									<li>
 										<a href="/content/deleteContent.do?id=${board.id}&board_num=${board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
 									</li>
@@ -341,7 +394,7 @@ $(function(){
 	        <span class="item_cont" title="컨텐츠 상세페이지">
 	            <span class="item_thumb">
 	                	<c:forEach var="photo" items="${photoList}">
-							<div class="content_photo"><img src="${photo.realPath}"></div>
+							<div class="content_photo"><a class="content_photo_a" href="#"><img class="content_photo_img" src="${photo.realPath}"></a></div>
 						</c:forEach>
 	            </span>
 	      	</span>
@@ -436,6 +489,18 @@ $(function(){
 		</div>
 	</c:forEach>
 	</div>
+</div>
+<div class="view_content_photo_list">
+	<div class="ly_dimmed"></div>
+	<ul id="ul_view_content_photo_list">
+	<c:set var="photo_count" value="0" />
+	<c:forEach var="photo" items="${photoList}">
+		<c:set var="photo_count" value="${photo_count + 1}" />
+		<li class="view_content_photo"><img id="${photo_count}" class="view_content_photo_img" src="${photo.realPath}"></li>
+	</c:forEach>
+	</ul>
+	<a id="left_btn_a" href="#"><span id="left_btn"></span></a>
+	<a id="right_btn_a" href="#"><span id="right_btn"></span></a>
 </div>
 </body>
 </html>
