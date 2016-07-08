@@ -9,12 +9,15 @@
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 		<script>
 		$(function(){
-			$(".profile_follow_body").on("click", ".follow_button", function(e){
+			$(".follow_List_item").on("click", ".link_follow_button", function(e){
 				e.preventDefault();
+				var add_id = $(this).attr("name");
+				var follow_selector = $(".follow_image_"+add_id);
+				
 				var url= "/follow/followingAdd.do";
 				var params = "profileId=" + "${profileId}";
 				params += "&add_id=" + $(this).attr("name");
-				params += "&follow=" + $(this).attr("id");
+				params += "&follow=" + follow_selector.attr("id");
 				$.ajax({
 					type:"post"		// 포스트방식
 					,url:url		// url 주소
@@ -23,20 +26,19 @@
 					,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
 						var follow = args.follow;
 						var id = args.id;
-						var select = $("#follow_image_"+id);
-						var myPofile = args.myPofile;
-						if(follow == 'follow'){
-							$(".follow_button").attr("id", "unfollow");
+						var select = $(".follow_image_"+id);
+						var myProfile = args.myPofile;
+						if(follow == 'follow_off'){
+							select.attr("id", "follow_on");
 							select.attr("src", "../image/icon_36.png");
 						} else{
-							if(myPofile == true){
+							if(myProfile == true){
 								var removeId = $("#follow_list_item_wrap_"+id);
 								removeId.remove();
 							}else{
-								$(".follow_button").attr("id", "follow");
+								select.attr("id", "follow_off");
 								select.attr("src", "../image/icon_35.png");
 							}
-							
 						}
 					}
 				    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
@@ -74,7 +76,7 @@
 					<c:forEach var="toId" items="${toIdList}"> 
 						<li class="follow_list_item_wrap" id="follow_list_item_wrap_${toId}">
 							<div class="follow_List_item" id="follower_info">
-								<div class="follow_profile_info_wrap">
+								<div class="follow_List_item_profile_info_wrap">
 									<a href="/profile/myProfile.do?id=${toId}"title="팔로우 정보" class="link_follow_profile">
 										<span class="profile_thumb">
 											<img src="${list_profile_photo[toId].realPath}" width="55" height="55" align="middle"> 
@@ -86,18 +88,16 @@
 										</span>
 									</a>
 									<c:if test="${logId ne toId && logId ne null}">
- 										<c:choose>
-											<c:when test="${followCheck[toId] eq true}">
-												<a id="unfollow" class="follow_button" name="${toId}" href="/follow/followingAdd.do?follow=unfollow&profileId=${profileId}&add_id=${toId}">
-													<img id="follow_image_${toId}" src="../image/icon_36.png" width="45" height="45" align="right">
-												</a>
-											</c:when>
-											<c:otherwise>
-												<a id="follow" class="follow_button" name="${toId}" href="/follow/followingAdd.do?follow=follow&profileId=${profileId}&add_id=${toId}">
-													<img id="follow_image_${toId}" src="../image/icon_35.png" width="45" height="45" align="right">
-												</a>
-											</c:otherwise>
-										</c:choose>
+										<a class="link_follow_button" name="${toId}" href="/follow/followingAdd.do?follow=unfollow&profileId=${profileId}&add_id=${toId}">
+ 											<c:choose>
+												<c:when test="${followCheck[toId] eq true}">
+													<img class="follow_image_${toId}" id="follow_on" src="../image/icon_36.png" align="right">
+												</c:when>
+												<c:otherwise>
+													<img class="follow_image_${toId}" id="follow_off" src="../image/icon_35.png" align="right">
+												</c:otherwise>
+											</c:choose>
+										</a>
 									</c:if>
 								</div>
 							</div>

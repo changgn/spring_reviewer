@@ -6,8 +6,8 @@
 	margin: 0;
 	padding: 0;
 	text-decoration: none;
-	font-family: '나눔고딕', 'Nanum Gothic', sans-serif;;
-	font: 13px '나눔고딕', 'Nanum Gothic', sans-serif;;
+	font-family: '�굹�닎怨좊뵓', 'Nanum Gothic', sans-serif;;
+	font: 13px '�굹�닎怨좊뵓', 'Nanum Gothic', sans-serif;;
 	box-sizing: border-box;
 }
 a { outline:0; text-decoration: none; color: #4C4C4C; }
@@ -255,4 +255,4 @@ pre { white-space: pre-wrap; }
 .user_name{	font-size: 25px; font-family: sans-serif;}
 .follow_list_item_wrap{ border-bottom: 1px; border-bottom-color: #D5D5D5; border-bottom-style: solid; border-bottom-width: 100%;}
 .follow_List_item{ margin-left: 15%; margin-right: 15%; }
-.follow_profile_info_wrap{margin-top: 10px; margin-bottom: 10px; text-align: justify;}
+.follow_List_item_profile_info_wrap{margin-top: 10px; margin-bottom: 10px; text-align: justify;}

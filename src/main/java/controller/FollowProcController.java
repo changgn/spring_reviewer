@@ -102,7 +102,7 @@ public class FollowProcController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		if(from_id!=null) {	/**	로그인 Id가 있다	*/
-			if(follow.equals("follow")){ /**	팔로우와 같다면	*/
+			if(follow.equals("follow_off")){ /**	버튼 상태가 follow_off	*/
 				FollowCommand followVo = new FollowCommand(from_id, add_id);	/**	formId - toId	*/
 				int n = followDAO.followInsert(followVo); /**	팔로우 등록 처리	*/
 				if(n>0) {	/**	성공	*/
@@ -123,7 +123,7 @@ public class FollowProcController {
 					System.out.println("팔로우 실패");
 				}
 			}
-			if(follow.equals("unfollow")){	/**	언팔로우와 같으면	*/
+			if(follow.equals("follow_on")){	/**	버튼 상태가 follow_on	*/
 				FollowCommand followVo = new FollowCommand(from_id, add_id);
 				int n = followDAO.remove(followVo);
 				if(n>0) {
@@ -154,14 +154,14 @@ public class FollowProcController {
 	/**	팔로잉 상세에서 팔로우 처리	*/
 	@ResponseBody
 	@RequestMapping("/follow/followingAdd.do")
-	public String addFollowing(HttpServletRequest request, HttpServletResponse reponse,  String profileId, String add_id,String follow, Model model){
+	public String addFollowing(HttpServletRequest request, HttpServletResponse reponse, String profileId, String add_id, String follow, Model model){
 		JSONObject jso = new JSONObject();
 		Map<String, Object> map = new HashMap<String, Object>();
 		/**	로그인 아이디	*/
 		String loginId = (String)request.getSession().getAttribute("id");
 		
 		if(loginId!=null) {
-			if(follow.equals("follow")){
+			if(follow.equals("follow_off")){
 				FollowCommand followVo = new FollowCommand(loginId, add_id);	/**	formId - toId	*/
 				int n = followDAO.followInsert(followVo);
 				if(n>0) {	
@@ -174,15 +174,15 @@ public class FollowProcController {
 						noticeDao.removeByMember(noticeCommand);
 					}
 					noticeDao.insert2(noticeCommand);
-					
 					map.put(add_id, true);
-					model.addAttribute("followCheck", map);
+					jso.put("followCheck", map);
+//					model.addAttribute("followCheck", map);
 					System.out.println(loginId + "가" + add_id + "팔로우"); 
 				} else {	
 					System.out.println("팔로우 실패");
 				}
 			}
-			if(follow.equals("unfollow")){	
+			if(follow.equals("follow_on")){	
 				FollowCommand followVo = new FollowCommand(loginId, add_id);
 				int n = followDAO.remove(followVo);
 				if(n>0) {
@@ -197,13 +197,16 @@ public class FollowProcController {
 					noticeDao.insert2(noticeCommand);
 					
 					map.put(add_id, false);
-					model.addAttribute("followCheck", map);
+					jso.put("followCheck", map);
+//					model.addAttribute("followCheck", map);
 					System.out.println(loginId + "가" + add_id + "언팔로우");
 					if(loginId.equals(profileId)){
 						List<String> to_id_list = followDAO.toList(profileId);
 						to_id_list.remove(add_id);
 						jso.put("toIdList", to_id_list);
-						jso.put("myPofile", true);
+						jso.put("myProfile", true);
+					}else{
+						jso.put("myProfile", false);
 					}
 				} else {
 					System.out.println("언팔로우 실패");
