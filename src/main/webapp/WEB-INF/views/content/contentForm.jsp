@@ -45,6 +45,7 @@ $(document).on("mouseover", ".comment_menu div", function(){
 $(document).on("mouseleave", ".comment_menu div", function(){
 	$(this).css("background-color","white");
 });
+
 $(window).load(function(){
 	if("${comment}"=="true") {
 		$("#content_comment_write").focus();

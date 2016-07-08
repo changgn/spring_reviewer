@@ -240,8 +240,8 @@ pre { white-space: pre-wrap; }
 .view_content_photo_list { display: none;position: fixed;z-index: 9999;top: 0;right: 0;bottom: 0;left: 0;line-height: 100%;text-align: center; }
 .view_content_photo { position: fixed; z-index: 10000; width: 100%; top:10%; }
 .view_content_photo img{ height: 80%; }
-#left_btn { display:inline-block; position: fixed; z-index: 10002; width: 60px; height: 80px; top:50%; left: 3%; background-color: rgba(0,0,0,0); background-image: url("../image/left.png");}
-#right_btn { display:inline-block; position: fixed; z-index: 10002; width: 60px; height: 80px; top:50%; right: 3%; background-image: url("../image/right.png"); }
+#left_btn { display:inline-block; position: fixed; z-index: 10002; width: 70px; height: 100px; top: 45%; left: 3%; background-image: url("../image/left_btn.png"); background-repeat: no-repeat; background-position: center; }
+#right_btn { display:inline-block; position: fixed; z-index: 10002; width: 70px; height: 100px; top: 45%; right: 3%; background-image: url("../image/right_btn.png"); background-repeat: no-repeat; background-position: center; }
 
 /*my_profile*/
 #my_profile_info_area { min-height: 200px; padding: 20px; font-size: 20px; margin: 0 auto; background-color: #F6F6F6; }
