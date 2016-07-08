@@ -11,17 +11,17 @@
 			* { margin:0; padding:0; }
 			ul,li { list-style:none; }
 			a { text-decoration:none; color:#000; }
-			.tab {border:1px solid #ddd; border-left:none; background:#fff; overflow:hidden;  position: static; width: 100%}
+			.tab {border:1px solid #ddd; border-left:none; background:#fff; overflow:hidden;  position: static; width: 100%; z-index: 1000000; }
 			.tab li { float:left; width:33.3%; border-left:1px solid #ddd; text-align:center; box-sizing:border-box; }
 			.tab li { display:inline-block; padding:20px; cursor:pointer; }
 			.tab li.on { background-color:#eee; color:#f00; }
 			.tab_con { clear:both; margin-top:50px auto; border:1px solid #ddd;}
 			.tab_con div { display:none; height: 100% auto; background:#fff; line-height:100px; text-align:center;}
 			.list_table{ margin-top: 20px; margin: auto; border-bottom: solid 1px; border-bottom-color: #f6f6f6; text-align: center;
-				padding : 7px; color: #4c4c4c; font-size: 14px; }
+				padding : 7px; color: #4c4c4c; font-size: 14px; border-top: solid 1px; border-top-color: #f6f6f6;}
 				
-			.Board_Detaile_Info{display: none; position: relative; z-index: 9999;top: 0;right: 0;bottom: 0;left: 0;line-height: 100%;text-align: center;}
-			.Board_Info{display: inline-block;position: relative; z-index: 10000;width: 460px;background-color: #fff;line-height: normal;vertical-align: middle; }
+			.Board_Detaile_Info{display: none; position: relative; top: 0;right: 0;bottom: 0;left: 0;line-height: 100%;text-align: center;}
+			.Board_Info{display: inline-block;position: relative; width: 460px;background-color: #fff;line-height: normal;vertical-align: middle; }
 		</style>
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 		<script>
@@ -85,38 +85,39 @@
 		<div class="tab_con" id="tab_con">
     		<div id="board">
     			<c:forEach var="board" items="${boardList}"> 
-					<table class="list_table Board_Simple_Info" id="${board.id}" >
-						<tr class="Board_Simple_Info" id="${board.id}">
-							<td class="space" width="10"></td>
-							<td width="20%" align="left">
+					<table class="list_table Board_Simple_Info" id="${board.board_num}">
+						<tr>
+							<td class="space" width="5%"></td>
+							<td width="20%" >
 								게시글 번호 : ${board.board_num}
 							</td>
-							<td class="space" width="10"></td>
+							<td class="space" width="5%"></td>
 							<td width="20%" >
-								<a id="text" href="/profile/myProfile.do?id=${board.id}"> 작성자 : ${board.id}</a>
+								작성자 : ${board.id}</a>
 							</td>
-							<td class="space" width="10"></td>
+							<td class="space" width="5%"></td>
 							<td width="20%">
 								작성일 : <fmt:formatDate value="${board.write_date}" pattern="yyyy-MM-dd HH:mm"/>
 							</td>
-							<td class="space" width="10"></td>
-							<td width="20%">
-								<a id="text" href="/content/contentForm.do?board_num=${board.board_num}">게시글 보기</a>
-							</td>
-							<td class="space" width="10"></td>
-							<td width="20%">
-								<a id="text" href="/content/deleteContent.do?board_num=${board.board_num}&id=${board.id}">
-									<img src="../image/icon_66.png"> 삭제 
-								</a>
-							</td>
+							<td class="space" width="5%"></td>
 						</tr>
 					</table>
-					<div id="menu_${board.id}" class="Board_Detaile_Info">
+					<div id="menu_${board.board_num}" class="Board_Detaile_Info">
 						<div class="ly_dimmed"></div>
 						<table class="Board_Info ul_list">
 							<tr>
 								<td>
 									글 번호 : ${board.board_num}
+								</td>
+								<td rowspan="8">
+									<a id="text" href="/content/contentForm.do?board_num=${board.board_num}">
+										<img src="../image/list_icon.png" width="100px" height="100px" title="게시글 보기"> 
+									</a>
+								</td>
+								<td rowspan="8">
+									<a id="text" href="/content/deleteContent.do?board_num=${board.board_num}&id=${board.id}">
+										<img src="../image/memOut_con.png" width="100px" height="100px" title="삭제"> 
+									</a>
 								</td>
 							</tr>
 							<tr>
@@ -160,8 +161,8 @@
     		</div>	
     		<div id="report">
     			<c:forEach var="reportBoard" items="${reportBoardList}"> 
-					<table class="list_table">
-						<tr>
+					<table class="list_table Board_Simple_Info" id="${reportBoard.board_num}">
+						<tr >
 							<td class="space" width="10"></td>
 							<td width="20%" align="left">
 								<a id="text" href="/profile/myProfile.do?id=${reportBoard.id}">작성자 : ${reportBoard.id}</a>
@@ -186,12 +187,57 @@
 							</td>
 						</tr>
 					</table>
+					<div id="menu_${reportBoard.board_num}" class="Board_Detaile_Info">
+						<div class="ly_dimmed"></div>
+						<table class="Board_Info ul_list">
+							<tr>
+								<td>
+									글 번호 : ${reportBoard.board_num}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									작성자 : ${reportBoard.id}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									카테고리 : ${reportBoard.category_id}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									작성일시 : <fmt:formatDate value="${reportBoard.write_date}" pattern="yyyy-MM-dd HH:mm"/>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									추천 : ${reportBoard.recommend_num}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									신고 : ${reportBoard.report_num}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<%-- 스크랩 :${screpCount[reportBoard.board_num]} --%>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									댓글 : ${commentCount[reportBoard.board_num]}
+								</td>
+							</tr>
+						</table>
+					</div>
 				</c:forEach>
 			</div>
     		<div id="popul">
     			<c:forEach var="populBoard" items="${populBoardList}"> 
-					<table class="list_table">
-						<tr>
+					<table class="list_table Board_Simple_Info" id="${populBoard.board_num}">
+						<tr class="Board_Simple_Info" id="${populBoard.board_num}">
 							<td class="space" width="10"></td>
 							<td width="20%" align="left">
 								<a id="text" href="/profile/myProfile.do?id=${populBoard.id}">작성자  : ${populBoard.id}</a>
@@ -216,6 +262,51 @@
 							</td>
 						</tr>
 					</table>
+					<div id="menu_${populBoard.board_num}" class="Board_Detaile_Info">
+						<div class="ly_dimmed"></div>
+						<table class="Board_Info ul_list">
+							<tr>
+								<td>
+									글 번호 : ${populBoard.board_num}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									작성자 : ${populBoard.id}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									카테고리 : ${populBoard.category_id}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									작성일시 : <fmt:formatDate value="${populBoard.write_date}" pattern="yyyy-MM-dd HH:mm"/>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									추천 : ${populBoard.recommend_num}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									신고 : ${populBoard.report_num}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<%-- 스크랩 :${screpCount[populBoard.board_num]} --%>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									댓글 : ${commentCount[populBoard.board_num]}
+								</td>
+							</tr>
+						</table>
+					</div>
 				</c:forEach>
     		</div>
 		</div>

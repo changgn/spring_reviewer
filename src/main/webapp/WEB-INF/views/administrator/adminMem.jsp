@@ -94,7 +94,7 @@
 									<td class="space" width="10"></td>
 									<td rowspan="11" align="right" >
 										<a id="name" href="/administrator/adminOutput.do?outId=${memberList.id}">
-											<img src="../image/memOut_con.gif" width="120" height="120" align="middle">
+											<img src="../image/memOut_con.png" width="120" height="120" align="middle">
 										</a>
 									</td>
 								</tr>
