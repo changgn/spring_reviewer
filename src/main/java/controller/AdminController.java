@@ -69,6 +69,7 @@ public class AdminController {
 	public void setMemberCategoryDao(MemberCategoryDAO memberCategoryDao) {
 		this.memberCategoryDao = memberCategoryDao;
 	}
+	
 	/**	메인화면	*/
 	@RequestMapping("/administrator/adminForm.do")
 	public String adminForm(){
