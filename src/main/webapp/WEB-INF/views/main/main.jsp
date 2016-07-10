@@ -304,19 +304,33 @@ $(function() {
 					 <div id="menu_${board.board.board_num}" class="cont_btn_option">
 						<div class="ly_dimmed"></div>
 						<ul class="cont_popup ul_list">
-							<li>
-								<a href="/content/reportPro.do?board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 신고</a>
-							</li>
-							<c:if test="${login_status==0 || login_status==1}">
-							<li>
-								<a href="#" id="${board.board.board_num}" class="cont_popup_close secret_content" >게시글 숨기기</a>
-							</li>
-							</c:if>
-							<c:if test="${login_status==0 || board.board.id == id}">						
-								<li>
-									<a href="/content/deleteContent.do?id=${board.board.id}&board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
-								</li>
-							</c:if>
+							<c:choose>
+								<c:when test="${id == 'admin'}">
+									<li>
+										<a href="#" id="${board.board.board_num}" class="cont_popup_close secret_content" >게시글 숨기기</a>
+									</li>
+									<li>
+										<a href="/content/deleteContent.do?id=${board.board.id}&board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
+									</li>
+								</c:when>
+								<c:otherwise>
+									<c:if test="${login_status==1}">
+										<li>
+											<a href="#" id="${board.board.board_num}" class="cont_popup_close secret_content" >게시글 숨기기</a>
+										</li>
+									</c:if>
+									<c:if test="${board.board.id != id}">
+										<li>
+											<a href="/content/reportPro.do?board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 신고</a>
+										</li>
+									</c:if>
+									<c:if test="${board.board.id == id}">						
+										<li>
+											<a href="/content/deleteContent.do?id=${board.board.id}&board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
+										</li>
+									</c:if>
+								</c:otherwise>
+							</c:choose>
 						</ul>
 					</div>
 				</div> 

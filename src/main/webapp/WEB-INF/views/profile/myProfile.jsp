@@ -385,14 +385,25 @@ $(function() {
 							 <div id="menu_${board.board.board_num}" class="cont_btn_option">
 								<div class="ly_dimmed"></div>
 								<ul class="cont_popup ul_list">
-									<li>
-										<a href="/content/reportPro.do?board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 신고</a>
-									</li>
-								<c:if test="${login_status==0 || board.board.id == id}">						
-									<li>
-										<a href="/content/deleteContent.do?id=${board.board.id}&board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
-									</li>
-								</c:if>
+									<c:choose>
+										<c:when test="${id != 'admin'}">
+											<c:if test="${board.board.id != id}">
+												<li>
+													<a href="/content/reportPro.do?board_num=${board.board_num}" class="cont_popup_close" >이 게시글 신고</a>
+												</li>
+											</c:if>
+											<c:if test="${board.board.id == id}">						
+												<li>
+													<a href="/content/deleteContent.do?id=${board.id}&board_num=${board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
+												</li>
+											</c:if>
+										</c:when>
+										<c:otherwise>						
+											<li>
+												<a href="/content/deleteContent.do?id=${board.id}&board_num=${board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
+											</li>
+										</c:otherwise>
+									</c:choose>
 								</ul>
 							</div>
 						</div>

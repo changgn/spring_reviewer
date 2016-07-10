@@ -7,8 +7,9 @@ public class NoticeCommand {
 	private String id;
 	private String targetid;
 	private int board_num;
-	private Date notice_date;
 	private int read;
+	private Date notice_date;
+	
 
 	public NoticeCommand(){
 		

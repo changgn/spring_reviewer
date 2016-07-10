@@ -350,5 +350,7 @@ COMMENT ON COLUMN report.report_num IS '글번호';
 COMMENT ON COLUMN screp.id IS '스크랩 아이디';
 COMMENT ON COLUMN screp.board_num IS '글번호';
 
+/* administrator */
+insert into members values('admin', '1' , '관리자', '000000', 'male', 'administrator@reviewer.com', '01000000000', sysdate, 0);
 
-
+commit;
