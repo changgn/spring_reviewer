@@ -6,7 +6,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,25 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import command.CategoryCommand;
 import command.MemberCategoryCommand;
-import dao.CategoryDAO;
-import dao.MemberCategoryDAO;
 import net.sf.json.JSONObject;
 
 @Controller
-public class CategoryController {
-
-	@Autowired
-	CategoryDAO categoryDao;
-	@Autowired
-	MemberCategoryDAO memberCategoryDao;
-	
-	public void setCategoryDao(CategoryDAO categoryDao) {
-		this.categoryDao = categoryDao;
-	}
-
-	public void setMemberCategoryDao(MemberCategoryDAO memberCategoryDao) {
-		this.memberCategoryDao = memberCategoryDao;
-	}
+public class CategoryController extends BaseController{
 
 	@RequestMapping(value="/categorySet/categorySet.do",method=RequestMethod.GET)
 	public String categorySetForm(HttpServletRequest request, Model model){

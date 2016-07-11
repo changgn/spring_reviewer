@@ -5,7 +5,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,28 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import command.BoardCommand;
 import command.NoticeCommand;
 import command.RecommendCommand;
-import dao.BoardDAO;
-import dao.MemberDAO;
-import dao.NoticeDAO;
-import dao.RecommendDAO;
 import net.sf.json.JSONObject;
 
 @Controller
-public class RecommendController {
-
-	@Autowired
-	private BoardDAO boardDao;
-	@Autowired
-	private RecommendDAO recommendDao;	
-	@Autowired
-	private MemberDAO memberDao;
-	@Autowired
-	private NoticeDAO noticeDao;
-	
-	public void setMemberDao(MemberDAO memberDao) { this.memberDao = memberDao; }
-	public void setBoardDao(BoardDAO boardDao) { this.boardDao = boardDao; }
-	public void setRecommendDao(RecommendDAO recommendDao) { this.recommendDao = recommendDao; }
-	public void setNoticeDao(NoticeDAO noticeDao) { this.noticeDao = noticeDao; }
+public class RecommendController extends BaseController {
 		
 	@ResponseBody
 	@RequestMapping("/recommend/recommend.do")

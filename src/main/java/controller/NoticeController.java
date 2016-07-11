@@ -6,26 +6,17 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import command.NoticeCommand;
-import dao.NoticeDAO;
 import net.sf.json.JSONObject;
 
 @Controller
-public class NoticeController {
+public class NoticeController extends BaseController {
 	
-	@Autowired
-	NoticeDAO noticeDao;
-	public void setNoticeDao(NoticeDAO noticeDao) {
-		this.noticeDao = noticeDao;
-	}
-
-
 	@ResponseBody
 	@RequestMapping(value="/notice/notice.do", method = RequestMethod.POST)
 	public String Comment(HttpServletResponse resp, HttpSession session) throws Exception{

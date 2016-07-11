@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,17 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import command.MemberCommand;
-import dao.MemberDAO;
 
 @Controller
-public class IdPwSearchController {
+public class IdPwSearchController extends BaseController{
 
-	@Autowired
-	private MemberDAO memberDao;
-
-	public void setMemberDao(MemberDAO memberDao){
-		this.memberDao = memberDao;
-	}
 	@ModelAttribute("memberCommand")
 	public MemberCommand memberCommand(){
 		return new MemberCommand();

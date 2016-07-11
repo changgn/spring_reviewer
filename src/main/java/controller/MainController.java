@@ -9,7 +9,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,53 +20,11 @@ import command.PhotoCommand;
 import command.ProfilePhotoCommand;
 import command.RecommendCommand;
 import command.ScrepCommand;
-import dao.CategoryDAO;
-import dao.CommentDAO;
-import dao.FollowDAO;
-import dao.MainDAO;
-import dao.MemberCategoryDAO;
-import dao.PhotoDAO;
-import dao.ProfilePhotoDAO;
-import dao.RecommendDAO;
-import dao.ScrepDAO;
-import dao.SecretDAO;
 import net.sf.json.JSONObject;
 
 
 @Controller
-public class MainController {
-	@Autowired
-	private ScrepDAO screpDao;
-	@Autowired
-	private PhotoDAO photoDao;
-	@Autowired
-	private CommentDAO commentDao;
-	@Autowired
-	private CategoryDAO categoryDao;
-	@Autowired
-	private MemberCategoryDAO memberCategoryDao;
-	@Autowired
-	private RecommendDAO recommendDao;
-	@Autowired
-	private SecretDAO secretDao;
-	@Autowired
-	private MainDAO mainDao;
-	@Autowired
-	private ProfilePhotoDAO ProfilePhotoDao;
-	@Autowired
-	private FollowDAO followDao;
-
-	
-	public void setRecommendDao(RecommendDAO recommendDao) { this.recommendDao = recommendDao; }
-	public void setPhotoDao(PhotoDAO photoDao) { this.photoDao = photoDao; }
-	public void setCommentDao(CommentDAO commentDao) { this.commentDao = commentDao; }
-	public void setCategoryDao(CategoryDAO categoryDao) { this.categoryDao = categoryDao; }
-	public void setMemberCategoryDao(MemberCategoryDAO memberCategoryDao) { this.memberCategoryDao = memberCategoryDao; }
-	public void setSecretDao(SecretDAO secretDao) {this.secretDao = secretDao; }
-	public void setMainDao(MainDAO mainDao) { this.mainDao = mainDao; }
-	public void setScrepDao(ScrepDAO screpDao) { this.screpDao = screpDao; }
-	public void setProfilePhotoDao(ProfilePhotoDAO profilePhotoDao) { ProfilePhotoDao = profilePhotoDao; }
-	public void setFollowDAO(FollowDAO followDao) { this.followDao = followDao; }
+public class MainController extends BaseController {
 	
 	@RequestMapping("/main/main.do")
 	public String main(HttpServletRequest request, HttpServletResponse resp, Model model, String sort){

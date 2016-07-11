@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,24 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import command.BoardCommand;
 import command.CommentCommand;
 import command.NoticeCommand;
-import dao.BoardDAO;
-import dao.CommentDAO;
-import dao.NoticeDAO;
 import net.sf.json.JSONObject;
 
 @Controller
-public class CommentController {
-
-	@Autowired
-	private BoardDAO boardDao;
-	@Autowired
-	private CommentDAO commentdao;
-	@Autowired
-	private NoticeDAO noticeDao;
-
-	public void setBoardDao(BoardDAO boardDao) { this.boardDao = boardDao; }
-	public void setCommentdao(CommentDAO commentdao) { this.commentdao = commentdao; }
-	public void setNoticeDao(NoticeDAO noticeDao) { this.noticeDao = noticeDao; }
+public class CommentController extends BaseController{
 	
 	@ResponseBody
 	@RequestMapping(value="/content/comment.do", method = RequestMethod.POST)
@@ -46,7 +31,7 @@ public class CommentController {
 		command.setContent(content);
 		JSONObject jso = new JSONObject();
 
-		int check = commentdao.insert(command);
+		int check = commentDao.insert(command);
 		if(check>0) {
 			System.out.println("�뙎湲� ���옣 �셿猷�");
 			BoardCommand board = boardDao.selectContent(board_num);
@@ -57,13 +42,13 @@ public class CommentController {
 			System.out.println("�뙎湲� ���옣 �떎�뙣");
 		}
 		
-		int commetNum = commentdao.getRecentCommentNum();
-		CommentCommand commentCommand = commentdao.getOne(commetNum);
+		int commetNum = commentDao.getRecentCommentNum();
+		CommentCommand commentCommand = commentDao.getOne(commetNum);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		String date = sdf.format(commentCommand.getWrite_date());
 
-		String commentCount = commentdao.getCountByBoardNum(command.getBoard_num());
+		String commentCount = commentDao.getCountByBoardNum(command.getBoard_num());
 		
 		jso.put("data", commentCommand);
 		jso.put("cnt", commentCount);
@@ -84,9 +69,9 @@ public class CommentController {
 			comment_num = Integer.parseInt(comment_num_str);
 		}
 		
-		String commentId = commentdao.getId(comment_num);
+		String commentId = commentDao.getId(comment_num);
 		if(comment_num!=null && commentId.equals(id)) {
-			commentdao.removeByCommentNum(comment_num);
+			commentDao.removeByCommentNum(comment_num);
 		} else {
 			return "redirect:/content/contentForm.do?board_num=" + board_num + "&comment=true&errorId=error";
 		}
@@ -100,7 +85,7 @@ public class CommentController {
 		
 		JSONObject jso = new JSONObject();
 		
-		commentdao.updateByCommentNum(command);
+		commentDao.updateByCommentNum(command);
 		
 		jso.put("comment", command);
 		resp.setContentType("text/html;charset=utf-8");

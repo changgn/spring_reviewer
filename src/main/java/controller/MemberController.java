@@ -9,40 +9,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import dao.BoardDAO;
-import dao.MemberDAO;
-import dao.ReportDAO;
 import command.BoardCommand;
 import command.MemberCommand;
 
 
 @Controller
-public class MemberController {
+public class MemberController extends BaseController {
 
-	@Autowired
-	private MemberDAO memberDao;
-	@Autowired
-	private ReportDAO reportDAO;
-	@Autowired
-	private BoardDAO boardDAO;
-	
-	public void setBoardDAO(BoardDAO boardDAO) {
-		this.boardDAO = boardDAO;
-	}
-	public void setReportDAO(ReportDAO reportDAO) {
-		this.reportDAO = reportDAO;
-	}
-	public void setMemberDao(MemberDAO memberDao) {
-		this.memberDao = memberDao;
-	}
-   
 	//ȸ�� ������ ������
 	@ModelAttribute("memberCommand")
 	public MemberCommand get(){
@@ -169,13 +148,13 @@ public class MemberController {
 		
 		if (passwd.equals(SavePasswd)) {
 			List<BoardCommand> bc = new ArrayList<BoardCommand>();
-			bc = boardDAO.getList();
+			bc = boardDao.getList();
 			for(BoardCommand bdcmd : bc){
 				if(bdcmd.getId().equals(id)){
-					reportDAO.deleteReport(bdcmd.getBoard_num());
+					reportDao.deleteReport(bdcmd.getBoard_num());
 				}
 			}
-			reportDAO.deleteReportById(id);
+			reportDao.deleteReportById(id);
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("id", id);
 			map.put("passwd", passwd);

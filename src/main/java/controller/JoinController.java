@@ -1,6 +1,5 @@
 package controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,27 +9,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import command.MemberCommand;
 import command.ProfilePhotoCommand;
-import dao.MemberDAO;
-import dao.ProfilePhotoDAO;
-
 
 @Controller
-public class JoinController {
+public class JoinController extends BaseController {
 	
-	@Autowired
-	private MemberDAO memberDao;
-	@Autowired
-	private ProfilePhotoDAO ProfilePhotoDao;
-	
-	public void setMemberDao(MemberDAO memberDao) {
-		this.memberDao = memberDao;
-	}
-	public void setProfilePhotoDao(ProfilePhotoDAO profilePhotoDao) {
-		ProfilePhotoDao = profilePhotoDao;
-	}
-
-
-
 	@ModelAttribute("memberCommand")
 	public MemberCommand memberCommand(){
 		return new MemberCommand();

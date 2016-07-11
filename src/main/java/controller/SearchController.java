@@ -8,7 +8,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,47 +19,15 @@ import command.PhotoCommand;
 import command.ProfilePhotoCommand;
 import command.RecommendCommand;
 import command.ScrepCommand;
-import dao.BoardDAO;
-import dao.CategoryDAO;
-import dao.CommentDAO;
-import dao.MainDAO;
-import dao.PhotoDAO;
-import dao.ProfilePhotoDAO;
-import dao.RecommendDAO;
-import dao.ScrepDAO;
 import net.sf.json.JSONObject;
 
 @Controller
-public class SearchController {
-	@Autowired
-	BoardDAO boardDao; 
-	@Autowired
-	PhotoDAO photoDao;
-	@Autowired
-	CommentDAO commentDao;
-	@Autowired
-	CategoryDAO categoryDao;
-	@Autowired
-	private RecommendDAO recommendDao;
-	@Autowired
-	private ScrepDAO screpDao;
-	@Autowired
-	private MainDAO mainDao;
-	@Autowired
-	private ProfilePhotoDAO ProfilePhotoDao;
+public class SearchController extends BaseController {
+
 	private String addcount;
 	private String searchContent;
 	private List<String> categoryIdList;
 	
-	public void setCategorydao(CategoryDAO categoryDao) { this.categoryDao = categoryDao; }
-	public void setPhotodao(PhotoDAO photoDao) { this.photoDao = photoDao; }
-	public void setCommentdao(CommentDAO commentDao) { this.commentDao = commentDao; }
-	public void setBoarddao(BoardDAO boardDao) { this.boardDao = boardDao; }
-	public void setMainDao(MainDAO mainDao) { this.mainDao = mainDao; }
-	public void setScrepDao(ScrepDAO screpDao) { this.screpDao = screpDao; }
-	
-	public void setRecommendDao(RecommendDAO recommendDao) { this.recommendDao = recommendDao; }
-	public void setProfilePhotoDao(ProfilePhotoDAO profilePhotoDao) { ProfilePhotoDao = profilePhotoDao; }
 	@RequestMapping(value="/search/searchForm.do")
 	public String searchForm(Model model){
 		model.addAttribute("firstCheck", 0);

@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,15 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import dao.CategoryDAO;
-import dao.CommentDAO;
-import dao.FollowDAO;
-import dao.MainDAO;
-import dao.MemberCategoryDAO;
-import dao.PhotoDAO;
-import dao.ProfilePhotoDAO;
-import dao.RecommendDAO;
-import dao.ScrepDAO;
 import net.sf.json.JSONObject;
 import command.BoardCommand;
 import command.CategoryCommand;
@@ -41,38 +31,8 @@ import command.ProfilePhotoCommand;
 import command.RecommendCommand;
 import command.ScrepCommand;
 @Controller
-public class MyProfileContoroller {
+public class MyProfileContoroller extends BaseController{
 	
-	@Autowired
-	private CategoryDAO categoryDao;
-	@Autowired
-	private CommentDAO commentDao;
-	@Autowired
-	private FollowDAO followDao;
-	@Autowired
-	private MemberCategoryDAO MemberCategoryDao;
-	@Autowired
-	private PhotoDAO PhotoDao;
-	@Autowired
-	private ScrepDAO ScrepDao;
-	@Autowired
-	private RecommendDAO recommendDao;
-	@Autowired
-	private MainDAO mainDao;
-	@Autowired
-	private ProfilePhotoDAO ProfilePhotoDao;
-	
-	//DAO 초기화
-	public void setCategoryDao(CategoryDAO categoryDao) { this.categoryDao = categoryDao; }
-	public void setCommentDao(CommentDAO commentDao) { this.commentDao = commentDao; }
-	public void setFollowDao(FollowDAO followDao) { this.followDao = followDao; }
-	public void setMemberCategoryDao(MemberCategoryDAO memberCategoryDao) { MemberCategoryDao = memberCategoryDao; }
-	public void setPhotoDao(PhotoDAO photoDao) { PhotoDao = photoDao; }
-	public void setScrepDao(ScrepDAO screpDao) { ScrepDao = screpDao; }
-	public void setMainDao(MainDAO mainDao) { this.mainDao = mainDao; }
-	public void setRecommendDao(RecommendDAO recommendDao) { this.recommendDao = recommendDao; }
-	public void setProfilePhotoDao(ProfilePhotoDAO profilePhotoDao) { ProfilePhotoDao = profilePhotoDao; }
-
 	//Command Model view 설정
 	@ModelAttribute("screpCommand")
 	public MemberCommand getMember(){
@@ -100,7 +60,7 @@ public class MyProfileContoroller {
 		List<MemberCategoryCommand> membersCategoryList = null;
 		List<CategoryCommand> CategoryList = new ArrayList<CategoryCommand>();
 		// 해당 id의 카테고리id 가져오기
-		membersCategoryList = MemberCategoryDao.getlistById(paramId);
+		membersCategoryList = memberCategoryDao.getlistById(paramId);
 		// 카테고리id로 카테고리 가져오기
 		for(MemberCategoryCommand Command : membersCategoryList) {
 			CategoryCommand Category = categoryDao.getOne(Command.getCategory_id());
@@ -129,9 +89,9 @@ public class MyProfileContoroller {
 		//팔로잉 숫자 저장
 		int followingCount = followDao.countto(paramId);
 		model.addAttribute("followingCount", followingCount);
-		int screpCount = ScrepDao.getScrepCountByScrepNum(paramId);
+		int screpCount = screpDao.getScrepCountByScrepNum(paramId);
 		model.addAttribute("screpCount", screpCount);
-		int myCount = ScrepDao.getCountByBoardNum(paramId);
+		int myCount = screpDao.getCountByBoardNum(paramId);
 		model.addAttribute("myCount", myCount);
 		// 팔로우 상태 저장
 		if(id!=null) {
@@ -160,7 +120,7 @@ public class MyProfileContoroller {
 					boardCount = boardList.size();
 				for(BoardCommand Command : boardList) {
 					HashMap<String, Object> boardMap = new HashMap<String, Object>();
-					PhotoCommand photo = PhotoDao.getOneByBoardNum(Command.getBoard_num());
+					PhotoCommand photo = photoDao.getOneByBoardNum(Command.getBoard_num());
 					ProfilePhotoCommand profilePhoto = ProfilePhotoDao.getOneById(Command.getId());
 					CategoryCommand category = categoryDao.getOne(Command.getCategory_id());
 					String commentCount=commentDao.getCountByBoardNum(Command.getBoard_num());
@@ -182,7 +142,7 @@ public class MyProfileContoroller {
 					}
 					ScrepCommand screp = new ScrepCommand(id, Command.getBoard_num());
 					if(screp.getId() != null ){
-						ScrepCommand screps = ScrepDao.getScrep(screp);
+						ScrepCommand screps = screpDao.getScrep(screp);
 						if(screps != null){
 							boardMap.put("screpFlag", "screp");
 						}else{
@@ -222,7 +182,7 @@ public class MyProfileContoroller {
 			if(pageInfo == null) {
 				boardList = mainDao.getMorePageListById(paramId, lastBoard_num);
 			} else {
-				List<Integer> boardNumList = ScrepDao.getScrepListById(paramId);
+				List<Integer> boardNumList = screpDao.getScrepListById(paramId);
 				if(boardNumList.size() != 0){
 					boardList = mainDao.getMorePageListByBoardNum(boardNumList, lastBoard_num);
 				}
@@ -231,7 +191,7 @@ public class MyProfileContoroller {
 			if(boardList!=null){
 				for(BoardCommand Command : boardList) {
 					HashMap<String, Object> boardMap = new HashMap<String, Object>();
-					PhotoCommand photo = PhotoDao.getOneByBoardNum(Command.getBoard_num());
+					PhotoCommand photo = photoDao.getOneByBoardNum(Command.getBoard_num());
 					ProfilePhotoCommand profilePhoto = ProfilePhotoDao.getOneById(Command.getId());
 					CategoryCommand category = categoryDao.getOne(Command.getCategory_id());
 					String commentCount=commentDao.getCountByBoardNum(Command.getBoard_num());
@@ -256,7 +216,7 @@ public class MyProfileContoroller {
 					}
 					ScrepCommand screp = new ScrepCommand(id, Command.getBoard_num());
 					if(screp.getId() != null ){
-						ScrepCommand screps = ScrepDao.getScrep(screp);
+						ScrepCommand screps = screpDao.getScrep(screp);
 						if(screps != null){
 							boardMap.put("screpFlag", "screp");
 						}else{

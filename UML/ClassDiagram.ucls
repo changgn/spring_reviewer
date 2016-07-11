@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.10" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="command.FollowCommand" project="spring_reviewer" 
+    file="/spring_reviewer/src/main/java/command/FollowCommand.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="109" y="19"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="command.MemberCommand" project="spring_reviewer" 
+    file="/spring_reviewer/src/main/java/command/MemberCommand.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="649" width="372" x="219" y="-84"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="command.NoticeCommand" project="spring_reviewer" 
+    file="/spring_reviewer/src/main/java/command/NoticeCommand.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="423" width="223" x="613" y="-84"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="command.MemberCategoryCommand" project="spring_reviewer" 
+    file="/spring_reviewer/src/main/java/command/MemberCategoryCommand.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="724" y="461"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="command.ProfilePhotoCommand" project="spring_reviewer" 
+    file="/spring_reviewer/src/main/java/command/ProfilePhotoCommand.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="981" y="73"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="command.CategoryCommand" project="spring_reviewer" 
+    file="/spring_reviewer/src/main/java/command/CategoryCommand.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="315" width="258" x="853" y="248"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="command.MemberRecommendDeleteCommand" project="spring_reviewer" 
+    file="/spring_reviewer/src/main/java/command/MemberRecommendDeleteCommand.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="239" width="250" x="1127" y="-84"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="command.PhotoCommand" project="spring_reviewer" 
+    file="/spring_reviewer/src/main/java/command/PhotoCommand.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="356" width="212" x="1397" y="-82"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="command.CommentCommand" project="spring_reviewer" 
+    file="/spring_reviewer/src/main/java/command/CommentCommand.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="387" width="250" x="1127" y="173"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="command.BoardCommand" project="spring_reviewer" 
+    file="/spring_reviewer/src/main/java/command/BoardCommand.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="645" width="295" x="1632" y="-82"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="command.RecommendCommand" project="spring_reviewer" 
+    file="/spring_reviewer/src/main/java/command/RecommendCommand.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="268" width="216" x="1395" y="294"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="command.ScrepCommand" project="spring_reviewer" 
+    file="/spring_reviewer/src/main/java/command/ScrepCommand.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="207" width="170" x="25" y="358"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="command.ReportCommand" project="spring_reviewer" 
+    file="/spring_reviewer/src/main/java/command/ReportCommand.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="207" width="173" x="23" y="138"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="14" language="java" name="command.SecretCommand" project="spring_reviewer" 
+    file="/spring_reviewer/src/main/java/command/SecretCommand.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="189" width="215" x="1946" y="-82"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
