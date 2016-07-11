@@ -15,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import command.BoardCommand;
 import command.CategoryCommand;
-import command.MemberCategoryCommand;
 import command.MemberCommand;
 import command.ProfilePhotoCommand;
 
@@ -36,7 +35,7 @@ public class AdminController extends BaseController {
 		BoardList = boardDao.getList();
 		model.addAttribute("boardList", BoardList);
 		// 게시글 카테고리 정보
-		Map cii = new HashMap();
+		Map<String, Object> cii = new HashMap<String, Object>();
 		for(BoardCommand bc : BoardList){
 			String category_id = bc.getCategory_id();
 			CategoryCommand cc = categoryDao.getOne(category_id);
@@ -45,8 +44,8 @@ public class AdminController extends BaseController {
 		model.addAttribute("category_info", cii);
 		List<Integer> board_num_list = new ArrayList<Integer>();
 		board_num_list = boardDao.getBoardNumList();
-		Map commentCountMap = new HashMap();
-		Map screpCountMap = new HashMap();
+		Map<Integer, Object> commentCountMap = new HashMap<Integer, Object>();
+		Map<Integer, Object> screpCountMap = new HashMap<Integer, Object>();
 		// 게시글 코멘트 개수
 		String commentCount;
 		for(int board_num : board_num_list){
@@ -95,19 +94,18 @@ public class AdminController extends BaseController {
 		if(id_list.contains(id)){
 			id_list.remove(id);
 		}
-		Map abmap = new HashMap();
-		Map rbmap = new HashMap();
-		Map pbmap = new HashMap();
-		Map ppmap = new HashMap();
-		Map sbmap = new HashMap();
-		Map Member_Category_Id_map = new HashMap();
-		Map Category_Id_Info_map = new HashMap();
+		Map<String, Object> abmap = new HashMap<String, Object>();
+		Map<String, Object> rbmap = new HashMap<String, Object>();
+		Map<String, Object> pbmap = new HashMap<String, Object>();
+		Map<String, Object> ppmap = new HashMap<String, Object>();
+		Map<String, Object> sbmap = new HashMap<String, Object>();
+		Map<String, Object> Member_Category_Id_map = new HashMap<String, Object>();
+		Map<String, Object> Category_Id_Info_map = new HashMap<String, Object>();
 		// 해당ID의 게시글 수
 		int boardCount = 0;
 		for(String mid : id_list){
 			boardCount = boardDao.getBoardCountById(mid);
 			rbmap.put(mid, boardCount);
-			
 		}
 		mav.addObject("boardCount", rbmap);
 		// 해당ID가 추천한 게시글 수

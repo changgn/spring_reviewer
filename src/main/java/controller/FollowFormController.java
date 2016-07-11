@@ -35,7 +35,7 @@ public class FollowFormController extends BaseController {
 		mav.addObject("fromList", from_id_list);
 		/**	팔로워 리스트 프로필 사진	*/
 		ProfilePhotoCommand list_profile_photo = new ProfilePhotoCommand();
-		Map list_profile_photo_map = new HashMap();
+		Map<String, Object> list_profile_photo_map = new HashMap<String, Object>();
 		for(String id : from_id_list){
 			list_profile_photo = profilePhotoDao.getOneById(id);
 			list_profile_photo_map.put(id, list_profile_photo);
@@ -49,12 +49,13 @@ public class FollowFormController extends BaseController {
 			}
 			List<String> to_id_list = new ArrayList<String>();
 			to_id_list = followDao.toList(from_id);	/**	나의 팔로잉 목록	*/
-			Map map = new HashMap();
-			if( to_id_list != null ) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			if( !to_id_list.isEmpty() ) {
 				/**	false 값으로 초기화	*/
 				for( String follower : from_id_list ) {	
 					for(String following : to_id_list){	
 						map.put(follower, false);
+						map.put(following, false);
 					}
 				}
 				/**	팔로잉목록과 비교하여 있을 경우만 true값으로 저장	*/
@@ -95,7 +96,7 @@ public class FollowFormController extends BaseController {
 		mav.addObject("toIdList", to_id_list);
 		/**	팔로워 리스트 프로필 사진	*/
 		ProfilePhotoCommand list_profile_photo = new ProfilePhotoCommand();
-		Map list_profile_photo_map = new HashMap();
+		Map<String, Object> list_profile_photo_map = new HashMap<String, Object>();
 		for(String id : to_id_list){
 			list_profile_photo = profilePhotoDao.getOneById(id);
 			list_profile_photo_map.put(id, list_profile_photo);
@@ -112,12 +113,13 @@ public class FollowFormController extends BaseController {
 			List<String> my_to_id_list = null;
 			my_to_id_list = followDao.toList(my_to_id);	
 			/**	팔로우 상태값 저장	*/
-			Map map = new HashMap();
-			if(my_to_id_list!=null){
+			Map<String, Object> map = new HashMap<String, Object>();
+			if(!my_to_id_list.isEmpty()){
 				/**	false 값으로 초기화	*/
 				for(String following : my_to_id_list){
 					for(String tofollowing : to_id_list){	
-						map.put(tofollowing, true);
+						map.put(tofollowing, false);
+						map.put(following, false);
 					}
 				}
 				/**	팔로잉목록과 비교하여 있을 경우만 true값으로 저장	*/
