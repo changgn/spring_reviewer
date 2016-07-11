@@ -73,11 +73,7 @@
 							<div class="ly_dimmed"></div>
 							<table class="mem_d_i ul_list">
 								<tr>
-									<td>
-										아이디 : ${memberList.id}
-									</td>
-									<td class="space" width="10"></td>
-									<td rowspan="11" align="right">
+									<td rowspan="13" align="right">
 										<c:choose>
 											<c:when test="${profilePhoto[memberList.id].realPath != null}">
 												<a href="/profile/myProfile.do?id=${memberList.id}">
@@ -92,10 +88,17 @@
 										</c:choose>
 									</td>
 									<td class="space" width="10"></td>
-									<td rowspan="11" align="right" >
+									
+									<td class="space" width="10"></td>
+									<td rowspan="13" align="right">
 										<a id="name" href="/administrator/adminOutput.do?outId=${memberList.id}">
 											<img src="../image/memOut_con.png" width="120" height="120" align="middle">
 										</a>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										아이디 : ${memberList.id}
 									</td>
 								</tr>
 								<tr>
@@ -126,6 +129,21 @@
 								<tr>
 									<td>
 										가입일시 : <fmt:formatDate value="${memberList.reg_date}" pattern="yyyy-MM-dd HH:mm"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										카테고리 정보 :
+										<c:choose>
+											<c:when test="">
+												<c:forEach var="memberCategory" items="${MemberCategory[memberList.id]}">
+													${memberCategory.group1} / ${memberCategory.group2} / ${memberCategory.group3}
+												</c:forEach>
+											</c:when>
+											<c:otherwise>
+												카테고리 없음
+											</c:otherwise>
+										</c:choose>
 									</td>
 								</tr>
 								<tr>

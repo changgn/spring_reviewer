@@ -9,7 +9,10 @@ public class ReportDAO extends SqlSessionDaoSupport{
 	public int insertReport(ReportCommand rc){
 		return getSqlSession().insert("report.insertReportBoard", rc);
 	}
-	
+	/**	해당 ID의 해당 게시글 신고 여부	*/
+	public ReportCommand getSureBoardReportByID(ReportCommand rc){
+		return getSqlSession().selectOne("report.getSureBoardReportByID", rc);
+	}
 	/**	해당ID의 신고받은 게시글 수	*/
 	public int getReportCountById(String id){
 		return getSqlSession().selectOne("report.getReportCountById", id);

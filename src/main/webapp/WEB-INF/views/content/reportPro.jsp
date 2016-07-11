@@ -16,5 +16,11 @@
 	<c:if test="${reportok == 'reportfalse'}">
 		<% response.sendRedirect("/main/mainForm.do"); %>
 	</c:if>
+	<c:if test="${reportn == 'reportn' }">
+		<script>
+			alert("회원님은 이미 해당 게시글을 신고하셨습니다.");
+			history.go(-1);
+		</script>
+	</c:if>
 </body>
 </html>

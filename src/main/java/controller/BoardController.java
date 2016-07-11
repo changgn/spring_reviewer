@@ -229,27 +229,32 @@ public class BoardController {
 
 		String board_num_str = request.getParameter("board_num");
 		String id = (String) request.getSession().getAttribute("id");
-		
-		if(board_num_str != null){
-			Integer board_num = Integer.parseInt(board_num_str);
-			
-			int reportupdateok = boarddao.updateReportNumByBoardNum(board_num);
-			ReportCommand rc = new ReportCommand(id, board_num);
-			reportDAO.insertReport(rc);
-			if(reportupdateok > 0){
-				BoardCommand board = boarddao.selectContent(board_num);
-				NoticeCommand noticeCommand = new NoticeCommand("report", id, board.getId(), board_num);
-				List<NoticeCommand> noticeList = noticeDao.getListByBoard(noticeCommand);
-				if(noticeList.size() != 0) {
-					noticeDao.removeByBoard(noticeCommand);
-				}
-				noticeDao.insert(noticeCommand);
+		Integer board_num = Integer.parseInt(board_num_str);
+		ReportCommand rptcmd = new ReportCommand(id, board_num);
+		rptcmd = reportDAO.getSureBoardReportByID(rptcmd);
+		if(id==rptcmd.getId() && rptcmd.getBoard_num() == board_num){
+			if(board_num_str != null){
 				
-				model.addAttribute("reportok", "reportok");
-			}else{
+				int reportupdateok = boarddao.updateReportNumByBoardNum(board_num);
+				ReportCommand rc = new ReportCommand(id, board_num);
+				reportDAO.insertReport(rc);
+				if(reportupdateok > 0){
+					BoardCommand board = boarddao.selectContent(board_num);
+					NoticeCommand noticeCommand = new NoticeCommand("report", id, board.getId(), board_num);
+					List<NoticeCommand> noticeList = noticeDao.getListByBoard(noticeCommand);
+					if(noticeList.size() != 0) {
+						noticeDao.removeByBoard(noticeCommand);
+					}
+					noticeDao.insert(noticeCommand);
+					
+					model.addAttribute("reportok", "reportok");
+				}else{
 
-				request.setAttribute("reportok", "reportfalse");
+					request.setAttribute("reportok", "reportfalse");
+				}
 			}
+		}else{
+			request.setAttribute("reportn", "reportn");
 		}
 		return "content/reportPro";
 	}

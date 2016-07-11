@@ -21,11 +21,11 @@
 				padding : 7px; color: #4c4c4c; font-size: 14px; border-top: solid 1px; border-top-color: #f6f6f6; vertical-align: middle;}
 				
 			.Board_Detaile_Info{display: none; position: relative; top: 0;right: 0;bottom: 0;left: 0;line-height: 100%;text-align: center;}
-			.Board_Info{display: inline-block;position: relative; width: 460px;background-color: #fff;line-height: normal;vertical-align: middle; }
+			.Board_Info{display: inline-block;position: relative; width: 300px auto;background-color: #fff;line-height: normal;vertical-align: middle; }
 			.Report_Board_Detaile_Info{display: none; position: relative; top: 0;right: 0;bottom: 0;left: 0;line-height: 100%;text-align: center;}
-			.Report_Board_Info{display: inline-block;position: relative; width: 460px;background-color: #fff;line-height: normal;vertical-align: middle; }
+			.Report_Board_Info{display: inline-block;position: relative; width: 300px auto;background-color: #fff;line-height: normal;vertical-align: middle; }
 			.Popul_Board_Detaile_Info{display: none; position: relative; top: 0;right: 0;bottom: 0;left: 0;line-height: 100%;text-align: center;}
-			.Popul_Board_Info{display: inline-block;position: relative; width: 460px;background-color: #fff;line-height: normal;vertical-align: middle; }
+			.Popul_Board_Info{display: inline-block;position: relative; width: 300px auto;background-color: #fff;line-height: normal;vertical-align: middle; }
 		</style>
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 		<script>
@@ -42,22 +42,12 @@
 			$(function(){
 				$("body").on("click", ".Board_Simple_Info", function(e){
 					e.preventDefault();
-					var style = $(this).attr("style");
-					if($(this).attr("style") == 'display:block'){
-						var board_num = $(this).attr("title");
-						var list = $("#info_" + board_num);
-						list.hide();
-					}else{
-						var board_num = $(this).attr("title");
-						var list = $("#info_" + board_num);
-						list.show();
-					}
+					var board_num = $(this).attr("title");
+					var list = $("#info_" + board_num);
+					list.show();
 				});
 				$("body").on("click", ".Board_Detaile_Info", function(e){
 					e.preventDefault();
-					var board_num = $(this).attr("title");
-					var info = $("#list_" + board_num);
-					info.show();
 					$(this).hide();
 				});	
 				$("body").on("click", ".Report_Board_Simple_Info", function(e){
@@ -65,27 +55,19 @@
 					var report_board_num = $(this).attr("title");
 					var reprot_info = $("#report_info_" + report_board_num);
 					reprot_info.show();
-					$(this).hide();
 				});
 				$("body").on("click", ".Report_Board_Detaile_Info", function(e){
 					e.preventDefault();
-					var report_board_num = $(this).attr("title");
-					var report_list = $("#report_list_" + report_board_num);
-					report_item.show();
 					$(this).hide();
 				});	
 				$("body").on("click", ".Popul_Board_Simple_Info", function(e){
 					e.preventDefault();
 					var popul_board_num = $(this).attr("title");
-					var popul_info = $("#popuk_info_" + board_num);
+					var popul_info = $("#popul_info_" + popul_board_num);
 					popul_info.show();
-					$(this).hide();
 				});
 				$("body").on("click", ".Popul_Board_Detaile_Info", function(e){
 					e.preventDefault();
-					var popul_board_num = $(this).attr("title");
-					var popul_list = $("#popul_list_" + board_num);
-					popul_list.show();
 					$(this).hide();
 				});	
 			});
@@ -119,49 +101,43 @@
 	</head>
 	<body>
 		<div class="board_tab">
-		
-		<ul class="tab" id="tab">
-    		<li>전체 게시글</li>
-    		<li>신고 받은 게시글</li>
-    		<li>추천 받은 게시글</li>	
-		</ul>
+			<ul class="tab" id="tab">
+    			<li>전체 게시글</li>
+    			<li>신고 받은 게시글</li>
+    			<li>추천 받은 게시글</li>	
+			</ul>
 		<div style="height: 5%;"></div>
 		<div class="tab_con" id="tab_con">
     		<div id="board">
     			<c:forEach var="board" items="${boardList}"> 
-					<table class="Board_Simple_Info" id="list_${board.board_num}" title="${board.board_num}">
-						<tr class="item">
-							<td class="space" width="5%"></td>
-							<td width="20%" >
+					<table class="item">
+						<tr>
+							<td width="20%" class="Board_Simple_Info" id="list_${board.board_num}" title="${board.board_num}">
 								게시글 번호 : ${board.board_num}
 							</td>
-							<td class="space" width="5%"></td>
-							<td width="20%" >
+							<td width="20%" class="Board_Simple_Info" id="list_${board.board_num}" title="${board.board_num}">
 								작성자 : ${board.id}
 							</td>
-							<td class="space" width="5%"></td>
-							<td width="20%">
+							<td width="20%" class="Board_Simple_Info" id="list_${board.board_num}" title="${board.board_num}">
 								작성일 : <fmt:formatDate value="${board.write_date}" pattern="yyyy-MM-dd HH:mm"/>
 							</td>
-							<td class="space" width="5%"></td>
+							<td width="10%">
+								<a id="text" href="/content/contentForm.do?board_num=${board.board_num}">
+									게시글 <img src="../image/list_icon.png" width="15" height="15" title="게시글 보기"> 
+								</a>
+							</td>
+							<td width="10%">
+								<a id="text" href="/content/deleteContent.do?board_num=${board.board_num}&id=${board.id}">
+									삭제 <img src="../image/memOut_con.png" width="15" height="15" title="삭제"> 
+								</a>
+							</td>
 						</tr>
 					</table>
 					<div class="Board_Detaile_Info" id="info_${board.board_num}" title="${board.board_num}">
-						<div class="ly_dimmed"></div>
 						<table class="Board_Info ul_list">
 							<tr>
 								<td>
 									글 번호 : ${board.board_num}
-								</td>
-								<td rowspan="8">
-									<a id="text" href="/content/contentForm.do?board_num=${board.board_num}">
-										<img src="../image/list_icon.png" width="100px" height="100px" title="게시글 보기"> 
-									</a>
-								</td>
-								<td rowspan="8">
-									<a id="text" href="/content/deleteContent.do?board_num=${board.board_num}&id=${board.id}">
-										<img src="../image/memOut_con.png" width="100px" height="100px" title="삭제"> 
-									</a>
 								</td>
 							</tr>
 							<tr>
@@ -171,7 +147,7 @@
 							</tr>
 							<tr>
 								<td>
-									카테고리 : ${board.category_id}
+									카테고리 : ${category_info[board.category_id].group1}, ${category_info[board.category_id].group2}, ${category_info[board.category_id].group3}
 								</td>
 							</tr>
 							<tr>
@@ -205,48 +181,34 @@
     		</div>	
     		<div id="report">
     			<c:forEach var="reportBoard" items="${reportBoardList}"> 
-					<table class="Report_Board_Simple_Info" id="report_lsit_${reportBoard.board_num}" title="${reportBoard.board_num}">
-						<tr >
-							<td class="space" width="10"></td>
-							<td width="20%" align="left">
-								<a id="text" href="/profile/myProfile.do?id=${reportBoard.id}">작성자 : ${reportBoard.id}</a>
+					<table class="item">
+						<tr>
+							<td width="20%" class="Report_Board_Simple_Info" id="report_lsit_${reportBoard.board_num}" title="${reportBoard.board_num}">
+								게시글 번호 : ${reportBoard.board_num}
 							</td>
-							<td class="space" width="10"></td>
-							<td width="20%" >
-								<img src="../image/report.png"> : ${reportBoard.report_num}
+							<td width="20%" class="Report_Board_Simple_Info" id="report_lsit_${reportBoard.board_num}" title="${reportBoard.board_num}">
+								작성자 : ${reportBoard.id}
 							</td>
-							<td class="space" width="10"></td>
-							<td width="25%">
+							<td width="20%" class="Report_Board_Simple_Info" id="report_lsit_${reportBoard.board_num}" title="${reportBoard.board_num}">
 								작성일 : <fmt:formatDate value="${reportBoard.write_date}" pattern="yyyy-MM-dd HH:mm"/>
 							</td>
-							<td class="space" width="10"></td>
-							<td width="20%">
-								<a id="text" href="/content/contentForm.do?board_num=${reportBoard.board_num}">상세보기</a>
+							<td width="10%">
+								<a id="text" href="/content/contentForm.do?board_num=${reportBoard.board_num}">
+									게시글 <img src="../image/list_icon.png" width="15" height="15" title="게시글 보기"> 
+								</a>
 							</td>
-							<td class="space" width="10"></td>
-							<td width="20%">
+							<td width="10%">
 								<a id="text" href="/content/deleteContent.do?board_num=${reportBoard.board_num}&id=${reportBoard.id}">
-									삭제 <img src="../image/icon_66.png">
+									삭제 <img src="../image/memOut_con.png" width="15" height="15" title="삭제"> 
 								</a>
 							</td>
 						</tr>
 					</table>
 					<div id="report_info_${reportBoard.board_num}" class="Report_Board_Detaile_Info" title="${reportBoard.board_num}">
-						<div class="ly_dimmed"></div>
 						<table class="Report_Board_Info ul_list">
 							<tr>
 								<td>
 									글 번호 : ${reportBoard.board_num}
-								</td>
-								<td rowspan="8">
-									<a id="text" href="/content/contentForm.do?board_num=${board.board_num}">
-										<img src="../image/list_icon.png" width="100px" height="100px" title="게시글 보기"> 
-									</a>
-								</td>
-								<td rowspan="8">
-									<a id="text" href="/content/deleteContent.do?board_num=${board.board_num}&id=${board.id}">
-										<img src="../image/memOut_con.png" width="100px" height="100px" title="삭제"> 
-									</a>
 								</td>
 							</tr>
 							<tr>
@@ -256,7 +218,7 @@
 							</tr>
 							<tr>
 								<td>
-									카테고리 : ${reportBoard.category_id}
+									카테고리 : ${category_info[reportBoard.category_id].group1}, ${category_info[reportBoard.category_id].group2}, ${category_info[reportBoard.category_id].group3}
 								</td>
 							</tr>
 							<tr>
@@ -266,22 +228,17 @@
 							</tr>
 							<tr>
 								<td>
-									추천 : ${reportBoard.recommend_num}
+									신고 <img src="../image/report.png" width="10" height="10"> : ${reportBoard.report_num}
 								</td>
 							</tr>
 							<tr>
 								<td>
-									신고 : ${reportBoard.report_num}
+									댓글 <img src="../image/icon_14.png" width="10" height="10"> : ${commentCount[reportBoard.board_num]}
 								</td>
 							</tr>
 							<tr>
 								<td>
-									스크랩 :${reportScrepCount[reportBoard.board_num]}
-								</td>
-							</tr>
-							<tr>
-								<td>
-									댓글 : ${reportCommentCount[reportBoard.board_num]}
+									스크랩 <img src="../image/screp_on.png" width="10" height="10"> :${screpCount[reportBoard.board_num]}
 								</td>
 							</tr>
 						</table>
@@ -290,34 +247,30 @@
 			</div>
     		<div id="popul">
     			<c:forEach var="populBoard" items="${populBoardList}"> 
-					<table class="Popul_Board_Simple_Info" id="popul_lsit_${populBoard.board_num}" title="${${populBoard.board_num}}">
+					<table >
 						<tr>
-							<td class="space" width="10"></td>
-							<td width="20%" align="left">
-								<a id="text" href="/profile/myProfile.do?id=${populBoard.id}">작성자  : ${populBoard.id}</a>
+							<td width="20%" class="Popul_Board_Simple_Info item" id="popul_lsit_${populBoard.board_num}" title="${populBoard.board_num}">
+								게시글 번호 : ${populBoard.board_num}
 							</td>
-							<td class="space" width="10"></td>
-							<td width="20%">
-								<img src="../image/recommend_off.png" width="15" height="15"> : ${populBoard.recommend_num}
+							<td width="20%" class="Popul_Board_Simple_Info item" id="popul_lsit_${populBoard.board_num}" title="${populBoard.board_num}">
+								작성자 : ${populBoard.id}
 							</td>
-							<td class="space" width="10"></td>
-							<td width="25%">
+							<td width="20%" class="Popul_Board_Simple_Info item" id="popul_lsit_${populBoard.board_num}" title="${populBoard.board_num}">
 								작성일 : <fmt:formatDate value="${populBoard.write_date}" pattern="yyyy-MM-dd HH:mm"/>
 							</td>
-							<td class="space" width="10"></td>
-							<td width="20%">
-								<a id="text" href="/content/contentForm.do?board_num=${populBoard.board_num}">상세보기</a> 
+							<td width="10%">
+								<a id="text" href="/content/contentForm.do?board_num=${populBoard.board_num}">
+									게시글 <img src="../image/list_icon.png" width="15" height="15" title="게시글 보기"> 
+								</a>
 							</td>
-							<td class="space" width="10"></td>
-							<td width="20%">
-								<a id="text" href="/content/deleteContent.do?board_num=${populBoard.board_num}&id=${populBoard.id}">
-									삭제 <img src="../image/icon_66.png">
+							<td width="10%">
+								<a id="text" href="/content/deleteContent.do?board_num=${populBoard.board_num}&id=${board.id}">
+									삭제 <img src="../image/memOut_con.png" width="15" height="15" title="삭제"> 
 								</a>
 							</td>
 						</tr>
 					</table>
 					<div id="popul_info_${populBoard.board_num}" class="Popul_Board_Detaile_Info" title="${populBoard.board_num}">
-						<div class="ly_dimmed"></div>
 						<table class="Popul_Board_Info ul_list">
 							<tr>
 								<td>
@@ -331,7 +284,7 @@
 							</tr>
 							<tr>
 								<td>
-									카테고리 : ${populBoard.category_id}
+									카테고리 : ${category_info[populBoard.category_id].group1}, ${category_info[populBoard.category_id].group2}, ${category_info[populBoard.category_id].group3}
 								</td>
 							</tr>
 							<tr>
@@ -341,22 +294,17 @@
 							</tr>
 							<tr>
 								<td>
-									추천 : ${populBoard.recommend_num}
+									추천 <img src="../image/recommend_off.png" width="10" height="10"> : ${populBoard.recommend_num}
 								</td>
 							</tr>
 							<tr>
 								<td>
-									신고 : ${populBoard.report_num}
+									댓글 <img src="../image/icon_14.png" width="10" height="10"> : ${commentCount[populBoard.board_num]}
 								</td>
 							</tr>
 							<tr>
 								<td>
-									스크랩 :${populScrepCount[populBoard.board_num]}
-								</td>
-							</tr>
-							<tr>
-								<td>
-									댓글 : ${populCommentCount[populBoard.board_num]}
+									스크랩 <img src="../image/screp_on.png" width="10" height="10"> : ${screpCount[populBoard.board_num]}
 								</td>
 							</tr>
 						</table>

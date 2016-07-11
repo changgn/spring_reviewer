@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import command.BoardCommand;
+import command.CategoryCommand;
+import command.MemberCategoryCommand;
 import command.MemberCommand;
 import command.ProfilePhotoCommand;
 import dao.BoardDAO;
@@ -60,16 +62,21 @@ public class AdminController {
 		this.screpDAO = screpDAO;
 	}
 	@Autowired
-	private CategoryDAO categoryDao;
-	public void setCategoryDao(CategoryDAO categoryDao) {
-		this.categoryDao = categoryDao;
+	private CategoryDAO categoryDAO;
+	public void setCategoryDao(CategoryDAO categoryDAO) {
+		this.categoryDAO = categoryDAO;
 	}
 	@Autowired
-	private MemberCategoryDAO memberCategoryDao;
-	public void setMemberCategoryDao(MemberCategoryDAO memberCategoryDao) {
-		this.memberCategoryDao = memberCategoryDao;
+	private CommentDAO commentDAO;
+	public void setCommentDAO(CommentDAO commentDAO) {
+		this.commentDAO = commentDAO;
 	}
-	
+	@Autowired
+	private MemberCategoryDAO memberCategoryDAO;
+	public void setMemberCategoryDAO(MemberCategoryDAO memberCategoryDAO) {
+		this.memberCategoryDAO = memberCategoryDAO;
+	}
+
 	/**	메인화면	*/
 	@RequestMapping("/administrator/adminForm.do")
 	public String adminForm(){
@@ -83,21 +90,29 @@ public class AdminController {
 		List<BoardCommand> BoardList = null;
 		BoardList = boardDAO.getList();
 		model.addAttribute("boardList", BoardList);
+		// 게시글 카테고리 정보
+		Map cii = new HashMap();
+		for(BoardCommand bc : BoardList){
+			String category_id = bc.getCategory_id();
+			CategoryCommand cc = categoryDAO.getOne(category_id);
+			cii.put(category_id, cc);
+		}
+		model.addAttribute("category_info", cii);
 		List<Integer> board_num_list = new ArrayList<Integer>();
 		board_num_list = boardDAO.getBoardNumList();
 		Map commentCountMap = new HashMap();
 		Map screpCountMap = new HashMap();
 		// 게시글 코멘트 개수
-		int commentCount = 0;
+		String commentCount;
 		for(int board_num : board_num_list){
-			commentCount = boardDAO.getCommentCountByBoardNum(board_num);
+			commentCount = commentDAO.getCountByBoardNum(board_num);
 			commentCountMap.put(board_num, commentCount);
 		}
 		model.addAttribute("commentCount", commentCountMap);
 		// 게시글 스크랩 개수
 		int screpCount = 0;
 		for(int board_num : board_num_list){
-			screpCount = screpDAO.getBoardScrepCountById(board_num);
+			screpCount = screpDAO.getCountByScrepNum(board_num);
 			screpCountMap.put(board_num, screpCount);
 		}
 		model.addAttribute("screpCount", screpCountMap);
@@ -105,46 +120,10 @@ public class AdminController {
 		List<BoardCommand> ReportBoardList = null;
 		ReportBoardList = boardDAO.reportBoardList();
 		model.addAttribute("reportBoardList", ReportBoardList);
-		List<Integer> report_board_num_list = new ArrayList<Integer>();
-		report_board_num_list = boardDAO.getReportBoardNumList();
-		Map rccmap = new HashMap();
-		Map rscmap = new HashMap();
-		// 신고 게시글 코멘트 개수
-		int rcCount = 0;
-		for(int board_num : report_board_num_list){
-			rcCount = boardDAO.getCommentCountByBoardNum(board_num);
-			commentCountMap.put(board_num, rcCount);
-		}
-		model.addAttribute("reportCommentCount", rccmap);
-		// 신고 게시글 스크랩 개수
-		int rsCount = 0;
-		for(int board_num : report_board_num_list){
-			rsCount = screpDAO.getBoardScrepCountById(board_num);
-			screpCountMap.put(board_num, rsCount);
-		}
-		model.addAttribute("reportScrepCount", rscmap);
 		// 추천 게시글 목록
 		List<BoardCommand> PopulBoardList = null;
 		PopulBoardList = boardDAO.pupulBoardList();
 		model.addAttribute("populBoardList", PopulBoardList);
-		List<Integer> popul_board_num_list = new ArrayList<Integer>();
-		report_board_num_list = boardDAO.getPopulBoardNumList();
-		Map pccmap = new HashMap();
-		Map pscmap = new HashMap();
-		// 인기 게시글 코멘트 개수
-		int pcCount = 0;
-		for(int board_num : popul_board_num_list){
-			pcCount = boardDAO.getCommentCountByBoardNum(board_num);
-			commentCountMap.put(board_num, pcCount);
-		}
-		model.addAttribute("populCommentCount", pccmap);
-		// 인기 게시글 스크랩 개수
-		int psCount = 0;
-		for(int board_num : popul_board_num_list){
-			psCount = screpDAO.getBoardScrepCountById(board_num);
-			screpCountMap.put(board_num, psCount);
-		}
-		model.addAttribute("populScrepCount", pscmap);
 		return "administrator/adminBoard";
 	}
 	
@@ -176,7 +155,7 @@ public class AdminController {
 		Map pbmap = new HashMap();
 		Map ppmap = new HashMap();
 		Map sbmap = new HashMap();
-		
+		Map cmap = new HashMap();
 		// 해당ID의 게시글 수
 		int boardCount = 0;
 		for(String mid : id_list){
@@ -185,7 +164,6 @@ public class AdminController {
 			
 		}
 		mav.addObject("boardCount", rbmap);
-		
 		// 해당ID가 추천한 게시글 수
 		int recommendCount = 0;
 		for(String plist : id_list){
@@ -193,7 +171,6 @@ public class AdminController {
 			abmap.put(plist, recommendCount);
 		}
 		mav.addObject("recommendCount", abmap);
-		
 		// 해당ID가 신고한  게시글 수
 		int reportCount = 0;
 		for(String rlist : id_list){
@@ -201,7 +178,6 @@ public class AdminController {
 			pbmap.put(rlist, reportCount);
 		}
 		mav.addObject("reportCount", pbmap);
-		
 		// 해당 ID가 스크랩 한 게시글 수
 		int screpCount = 0;
 		for(String slist : id_list){
@@ -209,7 +185,6 @@ public class AdminController {
 			sbmap.put(slist, screpCount);
 		}
 		mav.addObject("scropCount", sbmap);
-		
 		// 해당 ID의 프로필 사진
 		ProfilePhotoCommand ppc = new ProfilePhotoCommand();
 		for(String pplist : id_list){
@@ -217,7 +192,25 @@ public class AdminController {
 			ppmap.put(pplist, ppc);
 		}
 		mav.addObject("profilePhoto", ppmap);
+		// 해당 ID의 카테고리 정보
+		MemberCategoryCommand mcc = new MemberCategoryCommand();
+		List<String> mcil = null;
+		CategoryCommand cc = new CategoryCommand();
+		List<CategoryCommand> mcl = null;
 		
+		for(String mci : id_list){
+			mcil = memberCategoryDAO.getCategoryIdById(mci);
+			if(mcil != null){
+				for(String ci : mcil){
+					cc = categoryDAO.getOne(ci);
+					mcl.add(cc);
+				}
+				cmap.put(mci, mcl);
+			}else{
+				mav.addObject("MemberCategoryInfo"+mci, "NotInfoCategory");
+			}
+		}
+		mav.addObject("MemberCategory", cmap);
 		mav.setViewName("administrator/adminMem");
 		return mav;
 	}

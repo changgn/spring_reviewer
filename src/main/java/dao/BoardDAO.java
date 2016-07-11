@@ -43,21 +43,9 @@ public class BoardDAO extends SqlSessionDaoSupport{
 	public int getBoardCountById(String id){
 		return getSqlSession().selectOne("board.getBoardCountById", id);
 	}
-	/**	해당 게시글의 댓글 수	*/
-	public int getCommentCountByBoardNum(int board_num){
-		return getSqlSession().selectOne("board.getCommentCountByBoardNum", board_num);
-	}
 	/**	게시글 번호 리스트	*/
 	public List<Integer> getBoardNumList(){
 		return getSqlSession().selectList("board.getBoardNumList");
-	}
-	/**	신고 게시글 번호 목록	*/
-	public List<Integer> getReportBoardNumList(){
-		return getSqlSession().selectList("board.getReportBoardNumList");
-	}
-	/**	인기 게시글 번호 목록	*/
-	public List<Integer> getPopulBoardNumList(){
-		return getSqlSession().selectList("board.getPopulBoardNumList");
 	}
 	
 	public List<BoardCommand> getList(){

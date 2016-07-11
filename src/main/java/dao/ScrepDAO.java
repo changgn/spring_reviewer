@@ -27,10 +27,6 @@ public class ScrepDAO extends SqlSessionDaoSupport {
 	public Integer getScrepCountByScrepNum(String id){
 		return getSqlSession().selectOne("screp.getScrepCountByScrepNum", id);
 	}
-	/**	해당 게시글 스크랩 수	*/
-	public Integer getBoardScrepCountById(int board_num){
-		return getSqlSession().selectOne("screp.getBoardScrepCountById", board_num);
-	}
 	
 	public int deleteScrep(ScrepCommand command){
 		return getSqlSession().delete("screp.deleteScrep", command);

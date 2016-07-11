@@ -66,14 +66,6 @@
 	<select id="getBoardNumList" resultType="Integer">
 		select board_num from board
 	</select>
-	<!-- 신고 게시글 번호 목록 -->
-	<select id="getReportBoardNumList" resultType="Integer">
-		select board_num from board where report_num>0
-	</select>
-	<!-- 인기 게시글 번호 목록 -->
-	<select id="getPopulBoardNumList" resultType="Integer">
-		select board_num from board where recommend_num>0
-	</select>
 	
 <!-- 글 상세보기 //content -->
  <select parameterType="java.lang.Integer" id="getByBoardNum" resultType="command.BoardCommand"> 
