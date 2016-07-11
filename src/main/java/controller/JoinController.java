@@ -27,7 +27,7 @@ public class JoinController extends BaseController {
 		int n = memberDao.inputPro(memberInfo);
 		if(n != 0 ){
 			ProfilePhotoCommand command = new ProfilePhotoCommand("default_profile.png", "default_profile.png", memberInfo.getId(), "/image/default_profile.png");
-			ProfilePhotoDao.insert(command);
+			profilePhotoDao.insert(command);
 			String smessage="회원 가입에 성공하셨습니다.";
 			model.addAttribute("smessage", smessage);
 		}

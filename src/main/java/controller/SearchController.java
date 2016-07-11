@@ -79,7 +79,7 @@ public class SearchController extends BaseController {
 				for(BoardCommand board : boardList) {
 					HashMap<String, Object> boardMap = new HashMap<String, Object>();
 					PhotoCommand photo = photoDao.getOneByBoardNum(board.getBoard_num());
-					ProfilePhotoCommand profilePhoto = ProfilePhotoDao.getOneById(board.getId());
+					ProfilePhotoCommand profilePhoto = profilePhotoDao.getOneById(board.getId());
 					CategoryCommand category = categoryDao.getOne(board.getCategory_id());
 					String commentCount = commentDao.getCountByBoardNum(board.getBoard_num());
 					if(commentCount==null)	commentCount="0";
@@ -163,7 +163,7 @@ public class SearchController extends BaseController {
 				for(BoardCommand board : boardList) {
 					HashMap<String, Object> boardMap = new HashMap<String, Object>();
 					PhotoCommand photo = photoDao.getOneByBoardNum(board.getBoard_num());
-					ProfilePhotoCommand profilePhoto = ProfilePhotoDao.getOneById(board.getId());
+					ProfilePhotoCommand profilePhoto = profilePhotoDao.getOneById(board.getId());
 					CategoryCommand category = categoryDao.getOne(board.getCategory_id());
 					String commentCount = commentDao.getCountByBoardNum(board.getBoard_num());
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");

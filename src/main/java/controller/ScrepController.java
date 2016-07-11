@@ -75,7 +75,7 @@ public class ScrepController extends BaseController {
 		}
 		model.addAttribute("CategoryList", CategoryList);
 		
-		ProfilePhotoCommand myProfilePhoto = ProfilePhotoDao.getOneById(paramId);
+		ProfilePhotoCommand myProfilePhoto = profilePhotoDao.getOneById(paramId);
 		model.addAttribute("myProfilePhoto", myProfilePhoto);
 		
 		List<BoardCommand> boardList = null;
@@ -94,7 +94,7 @@ public class ScrepController extends BaseController {
 			for(BoardCommand vo : boardList) {
 				HashMap<String, Object> boardMap = new HashMap<String, Object>();
 				PhotoCommand photo = photoDao.getOneByBoardNum(vo.getBoard_num());
-				ProfilePhotoCommand profilePhoto = ProfilePhotoDao.getOneById(vo.getId());
+				ProfilePhotoCommand profilePhoto = profilePhotoDao.getOneById(vo.getId());
 				CategoryCommand category = categoryDao.getOne(vo.getCategory_id());
 				String commentCount = commentDao.getCountByBoardNum(vo.getBoard_num());
 		

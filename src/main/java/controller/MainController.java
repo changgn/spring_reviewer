@@ -144,7 +144,7 @@ public class MainController extends BaseController {
 			for(BoardCommand vo : boardList) {
 				HashMap<String, Object> boardMap = new HashMap<String, Object>();
 				PhotoCommand photo = photoDao.getOneByBoardNum(vo.getBoard_num());
-				ProfilePhotoCommand profilePhoto = ProfilePhotoDao.getOneById(vo.getId());
+				ProfilePhotoCommand profilePhoto = profilePhotoDao.getOneById(vo.getId());
 				CategoryCommand category = categoryDao.getOne(vo.getCategory_id());
 				String commentCount = commentDao.getCountByBoardNum(vo.getBoard_num());
 		
@@ -293,7 +293,7 @@ public class MainController extends BaseController {
 				HashMap<String, Object> boardMap = new HashMap<String, Object>();
 				PhotoCommand photo = photoDao.getOneByBoardNum(vo.getBoard_num());
 				CategoryCommand category = categoryDao.getOne(vo.getCategory_id());
-				ProfilePhotoCommand profilePhoto = ProfilePhotoDao.getOneById(vo.getId());
+				ProfilePhotoCommand profilePhoto = profilePhotoDao.getOneById(vo.getId());
 				String commentCount = commentDao.getCountByBoardNum(vo.getBoard_num());
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 				String date = sdf.format(vo.getWrite_date());

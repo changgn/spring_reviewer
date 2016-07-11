@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,19 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import command.FollowCommand;
 import command.NoticeCommand;
-import dao.FollowDAO;
-import dao.NoticeDAO;
 import net.sf.json.JSONObject;
 
 @Controller
-public class FollowProcController {
-	@Autowired
-	private FollowDAO followDAO;
-	@Autowired
-	private NoticeDAO noticeDao;
-	
-	public void setFollowDAO(FollowDAO followDAO) { this.followDAO = followDAO; }
-	public void setNoticeDao(NoticeDAO noticeDao) { this.noticeDao = noticeDao; }
+public class FollowProcController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping("/follow/follow.do")
@@ -43,7 +33,7 @@ public class FollowProcController {
 		if(from_id!=null) {
 			if(follow.equals("follow")){
 				FollowCommand followVo = new FollowCommand(from_id, to_id);
-				int n = followDAO.followInsert(followVo);
+				int n = followDao.followInsert(followVo);
 				if(n>0) {
 					NoticeCommand noticeCommand = new NoticeCommand();
 					noticeCommand.setKind("follow");
@@ -63,7 +53,7 @@ public class FollowProcController {
 			}
 			if(follow.equals("unfollow")){
 				FollowCommand followVo = new FollowCommand(from_id, to_id);
-				int n = followDAO.remove(followVo);
+				int n = followDao.remove(followVo);
 				if(n>0) {
 					NoticeCommand noticeCommand = new NoticeCommand();
 					noticeCommand.setKind("unfollow");
@@ -83,7 +73,7 @@ public class FollowProcController {
 			}
 
 			//팔로워 숫자 저장
-			int followerCount =followDAO.countfrom(to_id);
+			int followerCount =followDao.countfrom(to_id);
 			jso.put("followerCount", followerCount);
 		}
 		jso.put("follow", follow);
@@ -104,7 +94,7 @@ public class FollowProcController {
 		if(from_id!=null) {	/**	로그인 Id가 있다	*/
 			if(follow.equals("follow_off")){ /**	버튼 상태가 follow_off	*/
 				FollowCommand followVo = new FollowCommand(from_id, add_id);	/**	formId - toId	*/
-				int n = followDAO.followInsert(followVo); /**	팔로우 등록 처리	*/
+				int n = followDao.followInsert(followVo); /**	팔로우 등록 처리	*/
 				if(n>0) {	/**	성공	*/
 					NoticeCommand noticeCommand = new NoticeCommand();
 					noticeCommand.setKind("follow");
@@ -124,7 +114,7 @@ public class FollowProcController {
 			}
 			if(follow.equals("follow_on")){	/**	버튼 상태가 follow_on	*/
 				FollowCommand followVo = new FollowCommand(from_id, add_id);
-				int n = followDAO.remove(followVo);
+				int n = followDao.remove(followVo);
 				if(n>0) {
 					NoticeCommand noticeCommand = new NoticeCommand();
 					noticeCommand.setKind("unfollow");
@@ -161,7 +151,7 @@ public class FollowProcController {
 		if(loginId!=null) {
 			if(follow.equals("follow_off")){
 				FollowCommand followVo = new FollowCommand(loginId, add_id);	/**	formId - toId	*/
-				int n = followDAO.followInsert(followVo);
+				int n = followDao.followInsert(followVo);
 				if(n>0) {	
 					NoticeCommand noticeCommand = new NoticeCommand();
 					noticeCommand.setKind("follow");
@@ -181,7 +171,7 @@ public class FollowProcController {
 			}
 			if(follow.equals("follow_on")){	
 				FollowCommand followVo = new FollowCommand(loginId, add_id);
-				int n = followDAO.remove(followVo);
+				int n = followDao.remove(followVo);
 				if(n>0) {
 					NoticeCommand noticeCommand = new NoticeCommand();
 					noticeCommand.setKind("unfollow");
@@ -197,7 +187,7 @@ public class FollowProcController {
 					jso.put("followCheck", map);
 					System.out.println(loginId + "가" + add_id + "언팔로우");
 					if(loginId.equals(profileId)){
-						List<String> to_id_list = followDAO.toList(profileId);
+						List<String> to_id_list = followDao.toList(profileId);
 						to_id_list.remove(add_id);
 						jso.put("toIdList", to_id_list);
 						jso.put("myProfile", "true");

@@ -38,7 +38,7 @@ public class BaseController {
 	@Autowired
 	PhotoDAO photoDao;
 	@Autowired
-	ProfilePhotoDAO ProfilePhotoDao;
+	ProfilePhotoDAO profilePhotoDao;
 	@Autowired
 	RecommendDAO recommendDao;
 	@Autowired
@@ -57,7 +57,7 @@ public class BaseController {
 	public void setMemberDao(MemberDAO memberDao) { this.memberDao = memberDao; }
 	public void setNoticeDao(NoticeDAO noticeDao) { this.noticeDao = noticeDao;	}
 	public void setPhotodao(PhotoDAO photoDao) { this.photoDao = photoDao; }
-	public void setProfilePhotoDao(ProfilePhotoDAO profilePhotoDao) { this.ProfilePhotoDao = profilePhotoDao; }
+	public void setProfilePhotoDao(ProfilePhotoDAO profilePhotoDao) { this.profilePhotoDao = profilePhotoDao; }
 	public void setRecommendDao(RecommendDAO recommendDao) { this.recommendDao = recommendDao; }
 	public void setReportDAO(ReportDAO reportDao) { this.reportDao = reportDao; }
 	public void setScrepDao(ScrepDAO screpDao) { this.screpDao = screpDao; }

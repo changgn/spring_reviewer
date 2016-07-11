@@ -67,7 +67,7 @@ public class MyProfileContoroller extends BaseController{
 			CategoryList.add(Category);
 		}
 
-		ProfilePhotoCommand myProfilePhoto = ProfilePhotoDao.getOneById(paramId);
+		ProfilePhotoCommand myProfilePhoto = profilePhotoDao.getOneById(paramId);
 
 		model.addAttribute("myProfilePhoto", myProfilePhoto);
 		model.addAttribute("CategoryList", CategoryList);
@@ -121,7 +121,7 @@ public class MyProfileContoroller extends BaseController{
 				for(BoardCommand Command : boardList) {
 					HashMap<String, Object> boardMap = new HashMap<String, Object>();
 					PhotoCommand photo = photoDao.getOneByBoardNum(Command.getBoard_num());
-					ProfilePhotoCommand profilePhoto = ProfilePhotoDao.getOneById(Command.getId());
+					ProfilePhotoCommand profilePhoto = profilePhotoDao.getOneById(Command.getId());
 					CategoryCommand category = categoryDao.getOne(Command.getCategory_id());
 					String commentCount=commentDao.getCountByBoardNum(Command.getBoard_num());
 					if(commentCount==null)	commentCount="0";
@@ -192,7 +192,7 @@ public class MyProfileContoroller extends BaseController{
 				for(BoardCommand Command : boardList) {
 					HashMap<String, Object> boardMap = new HashMap<String, Object>();
 					PhotoCommand photo = photoDao.getOneByBoardNum(Command.getBoard_num());
-					ProfilePhotoCommand profilePhoto = ProfilePhotoDao.getOneById(Command.getId());
+					ProfilePhotoCommand profilePhoto = profilePhotoDao.getOneById(Command.getId());
 					CategoryCommand category = categoryDao.getOne(Command.getCategory_id());
 					String commentCount=commentDao.getCountByBoardNum(Command.getBoard_num());
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -259,7 +259,7 @@ public class MyProfileContoroller extends BaseController{
 		profilephoto.setO_fileName(o_fileName);
 		
 		if(!o_fileName.equals("")){
-			ProfilePhotoDao.modify(profilephoto);
+			profilePhotoDao.modify(profilephoto);
 			File f = new File(session.getServletContext().getRealPath(savePath));
 			File f2 = new File(f, fileName);
 			file.transferTo(f2);
@@ -275,7 +275,7 @@ public class MyProfileContoroller extends BaseController{
 		String id = (String)session.getAttribute("id");
 		
 		ProfilePhotoCommand command = new ProfilePhotoCommand("default_profile.png", "default_profile.png", id, "/image/default_profile.png");
-		ProfilePhotoDao.modify(command);
+		profilePhotoDao.modify(command);
 			
 		return "redirect:/profile/myProfile.do?id=" + id;
 
