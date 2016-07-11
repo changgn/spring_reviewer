@@ -134,10 +134,14 @@
 								<tr>
 									<td>
 										카테고리 정보 : <br/>
-										${memberCategory[memberList.id]}
-									<%-- 	<c:forEach var="category_List" items="${memberCategory[memberList.id]}">
-											${categoryInfo[category_List]}
-										</c:forEach> --%>
+										<c:forEach var="category" items="${MemberCategory[memberList.id]}">
+											<c:if test="${category eq 'not_category'}">
+												&nbsp; &nbsp; &nbsp; 카테고리 설정 없음
+											</c:if>
+											<c:if test="${category ne 'not_category'}">
+												&nbsp; &nbsp; &nbsp; ${CategoryId[category].group1} / ${CategoryId[category].group2} / ${CategoryId[category].group3}
+											</c:if>
+										</c:forEach>
 									</td>
 								</tr>
 								<tr>

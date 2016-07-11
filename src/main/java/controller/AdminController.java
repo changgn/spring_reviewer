@@ -150,9 +150,11 @@ public class AdminController extends BaseController {
 					catecory_command = categoryDao.getOne(category_id);
 					Category_Id_Info_map.put(category_id, catecory_command);
 				}
-				Member_Category_Id_map.put(member_id, Category_Id_Info_map);
+				
+				Member_Category_Id_map.put(member_id, member_category_id_list);
 			}
 		}
+		mav.addObject("CategoryId", Category_Id_Info_map);
 		mav.addObject("MemberCategory", Member_Category_Id_map);
 		mav.setViewName("administrator/adminMem");
 		return mav;
