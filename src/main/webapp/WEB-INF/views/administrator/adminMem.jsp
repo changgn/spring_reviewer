@@ -22,7 +22,7 @@
 			.Member{padding: 8px 10px 8px 10px; position: relative; border: 1px; border-color: #D5D5D5; border-style: solid;}
 			.Member_Detaile_Info{display: none; position: fixed; z-index: 9999;top: 0;right: 0;bottom: 0;left: 0;line-height: 100%;text-align: center;}
 			
-			.mem_d_i{display: inline-block;position: relative;z-index: 10000;width: 460px;background-color: #fff;line-height: normal;vertical-align: middle; top:300px;}
+			.mem_d_i{display: inline-block;position: relative;z-index: 10000;width: 500px;background-color: #fff;line-height: normal;vertical-align: middle; top:300px;}
 		</style>
 		<link href="../css/style.css" rel="stylesheet" type="text/css">
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
@@ -88,7 +88,7 @@
 										</c:choose>
 									</td>
 									<td class="space" width="10"></td>
-									
+									<td class="space" width="10"></td>
 									<td class="space" width="10"></td>
 									<td rowspan="13" align="right">
 										<a id="name" href="/administrator/adminOutput.do?outId=${memberList.id}">
@@ -133,17 +133,11 @@
 								</tr>
 								<tr>
 									<td>
-										카테고리 정보 :
-										<c:choose>
-											<c:when test="">
-												<c:forEach var="memberCategory" items="${MemberCategory[memberList.id]}">
-													${memberCategory.group1} / ${memberCategory.group2} / ${memberCategory.group3}
-												</c:forEach>
-											</c:when>
-											<c:otherwise>
-												카테고리 없음
-											</c:otherwise>
-										</c:choose>
+										카테고리 정보 : <br/>
+										${memberCategory[memberList.id]}
+									<%-- 	<c:forEach var="category_List" items="${memberCategory[memberList.id]}">
+											${categoryInfo[category_List]}
+										</c:forEach> --%>
 									</td>
 								</tr>
 								<tr>

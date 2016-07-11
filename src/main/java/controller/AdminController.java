@@ -100,7 +100,8 @@ public class AdminController extends BaseController {
 		Map pbmap = new HashMap();
 		Map ppmap = new HashMap();
 		Map sbmap = new HashMap();
-		Map cmap = new HashMap();
+		Map Member_Category_Id_map = new HashMap();
+		Map Category_Id_Info_map = new HashMap();
 		// 해당ID의 게시글 수
 		int boardCount = 0;
 		for(String mid : id_list){
@@ -136,26 +137,23 @@ public class AdminController extends BaseController {
 			ppc = profilePhotoDao.getOneById(pplist);
 			ppmap.put(pplist, ppc);
 		}
-		mav.addObject("profilePhoto", ppmap);
-		// 해당 ID의 카테고리 정보
-		MemberCategoryCommand mcc = new MemberCategoryCommand();
-		List<String> mcil = null;
-		CategoryCommand cc = new CategoryCommand();
-		List<CategoryCommand> mcl = null;
-		
-		for(String mci : id_list){
-			mcil = memberCategoryDao.getCategoryIdById(mci);
-			if(mcil != null){
-				for(String ci : mcil){
-					cc = categoryDao.getOne(ci);
-					mcl.add(cc);
-				}
-				cmap.put(mci, mcl);
+		mav.addObject("profilePhoto", ppmap);	
+		// ID 별 카테고리 정보
+		List<String> member_category_id_list = new ArrayList<String>();
+		for(String member_id : id_list){ 
+			member_category_id_list= memberCategoryDao.getCategoryIdById(member_id); /*	회원 별 카테고리 ID 목록 */
+			if(member_category_id_list.isEmpty()){
+				Member_Category_Id_map.put(member_id, "not_category");
 			}else{
-				mav.addObject("MemberCategoryInfo"+mci, "NotInfoCategory");
+				for(String category_id : member_category_id_list){
+					CategoryCommand catecory_command  = new CategoryCommand();
+					catecory_command = categoryDao.getOne(category_id);
+					Category_Id_Info_map.put(category_id, catecory_command);
+				}
+				Member_Category_Id_map.put(member_id, Category_Id_Info_map);
 			}
 		}
-		mav.addObject("MemberCategory", cmap);
+		mav.addObject("MemberCategory", Member_Category_Id_map);
 		mav.setViewName("administrator/adminMem");
 		return mav;
 	}
