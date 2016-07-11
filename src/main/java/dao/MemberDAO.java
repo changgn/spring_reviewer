@@ -31,101 +31,50 @@ public class MemberDAO extends SqlSessionDaoSupport{
 	}
 	
 	public void delete(HashMap<String, String> map){
-
 		getSqlSession().delete("member.delete", map);
 	}
 
 	public String getPasswdById(String id){
-
-		String passwd = null;
-
-		try {
-			passwd = getSqlSession().selectOne("member.getPasswdById", id);
-
-		}catch(Exception e) {
-			System.out.println(e.getMessage());
-		}
-		return passwd;
+		return getSqlSession().selectOne("member.getPasswdById", id);
 	}
 
 	public MemberCommand loginPro(String id) {
-		MemberCommand memInfo = null;
-
-		try {
-			memInfo = getSqlSession().selectOne("member.loginPro",id);
-
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		return memInfo;
-
+		return getSqlSession().selectOne("member.loginPro",id);
 	}
 
 	public MemberCommand modifyForm(String id) {
-		MemberCommand memInfo = null;
-
-		try {
-			memInfo = getSqlSession().selectOne("member.modifyForm",id);
-
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		return memInfo;
+		return getSqlSession().selectOne("member.modifyForm",id);
 	}
 
 	public int modifyPro(MemberCommand memberInfo) {
-		int n = 0;
-
-		try {
-
-			n = getSqlSession().update("member.modifyPro", memberInfo);
-
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		return n;
+		return getSqlSession().update("member.modifyPro", memberInfo);
 	}
 
 	public int inputPro(MemberCommand memberInfo) {
-
 		return getSqlSession().insert("member.add", memberInfo);
 	}
 
 	public String idCheck(String id){
-		String ch=null;
-
-		try{
-
-			ch = getSqlSession().selectOne("member.idCheck", id);
-
-		}catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		return ch;
+		return getSqlSession().selectOne("member.idCheck", id);
 	}
-
-	private static MemberDAO instance = new MemberDAO();
-
-	public static MemberDAO getInstance() {
-		return instance;
-	}
-
+	
 	public List<MemberCommand> idSearch(String phone_num) {
 
 		return getSqlSession().selectList("member.idSearch", phone_num);
 	}
 
 	public MemberCommand pwSearch(MemberCommand memberInfo){
-		
 		return getSqlSession().selectOne("member.pwSearch", memberInfo);
-		
 	}
+	
 	public int updateIncreaseRecommendNum(String id){
 		return getSqlSession().update("member.updateIncreaseRecommendNum", id);
 	}
+	
 	public int updateDecreaseRecommendNum(String id){
 		return getSqlSession().update("member.updateDecreaseRecommendNum", id);
 	}
+	
 	/**	추천수 변경 By 게시글 삭제	*/
 	public int updateDecreaseRecommendNumByDeleteBoard(MemberRecommendDeleteCommand mrdc){
 		return getSqlSession().update("member.updateDecreaseRecommendNumByDeleteBoard", mrdc);
