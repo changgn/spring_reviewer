@@ -158,7 +158,11 @@
 									}
 								}
 								view += '</span>';
-								view += '<span class="notice_time">' + dateList[idx] + '</span>';
+								if(noticeList[idx].read == 1) {
+									view += '<span class="notice_time" style="color: #C6C6C6">' + dateList[idx] + '</span>';
+								} else {
+									view += '<span class="notice_time">' + dateList[idx] + '</span>';
+								}
 								view += '</li>';
 
 								if(noticeList[idx].read == 1) {
