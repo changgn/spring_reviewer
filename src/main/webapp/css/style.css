@@ -30,7 +30,7 @@ pre { white-space: pre-wrap; }
 .size_short { float: left; width: 399px; height: 58px; padding-top: 14px; font-size: 23px; }
 .btn_long { width: 500px; height: 60px; margin: 10 auto; padding: 10px; background-color: #066E9F; text-align: center;}
 .btn_long a { font-size: 30px; color: white; }
-.btn_short {float: left; width: 99px; height: 58px; padding: 10px; background-color: #4C4C4C; }
+.btn_short {float: left; width: 20%; height: 58px; padding: 10px; background-color: #4C4C4C; }
 .btn_short a { font-size: 30px; color: white; }
 
 /* main_decorator */
@@ -163,14 +163,14 @@ pre { white-space: pre-wrap; }
 
 /* inputFrom */
 #join{ min-height: 800px; }
-#join_text_id { float: left; width: 399px; height: 100%; margin: 0 auto; border: 0; }
+#join_text_id { float: left; width: 80%; height: 100%; margin: 0 auto; border: 0; }
 #btn_idcheck { float: left; }
 .join_btn_gender { font-size: 20px; }
 .join_label_gender { font-size: 20px; }
 #divterms { padding: 10px; font-size: 28px; }
 #divterms input { width: 20px; height: 20px; }
 #divterms span { font-size: 28px; }
-.gender { float: left; width: 249px; height: 100%; padding: 13px; border: 0; }
+.gender { float: left; width: 50%; height: 100%; padding: 13px; border: 0; }
 .gender a{ margin: 0 auto; font-size: 20px; }
 #join_btn_reset, #join_btn_cancel { background-color: #4C4C4C; }
 
