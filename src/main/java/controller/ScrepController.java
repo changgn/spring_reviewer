@@ -23,7 +23,7 @@ import command.RecommendCommand;
 
 import net.sf.json.JSONObject;
 
-
+//스크렙 삽입 & 갯수
 @Controller
 public class ScrepController extends BaseController {
 	
@@ -35,51 +35,51 @@ public class ScrepController extends BaseController {
 		
 		JSONObject jso = new JSONObject();
 		
-		ScrepCommand command = new ScrepCommand(id, board_num);
+		ScrepCommand command = new ScrepCommand(id, board_num); //command 객체에 스크랩정보를 저장 시킨다.(id,board_num)
 		screpDao.insertScrep(command);
 		
-		jso.put("screpCount", command);
+		jso.put("screpCount", command); //serepCount 를 삽입된 글의 갯수로 저장
 		resp.setContentType("text/html;charset=utf-8");
 		return jso.toString();
 		
 	}
 	
-
+   //스크렙 게시글 목록
 	@RequestMapping(value="/profile/screpList.do")
 	public String ScrepList(HttpServletRequest request, String comment, Model model){
 
-		String id = (String) request.getSession().getAttribute("id");
-		String paramId = request.getParameter("id");
+		String id = (String) request.getSession().getAttribute("id"); //id라는 변수에 현재 로그인 id의 세션 값 저장
+		String paramId = request.getParameter("id"); //paramId 라는 변수에 id 속성의 파라미터 값을 저장
 		int boardCount = 0;
-		int screpCount = screpDao.getScrepCountByScrepNum(paramId);
-		model.addAttribute("screpCount", screpCount);
+		int screpCount = screpDao.getScrepCountByScrepNum(paramId); // 해당회원이 스크렙한 글 갯수
+		model.addAttribute("screpCount", screpCount); //KEY: screpCount, VALUE : screpCount 속성으로 세션 저장(JSP 페이지에서 EL 태그값으로 불러와 사용하기 위함 )
 		
-		int myCount = screpDao.getCountByBoardNum(paramId);
-		model.addAttribute("myCount", myCount);
+		int myCount = screpDao.getCountByBoardNum(paramId); // 해당 회원이 작성한 게시글 갯수
+		model.addAttribute("myCount", myCount);// 게시글 갯수, 세션으로 저장
 		
-		int followerCount =followDao.countfrom(paramId);
-		model.addAttribute("followerCount", followerCount);
+		int followerCount =followDao.countfrom(paramId); // 해당 회원이(id) 팔로워한 횟수
+		model.addAttribute("followerCount", followerCount);// 팔로워 횟수, 세션으로 저장
 		//팔로잉 숫자 저장
-		int followingCount = followDao.countto(paramId);
-		model.addAttribute("followingCount", followingCount);
+		int followingCount = followDao.countto(paramId);// 해당 회원(id)이 팔로워한 횟수 
+		model.addAttribute("followingCount", followingCount); // 팔로잉 횟수, 세션으로 저장
 
 		// Command들을 담기위한 list 변수생성
 		List<MemberCategoryCommand> membersCategoryList = null;
 		List<CategoryCommand> CategoryList = new ArrayList<CategoryCommand>();
 		// 해당 id의 카테고리id 가져오기
-		membersCategoryList = memberCategoryDao.getlistById(paramId);
+		membersCategoryList = memberCategoryDao.getlistById(paramId); //해당회원이 작성한 분류항목에 따른 글 정보
 		// 카테고리id로 카테고리 가져오기
 		for(MemberCategoryCommand Command : membersCategoryList) {
 			CategoryCommand Category = categoryDao.getOne(Command.getCategory_id());
-			CategoryList.add(Category);
+			CategoryList.add(Category); // 해당회원이 직접 카테고리 추가
 		}
-		model.addAttribute("CategoryList", CategoryList);
+		model.addAttribute("CategoryList", CategoryList); // 해당회원이 추가한 분류별 글 정보
 		
-		ProfilePhotoCommand myProfilePhoto = profilePhotoDao.getOneById(paramId);
-		model.addAttribute("myProfilePhoto", myProfilePhoto);
+		ProfilePhotoCommand myProfilePhoto = profilePhotoDao.getOneById(paramId); // 해당회원에 추가시킬 프로필 사진
+		model.addAttribute("myProfilePhoto", myProfilePhoto); // 추가시킬 프로필 사진의 세션 값 저장
 		
 		List<BoardCommand> boardList = null;
-		List<Integer> boardNumList = screpDao.getScrepListById(paramId);
+		List<Integer> boardNumList = screpDao.getScrepListById(paramId); // 해당회원이 스크렙 한 글 번호 (삭제 할시 파라미터 값으로 스크렙 한 글번호 정보를 받아오기 위함)
 		List<HashMap<String,Object>> allBoardList = new ArrayList<HashMap<String,Object>>();
 		
 		if(boardNumList.size() == 0){

@@ -8,11 +8,11 @@
 	</insert>
 	<!-- 해당 ID의 신고한 게시글 수 -->
 	<select id="getReportCountById" parameterType="java.lang.String" resultType="java.lang.Integer">
-		select count(report_num) from report where id=#{id}
+		select count(report_num)from report where id=#{id}
 	</select>
 	<!-- 해당 ID의 해당 게시글 신고 여부 -->
 	<select id="getSureBoardReportByID" parameterType="command.ReportCommand" resultType="command.ReportCommand">
-		select * from report where id=#{id}, report_num=${board_num}
+		select * from report where id=#{id} and report_num=#{board_num}
 	</select>
 	<!-- 신고 테이블 변경 By 게시글 삭제-->
 	<delete id="delete" parameterType="java.lang.Integer">
