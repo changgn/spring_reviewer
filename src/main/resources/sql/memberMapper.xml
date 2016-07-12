@@ -54,7 +54,7 @@
 	<select id="getPasswdById" parameterType="java.lang.String" resultType="java.lang.String">
 		select passwd from members where id=#{id}
 	</select>
-	<!-- 회원 강제 탈퇴 -->
+		<!-- 회원 강제 탈퇴 -->
 	<delete id="output" parameterType="java.lang.String">
 		delete from members where id=#{id}
 	</delete>
@@ -62,15 +62,44 @@
 	<select id="getIdList" resultType="java.lang.String">
 		select id from members
 	</select>
-	<!-- 회원 정보 리스트(가입일 기준) -->
-	<select id="getList" resultType="command.MemberCommand">
-		select * from members
-		ORDER BY reg_date DESC
-	</select>
 	<!-- 회원 수 -->
 	<select id="getMemberCount" resultType="java.lang.Integer">
 		select count(id) from members
 	</select>	
+<!-- 회원 목록 -->
+	<select id="getList" resultType="command.MemberCommand">
+		select * from members
+	</select>
+	<!-- DESC -->
+		<!-- 회원 아이디 -->
+		<select id="getListById_DESC" resultType="command.MemberCommand">
+			select * from members ORDER BY id DESC
+		</select>
+		<!-- 회원가입일 -->
+		<select id="getListByRegDate_DESC" resultType="command.MemberCommand">
+			select * from members
+			ORDER BY reg_date DESC
+		</select>
+		<!-- 추천 -->
+		<select id="getListByRecommend_DESC" resultType="command.MemberCommand">
+			select * from members
+			ORDER BY recommend_num DESC
+		</select>
+	<!-- ASC -->
+		<!-- 회원 아이디 -->
+		<select id="getListById_ASC" resultType="command.MemberCommand">
+			select * from members ORDER BY id ASC
+		</select>
+		<!-- 회원가입일 -->
+		<select id="getListByRegDate_ASC" resultType="command.MemberCommand">
+			select * from members
+			ORDER BY reg_date ASC
+		</select>
+		<!-- 추천 -->
+		<select id="getListByRecommend_ASC" resultType="command.MemberCommand">
+			select * from members
+			ORDER BY recommend_num ASC
+		</select>
   </mapper>
 
 
