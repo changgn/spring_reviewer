@@ -182,9 +182,9 @@ function check() {
 
 
 <div id="logon">  
-	<form method="post" action="/logon/login.do" name="loginFrom" id="loginForm">
+	<form method="post" action="/logon/login.do" name="loginFrom" id="loginForm"> <!-- 동작 : Controller에 해당 페이지 요청 -> 컨트롤러 에서 해당 페이지 요청을 수행 후 -> 컨트롤러에서 요청한 JSP 페이지로 이동  -->
 		<div id="loginForm">
-			<div id="login_logo"><a href="#"><img src="../image/reviewer_gray.png" ></a></div>
+			<div id="login_logo"><a href="#"><img src="../image/reviewer_gray.png" ></a></div> <!-- 로그인 버튼을 누르면 Controller에 메인페이지 이동경로를 요청. 컨트롤러에서 요청 수행 후-> 컨트롤에서 요청한 JSP 페이지로 이동  -->
 			<div id="div_id" class="size_long"><input type="text" class="text_login" id="id" name="id" placeholder="아이디" ></div>
 			<div id="div_passwd" class="size_long"><input type="password" class="text_login" id="passwd" name="passwd" placeholder="비밀번호"></div>	
 			<div id="div_idsaveauto">
@@ -196,8 +196,8 @@ function check() {
 		</div>
 	</form>
 	<div id="join_find">
-		<div id="btn_join" class="btn_long"><a href="#" >회 원 가 입</a></div>
-		<div id="btn_find" class="btn_long"><a href="#" >아이디/비밀번호 찾기</a></div>
+		<div id="btn_join" class="btn_long"><a href="#" >회 원 가 입</a></div> <!-- 버튼에 요청경로에 따라 회원 가입페이지로 이동 -->
+		<div id="btn_find" class="btn_long"><a href="#" >아이디/비밀번호 찾기</a></div> <!-- 버튼에 요청경로에 따라 아이디/비밀번호 찾기 페이지로 이동 -->
 	</div>
 </div>
 </body>

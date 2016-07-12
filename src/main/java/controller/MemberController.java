@@ -22,7 +22,7 @@ import command.MemberCommand;
 @Controller
 public class MemberController extends BaseController {
 
-	//member 데이터를 모델로 사용
+	//member 데이터 모델
 	@ModelAttribute("memberCommand")
 	public MemberCommand get(){
 		return new MemberCommand();
@@ -146,20 +146,20 @@ public class MemberController extends BaseController {
 		String passwd = request.getParameter("passwd"); // 파라미터 값으로 받아올 passwd 값 저장
 		String SavePasswd = memberDao.getPasswdById(id); // 해당회원의 passwd 정보 / select passwd from members where id=#{id}
 		
-		if (passwd.equals(SavePasswd)) {
-			List<BoardCommand> bc = new ArrayList<BoardCommand>(); //
+		if (passwd.equals(SavePasswd)) { //패스워드가 일치, 메인 페이지로 이동 후
+			List<BoardCommand> bc = new ArrayList<BoardCommand>(); 
 			bc = boardDao.getList();
 			for(BoardCommand bdcmd : bc){
 				if(bdcmd.getId().equals(id)){
-					reportDao.deleteReport(bdcmd.getBoard_num());
+					reportDao.deleteReport(bdcmd.getBoard_num()); // 신고받은 해당 글번호 게시물 삭제 / delete from report where report_num=#{board_num}
 				}
 			}
-			reportDao.deleteReportById(id);
+			reportDao.deleteReportById(id); // 해당 회원의 신고 삭제/ delete from report where id=#{id}
 			HashMap<String, String> map = new HashMap<String, String>();
-			map.put("id", id);
-			map.put("passwd", passwd);
-			memberDao.delete(map);
-			session.invalidate();
+			map.put("id", id); // id 세션 KEY,VALUE 값으로 저장
+			map.put("passwd", passwd); // passwd 세션 KEY,VALUE 값으로 저장
+			memberDao.delete(map); // 해당 id, passwd를 갖고 있는 해당회원의 정보 삭제(회원탈퇴) / delete from members where id=#{id} and passwd=#{passwd}
+			session.invalidate(); // 세션 비활성화
 			
 			Cookie[] cookies = request.getCookies();
 			for(int i=0; i<cookies.length; i++) {
@@ -173,9 +173,9 @@ public class MemberController extends BaseController {
 		}
 		else 
 		{
-			errorPasswd = "errorPasswd";
+			errorPasswd = "errorPasswd"; // 패스워드 불일치 시, 에러 메시지 값 출력
 		}
-		model.addAttribute("errorPasswd", errorPasswd);
+		model.addAttribute("errorPasswd", errorPasswd); // 패스워드 불일치 값을 세션 KEY,VALUE 저장
 		return "member/deleteForm";
 	}
 	

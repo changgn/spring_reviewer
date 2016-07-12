@@ -7,36 +7,47 @@
 		insert into members
 		values(#{id},#{passwd},#{name},#{birth},#{gender},#{email},#{phone_num},sysdate,#{recommend_num})
 	</insert>
+	<!-- 추천수 증가 -->
 	<update id="updateIncreaseRecommendNum" parameterType="String">
 		update members set recommend_num=recommend_num+1 where id=#{id}
 	</update>
+	<!-- 추천 수 감소 -->
 	<update id="updateDecreaseRecommendNum" parameterType="String">
 		update members set recommend_num=recommend_num-1 where id=#{id}
 	</update>
+	<!-- 해당게시글 삭제 후, 해당 게시글에서 갖고 있었던 추천 수 감소 -->
 	<update id="updateDecreaseRecommendNumByDeleteBoard" parameterType="command.MemberRecommendDeleteCommand">
 		update members set recommend_num=recommend_num-#{board_recommend_num} where id=#{id} 
 	</update>
+	<!-- ID를 제외한 모든 회원 정보 수정 -->
 	<update id="modifyPro" parameterType="command.MemberCommand">
 		update members set passwd=#{passwd},name=#{name},birth=#{birth},gender=#{gender},email=#{email},phone_num=#{phone_num} where id=#{id}
 	</update>
+	<!-- 회원 ID와 PASSWD 비교후, 회원 정보 삭제 -->
 	<delete id="delete" parameterType="java.util.HashMap">
 		delete from members where id=#{id} and passwd=#{passwd}
 	</delete>
+	<!-- 회원의 모든 정보 -->
 	<select id="modifyForm" parameterType="java.lang.String" resultType="command.MemberCommand">
 		select * from members where id=#{id}
 	</select>
+	<!-- 회원의 이름,생일,성별,이메일,휴대폰번호 -->
 	<select id="getMF" parameterType="java.lang.String" resultType="command.MemberCommand">
 		select name birth gender email phone_num from members where id=#{id}
 	</select>
+	<!-- 회원 로그인을 위한 패스워드 -->
 	<select id="loginPro" parameterType="java.lang.String" resultType="command.MemberCommand">
 		select passwd from members where id=#{id}
 	</select>
+	<!-- 회원 아이디 찾기 -->
   	<select id="idSearch" parameterType="java.lang.String" resultType="java.lang.String">
   		select id from members where phone_num=#{phone_num}
 	 </select> 
+	 <!-- 회원 패스워드 찾기 -->
   	<select id="pwSearch" parameterType="String" resultType="command.MemberCommand">
   		select passwd from members where id=#{id} and phone_num=#{phone_num} and email=#{email}
   	</select> 
+  	<!-- 회원 중복체크 -->
 	<select id="idCheck" parameterType="java.lang.String" resultType="java.lang.String">
 		select id from members where id=#{id}
 	</select>
@@ -51,7 +62,7 @@
 	<select id="getIdList" resultType="java.lang.String">
 		select id from members
 	</select>
-	<!-- 정보 리스트 -->
+	<!-- 회원 정보 리스트(가입일 기준) -->
 	<select id="getList" resultType="command.MemberCommand">
 		select * from members
 		ORDER BY reg_date DESC

@@ -53,7 +53,7 @@ $(function(){
 	</script>
 </c:if>
 <div id="text_idchin" class="size_short"><input type="text" id="idchin" name="idchin" value="${id}"></div>
-<div id="submit_idchin" class="btn_short"><a href="#" >확&nbsp;&nbsp;인</a></div>
+<div id="submit_idchin" class="btn_short"><a href="#" >확&nbsp;&nbsp;인</a></div> <!-- 동작 : Controller에 해당 페이지 요청 -> 컨트롤러 에서 해당 페이지 요청, 아이디 중복 확인 동작 수행  -> Controller에서 요청한 JSP 페이지로 이동  -->
 
 </body>
 </html>

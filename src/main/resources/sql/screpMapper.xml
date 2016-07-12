@@ -5,41 +5,43 @@
 <!-- 테이블 속성 :  id,board_num -->
 
 <mapper namespace="screp">
+	<!-- 스크렙 정보 추가 -->
 	<insert id="insertScrep" parameterType="command.ScrepCommand">
 		insert into screp values(#{id},#{board_num})
 	</insert>
-	
+	<!-- 게시글을 올린 회원, 해당 게시글 번호 게시 글의 스크렙 정보 -->
 	<select id="getScrep" parameterType="command.ScrepCommand" resultType="command.ScrepCommand">
 		select * from screp where id=#{id} and board_num=#{board_num}
 	</select>
-	
+	<!-- 해당 회원의 스크렙 글 수 -->
 	<select id="getScrepCountByScrepNum" parameterType="String" resultType="Integer">
 		select count(board_num) from screp where id=#{id}
 	</select>
-	
+	<!-- 해당 회원의 게시글 수 -->
 	<select id="getCountByBoardNum" parameterType="String" resultType="Integer">
 		select count(board_num) from board where id=#{id}
 	</select>
-	
+	<!-- 해당 게시글을 스크렙 한 회원 -->
 	<select id="getIdByScrepNum" parameterType="Integer" resultType="String">
 		select id from screp where board_num=#{board_num}
 	</select>
-	
+	<!-- 해당회원이 게시한 해당 게시글 번호 삭제 -->
 	<delete id="deleteScrep" parameterType="command.ScrepCommand">
 		delete from screp where id=#{id} and board_num=#{board_num}
 	</delete>
-	
+	<!-- 스크렙 모든 정보 -->
 	<select id="getScrepList" parameterType="command.ScrepCommand" resultType="command.ScrepCommand">
 		select * from screp 
 	</select>
+	<!-- 해당회원의 스크렙 게시물 글번호 -->
 	<select id="getScrepListById" parameterType="String" resultType="java.lang.Integer">
 		select board_num from screp where id=#{id}
 	</select>
-	
+	<!-- 해당 게시글 번호의 스크렙 수 -->
 	<select id="getCountByScrepNum" parameterType="Integer" resultType="Integer">
 		select count(id) from screp where board_num=#{board_num}
 	</select>
-	
+	<!-- 스크렙 글 정보 업데이트 -->
 	<update parameterType="java.util.HashMap" id="updateScrepByBoardNum"> 
 		update board set screp=#{screp}
 		where board_num=#{board_num}

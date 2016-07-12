@@ -3,18 +3,23 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="profilephoto">
+	<!-- 회원 프로필 사진 추가 -->
 	<insert id="add" parameterType="command.ProfilePhotoCommand">
 		insert into profilephoto values(#{fileName},#{id},#{realPath},#{o_fileName})
 	</insert>
+	<!-- 회원 프로필 사진 수정 -->
 	<update id="modify" parameterType="command.ProfilePhotoCommand">
 		update profilephoto set fileName=#{fileName}, realPath=#{realPath}, o_fileName=#{o_fileName} where id=#{id}
 	</update>
+	
 	<delete id="remove" parameterType="java.lang.String">
 		<!-- 조건문 -->
 	</delete>
+	<!-- 회원 프로필 사진 모든 정보 -->
 	<select id="getlist" resultType="command.ProfilePhotoCommand">
 		select * from profilephoto
 	</select>
+	<!-- 해당아이디의 프로필 사진 모든 정보 -->
 	<select id="getOneById" parameterType="java.lang.String" resultType="command.ProfilePhotoCommand">
 		select * from profilephoto where id=#{id}
 	</select>
