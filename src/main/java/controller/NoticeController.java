@@ -19,7 +19,7 @@ public class NoticeController extends BaseController {
 	
 	@ResponseBody
 	@RequestMapping(value="/notice/notice.do", method = RequestMethod.POST)
-	public String Comment(HttpServletResponse resp, HttpSession session) throws Exception{
+	public String notice(HttpServletResponse resp, HttpSession session) throws Exception{
 		
 		//session 에서 id값을 가지고 온다.
 		JSONObject jso = new JSONObject();
@@ -46,6 +46,23 @@ public class NoticeController extends BaseController {
 		}
 		jso.put("noticeList", noticeList);
 		jso.put("dateList", dateList);
+
+		resp.setContentType("text/html;charset=utf-8");
+		return jso.toString();
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/notice/noticeRead.do", method = RequestMethod.POST)
+	public String noticeRead(HttpServletResponse resp, HttpSession session, int notice_num) throws Exception{
+
+		JSONObject jso = new JSONObject();
+		
+		//session 에서 id값을 가지고 온다.
+		String id = (String)session.getAttribute("id");
+		
+		noticeDao.updateReadByNoticeNum(notice_num);
+		session.setAttribute("noReadNoticeCount", noticeDao.getNoReadCountById(id));
+		jso.put("notice_num", notice_num);
 
 		resp.setContentType("text/html;charset=utf-8");
 		return jso.toString();

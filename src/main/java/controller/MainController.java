@@ -63,7 +63,8 @@ public class MainController extends BaseController {
 			boardList = mainDao.getPageList();
 			
 		} else {
-			
+			request.getSession().setAttribute("noReadNoticeCount", noticeDao.getNoReadCountById(id));
+
 			List<Integer> secretBoardNumList = secretDao.getListById(id);
 			
 			if(sort.equals("all")) {

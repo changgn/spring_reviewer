@@ -4,10 +4,10 @@
 
 <mapper namespace="notice">
 	<insert id="add" parameterType="command.NoticeCommand">
-		insert into notice values(#{kind},#{id},#{targetid},#{board_num},0,sysdate)
+		insert into notice values(SEQ_notice_notice_num.NEXTVAL,#{kind},#{id},#{targetid},#{board_num},sysdate,0)
 	</insert>
 	<insert id="add2" parameterType="command.NoticeCommand">
-		insert into notice values(#{kind},#{id},#{targetid},null,0,sysdate)
+		insert into notice values(SEQ_notice_notice_num.NEXTVAL,#{kind},#{id},#{targetid},null,sysdate,0)
 	</insert>
 	<delete id="removeByBoard" parameterType="command.NoticeCommand">
 		delete from notice where kind=#{kind} AND id=#{id} AND targetid=#{targetid} AND board_num=#{board_num}
@@ -15,6 +15,12 @@
 	<delete id="removeByMember" parameterType="command.NoticeCommand">
 		delete from notice where kind=#{kind} AND id=#{id} AND targetid=#{targetid}
 	</delete>
+	<update id="updateReadByNoticeNum" parameterType="int"> 
+		update notice set read=1 where notice_num=#{notice_num}
+	</update>
+	<select id="getNoReadCountById" parameterType="String" resultType="int">
+		select count(*) from notice where targetid=#{id} AND read=0
+	</select>
 	<select id="getListById" parameterType="String" resultType="command.NoticeCommand">
 		select * from notice where targetid=#{id} ORDER BY notice_date DESC
 	</select>
