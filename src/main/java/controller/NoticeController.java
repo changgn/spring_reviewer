@@ -34,7 +34,7 @@ public class NoticeController extends BaseController {
 			long second = (currTime - notice_date) / 1000;
 			String date_str = null;
 			if(second < 60) {
-				date_str = second + "초전";
+				date_str = "방금전";
 			} else if(second < 60*60) {
 				date_str = (second/60) + "분전";
 			} else if(second < 60*60*24) {
