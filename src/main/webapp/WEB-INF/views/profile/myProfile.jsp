@@ -22,24 +22,24 @@ $(function(){
 });
 
 $(function(){
-	$("#my_content").click(function(){
+	$("#my_content").click(function(){ //Content 페이지 이동 요청
 		$(location).attr("href", "/profile/myProfile.do?id=${paramId}");
 	});
-	$("#my_screp").click(function(){
+	$("#my_screp").click(function(){ //Screp 글 목록 페이지 이동 요청
 		$(location).attr("href", "/profile/screpList.do?id=${paramId}");
 	});
 	
 	$("#u_photo").change(function(){
 		$("#profilePhotoForm").submit();	
 	});
-	$(".remove_profilePhoto_btn").click(function(event){
+	$(".remove_profilePhoto_btn").click(function(event){ // 프로필 사진 삭제 페이지 이동 요청
 		event.stopPropagation();
 		$(location).attr("href", "/profile/profile_photo_remove.do");
 	});
-	
-	$("body").on("click", ".btns_re_items", function(e){
+	// 좋아요 버튼
+	$("body").on("click", ".btns_re_items", function(e){ 
 		e.preventDefault();
-		var url= "/recommend/recommend.do";
+		var url= "/recommend/recommend.do"; // 좋아요 클릭 후, 좋아요 상태 처리를 위한 페이지 요청
 		var params = "board_num=" + $(this).attr("id");
 		$.ajax({
 			type:"post"		// 포스트방식
@@ -54,12 +54,12 @@ $(function(){
 					var selector2 = $("#u_cnt"+args.board_num);
 					selector2.text(" " + recommend_num);
 					if(recommendFlag == 'recommend'){
-						selector.attr("src", "../image/recommend_off.png");
+						selector.attr("src", "../image/recommend_off.png"); // 좋아요 상태 
 					} else{
-						selector.attr("src", "../image/recommend_on.png");
+						selector.attr("src", "../image/recommend_on.png"); // 좋아요 취소 상태
 					}
 				} else {
-					$(location).attr("href", "/logon/login.do");
+					$(location).attr("href", "/logon/login.do"); // 비로그인 상태, 로그인 페이지로 이동 요청
 				}
 				
 			}
@@ -103,10 +103,10 @@ $(function(){
 	
 	$("body").on("click", ".btns_scr_items", function(e){
 		e.preventDefault();
-		var url= "/screp/screp.do";
-		var params = "board_num=" + $(this).attr("id");
-		params += "&page=profile";
-		params += "&paramId=" + $("#id_profile").text();
+		var url= "/screp/screp.do"; // 스크렙 버튼, 스크렙 상태 처리를 위한 페이지 요청
+		var params = "board_num=" + $(this).attr("id"); // 스크렙 상태처리를 위해 파라미터 값으로 받아올 대상 아이디
+		params += "&page=profile"; // 페이지 파라미터 값
+		params += "&paramId=" + $("#id_profile").text(); //버튼 클릭 후, 페이지이동을 수행하기 위해 받아올 파라미터 id 값
 		
 		$.ajax({
 			type:"post"		// 포스트방식
@@ -120,8 +120,8 @@ $(function(){
 					var screpFlag = args.screpFlag;
 					var screpCount = args.screpCount;
 					var board_num = args.board_num;
-					var selector = $("#screp_img" + board_num);
-					var selector2 = $("#screp_cnt" + board_num);
+					var selector = $("#screp_img" + board_num); // 해당 게시물의 스크랩 상태
+					var selector2 = $("#screp_cnt" + board_num); // 해당 게시물의 스크랩 수
 					selector2.text(" " + screp_num);
 					$("#screpCount").text(screpCount);
 
@@ -129,18 +129,18 @@ $(function(){
 						selector.attr("src", "../image/screp_on.png");
 					} else {
 						selector.attr("src", "../image/screp_off.png");
-						if($("#pageInfo").val()=="screp") {
-							$("#content_" + board_num).remove();
+						if($("#pageInfo").val()=="screp") { // 더보기 후 해당 페이지 게시글의 스크랩 상태
+							$("#content_" + board_num).remove(); // 더보기 후 해당 페이지 이동, 더보기 아이콘이 사라지는 상태
 						}
 					}
 				} else {
-					$(location).attr("href", "/logon/login.do");
+					$(location).attr("href", "/logon/login.do"); // (에러가 있을 경우) 비로그인시, 로그인 페이지로 이동요청
 				}
 				
 			}
 		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
 		    	alert(e.responseText);
-				$(location).attr("href", "/logon/login.do");
+				$(location).attr("href", "/logon/login.do"); 
 		    }
 		});
 	
@@ -161,15 +161,15 @@ $(function(){
 				var follow = args.follow;
 				var followerCount = args.followerCount;
 				
-				if(follow == 'follow'){
-					$(".follow_btn").attr("id", "unfollow");
+				if(follow == 'follow'){ // 팔로우 상태
+					$(".follow_btn").attr("id", "unfollow"); // 버튼 클릭 후 언팔로우 상태 이미지로 변환
 					$(".follow_btn").css("background-image", "url('../image/icon_36.png')");
-				} else{
-					$(".follow_btn").attr("id", "follow");
+				} else{ // 언팔로우 상태
+					$(".follow_btn").attr("id", "follow"); // 버튼 클릭 후 팔로우 상태 이미지로 변환
 					$(".follow_btn").css("background-image", "url('../image/icon_35.png')");
 				}
 				
-				$("#follower_profile a").text("팔로워  " + followerCount + " >");
+				$("#follower_profile a").text("팔로워  " + followerCount + " >"); // 대상 아이디의 팔로워 수
 			}
 		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
 		    	alert(e.responseText);

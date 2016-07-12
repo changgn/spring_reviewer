@@ -38,12 +38,12 @@ $(function(){
 </head>
 <body>
 
-<c:if test="${idch == 0}">
+<c:if test="${idch == 0}"> <!-- 회원 아이디 중복 검사 -->
 	<script>
 		alert("사용 가능한 아이디 입니다.");
 		opener.document.getElementById("input_check").value = "check";
 		opener.document.getElementById("id").value = "${id}";
-		opener.document.getElementById("passwd").focus();
+		opener.document.getElementById("passwd").focus(); 
 		self.close();
 	</script>
 </c:if>
