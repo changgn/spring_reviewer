@@ -59,31 +59,31 @@ public class MemberController extends BaseController {
 	public String login(HttpSession session, HttpServletResponse resp, String id, String passwd, Model model, String autologin){
 		
 		
-		MemberCommand memberInfo = memberDao.loginPro(id); // 해당아이디의 비밀번호 / select passwd from members where id=#{id}
+		MemberCommand memberInfo = memberDao.loginPro(id); // 해당아이디의 비밀번호 정보/ select passwd from members where id=#{id}
 		String message = null;
 		if (memberInfo!=null) { //
-			if ((memberInfo.getPasswd()).equals(passwd)) { //멤머
+			if ((memberInfo.getPasswd()).equals(passwd)) { //회원 비밀번호가 일치한하면 로그인 성공!
 				
-				session.setAttribute("id", id);
-				session.setAttribute("login_status", "1");
+				session.setAttribute("id", id); // 현재 로그인 상태
+				session.setAttribute("login_status", "1"); // 개인회원 로그인 상태 세션 KEY,VALUE 저장
 				if(id.equals("admin")) {
-					session.setAttribute("login_status", "0");
+					session.setAttribute("login_status", "0"); // 관리자 회원 로그인 상태 세션 KEY,VALUE 저장
 				}
 				if(autologin!=null) {
-					Cookie cookie = new Cookie("autoLogin", id);
+					Cookie cookie = new Cookie("autoLogin", id); //자동로그인 상태 세션 KEY, 회원 아이디세션 VALUE 저장
 					cookie.setMaxAge(60*60*24*30);
 					cookie.setPath("/");
-					resp.addCookie(cookie);
+					resp.addCookie(cookie); // 자동로그인 상태 쿠키값으로 추가
 				}
 			} else {
-				message = "errPwd";
+				message = "errPwd"; // 비밀번호 불일치 할 경우 오류 발생
 			}
 	
 		} else {
-			message = "errID";
+			message = "errID"; // 회원ID 불일치 할 경우 오류 발생
 		}
 		
-		model.addAttribute("message", message);
+		model.addAttribute("message", message); // 오류메시지 세션 KEY,VALUE 저장 
 		
 		return "logon/loginPro";
 	}
@@ -106,11 +106,11 @@ public class MemberController extends BaseController {
 	public String form(HttpServletRequest request, Model model) {
 		
 		HttpSession session = request.getSession();
-		String id = (String) session.getAttribute("id");
-		model.addAttribute("id", id);
+		String id = (String) session.getAttribute("id"); //현재 로그인 아이디 세션 값
+		model.addAttribute("id", id); // 현재 로그인 아이디 세션 KEY,VALUE 저장
 		
-		MemberCommand memberInfo = memberDao.modifyForm(id);
-		model.addAttribute("m", memberInfo);
+		MemberCommand memberInfo = memberDao.modifyForm(id); // 해당회원의 정보 /  select * from members where id=#{id}
+		model.addAttribute("m", memberInfo); // 해당 회원의 정보 세션 KEY,VALUE 저장
 		
 		return "member/modifyForm";
 	}
@@ -119,7 +119,7 @@ public class MemberController extends BaseController {
 	@RequestMapping(value="/member/modify.do",method=RequestMethod.POST)
 	public String submit(MemberCommand memberInfo) {
 		
-		memberDao.modifyPro(memberInfo);
+		memberDao.modifyPro(memberInfo); // 해당회원의 수정 할 정보 / update members set passwd=#{passwd},name=#{name},birth=#{birth},gender=#{gender},email=#{email},phone_num=#{phone_num} where id=#{id}
 		
 		return "redirect:/main/main.do";
 	}
@@ -129,8 +129,8 @@ public class MemberController extends BaseController {
 	public String deleteForm(HttpServletRequest request,Model model){
 		HttpSession session = request.getSession();
 		
-		String id = (String) session.getAttribute("id");
-		model.addAttribute("id", id);
+		String id = (String) session.getAttribute("id"); // 로그인 상태에 있는 해당 아이디 세션 값
+		model.addAttribute("id", id); // 로그인 상태 해당 id KEY,VALUE 값 세션으로 저장
 		
 		return "member/deleteForm";
 	}       
@@ -142,12 +142,12 @@ public class MemberController extends BaseController {
 		HttpSession session = request.getSession();
 		
 		String errorPasswd = null;
-		String id = (String)request.getSession().getAttribute("id");
-		String passwd = request.getParameter("passwd");
-		String SavePasswd = memberDao.getPasswdById(id);
+		String id = (String)request.getSession().getAttribute("id"); // 로그인 상태에 있는 해당 아이디 세션 값
+		String passwd = request.getParameter("passwd"); // 파라미터 값으로 받아올 passwd 값 저장
+		String SavePasswd = memberDao.getPasswdById(id); // 해당회원의 passwd 정보 / select passwd from members where id=#{id}
 		
 		if (passwd.equals(SavePasswd)) {
-			List<BoardCommand> bc = new ArrayList<BoardCommand>();
+			List<BoardCommand> bc = new ArrayList<BoardCommand>(); //
 			bc = boardDao.getList();
 			for(BoardCommand bdcmd : bc){
 				if(bdcmd.getId().equals(id)){
