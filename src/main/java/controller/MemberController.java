@@ -22,47 +22,47 @@ import command.MemberCommand;
 @Controller
 public class MemberController extends BaseController {
 
-	//ȸ�� ������ ������
+	//member 데이터를 모델로 사용
 	@ModelAttribute("memberCommand")
 	public MemberCommand get(){
 		return new MemberCommand();
 	}
 	
 	
-	//�α��� ������ ��û
+	// 로그인 페이지 요청
 	@RequestMapping(value="/logon/login.do",method=RequestMethod.GET)
 	public String loginform(HttpServletRequest request, HttpSession session){
 		String login_status = (String) session.getAttribute("login_status");
 		if(login_status == null){
-			session.setAttribute("login_status", "2");
+			session.setAttribute("login_status", "2"); // 비로그인 상태 세션 KEY,VALUE 저장
 			login_status = "2";
 		}
-		Cookie[] cookies = request.getCookies();
+		Cookie[] cookies = request.getCookies(); // 쿠키요청
 		for(int i=0; i<cookies.length; i++) {
 			if(cookies[i].getName().equals("autoLogin")) {
-				session.setAttribute("id", cookies[i].getValue());
-				session.setAttribute("login_status", "1");
+				session.setAttribute("id", cookies[i].getValue()); // 로그인 id 쿠키 값 저장
+				session.setAttribute("login_status", "1"); // 일반회원 로그인 상태 세션 KEY,VALUE 저장
 				login_status = "1";
 				if(cookies[i].getValue().equals("admin")) {
-					session.setAttribute("login_status", "0");
+					session.setAttribute("login_status", "0"); // 관리자회원 로그인 상태 세션 KEY,VALUE 저장
 					login_status = "0";
 				}
 			}
 		}
 		if(login_status.equals("0") || login_status.equals("1")) {
-			return "redirect:/main/main.do";
+			return "redirect:/main/main.do"; // 로그인 상태일 경우 메인페이지 요청
 		}
-		return "logon/loginForm";
+		return "logon/loginForm"; // 아니면 로그인페이지로 이동
 	}
 	
 	@RequestMapping(value="/logon/login.do",method=RequestMethod.POST)
 	public String login(HttpSession session, HttpServletResponse resp, String id, String passwd, Model model, String autologin){
 		
 		
-		MemberCommand memberInfo = memberDao.loginPro(id);
+		MemberCommand memberInfo = memberDao.loginPro(id); // 해당아이디의 비밀번호 / select passwd from members where id=#{id}
 		String message = null;
-		if (memberInfo!=null) {
-			if ((memberInfo.getPasswd()).equals(passwd)) {
+		if (memberInfo!=null) { //
+			if ((memberInfo.getPasswd()).equals(passwd)) { //멤머
 				
 				session.setAttribute("id", id);
 				session.setAttribute("login_status", "1");
