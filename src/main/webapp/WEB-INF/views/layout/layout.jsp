@@ -95,7 +95,7 @@
 							var noticeList = args.noticeList;
 							var dateList = args.dateList;
 							for(var idx=0; idx<noticeList.length; idx++) {
-								view += '<li class="li_notice">';
+								view += '<li id="' + noticeList[idx].kind + '" class="li_notice">';
 								view += '<span class="notice_text">';
 								
 								if(noticeList[idx].kind == 'content') {

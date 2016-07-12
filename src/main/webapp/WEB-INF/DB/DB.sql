@@ -26,12 +26,14 @@ DROP TABLE secret CASCADE CONSTRAINTS;
 
 DROP SEQUENCE SEQ_board_board_num;
 DROP SEQUENCE SEQ_comments_comment_num;
+DROP SEQUENCE SEQ_notice_notice_num;
 
 
 /* Create Sequences */
 
 CREATE SEQUENCE SEQ_board_board_num INCREMENT BY 1 START WITH 1;
 CREATE SEQUENCE SEQ_comments_comment_num INCREMENT BY 1 START WITH 1;
+CREATE SEQUENCE SEQ_notice_notice_num INCREMENT BY 1 START WITH 1;
 
 
 /* Create Tables */
@@ -105,6 +107,7 @@ CREATE TABLE members_category
 
 CREATE TABLE notice
 (
+	notice_num number NOT NULL,
 	kind varchar2(20) NOT NULL,
 	id varchar2(20),
 	targetid varchar2(20),

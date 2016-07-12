@@ -4,10 +4,10 @@
 
 <mapper namespace="notice">
 	<insert id="add" parameterType="command.NoticeCommand">
-		insert into notice values(#{kind},#{id},#{targetid},#{board_num},0,sysdate)
+		insert into notice values(SEQ_notice_notice_num.NEXTVAL,#{kind},#{id},#{targetid},#{board_num},0,sysdate)
 	</insert>
 	<insert id="add2" parameterType="command.NoticeCommand">
-		insert into notice values(#{kind},#{id},#{targetid},null,0,sysdate)
+		insert into notice values(SEQ_notice_notice_num.NEXTVAL,#{kind},#{id},#{targetid},null,0,sysdate)
 	</insert>
 	<delete id="removeByBoard" parameterType="command.NoticeCommand">
 		delete from notice where kind=#{kind} AND id=#{id} AND targetid=#{targetid} AND board_num=#{board_num}
