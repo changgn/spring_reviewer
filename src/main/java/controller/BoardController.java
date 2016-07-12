@@ -174,20 +174,17 @@ public class BoardController extends BaseController {
 	}
 	
 	@RequestMapping(value="/content/reportPro.do")
-	public String report(HttpServletRequest request, Model model){
+	public String report(HttpServletRequest request, Model model, int board_num){
 
-		String board_num_str = request.getParameter("board_num");
 		String id = (String) request.getSession().getAttribute("id");
-		Integer board_num = Integer.parseInt(board_num_str);
-		ReportCommand rptcmd = new ReportCommand(id, board_num);
-		rptcmd = reportDao.getSureBoardReportByID(rptcmd);
-		if(id==rptcmd.getId() && rptcmd.getBoard_num() == board_num){
-			if(board_num_str != null){
+		if(board_num != 0 && id != null){
+			ReportCommand reportCommand = reportDao.getSureBoardReportById(new ReportCommand(id, board_num));
+			if( reportCommand == null ){
+					
+				int reportOk = reportDao.insertReport(new ReportCommand(id, board_num));
+				boardDao.updateReportNumByBoardNum(board_num);
 				
-				int reportupdateok = boardDao.updateReportNumByBoardNum(board_num);
-				ReportCommand rc = new ReportCommand(id, board_num);
-				reportDao.insertReport(rc);
-				if(reportupdateok > 0){
+				if(reportOk > 0){
 					BoardCommand board = boardDao.selectContent(board_num);
 					NoticeCommand noticeCommand = new NoticeCommand("report", id, board.getId(), board_num);
 					List<NoticeCommand> noticeList = noticeDao.getListByBoard(noticeCommand);
@@ -195,15 +192,15 @@ public class BoardController extends BaseController {
 						noticeDao.removeByBoard(noticeCommand);
 					}
 					noticeDao.insert(noticeCommand);
-					
 					model.addAttribute("reportok", "reportok");
 				}else{
-
 					request.setAttribute("reportok", "reportfalse");
 				}
+			}else{
+				request.setAttribute("reportn", "reportn");
 			}
-		}else{
-			request.setAttribute("reportn", "reportn");
+		} else {
+			return "redirect:/logon/login.do";
 		}
 		return "content/reportPro";
 	}
