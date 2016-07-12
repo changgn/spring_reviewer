@@ -365,18 +365,18 @@ $(function(){
 								<c:when test="${id != 'admin' }">
 									<c:if test="${board.id != id}">
 										<li>
-											<a href="/content/reportPro.do?board_num=${board.board_num}" class="cont_popup_close" >이 게시글 신고</a>
+											<a href="/content/reportPro.do?board_num=${board.board_num}" class="cont_popup_close">이 게시글 신고</a>
 										</li>
 									</c:if>
 									<c:if test="${board.id == id}">						
 										<li>
-											<a href="/content/deleteContent.do?id=${board.id}&board_num=${board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
+											<a href="/content/deleteContent.do?id=${board.id}&board_num=${board.board_num}" class="cont_popup_close">이 게시글 삭제</a>
 										</li>
 									</c:if>
 								</c:when>
 								<c:otherwise>						
 									<li>
-										<a href="/content/deleteContent.do?id=${board.id}&board_num=${board.board_num}" class="cont_popup_close" >이 게시글 삭제</a>
+										<a href="/content/deleteContent.do?id=${board.id}&board_num=${board.board_num}" class="cont_popup_close">이 게시글 삭제</a>
 									</li>
 								</c:otherwise>
 							</c:choose>
