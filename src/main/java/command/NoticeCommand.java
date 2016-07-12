@@ -3,12 +3,13 @@ package command;
 import java.util.Date;
 
 public class NoticeCommand {
+	private int notice_num;
 	private String kind;
 	private String id;
 	private String targetid;
 	private int board_num;
-	private int read;
 	private Date notice_date;
+	private int read;
 	
 
 	public NoticeCommand(){
@@ -21,6 +22,14 @@ public class NoticeCommand {
 		this.id = id;
 		this.targetid = targetid;
 		this.board_num = board_num;	
+	}
+
+	public int getNotice_num() {
+		return notice_num;
+	}
+
+	public void setNotice_num(int notice_num) {
+		this.notice_num = notice_num;
 	}
 
 	public String getKind() {

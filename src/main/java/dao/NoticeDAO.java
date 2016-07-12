@@ -22,6 +22,12 @@ public class NoticeDAO extends SqlSessionDaoSupport {
 	public int removeByMember(NoticeCommand command){
 		return getSqlSession().delete("notice.removeByMember", command);
 	}
+	public int updateReadByNoticeNum(int notice_num){
+		return getSqlSession().update("notice.updateReadByNoticeNum", notice_num);
+	}
+	public int getNoReadCountById(String id){
+		return getSqlSession().selectOne("notice.getNoReadCountById", id);
+	}
 	public List<NoticeCommand> getListById(String id){
 		return getSqlSession().selectList("notice.getListById", id);
 	}
