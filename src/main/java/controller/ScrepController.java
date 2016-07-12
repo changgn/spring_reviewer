@@ -31,7 +31,7 @@ public class ScrepController extends BaseController {
 	@RequestMapping(value="/screp/screpInsert.do")
 	public String Screp(HttpServletRequest request, HttpServletResponse resp, int board_num){
 		
-		String id = (String)request.getSession().getAttribute("id");
+		String id = (String)request.getSession().getAttribute("id"); //로그인 id(해당 id)
 		
 		JSONObject jso = new JSONObject();
 		
@@ -85,18 +85,18 @@ public class ScrepController extends BaseController {
 		if(boardNumList.size() == 0){
 			boardList = null;
 		}else {
-			boardList = mainDao.getPageListByBoardNum(boardNumList);
+			boardList = mainDao.getPageListByBoardNum(boardNumList); //게시글 목록 페이지 설정
 		}
 		
 		
 		if(boardList!=null)	{
-			boardCount = boardList.size();
+			boardCount = boardList.size(); //게시글 갯수 = 게시글 목록의 크기
 			for(BoardCommand vo : boardList) {
 				HashMap<String, Object> boardMap = new HashMap<String, Object>();
-				PhotoCommand photo = photoDao.getOneByBoardNum(vo.getBoard_num());
-				ProfilePhotoCommand profilePhoto = profilePhotoDao.getOneById(vo.getId());
-				CategoryCommand category = categoryDao.getOne(vo.getCategory_id());
-				String commentCount = commentDao.getCountByBoardNum(vo.getBoard_num());
+				PhotoCommand photo = photoDao.getOneByBoardNum(vo.getBoard_num()); // 해당 글 번호의 사진(이미지)
+				ProfilePhotoCommand profilePhoto = profilePhotoDao.getOneById(vo.getId()); // 해당 아이디의 프로필 사진(이미지) 
+				CategoryCommand category = categoryDao.getOne(vo.getCategory_id()); // 카테고리 분류 정보 
+				String commentCount = commentDao.getCountByBoardNum(vo.getBoard_num()); // 해당 게시글의 코멘트 수
 		
 				if(commentCount==null)	commentCount="0";
 				boolean contentFlag = false;
@@ -106,45 +106,45 @@ public class ScrepController extends BaseController {
 					vo.setContent(contentSub[0] + contentSub[1] + contentSub[2]);
 				}
 				
-				RecommendCommand recommend = new RecommendCommand(id, vo.getBoard_num());
+				RecommendCommand recommend = new RecommendCommand(id, vo.getBoard_num()); // 게시글 추천 정보
 				if(recommend.getId() != null ){
-					List<RecommendCommand> recommends = recommendDao.getRecommend(recommend);
+					List<RecommendCommand> recommends = recommendDao.getRecommend(recommend); // 해당 회원이 해당 게시글에 대한 추천
 					if(recommends.size() != 0){
-						boardMap.put("recommendFlag", "recommend");
+						boardMap.put("recommendFlag", "recommend"); // 추천
 					}else{
-						boardMap.put("recommendFlag", "nrecommend");
+						boardMap.put("recommendFlag", "nrecommend"); // 추천 취소
 					}
 				}
 				
 				ScrepCommand screp = new ScrepCommand(id, vo.getBoard_num());
 				if(screp.getId() != null ){
-					ScrepCommand screps = screpDao.getScrep(screp);
+					ScrepCommand screps = screpDao.getScrep(screp); // 해당 회원이 해당 게시글에 대한 스크렙
 					if(screps != null){
-						boardMap.put("screpFlag", "screp");
+						boardMap.put("screpFlag", "screp"); // 스크렙 
 					}else{
-						boardMap.put("screpFlag", "nscrep");
+						boardMap.put("screpFlag", "nscrep"); // 스크랩 취소
 					}
 				}
 				
 
 					
-				boardMap.put("board", vo);
+				boardMap.put("board", vo); 
 				boardMap.put("photo", photo);
 				boardMap.put("profilePhoto", profilePhoto);
 				boardMap.put("category", category);
 				boardMap.put("commentCount", commentCount);
 				boardMap.put("contentFlag", contentFlag);
-				allBoardList.add(boardMap);
+				allBoardList.add(boardMap); // 해당 게시글 정보 추가
 			}
 		}
 		
 		// 팔로우 상태 저장
 		if(id!=null) {
-			List<String> folloingList = followDao.toList(id);
-			boolean followCheck = false;
+			List<String> folloingList = followDao.toList(id); // 해당회원(아이디)의 팔로윙
+			boolean followCheck = false; //팔로윙 유효성 체크
 			if(folloingList!=null) {
 				for(String following : folloingList) {
-					if(following.equals(paramId)) {
+					if(following.equals(paramId)) { // 특정 파라미터 값을 가진 회원(아이디) 팔로우 신청
 						followCheck = true;
 						break;
 					}
@@ -153,10 +153,10 @@ public class ScrepController extends BaseController {
 			model.addAttribute("followCheck", followCheck);
 		}
 
-		model.addAttribute("pageInfo", "screp");
-		model.addAttribute("paramId", paramId);
-		model.addAttribute("boardCount", boardCount);
-		model.addAttribute("allBoardList", allBoardList);
+		model.addAttribute("pageInfo", "screp"); // 스크렙 글에 대한 페이지
+		model.addAttribute("paramId", paramId); // 특정 파라미터 값을 가진 회원(아이디)
+		model.addAttribute("boardCount", boardCount); // 게시글 수
+		model.addAttribute("allBoardList", allBoardList); // 게시글, 사진, 스크렙 등이 모두 들어간 게시글 목록
 		
 		return "profile/myProfile";
 	}
@@ -167,36 +167,36 @@ public class ScrepController extends BaseController {
 	@RequestMapping("/screp/screp.do")
 	public String Screp(HttpServletRequest request, HttpServletResponse resp, Integer board_num, String page, String paramId){
 
-		String login_status = (String)request.getSession().getAttribute("login_status");
+		String login_status = (String)request.getSession().getAttribute("login_status"); //로그인 상태 정보
 		JSONObject jso = new JSONObject();
 		
 		if(login_status.equals("0") || login_status.equals("1")) {
-			String id = (String)request.getSession().getAttribute("id");
-			ScrepCommand screp = new ScrepCommand(id, board_num);
+			String id = (String)request.getSession().getAttribute("id"); // 로그인 되어진 아이디
+			ScrepCommand screp = new ScrepCommand(id, board_num); // 스크랩 정보
 
 			ScrepCommand Screpselect = null;
-			Screpselect = screpDao.getScrep(screp);
+			Screpselect = screpDao.getScrep(screp); // 해당 회원이 해당 게시글에 대한 스크렙
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			if(Screpselect != null){
-				screpDao.deleteScrep(Screpselect);
-				map.put("board_num", board_num);
-				map.put("screp", screpDao.getCountByScrepNum(board_num));
-				screpDao.updateScrepByBoardNum(map);
-				jso.put("screpFlag", "nscrep");
+				screpDao.deleteScrep(Screpselect); // 스크렙 게시글 삭제
+				map.put("board_num", board_num); // 게시 글에 대한 KEY, VALUE 정보
+				map.put("screp", screpDao.getCountByScrepNum(board_num)); // 스크렙 글에 대한 KEY, VALUE(해당 게시물을 스크렙한 회원 수, 즉 스크렙 수)
+				screpDao.updateScrepByBoardNum(map); // 스크렙 정보(상태)수정
+				jso.put("screpFlag", "nscrep"); // 스크렙 취소 상태
 			} else{
-				screpDao.insertScrep(screp);
-				map.put("board_num", board_num);
-				map.put("screp", screpDao.getCountByScrepNum(board_num));
-				screpDao.updateScrepByBoardNum(map);
-				jso.put("screpFlag", "screp");
+				screpDao.insertScrep(screp); // 스크렙 게시물 추가(삽입)
+				map.put("board_num", board_num); // 게시 글에 대한 KEY, VALUE 정보
+				map.put("screp", screpDao.getCountByScrepNum(board_num)); // 스크렙 글에 대한 KEY, VALUE(해당 게시물을 스크렙한 회원 수, 즉 스크렙 수)
+				screpDao.updateScrepByBoardNum(map); // // 스크렙 정보(상태)수정
+				jso.put("screpFlag", "screp"); // 스크렙 상태
 			}
 			int screpCount = 0;
 			if(page != null){
-				screpCount = screpDao.getScrepCountByScrepNum(paramId);
+				screpCount = screpDao.getScrepCountByScrepNum(paramId); // 스크렙 게시 글 수
 			}
-			jso.put("screpCount", screpCount);
-			jso.put("screp_num", boardDao.selectContent(board_num).getScrep());
-			jso.put("board_num", board_num);
+			jso.put("screpCount", screpCount); // 스크렙 게시 글 수 (KEY,VALUE)저장
+			jso.put("screp_num", boardDao.selectContent(board_num).getScrep()); // 해당 게시글 모든 정보를 스크렙
+			jso.put("board_num", board_num); //게시 글 번호 (KEY,VALUE)저장
 		} else {
 			jso.put("error", "error");
 		}
@@ -209,9 +209,9 @@ public class ScrepController extends BaseController {
 	@RequestMapping("/screp/member.do")
 	public String screpMember(HttpServletResponse resp, int board_num){
 		JSONObject jso = new JSONObject();
-		List<String> members = screpDao.getIdByScrepNum(board_num);
-		jso.put("members", members);
-		jso.put("board_num", board_num);
+		List<String> members = screpDao.getIdByScrepNum(board_num); //해당 글번호의 게시물을 스크렙 한 회원
+		jso.put("members", members); // 게시물을 스크렙 한 회원 KEY,VALUE 값으로 저장
+		jso.put("board_num", board_num); // 게시글 번호를  KEY,VALUE 값으로 저장
 		
 		resp.setContentType("text/html;charset=utf-8");
 		return jso.toString();
