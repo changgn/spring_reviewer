@@ -20,11 +20,11 @@
 			.item{ margin-top: 20px; margin: auto; border-bottom: solid 1px; border-bottom-color: #f6f6f6; text-align: center;
 				padding : 7px; color: #4c4c4c; font-size: 14px; border-top: solid 1px; border-top-color: #f6f6f6; vertical-align: middle;}
 				
-			.Board_Detaile_Info{display: none; position: relative; top: 0;right: 0;bottom: 0;left: 0;line-height: 100%;text-align: center;}
+			.Board_Detaile_Info{position: relative; top: 0;right: 0;bottom: 0;left: 0;line-height: 100%;text-align: center;}
 			.Board_Info{display: inline-block;position: relative; width: 300px auto;background-color: #fff;line-height: normal;vertical-align: middle; }
-			.Report_Board_Detaile_Info{display: none; position: relative; top: 0;right: 0;bottom: 0;left: 0;line-height: 100%;text-align: center;}
+			.Report_Board_Detaile_Info{position: relative; top: 0;right: 0;bottom: 0;left: 0;line-height: 100%;text-align: center;}
 			.Report_Board_Info{display: inline-block;position: relative; width: 300px auto;background-color: #fff;line-height: normal;vertical-align: middle; }
-			.Popul_Board_Detaile_Info{display: none; position: relative; top: 0;right: 0;bottom: 0;left: 0;line-height: 100%;text-align: center;}
+			.Popul_Board_Detaile_Info{position: relative; top: 0;right: 0;bottom: 0;left: 0;line-height: 100%;text-align: center;}
 			.Popul_Board_Info{display: inline-block;position: relative; width: 300px auto;background-color: #fff;line-height: normal;vertical-align: middle; }
 		</style>
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
@@ -43,33 +43,42 @@
 				$("body").on("click", ".Board_Simple_Info", function(e){
 					e.preventDefault();
 					var board_num = $(this).attr("title");
-					var list = $("#info_" + board_num);
-					list.show();
+					var info = $("#info_" + board_num);
+					var style = info.attr("style");
+					var board_detale_class = info.attr("class");
+					if(style == 'display: none;'){
+						$("." + board_detale_class).hide();
+						info.show();
+					}else{
+						info.hide();
+					}
 				});
-				$("body").on("click", ".Board_Detaile_Info", function(e){
-					e.preventDefault();
-					$(this).hide();
-				});	
 				$("body").on("click", ".Report_Board_Simple_Info", function(e){
 					e.preventDefault();
 					var report_board_num = $(this).attr("title");
 					var reprot_info = $("#report_info_" + report_board_num);
-					reprot_info.show();
+					var report_style = reprot_info.attr("style");
+					var report_board_detale_class = reprot_info.attr("class");
+					if(report_style == 'display: none;'){
+						$("." + report_board_detale_class).hide();
+						reprot_info.show();
+					}else{
+						reprot_info.hide()
+					}
 				});
-				$("body").on("click", ".Report_Board_Detaile_Info", function(e){
-					e.preventDefault();
-					$(this).hide();
-				});	
 				$("body").on("click", ".Popul_Board_Simple_Info", function(e){
 					e.preventDefault();
 					var popul_board_num = $(this).attr("title");
 					var popul_info = $("#popul_info_" + popul_board_num);
-					popul_info.show();
+					var popul_style = popul_info.attr("style");
+					var popul_board_detale_class = popul_info.attr("class");
+					if(popul_style == 'display: none;'){
+						$("." + popul_board_detale_class).hide();
+						popul_info.show();
+					}else{
+						popul_info.hide();
+					}
 				});
-				$("body").on("click", ".Popul_Board_Detaile_Info", function(e){
-					e.preventDefault();
-					$(this).hide();
-				});	
 			});
 			$(function () {	
 				tab('#tab',0);
@@ -128,12 +137,12 @@
 							</td>
 							<td width="10%">
 								<a id="text" href="/content/deleteContent.do?board_num=${board.board_num}&id=${board.id}">
-									삭제 <img src="../image/memOut_con.png" width="15" height="15" title="삭제"> 
+									삭제 <img src="../image/memOut_icon1.png" width="30" height="30" title="삭제"> 
 								</a>
 							</td>
 						</tr>
 					</table>
-					<div class="Board_Detaile_Info" id="info_${board.board_num}" title="${board.board_num}">
+					<div class="Board_Detaile_Info" id="info_${board.board_num}" title="${board.board_num}" style="display: none;">
 						<table class="Board_Info ul_list">
 							<tr>
 								<td>
@@ -199,12 +208,12 @@
 							</td>
 							<td width="10%">
 								<a id="text" href="/content/deleteContent.do?board_num=${reportBoard.board_num}&id=${reportBoard.id}">
-									삭제 <img src="../image/memOut_con.png" width="15" height="15" title="삭제"> 
+									삭제 <img src="../image/memOut_icon1.png" width="30" height="30" title="삭제"> 
 								</a>
 							</td>
 						</tr>
 					</table>
-					<div id="report_info_${reportBoard.board_num}" class="Report_Board_Detaile_Info" title="${reportBoard.board_num}">
+					<div id="report_info_${reportBoard.board_num}" class="Report_Board_Detaile_Info" title="${reportBoard.board_num}" style="display: none;">
 						<table class="Report_Board_Info ul_list">
 							<tr>
 								<td>
@@ -247,15 +256,15 @@
 			</div>
     		<div id="popul">
     			<c:forEach var="populBoard" items="${populBoardList}"> 
-					<table >
+					<table class="item">
 						<tr>
-							<td width="20%" class="Popul_Board_Simple_Info item" id="popul_lsit_${populBoard.board_num}" title="${populBoard.board_num}">
+							<td width="20%" class="Popul_Board_Simple_Info" id="popul_lsit_${populBoard.board_num}" title="${populBoard.board_num}">
 								게시글 번호 : ${populBoard.board_num}
 							</td>
-							<td width="20%" class="Popul_Board_Simple_Info item" id="popul_lsit_${populBoard.board_num}" title="${populBoard.board_num}">
+							<td width="20%" class="Popul_Board_Simple_Info" id="popul_lsit_${populBoard.board_num}" title="${populBoard.board_num}">
 								작성자 : ${populBoard.id}
 							</td>
-							<td width="20%" class="Popul_Board_Simple_Info item" id="popul_lsit_${populBoard.board_num}" title="${populBoard.board_num}">
+							<td width="20%" class="Popul_Board_Simple_Info" id="popul_lsit_${populBoard.board_num}" title="${populBoard.board_num}">
 								작성일 : <fmt:formatDate value="${populBoard.write_date}" pattern="yyyy-MM-dd HH:mm"/>
 							</td>
 							<td width="10%">
@@ -265,12 +274,12 @@
 							</td>
 							<td width="10%">
 								<a id="text" href="/content/deleteContent.do?board_num=${populBoard.board_num}&id=${board.id}">
-									삭제 <img src="../image/memOut_con.png" width="15" height="15" title="삭제"> 
+									삭제 <img src="../image/memOut_icon1.png" width="30" height="30" title="삭제"> 
 								</a>
 							</td>
 						</tr>
 					</table>
-					<div id="popul_info_${populBoard.board_num}" class="Popul_Board_Detaile_Info" title="${populBoard.board_num}">
+					<div id="popul_info_${populBoard.board_num}" class="Popul_Board_Detaile_Info" title="${populBoard.board_num}" style="display: none;">
 						<table class="Popul_Board_Info ul_list">
 							<tr>
 								<td>

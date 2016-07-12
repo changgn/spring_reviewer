@@ -66,6 +66,10 @@
 	<select id="getBoardNumList" resultType="Integer">
 		select board_num from board
 	</select>
+	<!-- 게시글 개수 -->
+	<select id="getListCount" resultType="java.lang.Integer">
+		select count(board_num) from board 
+	</select>
 	
 <!-- 글 상세보기 //content -->
  <select parameterType="java.lang.Integer" id="getByBoardNum" resultType="command.BoardCommand"> 

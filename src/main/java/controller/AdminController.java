@@ -23,7 +23,17 @@ public class AdminController extends BaseController {
 
 	/**	메인화면	*/
 	@RequestMapping("/administrator/adminForm.do")
-	public String adminForm(){
+	public String adminForm(Model model){
+		// 회원 수
+		int count = 0;      
+		count = memberDao.count();
+		count -= 1;
+	      
+		int listcount = 0;
+		listcount = boardDao.getListCount();
+		listcount -= 1;
+		model.addAttribute("count", count);
+		model.addAttribute("listcount", listcount);
 		return "administrator/admin";
 	}
 	

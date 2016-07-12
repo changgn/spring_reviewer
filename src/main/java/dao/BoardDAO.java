@@ -47,7 +47,10 @@ public class BoardDAO extends SqlSessionDaoSupport{
 	public List<Integer> getBoardNumList(){
 		return getSqlSession().selectList("board.getBoardNumList");
 	}
-	
+	/**	게시글 개수	*/
+	public int getListCount(){
+		return getSqlSession().selectOne("board.getListCount");
+	}
 	public List<BoardCommand> getList(){
 		return getSqlSession().selectList("board.getList");
 	}
