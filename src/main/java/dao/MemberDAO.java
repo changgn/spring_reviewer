@@ -25,10 +25,36 @@ public class MemberDAO extends SqlSessionDaoSupport{
 	public int count(){
 		return getSqlSession().selectOne("member.getMemberCount");
 	}
-	/**	회원 모든 정보 목록	*/
-	public List<MemberCommand> getList(){
-		return getSqlSession().selectList("member.getList");
-	}
+/**	회원 목록	*/
+		public List<MemberCommand> getList(){
+			return getSqlSession().selectList("member.getList");
+		}
+	/*	DESC 정렬	*/
+		// 회원 아이디
+		public List<MemberCommand> getListById_DESC(){
+			return getSqlSession().selectList("member.getListById_DESC");
+		}
+		// 회원가입일
+		public List<MemberCommand> getListByRegDate_DESC(){
+			return getSqlSession().selectList("member.getListByRegDate_DESC");
+		}
+		// 추천수
+		public List<MemberCommand> getListByRecommend_DESC(){
+			return getSqlSession().selectList("member.getListByRecommend_DESC");
+		}
+	/*	ASC 정렬	*/
+		// 회원 아이디
+		public List<MemberCommand> getListById_ASC(){
+			return getSqlSession().selectList("member.getListById_ASC");
+		}
+		// 회원가입일
+		public List<MemberCommand> getListByRegDate_ASC(){
+			return getSqlSession().selectList("member.getListByRegDate_ASC");
+		}
+		// 추천수
+		public List<MemberCommand> getListByReccomend_ASC(){
+			return getSqlSession().selectList("member.getListByRecommend_ASC");
+		}
 	
 	public void delete(HashMap<String, String> map){
 		getSqlSession().delete("member.delete", map);

@@ -51,13 +51,13 @@
          <div id="allBoardManagement" class="MemberManageTitle">
             <a id="name" href="/administrator/adminBoard.do" >
                <!-- <img src="../image/list_icon.png" width="35" height="35"> -->
-               	전체 게시글 관리  (${listcount})
+               	게시글 관리  (${listcount})
             </a>
          </div>
          <div id="allMemberManagement" class="MemberManageTitle">
             <a id="name" href="/administrator/adminMem.do">
             <!--    <img src="../image/default_profile.png" width="35" height="35"> -->
-              	 전체 회원 관리 (${count})
+              	 회원 관리 (${count})
             </a>
          </div>
       </div>

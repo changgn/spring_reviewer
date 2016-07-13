@@ -22,8 +22,8 @@
 			.Member{padding: 8px 10px 8px 10px; position: relative; border: 1px; border-color: #D5D5D5; border-style: solid;}
 			.Member_Detaile_Info{display: none; position: fixed; z-index: 9999;top: 0;right: 0;bottom: 0;left: 0;line-height: 100%;text-align: center;}
 			
-			.mem_d_i{display: inline-block;position: relative;z-index: 10000;width: 450px;background-color: #fff;line-height: normal;vertical-align: middle; top:300px;}
-			.Sort_Menu{text-align: right;}
+			.mem_d_i{display: inline-block;position: relative;z-index: 10000;width: 500px;background-color: #fff;line-height: normal;vertical-align: middle; top:300px;}
+			.Sort_Menu{text-align: right; right: 10px; padding-right: 20px;}
 		</style>
 		<link href="../css/style.css" rel="stylesheet" type="text/css">
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
@@ -37,37 +37,57 @@
 				$("body").on("click", ".Member_Detaile_Info", function(e){
 					$(this).hide();
 				});	
-				
+			});
+			/* $(function(){
+				$(".sort_button").click(function(){
+					$(location).attr("href", "/administrator/adminMem.do?kind=" + $(this).attr("id") + "&sort=" + $(this).attr("title"));
+				});
+			}); */
+			$(function(){
+				$(".Sort_Menu").on("click", ".sort_button", function(event){
+					var url = "/administrator/adminMemSort.do"
+					var data = "kind=" + $(this).attr("id");
+					data += "&sort=" + $(this).attr("title");
+					$.ajax({
+						type : "post",
+						data : data,
+						dataType : "json",
+						success : function(args){
+							var memberList = args.memberList;
+							$(".Member_List_wrap").find("c:forEach").attr("items", "${" + memberList + "}");
+						},
+						error:function(e) {
+					    	alert(e.responseText);
+					    }
+					});
+				});
 			});
 		</script>
 	</head>
 	<body>
-		<div class="MemberManageTitle">
-			전체 회원 (${count})
-		</div>
+		<div class="MemberManageTitle">	전체 회원 (${count}) </div>
 		<div class="Sort_Menu">
-				<br/>
-				추천
-				<a class="sort_desc_recommend">
-					<img src="../image/icon_up.png">
+				<span class="sort_name" id="id"> 아이디 </span>
+				<a href="/administrator/adminMemSort.do" class="sort_button" id="id" title="DESC">
+					<img src="../image/icon_up.png" >
 				</a>
-				<a class="sort_asc_recommend">
+				<a href="#" class="sort_button" id="id" title="ASC">
 					<img src="../image/icon_down.png">
 				</a>
 				&nbsp;<img src="../image/icon_08.png" height="15">&nbsp;
-				작성 게시글
-				<a class="sort_desc_boardCount">
-					<img src="../image/icon_up.png">
+				<span class="sort_name" id="recommend">	추천 </span>
+				<a href="/administrator/adminMemSort.do" class="sort_button" id="recommend" title="DESC">
+					<img src="../image/icon_up.png" >
 				</a>
-				<a class="sort_asc_boardCount">
+				<a href="#" class="sort_button" id="recommend" title="ASC">
 					<img src="../image/icon_down.png">
 				</a>
 				&nbsp;<img src="../image/icon_08.png" height="15">&nbsp;
-				회원가입일
-				<a class="sort_desc_regDate">
+				<span class="sort_name" id="regDate"> 회원가입일 </span>
+				<a href="/administrator/adminMemSort.do" class="sort_button" id="regDate" title="DESC">
 					<img src="../image/icon_up.png">
 				</a>
-				<a class="sort_asc_regDate">
+				<a href="#" class="sort_button" id="regDate" title="ASC">
 					<img src="../image/icon_down.png">
 				</a>
 		</div>
@@ -78,16 +98,13 @@
 						<div align="center" class="Member_Simple_Info" id="${memberList.id}">
 							<table class="Member_Simple_Info" id="${memberList.id}">
 								<tr id="${memberList.id}" class="Member_Simple_Info">
-									<td width="25%" align="left">
+									<td width="33.3%" align="left">
 										아이디 : ${memberList.id}
 									</td>
-									<td width="25%">
+									<td width="33.3%">
 										<img src="../image/recommend_off.png" width="15" height="15"> 추천 받은 수 : ${memberList.recommend_num }
 									</td>
-									<td width="25%">
-										<img src="../image/list_icon.png" width="15" height="15">작성 게시글 : ${boardCount[memberList.id]}
-									</td>
-									<td width="25%">
+									<td width="33.3%">
 										가입일시 : <fmt:formatDate value="${memberList.reg_date}" pattern="yyyy-MM-dd HH:mm"/>
 									</td>
 								</tr>
@@ -97,7 +114,7 @@
 							<div class="ly_dimmed"></div>
 							<table class="mem_d_i ul_list">
 								<tr>
-									<td rowspan="13" align="right">
+									<td rowspan="13" align="right" width="33.3%">
 										<c:choose>
 											<c:when test="${profilePhoto[memberList.id].realPath != null}">
 												<a href="/profile/myProfile.do?id=${memberList.id}">
@@ -111,8 +128,8 @@
 											</c:otherwise>
 										</c:choose>
 									</td>
-									<td class="space" width="10"></td>
-									<td rowspan="13" align="right">
+									<td class="space" width="33.3%"></td>
+									<td rowspan="13" align="right" width="33.3#">
 										<a id="name" href="/administrator/adminOutput.do?outId=${memberList.id}">
 											<img src="../image/memOut_con.png" width="120" height="120" align="middle">
 										</a>

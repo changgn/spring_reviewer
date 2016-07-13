@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import command.BoardCommand;
 import command.CategoryCommand;
 import command.MemberCommand;
 import command.ProfilePhotoCommand;
+import net.sf.json.JSONObject;
 
 @Controller
 public class AdminController extends BaseController {
@@ -83,27 +85,10 @@ public class AdminController extends BaseController {
 	
 	/**	회원 관리	*/
 	@RequestMapping("/administrator/adminMem.do")
-	public ModelAndView adminMemForm(HttpServletRequest request){
+	public ModelAndView adminMemForm(HttpServletRequest request, String sort, String kind){
 		ModelAndView mav = new ModelAndView();
-		// 회원 수
-		int count = 0;      
-		count = memberDao.count();
-		count -= 1;
-		mav.addObject("count", count);
-		// 회원 정보 목록
-		List<MemberCommand> member_list = null;
-		member_list = memberDao.getList(); 
-		mav.addObject("memberList", member_list);	
-		// 관리자 로그인 ID
-		String id = (String)request.getSession().getAttribute("id");
-		if(id.equals("admin")){
-			mav.addObject("admin", id);
-		}
 		List<String> id_list = new ArrayList<String>();
-		id_list = memberDao.getIdList();
-		if(id_list.contains(id)){
-			id_list.remove(id);
-		}
+		List<MemberCommand> member_list = new ArrayList<MemberCommand>();
 		Map<String, Object> abmap = new HashMap<String, Object>();
 		Map<String, Object> rbmap = new HashMap<String, Object>();
 		Map<String, Object> pbmap = new HashMap<String, Object>();
@@ -111,6 +96,21 @@ public class AdminController extends BaseController {
 		Map<String, Object> sbmap = new HashMap<String, Object>();
 		Map<String, Object> Member_Category_Id_map = new HashMap<String, Object>();
 		Map<String, Object> Category_Id_Info_map = new HashMap<String, Object>();
+		// 관리자 로그인 ID
+		String id = (String)request.getSession().getAttribute("id");
+		if(id.equals("admin")){
+			mav.addObject("admin", id);
+		}
+		// 회원 수
+		int count = 0;      
+		count = memberDao.count();
+		count -= 1;
+		mav.addObject("count", count);
+		// ID 목록
+		id_list = memberDao.getIdList();
+		if(id_list.contains(id)){
+			id_list.remove(id);
+		}
 		// 해당ID의 게시글 수
 		int boardCount = 0;
 		for(String mid : id_list){
@@ -118,6 +118,31 @@ public class AdminController extends BaseController {
 			rbmap.put(mid, boardCount);
 		}
 		mav.addObject("boardCount", rbmap);
+		// 회원 정보 목록
+		if(kind == null ) kind = "noKind";
+		if(sort == null ) sort = "noSort";
+		if(kind.equals("recommend")){
+			if(sort.equals("DESC")){
+				member_list = memberDao.getListByRecommend_DESC();
+			}else{
+				member_list = memberDao.getListByReccomend_ASC();
+			}
+		}else if(kind.equals("regDate")){
+			if(sort.equals("DESC")){
+				member_list = memberDao.getListByRegDate_DESC();
+			}else{
+				member_list = memberDao.getListByRegDate_ASC();
+			}
+		}else if(kind.equals("id")){
+			if(sort.equals("DESC")){
+				member_list = memberDao.getListById_DESC();
+			}else{
+				member_list = memberDao.getListById_ASC();
+			}
+		}else{	/*	kind - noKink, sort - noSort	*/
+			member_list = memberDao.getList();
+		}
+		mav.addObject("memberList", member_list);
 		// 해당ID가 추천한 게시글 수
 		int recommendCount = 0;
 		for(String plist : id_list){
@@ -158,7 +183,6 @@ public class AdminController extends BaseController {
 					catecory_command = categoryDao.getOne(category_id);
 					Category_Id_Info_map.put(category_id, catecory_command);
 				}
-				
 				Member_Category_Id_map.put(member_id, member_category_id_list);
 			}
 		}
@@ -167,6 +191,42 @@ public class AdminController extends BaseController {
 		mav.setViewName("administrator/adminMem");
 		return mav;
 	}
+	
+	/**	회원 관리 정렬 AJAX	*/
+	@RequestMapping("/administrator/adminMemSort.do")
+	public String adminMemSort(HttpServletRequest request, HttpServletResponse response, String sort, String kind, Model model){
+		JSONObject jso = new JSONObject();
+		List<MemberCommand> member_list = new ArrayList<MemberCommand>();
+		// 회원 정보 목록
+		if(kind == null ) kind = "noKind";
+		if(sort == null ) sort = "noSort";
+		if(kind.equals("recommend")){
+			if(sort.equals("DESC")){
+				member_list = memberDao.getListByRecommend_DESC();
+			}else{
+				member_list = memberDao.getListByReccomend_ASC();
+			}
+		}else if(kind.equals("regDate")){
+			if(sort.equals("DESC")){
+				member_list = memberDao.getListByRegDate_DESC();
+			}else{
+				member_list = memberDao.getListByRegDate_ASC();
+			}
+		}else if(kind.equals("id")){
+			if(sort.equals("DESC")){
+				member_list = memberDao.getListById_DESC();
+			}else{
+				member_list = memberDao.getListById_ASC();
+			}
+		}else{	/*	kind - noKink, sort - noSort	*/
+			member_list = memberDao.getList();
+		}
+			
+		jso.put("memberList", member_list);
+		response.setContentType("text/html;charset=utf-8");
+		return jso.toString();
+	}
+	
 	
 	/**	회원 강제 탈퇴	*/
 	@RequestMapping("/administrator/adminOutput.do")
