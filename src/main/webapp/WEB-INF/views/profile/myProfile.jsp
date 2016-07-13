@@ -479,6 +479,7 @@ $(function() {
 							<span class="u_ico_coment">댓글</span>
 							<span class="text_num">${board.commentCount}</span>				
 						</a>
+						<c:if test="${login_status==0 || login_status==1}">
 						<a href="#" id="${board.board.board_num}" class="btns_screp btns_scr_items" >
 							<span class="u_ico_screp">
 								<c:if test="${board.screpFlag == 'screp'}">
@@ -490,6 +491,7 @@ $(function() {
 								</c:if>		
 		                	</span><em class="u_txt">스크렙</em><em id="screp_cnt${board.board.board_num}" class="u_cnt"> ${board.board.screp}</em>
 						</a>
+						</c:if>
 		       		</div>
 		       	</div>
 			</div>
