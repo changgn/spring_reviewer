@@ -23,8 +23,11 @@ public class NoticeController extends BaseController {
 		
 		//session 에서 id값을 가지고 온다.
 		JSONObject jso = new JSONObject();
-		
+
 		String id = (String)session.getAttribute("id");
+		int noReadNoticeCount = noticeDao.getNoReadCountById(id);
+		session.setAttribute("noReadNoticeCount", noReadNoticeCount);
+		
 		List<NoticeCommand> noticeList = noticeDao.getListById(id);
 		List<String> dateList = new ArrayList<String>();
 		
@@ -44,9 +47,29 @@ public class NoticeController extends BaseController {
 			}
 			dateList.add(date_str);
 		}
+		jso.put("noReadNoticeCount", noReadNoticeCount);
 		jso.put("noticeList", noticeList);
 		jso.put("dateList", dateList);
 
+		resp.setContentType("text/html;charset=utf-8");
+		return jso.toString();
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/notice/noticeCount.do", method = RequestMethod.POST)
+	public String noticeCount(HttpServletResponse resp, HttpSession session) throws Exception{
+
+		JSONObject jso = new JSONObject();
+		
+		//session 에서 id값을 가지고 온다.
+		String id = (String)session.getAttribute("id");
+		
+		if(id!=null) {
+			int noReadNoticeCount = noticeDao.getNoReadCountById(id);
+			session.setAttribute("noReadNoticeCount", noReadNoticeCount);
+			jso.put("noReadNoticeCount", noReadNoticeCount);
+		}
+		
 		resp.setContentType("text/html;charset=utf-8");
 		return jso.toString();
 	}
