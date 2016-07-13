@@ -15,7 +15,7 @@
 	<div id="header">
 	<!-- 헤더 -->
 		<h1 id="logo">
-			<a id="logo_btn" href="/main/main.do" title="Reviewer">Reviewer</a>
+			<a id="logo_btn" href="/main/main.do?sort=all" title="Reviewer">Reviewer</a>
 		</h1>
 		<span id="main_btn">
 			<a class="btn_gnb" href="/search/search.do">

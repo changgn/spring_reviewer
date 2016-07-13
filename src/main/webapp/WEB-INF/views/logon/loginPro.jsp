@@ -9,7 +9,7 @@
 </head>
 <body>
 <c:if test="${message == null}">
-	<c:redirect url="/main/main.do"/>
+	<c:redirect url="/main/main.do?sort=all"/>
 </c:if>
 <c:if test="${message != null}">
 	<c:if test="${ message == 'errID'}">

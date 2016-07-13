@@ -1691,7 +1691,7 @@ $(function(){
 						str += '<div class="category_set' + args.categoryList[idx].category_id + ' size_long">';
 						str += '<div id="add_' + args.categoryList[idx].category_id + '" class="size_short">';
 						str += args.categoryList[idx].group1 + "," + args.categoryList[idx].group2 + "," + args.categoryList[idx].group3 + "</div>";
-						str += '<div id="del_' + args.categoryList[idx].category_id + '" class="del_category btn_short"><a href="#">삭&nbsp;&nbsp;&nbsp;제</a></div></div>'
+						str += '<div id="del_' + args.categoryList[idx].category_id + '" class="del_category btn_short"><a href="#" onclick="event.preventDefault();">삭&nbsp;&nbsp;&nbsp;제</a></div></div>'
 						$("#category_added_all").append(str);
 						$(".add_ctgry_input").remove();
 						addcount = 0;

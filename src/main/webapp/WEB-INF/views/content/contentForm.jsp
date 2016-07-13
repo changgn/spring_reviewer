@@ -11,7 +11,7 @@
 <script>
 $(document).ready(function(){
 	if("${error}"=="error") {
-		$(location).attr("href", "/main/main.do");
+		$(location).attr("href", "/main/main.do?sort=all");
 	}
 	$(".cont_popup li").mouseover(function(){
 		$(this).css("background-color","#F6F6F6");

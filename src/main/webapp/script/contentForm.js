@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	if("${error}"=="error") {
-		$(location).attr("href", "/main/main.do");
+		$(location).attr("href", "/main/main.do?sort=all");
 	}
 });
 $(window).load(function(){

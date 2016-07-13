@@ -437,7 +437,21 @@ $(function() {
 		</div>
 		<div class="btn_sort_area">
 			<a href="#" class="btn_sort">
-				<span id="${sort}" class="btn_sort_text">분<br /><br />류<br /><br />설<br /><br />정</span>
+				<span id="${sort}" class="btn_sort_text">
+					<!-- 분<br /><br />류<br /><br />설<br /><br />정 -->
+					<c:if test="${sort == 'all'}">
+						전<br /><br /><br /><br /><br /><br />체
+					</c:if>
+					<c:if test="${sort == 'category'}">
+						카<br /><br />테<br /><br />고<br /><br />리
+					</c:if>
+					<c:if test="${sort == 'follow'}">
+						팔<br /><br /><br />로<br /><br /><br />우
+					</c:if>
+					<c:if test="${sort == 'category_follow'}">
+						카<br />테<br />고<br />리<br />팔<br />로<br />우
+					</c:if>
+				</span>
 			</a>
 		</div>
 		<div class="btn_sort_list_area">

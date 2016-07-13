@@ -43,7 +43,7 @@ $(function(){
 		$("form")[0].reset();
 	});
 	$("#modify_btn_cancel").click(function(){
-		$(location).attr("href","/main/main.do");
+		$(location).attr("href","/main/main.do?sort=all");
 	});
 	$("#modify_btn_modify").click(function(){
 		if($("#id").val()==""){

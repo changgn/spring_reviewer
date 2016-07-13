@@ -14,7 +14,7 @@
 		</script>
 	</c:if>
 	<c:if test="${reportok == 'reportfalse'}">
-		<% response.sendRedirect("/main/mainForm.do"); %>
+		<% response.sendRedirect("main/main.do?sort=all"); %>
 	</c:if>
 	<c:if test="${reportn == 'reportn'}">
 		<script>
