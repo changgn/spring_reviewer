@@ -354,7 +354,7 @@ $(function() {
 	<div id="nav_content_screp">
 		<ul id="list_nav" class="ul_list">
 			<li id="my_content"> <!-- Content 페이지로 요청, 내가 작성한 게시글 목록을 보여 준다. -->
-				<div class="my_content_screp"><a class="nav_btn" href="#">게 시 물&nbsp;&nbsp;<span id="myCount">${myCount}</span></a></div>
+				<div class="my_content_screp"><a class="nav_btn" href="#">게 시 글&nbsp;&nbsp;<span id="myCount">${myCount}</span></a></div>
 			</li>
 			<li id="my_screp"> <!-- Screp 글 목록 페이지 이동 요청, 내가 스크렙한 게시글 목록을 보여준다. -->
 				<div class="my_content_screp"><a id="nav_btn_screp" class="nav_btn" href="#">스 크 랩&nbsp;&nbsp;<span id="screpCount">${screpCount}</span></a></div>

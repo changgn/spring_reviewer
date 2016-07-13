@@ -238,7 +238,7 @@ pre { white-space: pre-wrap; }
 #comment_menu_btn_img_rap { display: block; float: right; width: 20px; padding-right: 8px;}
 #comment_menu_btn_img{display: block; float: right; width: 4px;height: 22px; background-position: -300px 0;overflow: hidden;line-height: 999px;vertical-align: top;background-image: url("../image/icon_08.png");}
 .view_content_photo_list { display: none;position: fixed;z-index: 9999;top: 0;right: 0;bottom: 0;left: 0;line-height: 100%;text-align: center; }
-.view_content_photo { position: fixed; z-index: 10000; width: 100%; top:10%; }
+.view_content_photo { position: fixed; z-index: 10000; overflow:auto; width: 100%; top:10%; }
 .view_content_photo img{ height: 80%; }
 #left_btn { display:inline-block; position: fixed; z-index: 10002; width: 70px; height: 100px; top: 45%; left: 3%; background-image: url("../image/left_btn.png"); background-repeat: no-repeat; background-position: center; }
 #right_btn { display:inline-block; position: fixed; z-index: 10002; width: 70px; height: 100px; top: 45%; right: 3%; background-image: url("../image/right_btn.png"); background-repeat: no-repeat; background-position: center; }
