@@ -64,7 +64,7 @@
 						<span class="user_name">
 							${profileId}
 						</span>
-						님의 팔로우
+						님의 팔로잉
 					</span>
 				</a>
 			</h2>
@@ -77,7 +77,7 @@
 						<li class="follow_list_item_wrap" id="follow_list_item_wrap_${toId}">
 							<div class="follow_List_item">
 								<div class="follow_List_item_profile_info_wrap">
-									<a href="/profile/myProfile.do?id=${toId}"title="팔로우 정보" class="link_follow_profile">
+									<a href="/profile/myProfile.do?id=${toId}"title="팔로잉 정보" class="link_follow_profile">
 										<span class="profile_thumb">
 											<img src="${list_profile_photo[toId].realPath}" width="55" height="55" align="middle"> 
 					  						<span class="profile_thumb_mask"></span>

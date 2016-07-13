@@ -26,6 +26,7 @@
 			.Report_Board_Info{display: inline-block;position: relative; width: 300px auto;background-color: #fff;line-height: normal;vertical-align: middle; }
 			.Popul_Board_Detaile_Info{position: relative; top: 0;right: 0;bottom: 0;left: 0;line-height: 100%;text-align: center;}
 			.Popul_Board_Info{display: inline-block;position: relative; width: 300px auto;background-color: #fff;line-height: normal;vertical-align: middle; }
+			.re_popup_close{display: inline-block;overflow: hidden;width: 100%;height: 60px;border: none;font-size: 16px;color: #414042;line-height: 60px;text-align: center;vertical-align: top;}
 		</style>
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 		<script>
@@ -79,6 +80,37 @@
 						popul_info.hide();
 					}
 				});
+				
+				$("body").on("click", ".re_menu_option", function(e){
+					e.preventDefault();
+					var b = $("#memList_" + $(this).attr("id"));
+					var url= "/recommend/member.do";
+					var params = "board_num=" + $(this).attr("id");
+					$.ajax({
+						type:"post"		// 포스트방식
+						,url:url		// url 주소
+						,data:params	//  요청에 전달되는 프로퍼티를 가진 객체
+						,dataType:"json"
+						,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
+							var members = args.members;
+							$(".re_popup_close").remove();
+							for(var idx=0; idx<members.length; idx++) {
+								$(".re_popup").append("<li><a href='/profile/myProfile.do?id=" + members[idx] + "' class='re_popup_close'>" + members[idx] + "</a></li>")
+							}
+							if(members.length==0) {
+								$(".re_popup").append("<li><a href='#' class='re_popup_close' onclick='event.preventDefault();'>게시물을 추천해 주세요</a></li>");
+							}
+							
+						}
+					    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+					    	alert(e.responseText);
+					    }
+					});
+					b.css({}).show();
+				});
+				$("body").on("click", ".re_btn_option", function(){
+					$(this).hide();
+				});	
 			});
 			$(function () {	
 				tab('#tab',0);
@@ -166,7 +198,16 @@
 							</tr>
 							<tr>
 								<td>
-									추천 <img src="../image/recommend_off.png" width="10" height="10"> : ${board.recommend_num}
+									<a href="#" id="${board.board_num}" class="re_menu_option">
+		              					추천 <img src="../image/recommend_off.png" width="10" height="10"> 
+		              					<em id="u_cnt${board.board_num}" >
+		              						: ${board.recommend_num}
+		              					</em>
+		              				</a>
+								</td>
+								<td id="memList_${board.board_num}" class="re_btn_option">
+									<div class="ly_dimmed"></div>
+									<ul class="re_popup ul_list"></ul>
 								</td>
 							</tr>
 							<tr>

@@ -1,9 +1,7 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page isELIgnored="false"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <html>
 	<head>
 		<style>
@@ -32,34 +30,10 @@
 				$("body").on("click", ".Member_Simple_Info", function(e){
 					e.preventDefault();
 					var a = $("#menu_" + $(this).attr("id"));
-				a.show();
+					a.show();
 				});
 				$("body").on("click", ".Member_Detaile_Info", function(e){
 					$(this).hide();
-				});	
-			});
-			/* $(function(){
-				$(".sort_button").click(function(){
-					$(location).attr("href", "/administrator/adminMem.do?kind=" + $(this).attr("id") + "&sort=" + $(this).attr("title"));
-				});
-			}); */
-			$(function(){
-				$(".Sort_Menu").on("click", ".sort_button", function(event){
-					var url = "/administrator/adminMemSort.do"
-					var data = "kind=" + $(this).attr("id");
-					data += "&sort=" + $(this).attr("title");
-					$.ajax({
-						type : "post",
-						data : data,
-						dataType : "json",
-						success : function(args){
-							var memberList = args.memberList;
-							$(".Member_List_wrap").find("c:forEach").attr("items", "${" + memberList + "}");
-						},
-						error:function(e) {
-					    	alert(e.responseText);
-					    }
-					});
 				});
 			});
 		</script>
@@ -67,32 +41,65 @@
 	<body>
 		<div class="MemberManageTitle">	전체 회원 (${count}) </div>
 		<div class="Sort_Menu">
-				<span class="sort_name" id="id"> 아이디 </span>
-				<a href="/administrator/adminMemSort.do" class="sort_button" id="id" title="DESC">
-					<img src="../image/icon_up.png" >
+			<c:if test="${kind eq 'noKind' &&sort eq 'noSort'}">
+				<a href="/administrator/adminMem.do?kind=id&sort=DESC">
+					아이디
 				</a>
-				<a href="#" class="sort_button" id="id" title="ASC">
-					<img src="../image/icon_down.png">
+				&nbsp;
+				<img src="../image/icon_08.png" height="15">
+				&nbsp;
+				<a href="/administrator/adminMem.do?kind=recommend&sort=DESC">
+					추천
 				</a>
-				&nbsp;<img src="../image/icon_08.png" height="15">&nbsp;
-				<span class="sort_name" id="recommend">	추천 </span>
-				<a href="/administrator/adminMemSort.do" class="sort_button" id="recommend" title="DESC">
-					<img src="../image/icon_up.png" >
+				&nbsp;
+				<img src="../image/icon_08.png" height="15">
+				&nbsp;
+				<a href="/administrator/adminMem.do?kind=regDate&sort=DESC">
+					회원가입 
 				</a>
-				<a href="#" class="sort_button" id="recommend" title="ASC">
-					<img src="../image/icon_down.png">
-				</a>
-				&nbsp;<img src="../image/icon_08.png" height="15">&nbsp;
-				<span class="sort_name" id="regDate"> 회원가입일 </span>
-				<a href="/administrator/adminMemSort.do" class="sort_button" id="regDate" title="DESC">
-					<img src="../image/icon_up.png">
-				</a>
-				<a href="#" class="sort_button" id="regDate" title="ASC">
-					<img src="../image/icon_down.png">
-				</a>
+			</c:if>
+			<c:if test="${kind ne 'noKind' &&sort ne 'noSort'}">
+				<c:if test="${sort eq 'DESC'}">
+					<a href="/administrator/adminMem.do?kind=id&sort=DESC">
+						아이디
+					</a>
+				</c:if>
+				<c:if test="${sort eq 'ASC'}">
+					<a href="/administrator/adminMem.do?kind=id&sort=ASC">
+						아이디 
+					</a>
+				</c:if>
+				&nbsp;
+				<img src="../image/icon_08.png" height="15">
+				&nbsp;
+				<c:if test="${sort eq 'DESC'}">
+					<a href="/administrator/adminMem.do?kind=recommend&sort=DESC">
+						추천 
+					</a>
+				</c:if>
+				<c:if test="${sort eq 'ASC'}">
+					<a href="/administrator/adminMem.do?kind=recommend&sort=ASC">
+						추천
+					</a>
+				</c:if>
+				&nbsp;
+					<img src="../image/icon_08.png" height="15">
+				&nbsp;
+				<c:if test="${sort eq 'DESC'}">
+					<a href="/administrator/adminMem.do?kind=regDate&sort=DESC">
+						회원가입
+					</a>
+				</c:if>
+				<c:if test="${sort eq 'ASC'}">
+					<a href="/administrator/adminMem.do?kind=regDate&sort=ASC">
+						회원가입 
+					</a>
+				</c:if>
+			</c:if>
 		</div>
 		<div class="Member_List_wrap">
-			<c:forEach var="memberList" items="${memberList}">
+			<c:set var="member_List" value="${memberList}"/>
+			<c:forEach var="memberList" items="${member_List}">
 				<c:if test="${memberList.id ne admin}">
 					<div class="Member">
 						<div align="center" class="Member_Simple_Info" id="${memberList.id}">
@@ -128,7 +135,7 @@
 											</c:otherwise>
 										</c:choose>
 									</td>
-									<td class="space" width="33.3%"></td>
+									<td></td>
 									<td rowspan="13" align="right" width="33.3#">
 										<a id="name" href="/administrator/adminOutput.do?outId=${memberList.id}">
 											<img src="../image/memOut_con.png" width="120" height="120" align="middle">

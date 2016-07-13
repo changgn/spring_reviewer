@@ -1,5 +1,7 @@
 package dao;
 
+import java.util.List;
+
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 
 import command.ReportCommand;
@@ -17,7 +19,10 @@ public class ReportDAO extends SqlSessionDaoSupport{
 	public int getReportCountById(String id){
 		return getSqlSession().selectOne("report.getReportCountById", id);
 	}
-	
+	/**	게시글 신고 ID 정보	*/
+	public List<String> getIdListByBoardNum(Integer board_num){
+		return getSqlSession().selectList("report.getIdListByBoardNum", board_num);
+	}
 	/**	신고 테이블 해당 board_num 데이터 삭제 BY 게시글 삭제	*/
 	public int deleteReport(int board_num){
 		return getSqlSession().delete("report.delete", board_num);

@@ -33,7 +33,6 @@
             $("#allBoardManagement").css("background-color","white");
             });            
       });
-      
       $(document).ready(function(){
       $("#allMemberManagement").hover(function(){
             $("#allMemberManagement").css("background-color","#f6f6f6");
@@ -42,7 +41,11 @@
             $("#allMemberManagement").css("background-color","white");
             });
          });
-      
+      $(function(){
+    	$(".adminMain").on("click", ".MemberManageTitle", function(){
+  			$(location).attr("href", "/administrator/adminBoard.do");
+  		}); 
+      });
       </script>
    </head>
    
@@ -50,13 +53,11 @@
       <div id="adminMain" align="center">
          <div id="allBoardManagement" class="MemberManageTitle">
             <a id="name" href="/administrator/adminBoard.do" >
-               <!-- <img src="../image/list_icon.png" width="35" height="35"> -->
                	게시글 관리  (${listcount})
             </a>
          </div>
          <div id="allMemberManagement" class="MemberManageTitle">
             <a id="name" href="/administrator/adminMem.do">
-            <!--    <img src="../image/default_profile.png" width="35" height="35"> -->
               	 회원 관리 (${count})
             </a>
          </div>

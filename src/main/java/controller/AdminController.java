@@ -118,30 +118,45 @@ public class AdminController extends BaseController {
 			rbmap.put(mid, boardCount);
 		}
 		mav.addObject("boardCount", rbmap);
-		// 회원 정보 목록
+		// 분류, 정렬
 		if(kind == null ) kind = "noKind";
 		if(sort == null ) sort = "noSort";
+		// 회원 정보 목록
 		if(kind.equals("recommend")){
 			if(sort.equals("DESC")){
-				member_list = memberDao.getListByRecommend_DESC();
-			}else{
 				member_list = memberDao.getListByReccomend_ASC();
+				kind = "recommend";
+				sort = "ASC";
+			}else{
+				member_list = memberDao.getListByRecommend_DESC();
+				kind = "recommend";
+				sort = "DESC";
 			}
 		}else if(kind.equals("regDate")){
 			if(sort.equals("DESC")){
-				member_list = memberDao.getListByRegDate_DESC();
-			}else{
 				member_list = memberDao.getListByRegDate_ASC();
+				kind = "regDate";
+				sort = "ASC";
+			}else{
+				member_list = memberDao.getListByRegDate_DESC();
+				kind = "regDate";
+				sort = "DESC";
 			}
 		}else if(kind.equals("id")){
 			if(sort.equals("DESC")){
-				member_list = memberDao.getListById_DESC();
-			}else{
 				member_list = memberDao.getListById_ASC();
+				kind = "id";
+				sort = "ASC";
+			}else{
+				member_list = memberDao.getListById_DESC();
+				kind = "id";
+				sort = "DESC";
 			}
 		}else{	/*	kind - noKink, sort - noSort	*/
 			member_list = memberDao.getList();
 		}
+		mav.addObject("kind", kind);
+		mav.addObject("sort", sort);
 		mav.addObject("memberList", member_list);
 		// 해당ID가 추천한 게시글 수
 		int recommendCount = 0;
@@ -194,34 +209,35 @@ public class AdminController extends BaseController {
 	
 	/**	회원 관리 정렬 AJAX	*/
 	@RequestMapping("/administrator/adminMemSort.do")
-	public String adminMemSort(HttpServletRequest request, HttpServletResponse response, String sort, String kind, Model model){
+	public String adminMemSort(HttpServletRequest request, HttpServletResponse response, String kind, String sort, Model model){
 		JSONObject jso = new JSONObject();
 		List<MemberCommand> member_list = new ArrayList<MemberCommand>();
-		// 회원 정보 목록
-		if(kind == null ) kind = "noKind";
-		if(sort == null ) sort = "noSort";
+		// 분류별 정렬별 회원목록
+//		if( kind == null ) kind = "noKind";
+//		if( sort == null ) sort = "noSort";
 		if(kind.equals("recommend")){
 			if(sort.equals("DESC")){
-				member_list = memberDao.getListByRecommend_DESC();
-			}else{
 				member_list = memberDao.getListByReccomend_ASC();
+			}else{
+				member_list = memberDao.getListByRecommend_DESC();
 			}
 		}else if(kind.equals("regDate")){
 			if(sort.equals("DESC")){
-				member_list = memberDao.getListByRegDate_DESC();
-			}else{
 				member_list = memberDao.getListByRegDate_ASC();
+			}else{
+				member_list = memberDao.getListByRegDate_DESC();
 			}
 		}else if(kind.equals("id")){
 			if(sort.equals("DESC")){
-				member_list = memberDao.getListById_DESC();
-			}else{
 				member_list = memberDao.getListById_ASC();
+			}else{
+				member_list = memberDao.getListById_DESC();
 			}
-		}else{	/*	kind - noKink, sort - noSort	*/
+		}else{	/*	kind - noKind, sort - noSort	*/
 			member_list = memberDao.getList();
 		}
-			
+		jso.put("kind", kind);
+		jso.put("sort", sort);
 		jso.put("memberList", member_list);
 		response.setContentType("text/html;charset=utf-8");
 		return jso.toString();

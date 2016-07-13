@@ -14,6 +14,10 @@
 	<select id="getSureBoardReportById" parameterType="command.ReportCommand" resultType="command.ReportCommand">
 		select * from report where id=#{id} and report_num=#{board_num}
 	</select>
+	<!-- 게시글 신고 ID 정보 -->
+	<select id="getIdListByBoardNum" parameterType="java.lang.Integer" resultType="java.lang.String">
+		select id from report where report_num=${board_num}
+	</select>
 	<!-- 신고 테이블 변경 By 게시글 삭제-->
 	<delete id="delete" parameterType="java.lang.Integer">
 		delete from report where report_num=#{board_num}
