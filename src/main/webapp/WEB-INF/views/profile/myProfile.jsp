@@ -105,8 +105,8 @@ $(function(){
 		e.preventDefault();
 		var url= "/screp/screp.do"; // 스크렙 버튼, 스크렙 상태 처리를 위한 페이지 요청
 		var params = "board_num=" + $(this).attr("id"); // 스크렙 상태처리를 위해 파라미터 값으로 받아올 대상 아이디
-		params += "&page=profile"; // 페이지 파라미터 값
-		params += "&paramId=" + $("#id_profile").text(); //버튼 클릭 후, 페이지이동을 수행하기 위해 받아올 파라미터 id 값
+		params += "&page=profile"; // 페이지 정보로 받아올 파라미터 값
+		params += "&paramId=" + $("#id_profile").text(); //버튼 클릭 후, 페이지이동을 수행하기 위해 받아올 파라미터 대상 아이디 값
 		
 		$.ajax({
 			type:"post"		// 포스트방식
@@ -179,7 +179,7 @@ $(function(){
 	});
 	$("#secret_content").click(function(e){
 		e.preventDefault();
-		var url= "/content/secret.do";
+		var url= "/content/secret.do"; // 게시글을 숨기기 위한 페이지 요청
 		var params = "board_num=" + $(this).attr("id");
 		$.ajax({
 			type:"post"		// 포스트방식
@@ -202,10 +202,10 @@ $(function() {
 	$(".list_view_more").click(function(e) { 
     	e.preventDefault();
     	var url = "/profile/myProfileAjax.do";
-    	var params = "lastBoard_num=" + $("#lastBoard_num").val();      // 현재 리스트의 마지막글 번호를 가져온다.
-    	params += "&paramId=" + $("#id_profile").text();  
+    	var params = "lastBoard_num=" + $("#lastBoard_num").val();  // 현재 리스트의 마지막글 번호를 가져온다.
+    	params += "&paramId=" + $("#id_profile").text(); // 프로필 페이지로 이동시키기 위한 대상 아이디의 파라미터 값  
     	if($("#pageInfo").val()=="screp") {
-    		params += "&pageInfo=screp";
+    		params += "&pageInfo=screp"; // 스크렙 게시글 페이지 정보에 들어갈 파라미터 값
     	}
     	$.ajax({
               type: "post",
@@ -213,7 +213,7 @@ $(function() {
               data:params,   	// 현재 리스트에 뿌려져있는 마지막 글 번호를 넣어준다. 그래야지 리스트의 마지막글 다음부터의 리스트를 가져온다.
               dataType:"json",
               beforeSend:  function() {
-             	 $(".view_more").append('<img id="loadingimg" src="../image/loading.gif" />');    // 로딩 진행줄일때 .gif로 로딩중이라는거 표시 
+             	 $(".view_more").append('<img id="loadingimg" src="../image/loading.gif" />');  // 로딩 진행줄일때 .gif로 로딩중이라는거 표시 
 	          },
 	          success: function(args){
 	        	  var allBoardList = args.allBoardList;
@@ -312,7 +312,7 @@ $(function() {
 <body>
 	<div id="my_profile_info_area">
 		<div id="my_profile_name">
-			<form action="/profile/profile_photo.do" id="profilePhotoForm" method="post" enctype="multipart/form-data">
+			<form action="/profile/profile_photo.do" id="profilePhotoForm" method="post" enctype="multipart/form-data"> <!-- 동작 : Controller에 해당 페이지 요청 -> 컨트롤러 해당 요청을 수행하고 에서 JSP 페이지로 이동  -->
 				<div class="profile_photo2" id="file_input_hidden">
 					<c:if test="${id==paramId }">
 						<input type="file" id="u_photo" name="u_photo" class="user_photo" maxlength="5" onchange="check();">
@@ -321,11 +321,11 @@ $(function() {
 						<span class="profile_thumb2" >
 		                    <img id="myProfilePhoto" src="${myProfilePhoto.realPath}">
 		                    <span class="profile_thumb_mask2"></span>
-		                    <c:if test="${id==paramId && (login_status==0 || login_status==1)}">
+		                    <c:if test="${id==paramId && (login_status==0 || login_status==1)}"> <!-- 로그인 상태 & 자신의 아이디일 경우에만, 프로필 사진을 초기화 시킬 수 있다. -->
 								<span id="remove_profilePhoto" class="remove_profilePhoto_btn" style="background-image: url('../image/X2.png')"></span>
 							</c:if>
-							<c:if test="${id!=paramId && (login_status==0 || login_status==1)}">
-								<c:if test="${followCheck == true}">
+							<c:if test="${id!=paramId && (login_status==0 || login_status==1)}"> <!-- 로그인 상태일 경우에만, 대상아이디(상대방 아이디)에 대해 팔로우 언팔로우를 수행할 수 있다.. -->
+								<c:if test="${followCheck == true}"> 
 									<span id="unfollow" class="follow_btn" style="background-image: url('../image/icon_36.png')"></span>
 								</c:if>
 								<c:if test="${followCheck == false}">
@@ -341,10 +341,10 @@ $(function() {
 
 		</div>
 		<div id="my_profile_follow">
-			<div class="follow_profile" id="follower_profile"><a href="/follow/follower.do?id=${paramId}">팔로워  ${followerCount } ></a></div>
-			<div class="follow_profile" id="following_profile"><a href="/follow/follewing.do?id=${paramId}">팔로잉  ${followingCount } ></a></div>
+			<div class="follow_profile" id="follower_profile"><a href="/follow/follower.do?id=${paramId}">팔로워  ${followerCount } ></a></div> <!-- 해당아이디의 팔로워 수보기 페이지로 이동 -->
+			<div class="follow_profile" id="following_profile"><a href="/follow/follewing.do?id=${paramId}">팔로잉  ${followingCount } ></a></div> <!-- 해당아이디의 팔로잉 수보기 페이지로 이동 -->
 			</div>
- 		<div class="my_profile" id="category_my_profile">	
+ 		<div class="my_profile" id="category_my_profile">	<!-- 마이프로필 페이지 에서 내가 추가한 카테고리를 보여 준다. -->
 			<c:forEach var="item" items="${CategoryList}" varStatus="status">
 				<div>${item.group1} > ${item.group2} > ${item.group3}</div>
 			</c:forEach> 
@@ -353,23 +353,25 @@ $(function() {
 	</div>
 	<div id="nav_content_screp">
 		<ul id="list_nav" class="ul_list">
-			<li id="my_content">
+			<li id="my_content"> <!-- Content 페이지로 요청, 내가 작성한 게시글 목록을 보여 준다. -->
 				<div class="my_content_screp"><a class="nav_btn" href="#">게 시 물&nbsp;&nbsp;<span id="myCount">${myCount}</span></a></div>
 			</li>
-			<li id="my_screp">
+			<li id="my_screp"> <!-- Screp 글 목록 페이지 이동 요청, 내가 스크렙한 게시글 목록을 보여준다. -->
 				<div class="my_content_screp"><a id="nav_btn_screp" class="nav_btn" href="#">스 크 랩&nbsp;&nbsp;<span id="screpCount">${screpCount}</span></a></div>
 			</li>
 		</ul>
 	</div>
 	<div class="my_profile" id="board_profile">
-		<c:forEach var="board" items="${allBoardList}">
-			<div id="content_${board.board.board_num}" class="content_wrap">
+		<c:forEach var="board" items="${allBoardList}"> <!-- 화면에 보여질 게시글 정보 -->
+			<div id="content_${board.board.board_num}" class="content_wrap"> 
 				<div class="content_first">	
 					<div class="cont_writer">
-						<c:if test="${board.profilePhoto.realPath != null}">
-						<a href="/profile/myProfile.do?id=${board.board.id}" class="profile_photo">
+						<c:if test="${board.profilePhoto.realPath != null}"> <!-- 프로필 사진의 경로가 있을 경우(프로필 사진이 등록된 경우) -->
+						<a href="/profile/myProfile.do?id=${board.board.id}" class="profile_photo"> <!-- 대상 아이디의 프로필 페이지로 이동  -->
 							<span class="profile_thumb">
-			                    <img src="${board.profilePhoto.realPath}">
+							
+							
+			                    <img src="${board.profilePhoto.realPath}"> <!-- 해당 경로안에 있는 이미지를 불러온다. -->
 			                    <span class="profile_thumb_mask"></span>
 		               		</span>
 						</a>
@@ -379,7 +381,7 @@ $(function() {
 							<fmt:formatDate value="${board.board.write_date}" pattern="yyyy-MM-dd HH:mm"/>
 						</div>
 						<div class="cont_menu">
-							<a href="#" id="${board.board.board_num}" class="cont_menu_option">
+							<a href="#" id="${board.board.board_num}" class="cont_menu_option"> <!-- 화면에 보여지는 옵션 버튼  -->
 								<span id="cont_btn_menu">옵션</span>						
 							</a>
 							 <div id="menu_${board.board.board_num}" class="cont_btn_option">
@@ -387,7 +389,7 @@ $(function() {
 								<ul class="cont_popup ul_list">
 									<c:choose>
 										<c:when test="${id != 'admin'}">
-											<c:if test="${board.board.id != id}">
+											<c:if test="${board.board.id != id}"> <!-- 옵션 클릭 후 해당 조건에 따라 보여지는 게시글삭제, 게시글 수정 버튼 / 클릭 후 동작 수행 -->
 												<li>
 													<a href="/content/reportPro.do?board_num=${board.board.board_num}" class="cont_popup_close" >이 게시글 신고</a>
 												</li>
