@@ -42,6 +42,25 @@
  <select parameterType="String" id="getInfo" resultType="hashmap">
 <!-- 조건문 -->
  </select>
+ 	<!-- 글 목록 -->
+ 	<select id="getBoardList" resultType="command.BoardCommand">
+ 		select * from board
+ 	</select>
+ 	<select id="getListByASC" resultType="command.BoardCommand">
+		 select * from board ORDER BY write_date ASC
+	</select>
+	<select id="getListByBoardNum_DESC" resultType="command.BoardCommand">
+		select * from board ORDER BY board_num DESC
+	</select>
+	<select id="getListByBoardNum_ASC" resultType="command.BoardCommand">
+		select * from board ORDER BY board_num ASC
+	</select>
+	<select id="getListByWriter_DESC" resultType="command.BoardCommand">
+		select * from board ORDER BY id DESC
+	</select>
+	<select id="getListByWriter_ASC" resultType="command.BoardCommand">
+		select * from board ORDER BY id ASC
+	</select>
 	<!-- 인기글 리스트 -->
  	<select id="getPopularityBoardList" resultType="command.BoardCommand"> 
  		select * from board

@@ -7,10 +7,10 @@
 <html>
    <head>
       <style>
-         #allBoardManagement{margin-top: 150px;padding-top: 30px; padding-bottom: 30px;}
-         #allMemberManagement{margin-top: 20px;     padding-top: 30px;padding-bottom: 30px;}
+         #BoardManagement{margin-top: 150px;padding-top: 30px; padding-bottom: 30px; cursor:pointer;}
+         #MemberManagement{margin-top: 20px; padding-top: 30px;padding-bottom: 30px; cursor:pointer;}
          #name{font-family: '나눔고딕', 'Nanum Gothic', sans-serif;   font: 23px '나눔고딕', 'Nanum Gothic', sans-serif;   color: #828282;}
-         .MemberManageTitle{
+         .Title{
             text-align: center;
             font-size: 20px;
             border: 1px solid;
@@ -22,44 +22,40 @@
             height: auto;
             margin: 50 auto;
          }
-
       </style>
       <script>
       $(document).ready(function(){
-         $("#allBoardManagement").hover(function(){
-            $("#allBoardManagement").css("background-color","#f6f6f6");
-            $("#allBoardManagement").css("color","white");
-         }, function(){
-            $("#allBoardManagement").css("background-color","white");
-            });            
+		$("#BoardManagement").mouseover(function(){
+			$(this).css("background-color", '#EAEAEA');
+		});
+		$("#BoardManagement").mouseout(function(){
+			$(this).css("background-color", '#FFFFFF');
+		})
+		$("#MemberManagement").mouseover(function(){
+			$(this).css("background-color", '#EAEAEA');
+		});
+		$("#MemberManagement").mouseout(function(){
+			$(this).css("background-color", '#FFFFFF');
+		})
       });
-      $(document).ready(function(){
-      $("#allMemberManagement").hover(function(){
-            $("#allMemberManagement").css("background-color","#f6f6f6");
-         
-         }, function(){
-            $("#allMemberManagement").css("background-color","white");
-            });
-         });
       $(function(){
-    	$(".adminMain").on("click", ".MemberManageTitle", function(){
+    	$("#BoardManagement").click(function(){
   			$(location).attr("href", "/administrator/adminBoard.do");
   		}); 
+    	$("#MemberManagement").click(function(){
+    		$(location).attr("href", "/administrator/adminMem.do");
+    	});
       });
       </script>
    </head>
    
    <body>
       <div id="adminMain" align="center">
-         <div id="allBoardManagement" class="MemberManageTitle">
-            <a id="name" href="/administrator/adminBoard.do" >
+         <div id="BoardManagement" class="Title">
                	게시글 관리  (${listcount})
-            </a>
          </div>
-         <div id="allMemberManagement" class="MemberManageTitle">
-            <a id="name" href="/administrator/adminMem.do">
+         <div id="MemberManagement" class="Title">
               	 회원 관리 (${count})
-            </a>
          </div>
       </div>
    </body>

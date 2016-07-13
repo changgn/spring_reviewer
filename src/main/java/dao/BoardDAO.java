@@ -31,6 +31,27 @@ public class BoardDAO extends SqlSessionDaoSupport{
 	public Integer getRecentBoardNumById(String id){
 		return getSqlSession().selectOne("board.getRecentBoardNumById", id);
 	}
+	
+	/**	글 목록	*/
+	public List<BoardCommand> getBoardList(){
+		return getSqlSession().selectList("board.getBoardList");
+	}
+	/**	작성일 ASC	*/
+	public List<BoardCommand> getListByWriteDate_ASC(){
+		return getSqlSession().selectList("board.getListByASC");
+	}
+	public List<BoardCommand> getListByWriter_DESC(){
+		return getSqlSession().selectList("board.getListByWriter_DESC");
+	}
+	public List<BoardCommand> getListByWriter_ASC(){
+		return getSqlSession().selectList("board.getListByWriter_ASC");
+	}
+	public List<BoardCommand> getListByBoardNum_DESC(){
+		return getSqlSession().selectList("board.getListByBoardNum_DESC");
+	}
+	public List<BoardCommand> getListByBoardNum_ASC(){
+		return getSqlSession().selectList("board.getListByBoardNum_ASC");
+	}
 	/**	인기글	*/
 	public List<BoardCommand> pupulBoardList(){
 		return getSqlSession().selectList("board.getPopularityBoardList");
@@ -51,6 +72,7 @@ public class BoardDAO extends SqlSessionDaoSupport{
 	public int getListCount(){
 		return getSqlSession().selectOne("board.getListCount");
 	}
+	/**	글목록 작성일DESC	*/
 	public List<BoardCommand> getList(){
 		return getSqlSession().selectList("board.getList");
 	}

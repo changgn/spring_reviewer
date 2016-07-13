@@ -33,7 +33,6 @@ public class AdminController extends BaseController {
 	      
 		int listcount = 0;
 		listcount = boardDao.getListCount();
-		listcount -= 1;
 		model.addAttribute("count", count);
 		model.addAttribute("listcount", listcount);
 		return "administrator/admin";
@@ -41,10 +40,43 @@ public class AdminController extends BaseController {
 	
 	/**	게시글 관리	*/
 	@RequestMapping("/administrator/adminBoard.do")
-	public String reportForm(Model model){
+	public String reportForm(Model model, String sort, String kind){
+		// 분류, 정렬
+		if(kind == null ) kind = "noKind";
+		if(sort == null ) sort = "noSort";
 		// 전체 게시글 목록
-		List<BoardCommand> BoardList = null;
-		BoardList = boardDao.getList();
+		List<BoardCommand> BoardList = new ArrayList<BoardCommand>();
+		if(kind.equals("board_num")){
+			if(sort.equals("DESC")){
+				BoardList = boardDao.getListByBoardNum_ASC();
+				kind = "board_num";
+				sort = "ASC";
+			}else{
+				BoardList = boardDao.getListByBoardNum_DESC();
+				kind = "board_num";
+				sort = "DESC";
+			}
+		}else if(kind.equals("writer")){
+			if(sort.equals("DESC")){
+				BoardList = boardDao.getListByWriter_ASC();
+				sort = "ASC";
+			}else{
+				BoardList = boardDao.getListByWriter_DESC();
+				sort = "DESC";
+			}
+		}else if(kind.equals("writeDate")){
+			if(sort.equals("DESC")){
+				BoardList = boardDao.getListByWriteDate_ASC();
+				sort = "ASC";
+			}else{
+				BoardList = boardDao.getList();
+				sort = "DESC";
+			}
+		}else{
+			BoardList = boardDao.getBoardList();
+		}
+		model.addAttribute("kind", kind);
+		model.addAttribute("sort", sort);
 		model.addAttribute("boardList", BoardList);
 		// 게시글 카테고리 정보
 		Map<String, Object> cii = new HashMap<String, Object>();
