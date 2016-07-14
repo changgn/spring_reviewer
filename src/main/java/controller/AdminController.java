@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -18,7 +17,6 @@ import command.BoardCommand;
 import command.CategoryCommand;
 import command.MemberCommand;
 import command.ProfilePhotoCommand;
-import net.sf.json.JSONObject;
 
 @Controller
 public class AdminController extends BaseController {
@@ -106,6 +104,10 @@ public class AdminController extends BaseController {
 		board_num_list = boardDao.getBoardNumList();
 		Map<Integer, Object> commentCountMap = new HashMap<Integer, Object>();
 		Map<Integer, Object> screpCountMap = new HashMap<Integer, Object>();
+		List<String> RecommendListByBoard = new ArrayList<String>();
+		Map<Integer, Object> recommendIdListMap = new HashMap<Integer, Object>();
+		List<String> ReportListByBoard = new ArrayList<String>();
+		Map<Integer, Object> reportIdListMap = new HashMap<Integer, Object>();
 		// 게시글 코멘트 개수
 		String commentCount;
 		for(int board_num : board_num_list){
@@ -123,6 +125,18 @@ public class AdminController extends BaseController {
 		int listcount = 0;
 		listcount = boardDao.getListCount();
 		model.addAttribute("listcount", listcount);
+
+		for(int board_num : board_num_list){
+			RecommendListByBoard = recommendDao.getIdByRecommendNum(board_num);
+			recommendIdListMap.put(board_num, RecommendListByBoard);
+		}
+		model.addAttribute("recommendListByBoard", recommendIdListMap);
+		for(int board_num : board_num_list){
+			ReportListByBoard = reportDao.getIdListByBoardNum(board_num);
+			reportIdListMap.put(board_num, ReportListByBoard);
+		}
+		model.addAttribute("reportListByBoard", reportIdListMap);
+
 		return "administrator/adminBoard";
 	}
 	
@@ -246,46 +260,10 @@ public class AdminController extends BaseController {
 		}
 		mav.addObject("CategoryId", Category_Id_Info_map);
 		mav.addObject("MemberCategory", Member_Category_Id_map);
+		
 		mav.setViewName("administrator/adminMem");
 		return mav;
 	}
-	
-	/**	회원 관리 정렬 AJAX	*/
-	@RequestMapping("/administrator/adminMemSort.do")
-	public String adminMemSort(HttpServletRequest request, HttpServletResponse response, String kind, String sort, Model model){
-		JSONObject jso = new JSONObject();
-		List<MemberCommand> member_list = new ArrayList<MemberCommand>();
-		// 분류별 정렬별 회원목록
-//		if( kind == null ) kind = "noKind";
-//		if( sort == null ) sort = "noSort";
-		if(kind.equals("recommend")){
-			if(sort.equals("DESC")){
-				member_list = memberDao.getListByReccomend_ASC();
-			}else{
-				member_list = memberDao.getListByRecommend_DESC();
-			}
-		}else if(kind.equals("regDate")){
-			if(sort.equals("DESC")){
-				member_list = memberDao.getListByRegDate_ASC();
-			}else{
-				member_list = memberDao.getListByRegDate_DESC();
-			}
-		}else if(kind.equals("id")){
-			if(sort.equals("DESC")){
-				member_list = memberDao.getListById_ASC();
-			}else{
-				member_list = memberDao.getListById_DESC();
-			}
-		}else{	/*	kind - noKind, sort - noSort	*/
-			member_list = memberDao.getList();
-		}
-		jso.put("kind", kind);
-		jso.put("sort", sort);
-		jso.put("memberList", member_list);
-		response.setContentType("text/html;charset=utf-8");
-		return jso.toString();
-	}
-	
 	
 	/**	회원 강제 탈퇴	*/
 	@RequestMapping("/administrator/adminOutput.do")

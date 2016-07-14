@@ -59,8 +59,10 @@
 					var style = member_info.attr("style");
 					var member_detale_class = member_info.attr("class");
 					var css_member = $("#css_" + member_id);
+					var boardNumList_id = $("#boardNumList_" + member_id);
 					if(style == 'display: none;'){
 						$("." + member_detale_class).hide();
+						boardNumList_id.hide();
 						member_info.show();
 					}else{
 						member_info.hide();
@@ -236,16 +238,16 @@
 							</li>
 						</ul>
 						<ul class="three">
-							<li>
+							<li class="bnl" id="${memberList.id}">
 								<img src="../image/list_icon.png" width="15" height="15">작성 게시글 : ${boardCount[memberList.id]}
 							</li>
-							<li>
+							<li class="rcnl" id="${memberList.id}">
 								<img src="../image/recommend_off.png" width="15" height="15"> 추천한 게시글 : ${recommendCount[memberList.id]}
 							</li>
-							<li>
+							<li class="rpnl" id="${memberList.id}">
 								<img src="../image/report.png"> 신고한 게시글 : ${reportCount[memberList.id]}
 							</li>
-							<li>
+							<li class="snl" id="${memberList.id}">
 								<img src="../image/screp_on.png" width="15" height="15">스크랩 게시글 : ${scropCount[memberList.id]}
 							</li>
 						</ul>

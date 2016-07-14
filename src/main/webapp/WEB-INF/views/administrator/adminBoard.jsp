@@ -29,14 +29,13 @@
 			.item li {float:left; width:20%; border-left:1px solid #ddd; text-align:center; box-sizing:border-box;}
 			.item li {display:inline-block; padding:5px; cursor:pointer; vertical-align: middle;}
 			
-			.Board_Detaile_Info{position: relative; top: 0;right: 0;bottom: 0;left: 0;line-height: 100%; margin: 0 auto; width: 400px;}
-			.Board_Detaile_Info li{text-align: left;}
-			.Report_Board_Detaile_Info{position: relative; top: 0;right: 0;bottom: 0;left: 0;line-height: 100%; margin: 0 auto; width: 400px;}
-			.Report_Board_Detaile_Info li{text-align: left;}
-			.Popul_Board_Detaile_Info{position: relative; top: 0;right: 0;bottom: 0;left: 0;line-height: 100%; margin: 0 auto; width: 400px;}
-			.Popul_Board_Detaile_Info li{text-align: left;}
+			.Board_Detaile_Info{position: relative; top: 0;right: 0;bottom: 0;left: 0;line-height: 100%; margin: 0 auto; width: 550px;}
+			.Board_Detaile_Info ul{float: left; width: 50%; text-align: left; vertical-align: middle;}
 			
 			.Sort_Menu{text-align: left; margin: 0; padding: 0; width: 166px; height: 40px; text-align: right; cursor: pointer;}
+			
+			.rcmd{cursor: pointer;}
+			.rpt{cursor: pointer;}
 		</style>
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 		<script>
@@ -134,6 +133,32 @@
 		    	$(".change").click(function(){
 		  			$(location).attr("href", "/administrator/adminMem.do");
 		  		}); 
+			});
+			$(function(){
+				$(".rcmd").click(function(){
+					var board_num = $(this).attr("id");
+					var rcl_board_num = $("#rcl_" + board_num);
+					var style = rcl_board_num.attr("style");
+					if(style == 'display: none;'){
+						$(".recommendList").hide();
+						$(".reprotList").hide();
+						rcl_board_num.show();
+					}else{
+						rcl_board_num.hide();
+					}
+				});
+				$(".rpt").click(function(){
+					var board_num = $(this).attr("id");
+					var rcl_board_num = $("#rpl_" + board_num);
+					var style = rcl_board_num.attr("style");
+					if(style == 'display: none;'){
+						$(".recommendList").hide();
+						$(".reprotList").hide();
+						rcl_board_num.show();
+					}else{
+						rcl_board_num.hide();
+					}
+				});
 			});
 		</script>
 	</head>
@@ -260,32 +285,52 @@
 							삭제 <img src="../image/memOut_icon1.png" width="14" height="14" title="삭제"> 
     					</li>
     				</ul>
-					<ul class="Board_Detaile_Info" id="info_${board.board_num}" title="${board.board_num}" style="display: none;">
-						<li>
-							글 번호 : ${board.board_num}
-						</li>
-						<li>
-							작성자 : ${board.id}
-						</li>
-						<li>
-							카테고리 : ${category_info[board.category_id].group1}, ${category_info[board.category_id].group2}, ${category_info[board.category_id].group3}
-						</li>
-						<li>
-							작성일시 : <fmt:formatDate value="${board.write_date}" pattern="yyyy-MM-dd HH:mm"/>
-						</li>
-						<li>
-			            	추천 <img src="../image/recommend_off.png" width="10" height="10"> : ${board.recommend_num}
-						</li>
-						<li>
-							신고 <img src="../image/report.png" width="10" height="10"> : ${board.report_num}
-						</li>
-						<li>
-							댓글 <img src="../image/icon_14.png" width="10" height="10"> : ${commentCount[board.board_num]}
-						</li>
-						<li>
-							스크랩 <img src="../image/screp_on.png" width="10" height="10"> :${screpCount[board.board_num]}
-						</li>
-					</ul>
+    				<div class="Board_Detaile_Info" id="info_${board.board_num}" title="${board.board_num}" style="display: none;">
+						<ul class="one">
+							<li>
+								글 번호 : ${board.board_num}
+							</li>
+							<li>
+								작성자 : ${board.id}
+							</li>
+							<li>
+								카테고리 : ${category_info[board.category_id].group1}, ${category_info[board.category_id].group2}, ${category_info[board.category_id].group3}
+							</li>
+							<li>
+								작성일시 : <fmt:formatDate value="${board.write_date}" pattern="yyyy-MM-dd HH:mm"/>
+							</li>
+							<li class="rcmd" id="${board.board_num}">
+				            	추천 <img src="../image/recommend_off.png" width="10" height="10"> : ${board.recommend_num}
+							</li>
+							<li class="rpt" id="${board.board_num}">
+								신고 <img src="../image/report.png" width="10" height="10"> : ${board.report_num}
+							</li>
+							<li>
+								댓글 <img src="../image/icon_14.png" width="10" height="10"> : ${commentCount[board.board_num]}
+							</li>
+							<li>
+								스크랩 <img src="../image/screp_on.png" width="10" height="10"> :${screpCount[board.board_num]}
+							</li>
+						</ul>
+						<ul class="two">
+							<li class="recommendList" id="rcl_${board.board_num}" style="display: none;">
+								<c:if test="${empty recommendListByBoard[board.board_num]}">
+									추천 없음
+								</c:if>
+								<c:if test="${!empty recommendListByBoard[board.board_num]}">
+									${recommendListByBoard[board.board_num]} <br/>
+								</c:if>
+							</li>
+							<li class="reprotList" id="rpl_${board.board_num}" style="display: none;">
+								<c:if test="${empty reportListByBoard[board.board_num]}">
+									신고 없음
+								</c:if>
+								<c:if test="${!empty reportListByBoard[board.board_num]}">
+									${reportListByBoard[board.board_num]}<br/>
+								</c:if>
+							</li>
+						</ul>
+					</div>
 				</c:forEach>
     		</div>	
 		</div>

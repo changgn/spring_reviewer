@@ -104,11 +104,9 @@
  <select parameterType="java.lang.Integer" id="getByBoardNum" resultType="command.BoardCommand"> 
  	select * from board where board_num=#{board_num}
  </select>
-
  <select id="getRecoBoarList" resultType="command.BoardCommand"> 
  	select * from board ORDER BY recommend_num DESC
  </select>
-
 <select id="getRepoBoarList" resultType="command.BoardCommand"> 
 	select * from board ORDER BY report_num DESC
 </select>
