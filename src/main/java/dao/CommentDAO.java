@@ -56,7 +56,9 @@ public class CommentDAO extends SqlSessionDaoSupport{
 		return getSqlSession().selectOne("comment.getRecentCommentNum");
 	}
 
-	
+	public List<String> getIdByBoardNum(int board_num){
+		return getSqlSession().selectList("comment.getIdByBoardNum", board_num);
+	}
 
 	
 	

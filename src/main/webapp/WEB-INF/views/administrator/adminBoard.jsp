@@ -38,6 +38,8 @@
 			.rpt{cursor: pointer;}
 			.boardNum{cursor: pointer;}
 			.writer{cursor: pointer;}
+			.cmt{cursor: pointer;}
+			.scr{cursor: pointer;}
 		</style>
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 		<script>
@@ -150,6 +152,8 @@
 					if(style == 'display: none;'){
 						$(".recommendList").hide();
 						$(".reprotList").hide();
+						$(".commentList").hide();
+						$(".screpList").hide();
 						rcl_board_num.show();
 					}else{
 						rcl_board_num.hide();
@@ -157,14 +161,44 @@
 				});
 				$(".rpt").click(function(){
 					var board_num = $(this).attr("id");
-					var rcl_board_num = $("#rpl_" + board_num);
-					var style = rcl_board_num.attr("style");
+					var rpl_board_num = $("#rpl_" + board_num);
+					var style = rpl_board_num.attr("style");
 					if(style == 'display: none;'){
 						$(".recommendList").hide();
 						$(".reprotList").hide();
-						rcl_board_num.show();
+						$(".commentList").hide();
+						$(".screpList").hide();
+						rpl_board_num.show();
 					}else{
-						rcl_board_num.hide();
+						rpl_board_num.hide();
+					}
+				});
+				$(".cmt").click(function(){
+					var board_num = $(this).attr("id");
+					var cmt_board_num = $("#cl_" + board_num);
+					var style = cmt_board_num.attr("style");
+					if(style == 'display: none;'){
+						$(".recommendList").hide();
+						$(".reprotList").hide();
+						$(".commentList").hide();
+						$(".screpList").hide();
+						cmt_board_num.show();
+					}else{
+						cmt_board_num.hide();
+					}
+				});
+				$(".scr").click(function(){
+					var board_num = $(this).attr("id");
+					var scr_board_num = $("#sl_" + board_num);
+					var style = scr_board_num.attr("style");
+					if(style == 'display: none;'){
+						$(".recommendList").hide();
+						$(".reprotList").hide();
+						$(".commentList").hide();
+						$(".screpList").hide();
+						scr_board_num.show();
+					}else{
+						scr_board_num.hide();
 					}
 				});
 			});
@@ -303,17 +337,25 @@
 							<li>
 								작성일시 : <fmt:formatDate value="${board.write_date}" pattern="yyyy-MM-dd HH:mm"/>
 							</li>
-							<li class="rcmd" id="${board.board_num}">
-				            	추천 <img src="../image/recommend_off.png" width="10" height="10"> : ${board.recommend_num}
-							</li>
-							<li class="rpt" id="${board.board_num}">
-								신고 <img src="../image/report.png" width="10" height="10"> : ${board.report_num}
+							<li>
+								<span class="rcmd" id="${board.board_num}">
+				            		추천 <img src="../image/recommend_off.png" width="10" height="10"> : ${board.recommend_num}
+				            	</span>
 							</li>
 							<li>
-								댓글 <img src="../image/icon_14.png" width="10" height="10"> : ${commentCount[board.board_num]}
+								<span class="rpt" id="${board.board_num}">
+									신고 <img src="../image/report.png" width="10" height="10"> : ${board.report_num}
+								</span>
 							</li>
 							<li>
-								스크랩 <img src="../image/screp_on.png" width="10" height="10"> :${screpCount[board.board_num]}
+								<span class="cmt" id="${board.board_num}">
+									댓글 <img src="../image/icon_14.png" width="10" height="10"> : ${commentCount[board.board_num]}
+								</span>
+							</li>
+							<li>
+								<span class="scr" id="${board.board_num}">
+									스크랩 <img src="../image/screp_on.png" width="10" height="10"> :${screpCount[board.board_num]}
+								</span>
 							</li>
 						</ul>
 						<ul class="two">
@@ -332,6 +374,22 @@
 								<c:if test="${!empty reportListByBoard[board.board_num]}">
 									${reportListByBoard[board.board_num]}<br/>
 								</c:if>
+							</li>
+							<li class="commentList" id="cl_${board.board_num}" style="display: none;"> 
+								<c:if test="${empty commentIdListByBoardnum[board.board_num]}">
+									댓글 없음
+								</c:if>
+								<c:if test="${!empty commentIdListByBoardnum[board.board_num]}">
+									${commentIdListByBoardnum[board.board_num]}<br/>
+								</c:if>								
+							</li>
+							<li class="screpList" id="sl_${board.board_num}" style="display: none;">
+								<c:if test="${empty screpListByBoardnum[board.board_num]}">
+									스크랩 없음
+								</c:if>
+								<c:if test="${!empty screpListByBoardnum[board.board_num]}">
+									${screpListByBoardnum[board.board_num]}<br/>
+								</c:if>		
 							</li>
 						</ul>
 					</div>

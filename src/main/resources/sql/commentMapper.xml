@@ -40,6 +40,9 @@
 	<select id="getCountByBoardNum" parameterType="java.lang.Integer" resultType="java.lang.String">
 		select count(comment_num) from comments where board_num=#{board_num}
 	</select>
+	<select id="getIdByBoardNum" parameterType="java.lang.Integer" resultType="java.lang.String">
+		select distinct id from comments where board_num=#{board_num}
+	</select>
 	<select id="find" parameterType="String" resultType="command.CommentCommand">
 		<!-- 조건문 -->
 	</select>

@@ -136,7 +136,22 @@ public class AdminController extends BaseController {
 			reportIdListMap.put(board_num, ReportListByBoard);
 		}
 		model.addAttribute("reportListByBoard", reportIdListMap);
-
+		List<String> CommentListByBoard = new ArrayList<String>();
+		Map<Integer, Object> commentIdListMap = new HashMap<Integer, Object>();
+		for(int board_num : board_num_list){
+			CommentListByBoard = commentDao.getIdByBoardNum(board_num);
+			commentIdListMap.put(board_num, CommentListByBoard);
+		}
+		model.addAttribute("commentIdListByBoardnum", commentIdListMap);
+		List<String> ScrepListByBoard = new ArrayList<String>();
+		Map<Integer, Object> screpIdListMap = new HashMap<Integer, Object>();
+		for(int board_num : board_num_list){
+			ScrepListByBoard = screpDao.getIdByScrepNum(board_num);
+			screpIdListMap.put(board_num, ScrepListByBoard);
+		}
+		model.addAttribute("screpListByBoardnum", screpIdListMap);
+		
+		
 		return "administrator/adminBoard";
 	}
 	
