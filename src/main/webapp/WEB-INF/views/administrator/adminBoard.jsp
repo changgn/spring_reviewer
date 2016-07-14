@@ -196,17 +196,15 @@
 					<a href="/administrator/adminBoard.do?kind=writerDate&sort=DESC">
 						작성일
 					</a>
-					&nbsp;
-					<img src="../image/icon_08.png" height="15">
-					&nbsp;
+					<br/>
 					<a href="/administrator/adminBoard.do?kind=report&sort=DESC">
-						신고
+						신고 게시글
 					</a>
 					&nbsp;
 					<img src="../image/icon_08.png" height="15">
 					&nbsp;
 					<a href="/administrator/adminBoard.do?kind=recommend&sort=DESC">
-						추천
+						추천 게시글
 					</a>
 				</c:if>
 				<c:if test="${kind ne 'noKind' &&sort ne 'noSort'}">
@@ -246,17 +244,15 @@
 							작성일 
 						</a>
 					</c:if>
-					&nbsp;
-						<img src="../image/icon_08.png" height="15">
-					&nbsp;
+					<br/>
 					<c:if test="${sort eq 'DESC'}">
 						<a href="/administrator/adminBoard.do?kind=report&sort=DESC">
-							신고
+							신고 게시글
 						</a>
 					</c:if>
 					<c:if test="${sort eq 'ASC'}">
 						<a href="/administrator/adminBoard.do?kind=report&sort=ASC">
-							신고
+							신고 게시글
 						</a>
 					</c:if>
 					&nbsp;
@@ -264,12 +260,12 @@
 					&nbsp;
 					<c:if test="${sort eq 'DESC'}">
 						<a href="/administrator/adminBoard.do?kind=recommend&sort=DESC">
-							추천
+							추천 게시글
 						</a>
 					</c:if>
 					<c:if test="${sort eq 'ASC'}">
 						<a href="/administrator/adminBoard.do?kind=recommend&sort=ASC">
-							추천
+							추천 게시글
 						</a>
 					</c:if>
 				</c:if>
