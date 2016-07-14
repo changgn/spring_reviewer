@@ -56,9 +56,15 @@ public class BoardDAO extends SqlSessionDaoSupport{
 	public List<BoardCommand> pupulBoardList(){
 		return getSqlSession().selectList("board.getPopularityBoardList");
 	}
+	public List<BoardCommand> populBoardListByASC(){
+		return getSqlSession().selectList("board.getPopularityBoardListByASC");
+	}
 	/**	신고글	*/
 	public List<BoardCommand> reportBoardList(){
 		return getSqlSession().selectList("board.getReportBoardList");
+	}
+	public List<BoardCommand> getReportBoardList(){
+		return getSqlSession().selectList("board.getReportBoardListByASC");
 	}
 	/**	해당 ID 작성 게시글 수	*/
 	public int getBoardCountById(String id){

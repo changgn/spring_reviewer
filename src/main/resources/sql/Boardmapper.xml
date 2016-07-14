@@ -61,17 +61,27 @@
 	<select id="getListByWriter_ASC" resultType="command.BoardCommand">
 		select * from board ORDER BY id ASC
 	</select>
-	<!-- 인기글 리스트 -->
+	<!-- 추천 정렬 -->
  	<select id="getPopularityBoardList" resultType="command.BoardCommand"> 
  		select * from board
- 		where recommend_num>0 
+ 		where recommend_num > 0
  		ORDER BY recommend_num DESC
-	 </select>
-	<!-- 신고글 리스트 -->
+	</select>
+	<select id = "getPopularityBoardListByASC" resultType="command.BoardCommand">
+		select * from board
+		where recommend_num > 0
+		ORDER BY recommend_num ASC
+	</select>
+	<!-- 신고 정렬 -->
  	<select id="getReportBoardList" resultType="command.BoardCommand"> 
  		select * from board
- 		where report_num>0
+ 		where report_num > 0
  		ORDER BY report_num DESC
+ 	</select>
+ 	<select id="getReportBoardListByASC" resultType="command.BoardCommand">
+ 		select * from board
+ 		where report_num > 0
+ 		ORDER BY report_num ASC
  	</select>
 	<!-- 해당 ID 게시글 수 -->
 	<select id="getBoardCountById" parameterType="String" resultType="Integer">

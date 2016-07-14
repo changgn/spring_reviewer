@@ -30,10 +30,10 @@ public class AdminController extends BaseController {
 		int count = 0;      
 		count = memberDao.count();
 		count -= 1;
-	      
+		model.addAttribute("count", count);
+		
 		int listcount = 0;
 		listcount = boardDao.getListCount();
-		model.addAttribute("count", count);
 		model.addAttribute("listcount", listcount);
 		return "administrator/admin";
 	}
@@ -72,6 +72,22 @@ public class AdminController extends BaseController {
 				BoardList = boardDao.getList();
 				sort = "DESC";
 			}
+		}else if(kind.equals("report")){
+			if(sort.equals("DESC")){
+				BoardList = boardDao.reportBoardList();
+				sort = "ASC";
+			}else{
+				BoardList = boardDao.getReportBoardList();
+				sort = "DESC";
+			}
+		}else if(kind.equals("recommend")){
+			if(sort.equals("DESC")){
+				BoardList = boardDao.pupulBoardList();
+				sort = "ASC";
+			}else{
+				BoardList = boardDao.populBoardListByASC();
+				sort = "DESC";
+			}
 		}else{
 			BoardList = boardDao.getBoardList();
 		}
@@ -104,14 +120,9 @@ public class AdminController extends BaseController {
 			screpCountMap.put(board_num, screpCount);
 		}
 		model.addAttribute("screpCount", screpCountMap);
-		// 신고 게시글 목록
-		List<BoardCommand> ReportBoardList = null;
-		ReportBoardList = boardDao.reportBoardList();
-		model.addAttribute("reportBoardList", ReportBoardList);
-		// 추천 게시글 목록
-		List<BoardCommand> PopulBoardList = null;
-		PopulBoardList = boardDao.pupulBoardList();
-		model.addAttribute("populBoardList", PopulBoardList);
+		int listcount = 0;
+		listcount = boardDao.getListCount();
+		model.addAttribute("listcount", listcount);
 		return "administrator/adminBoard";
 	}
 	
