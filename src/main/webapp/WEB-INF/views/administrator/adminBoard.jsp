@@ -36,6 +36,8 @@
 			
 			.rcmd{cursor: pointer;}
 			.rpt{cursor: pointer;}
+			.boardNum{cursor: pointer;}
+			.writer{cursor: pointer;}
 		</style>
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
 		<script>
@@ -133,6 +135,12 @@
 		    	$(".change").click(function(){
 		  			$(location).attr("href", "/administrator/adminMem.do");
 		  		}); 
+		    	$(".boardNum").click(function(){
+		    		$(location).attr("href", "/content/contentForm.do?board_num=" + $(this).attr("id"));
+		    	});
+		    	$(".writer").click(function(){
+		    		$(location).attr("href", "/profile/myProfile.do?id=" + $(this).attr("id"));
+		    	});
 			});
 			$(function(){
 				$(".rcmd").click(function(){
@@ -287,10 +295,10 @@
     				</ul>
     				<div class="Board_Detaile_Info" id="info_${board.board_num}" title="${board.board_num}" style="display: none;">
 						<ul class="one">
-							<li>
+							<li class="boardNum" id="${board.board_num}">
 								글 번호 : ${board.board_num}
 							</li>
-							<li>
+							<li class="writer" id="${board.id}">
 								작성자 : ${board.id}
 							</li>
 							<li>

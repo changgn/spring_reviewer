@@ -33,7 +33,7 @@
 			.Member_Detaile_Info{position: relative; top: 0;right: 0;bottom: 0;left: 0;line-height: 100%; margin: 0 auto; width: 800px;}
 			.Member_Detaile_Info ul{float: left; width: 33.3%; text-align: left; vertical-align: middle;}
 
-			.Sort_Menu{text-align: left; margin: 0; padding: 0; width: 200px; height: 20px; text-align: right; cursor: pointer;}
+			.Sort_Menu{text-align: left; margin: 0; padding: 0; width: 166px; height: 20px; text-align: left; cursor: pointer;}
 		</style>
 		<link href="../css/style.css" rel="stylesheet" type="text/css">
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
