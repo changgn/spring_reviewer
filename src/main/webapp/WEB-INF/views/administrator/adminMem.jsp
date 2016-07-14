@@ -191,14 +191,10 @@
 							<li>
 								<c:choose>
 									<c:when test="${profilePhoto[memberList.id].realPath != null}">
-										<a href="/profile/myProfile.do?id=${memberList.id}">
 											<img src="${profilePhoto[memberList.id].realPath}" width="180" height="180" align="middle">
-										</a>
 									</c:when>
 									<c:otherwise>
-										<a href="/profile/myProfile.do?id=${memberList.id}">
 											<img src="../image/default_profile.png" width="180" height="180" align="middle">
-										</a>
 									</c:otherwise>
 								</c:choose>
 							</li>
@@ -208,19 +204,19 @@
 								아이디 : ${memberList.id}
 							</li>
 							<li>
-								이름 : ${memberList.name}
+								이&nbsp;&nbsp;&nbsp;름 : ${memberList.name}
 							</li>
 							<li>
-								성별 : ${memberList.gender}	
+								성&nbsp;&nbsp;&nbsp;별 : ${memberList.gender}	
 							</li>
 							<li>
-								email : ${memberList.email}
+								e&nbsp;mail : ${memberList.email}
 							</li>
 							<li>
-			             		핸드폰 번호 : ${memberList.phone_num}
+			             		H&nbsp;.&nbsp;P&nbsp;. : ${memberList.phone_num}
 							</li>
 							<li>
-								추천 받은 수 : ${memberList.recommend_num}
+								추&nbsp;&nbsp;&nbsp;천 : ${memberList.recommend_num}
 							</li>
 							<li>
 								가입일시 : <fmt:formatDate value="${memberList.reg_date}" pattern="yyyy-MM-dd HH:mm"/>
@@ -229,17 +225,17 @@
 								카테고리 정보 : <br/>
 								<c:forEach var="category" items="${MemberCategory[memberList.id]}">
 									<c:if test="${category eq 'not_category'}">
-										&nbsp; &nbsp; &nbsp; 카테고리 설정 없음
+										&nbsp; &nbsp; &nbsp; &nbsp; 카테고리 설정 없음
 									</c:if>
 									<c:if test="${category ne 'not_category'}">
-										&nbsp; &nbsp; &nbsp; ${CategoryId[category].group1} / ${CategoryId[category].group2} / ${CategoryId[category].group3}<br/>
+										&nbsp; &nbsp; &nbsp; &nbsp; ${CategoryId[category].group1} / ${CategoryId[category].group2} / ${CategoryId[category].group3}<br/>
 									</c:if>
 								</c:forEach>
 							</li>
 						</ul>
 						<ul class="three">
 							<li class="bnl" id="${memberList.id}">
-								<img src="../image/list_icon.png" width="15" height="15">작성 게시글 : ${boardCount[memberList.id]}
+								<img src="../image/list_icon.png" width="15" height="15"> 작&nbsp;&nbsp;&nbsp;성 게시글 : ${boardCount[memberList.id]}
 							</li>
 							<li class="rcnl" id="${memberList.id}">
 								<img src="../image/recommend_off.png" width="15" height="15"> 추천한 게시글 : ${recommendCount[memberList.id]}
@@ -248,7 +244,7 @@
 								<img src="../image/report.png"> 신고한 게시글 : ${reportCount[memberList.id]}
 							</li>
 							<li class="snl" id="${memberList.id}">
-								<img src="../image/screp_on.png" width="15" height="15">스크랩 게시글 : ${scropCount[memberList.id]}
+								<img src="../image/screp_on.png" width="15" height="15"> 스크랩 게시글 : ${scropCount[memberList.id]}
 							</li>
 						</ul>
 					</div>

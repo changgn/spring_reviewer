@@ -39,9 +39,23 @@ public class AdminController extends BaseController {
 	/**	게시글 관리	*/
 	@RequestMapping("/administrator/adminBoard.do")
 	public String reportForm(Model model, String sort, String kind){
-		// 분류, 정렬
+		Map<String, Object> cii = new HashMap<String, Object>();
+		Map<Integer, Object> commentCountMap = new HashMap<Integer, Object>();
+		Map<Integer, Object> screpCountMap = new HashMap<Integer, Object>();
+		List<String> RecommendListByBoard = new ArrayList<String>();
+		Map<Integer, Object> recommendIdListMap = new HashMap<Integer, Object>();
+		List<String> ReportListByBoard = new ArrayList<String>();
+		Map<Integer, Object> reportIdListMap = new HashMap<Integer, Object>();
+		List<String> CommentListByBoard = new ArrayList<String>();
+		Map<Integer, Object> commentIdListMap = new HashMap<Integer, Object>();
+		List<String> ScrepListByBoard = new ArrayList<String>();
+		Map<Integer, Object> screpIdListMap = new HashMap<Integer, Object>();
+		List<Integer> board_num_list = new ArrayList<Integer>();
 		if(kind == null ) kind = "noKind";
 		if(sort == null ) sort = "noSort";
+		int screpCount = 0;
+		int listcount = 0;
+		// 분류, 정렬
 		// 전체 게시글 목록
 		List<BoardCommand> BoardList = new ArrayList<BoardCommand>();
 		if(kind.equals("board_num")){
@@ -93,25 +107,14 @@ public class AdminController extends BaseController {
 		model.addAttribute("sort", sort);
 		model.addAttribute("boardList", BoardList);
 		// 게시글 카테고리 정보
-		Map<String, Object> cii = new HashMap<String, Object>();
 		for(BoardCommand bc : BoardList){
 			String category_id = bc.getCategory_id();
 			CategoryCommand cc = categoryDao.getOne(category_id);
 			cii.put(category_id, cc);
 		}
 		model.addAttribute("category_info", cii);
-		List<Integer> board_num_list = new ArrayList<Integer>();
+		// 게시글 번호 목록
 		board_num_list = boardDao.getBoardNumList();
-		Map<Integer, Object> commentCountMap = new HashMap<Integer, Object>();
-		Map<Integer, Object> screpCountMap = new HashMap<Integer, Object>();
-		List<String> RecommendListByBoard = new ArrayList<String>();
-		Map<Integer, Object> recommendIdListMap = new HashMap<Integer, Object>();
-		List<String> ReportListByBoard = new ArrayList<String>();
-		Map<Integer, Object> reportIdListMap = new HashMap<Integer, Object>();
-		List<String> CommentListByBoard = new ArrayList<String>();
-		Map<Integer, Object> commentIdListMap = new HashMap<Integer, Object>();
-		List<String> ScrepListByBoard = new ArrayList<String>();
-		Map<Integer, Object> screpIdListMap = new HashMap<Integer, Object>();
 		// 게시글 코멘트 개수
 		String commentCount;
 		for(int board_num : board_num_list){
@@ -120,32 +123,33 @@ public class AdminController extends BaseController {
 		}
 		model.addAttribute("commentCount", commentCountMap);
 		// 게시글 스크랩 개수
-		int screpCount = 0;
 		for(int board_num : board_num_list){
 			screpCount = screpDao.getCountByScrepNum(board_num);
 			screpCountMap.put(board_num, screpCount);
 		}
 		model.addAttribute("screpCount", screpCountMap);
-		int listcount = 0;
+		// 글 개수
 		listcount = boardDao.getListCount();
 		model.addAttribute("listcount", listcount);
-
+		// 추천한 아이디 정보
 		for(int board_num : board_num_list){
 			RecommendListByBoard = recommendDao.getIdByRecommendNum(board_num);
 			recommendIdListMap.put(board_num, RecommendListByBoard);
 		}
 		model.addAttribute("recommendListByBoard", recommendIdListMap);
+		// 신고 아이디 정보
 		for(int board_num : board_num_list){
 			ReportListByBoard = reportDao.getIdListByBoardNum(board_num);
 			reportIdListMap.put(board_num, ReportListByBoard);
 		}
 		model.addAttribute("reportListByBoard", reportIdListMap);
+		// 댓글 아이디 정보
 		for(int board_num : board_num_list){
 			CommentListByBoard = commentDao.getIdByBoardNum(board_num);
 			commentIdListMap.put(board_num, CommentListByBoard);
 		}
 		model.addAttribute("commentIdListByBoardnum", commentIdListMap);
-
+		// 스크랩 아이디 정보
 		for(int board_num : board_num_list){
 			ScrepListByBoard = screpDao.getIdByScrepNum(board_num);
 			screpIdListMap.put(board_num, ScrepListByBoard);
@@ -167,6 +171,8 @@ public class AdminController extends BaseController {
 		Map<String, Object> sbmap = new HashMap<String, Object>();
 		Map<String, Object> Member_Category_Id_map = new HashMap<String, Object>();
 		Map<String, Object> Category_Id_Info_map = new HashMap<String, Object>();
+		if(kind == null ) kind = "noKind";
+		if(sort == null ) sort = "noSort";
 		// 관리자 로그인 ID
 		String id = (String)request.getSession().getAttribute("id");
 		if(id.equals("admin")){
@@ -189,9 +195,8 @@ public class AdminController extends BaseController {
 			rbmap.put(mid, boardCount);
 		}
 		mav.addObject("boardCount", rbmap);
-		// 분류, 정렬
-		if(kind == null ) kind = "noKind";
-		if(sort == null ) sort = "noSort";
+		// 분류
+		// 정렬
 		// 회원 정보 목록
 		if(kind.equals("recommend")){
 			if(sort.equals("DESC")){

@@ -24,13 +24,14 @@
 			}
 			.change{ margin: 0; padding: 0; width: 60px; height: 20px; text-align: center; cursor: pointer; position: fixed; background: #D5D5D5;
 					top: 120px;}
-			
+			.board{width: 100%; height: 100% auto;} .boardListBody{height: auto;}
 			.item{border:1px solid #ddd; border-left:none; background:#fff; overflow:hidden;  position: static; width: 100%; z-index: 1000000;}
 			.item li {float:left; width:20%; border-left:1px solid #ddd; text-align:center; box-sizing:border-box;}
 			.item li {display:inline-block; padding:5px; cursor:pointer; vertical-align: middle;}
 			
-			.Board_Detaile_Info{position: relative; top: 0;right: 0;bottom: 0;left: 0;line-height: 100%; margin: 0 auto; width: 550px;}
+			.Board_Detaile_Info{position: relative; top: 0;right: 0;bottom: 0;left: 0;line-height: 100%; margin: 0 auto; width: 500px;}
 			.Board_Detaile_Info ul{float: left; width: 50%; text-align: left; vertical-align: middle;}
+			.two li{ text-align: justify;}
 			
 			.Sort_Menu{text-align: left; margin: 0; padding: 0; width: 166px; height: 40px; text-align: right; cursor: pointer;}
 			
@@ -93,6 +94,8 @@
 						popul_info.hide();
 					}
 				});
+			});
+			$(function(){
 				$(".Board_Simple_Info").mouseover(function(e){
 					var board_num = $(this).attr("title");
 					var css_board_num = $("#css_" + board_num);
@@ -320,10 +323,10 @@
     				<div class="Board_Detaile_Info" id="info_${board.board_num}" title="${board.board_num}" style="display: none;">
 						<ul class="one">
 							<li >
-								글 번호 : ${board.board_num}
+								글 &nbsp;번&nbsp;호 : ${board.board_num}
 							</li>
 							<li>
-								작성자 : ${board.id}
+								작&nbsp;성&nbsp;자&nbsp; : ${board.id}
 							</li>
 							<li>
 								카테고리 : ${category_info[board.category_id].group1}, ${category_info[board.category_id].group2}, ${category_info[board.category_id].group3}
@@ -333,22 +336,22 @@
 							</li>
 							<li>
 								<span class="rcmd" id="${board.board_num}">
-				            		추천 <img src="../image/recommend_off.png" width="10" height="10"> : ${board.recommend_num}
+				            		추&nbsp;&nbsp;&nbsp;천 <img src="../image/recommend_off.png" width="10" height="10"> : ${board.recommend_num}
 				            	</span>
 							</li>
 							<li>
 								<span class="rpt" id="${board.board_num}">
-									신고 <img src="../image/report.png" width="10" height="10"> : ${board.report_num}
+									신&nbsp;&nbsp;&nbsp;고 <img src="../image/report.png" width="10" height="10"> : ${board.report_num}
 								</span>
 							</li>
 							<li>
 								<span class="cmt" id="${board.board_num}">
-									댓글 <img src="../image/icon_14.png" width="10" height="10"> : ${commentCount[board.board_num]}
+									댓&nbsp;&nbsp;&nbsp;글 <img src="../image/icon_14.png" width="10" height="10"> : ${commentCount[board.board_num]}
 								</span>
 							</li>
 							<li>
 								<span class="scr" id="${board.board_num}">
-									스크랩 <img src="../image/screp_on.png" width="10" height="10"> :${screpCount[board.board_num]}
+									스크랩 <img src="../image/screp_on.png" width="10" height="10"> : ${screpCount[board.board_num]}
 								</span>
 							</li>
 						</ul>
@@ -358,7 +361,9 @@
 									추천 없음
 								</c:if>
 								<c:if test="${!empty recommendListByBoard[board.board_num]}">
-									${recommendListByBoard[board.board_num]} <br/>
+									<c:forEach var="recommend" items="${recommendListByBoard[board.board_num]}">
+										< ${recommend} > 
+									</c:forEach>
 								</c:if>
 							</li>
 							<li class="reprotList" id="rpl_${board.board_num}" style="display: none;">
@@ -366,7 +371,9 @@
 									신고 없음
 								</c:if>
 								<c:if test="${!empty reportListByBoard[board.board_num]}">
-									${reportListByBoard[board.board_num]}<br/>
+									<c:forEach var="report" items="${reportListByBoard[board.board_num]}">
+										< ${report} >
+									</c:forEach>
 								</c:if>
 							</li>
 							<li class="commentList" id="cl_${board.board_num}" style="display: none;"> 
@@ -374,7 +381,9 @@
 									댓글 없음
 								</c:if>
 								<c:if test="${!empty commentIdListByBoardnum[board.board_num]}">
-									${commentIdListByBoardnum[board.board_num]}<br/>
+									<c:forEach var="commentList" items="${commentIdListByBoardnum[board.board_num]}">
+										< ${commentList} >
+									</c:forEach>
 								</c:if>								
 							</li>
 							<li class="screpList" id="sl_${board.board_num}" style="display: none;">
@@ -382,13 +391,16 @@
 									스크랩 없음
 								</c:if>
 								<c:if test="${!empty screpListByBoardnum[board.board_num]}">
-									${screpListByBoardnum[board.board_num]}<br/>
+									<c:forEach var="screp" items="${screpListByBoardnum[board.board_num]}">
+										< ${screp} >
+									</c:forEach>
 								</c:if>		
 							</li>
 						</ul>
 					</div>
 				</c:forEach>
-    		</div>	
+    		</div>
+    		<div style="height: 10px;"></div>	
 		</div>
 		<div style="height: 5%;"></div>
 	</body>
