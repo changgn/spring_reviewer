@@ -40,6 +40,7 @@ public class SearchController extends BaseController {
 		this.searchContent = searchContent;
 		String id = (String)request.getSession().getAttribute("id"); 
 		List<HashMap<String, Object>> allBoardList = new ArrayList<HashMap<String, Object>>();
+		List<CategoryCommand> categoryList = new ArrayList<CategoryCommand>();
 		List<BoardCommand> boardList = null;
 		int firstCheck = 1;
 		
@@ -59,6 +60,7 @@ public class SearchController extends BaseController {
 					// 검색할 카테고리 ID 가져오기
 					String category_id = request.getParameter(addname);
 					categoryIdList.add(category_id);
+					categoryList.add(categoryDao.getOne(category_id));
 					System.out.println("검색할 카테고리 id : " + category_id);
 				}
 				this.categoryIdList = categoryIdList;
@@ -120,10 +122,10 @@ public class SearchController extends BaseController {
 			}
 		}
 		
-		
 		model.addAttribute("searchCount", searchCount);
 		model.addAttribute("firstCheck", firstCheck);
 		model.addAttribute("boardList", boardList);
+		model.addAttribute("categoryList", categoryList);
 		model.addAttribute("searchContent", searchContent);
 		return "search/searchForm";
 	}

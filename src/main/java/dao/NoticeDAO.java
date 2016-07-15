@@ -16,6 +16,9 @@ public class NoticeDAO extends SqlSessionDaoSupport {
 	public int insert2(NoticeCommand command){
 		return getSqlSession().insert("notice.add2", command);
 	}
+	public int remove(){
+		return getSqlSession().delete("notice.remove");
+	}	
 	public int removeByBoard(NoticeCommand command){
 		return getSqlSession().delete("notice.removeByBoard", command);
 	}
