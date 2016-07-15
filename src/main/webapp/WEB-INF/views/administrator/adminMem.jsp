@@ -20,8 +20,7 @@
 				margin: 50 auto;
 				cursor: pointer;
 			}
-			.change{ margin: 0; padding: 0; width: 60px; height: 20px; text-align: center; cursor: pointer; position: fixed; background: #D5D5D5;
-					top: 120px;}
+			.change{ margin: 0; padding: 0; width: 60px; height: 20px; float: left; cursor: pointer; }
 			
 			.Member_List_wrap{clear:both; margin-top:50px auto; border:1px solid #ddd;}
 			.Member_List_wrap div{height: 100% auto; background:#fff; line-height:100px; text-align:center;}
@@ -33,7 +32,7 @@
 			.Member_Detaile_Info{position: relative; top: 0;right: 0;bottom: 0;left: 0;line-height: 100%; margin: 0 auto; width: 800px;}
 			.Member_Detaile_Info ul{float: left; width: 33.3%; text-align: left; vertical-align: middle;}
 
-			.Sort_Menu{text-align: left; margin: 0; padding: 0; width: 166px; height: 20px; text-align: left; cursor: pointer;}
+			.Sort_Menu{text-align: right; margin: 0; padding: 0; height: 20px; cursor: pointer; float: right;}
 		</style>
 		<link href="../css/style.css" rel="stylesheet" type="text/css">
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
@@ -103,10 +102,10 @@
 		<title>회원관리</title>
 	</head>
 	<body>
-		<div class="change">
-			게시판 <img src="../image/change_icon.png">
-		</div>
 		<div class="Title">	회원 관리(${count}) </div>
+		<span class="change">
+			게시판 <img src="../image/change_icon.png">
+		</span>
 		<div class="Sort_Menu">
 			<c:if test="${kind eq 'noKind' &&sort eq 'noSort'}">
 				<a href="/administrator/adminMem.do?kind=id&sort=DESC">
