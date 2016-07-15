@@ -22,7 +22,7 @@
 				margin: 50 auto;
 				cursor: pointer;
 			}
-			.change{ margin: 0; padding: 0; width: 60px; height: 20px; text-align: center; cursor: pointer; float: left;}
+			.change{ margin: 10; padding: 0; width: 60px; height: 20px; text-align: center; cursor: pointer; float: left;}
 			.board{width: 100%; height: 100% auto;} .boardListBody{height: auto;}
 			.item{border:1px solid #ddd; border-left:none; background:#fff; overflow:hidden;  position: static; width: 100%; z-index: 1000000;}
 			.item li {float:left; width:20%; border-left:1px solid #ddd; text-align:center; box-sizing:border-box;}
@@ -32,7 +32,7 @@
 			.Board_Detaile_Info ul{float: left; width: 50%; text-align: left; vertical-align: middle;}
 			.two li{ text-align: justify;}
 			
-			.Sort_Menu{ margin: 0; padding: 0; width: 400px; text-align: right; cursor: pointer; float: right;}
+			.Sort_Menu{ margin: 10; padding: 0; width: 400px; text-align: right; cursor: pointer; float: right;}
 			
 			.rcmd{cursor: pointer;}
 			.rpt{cursor: pointer;}

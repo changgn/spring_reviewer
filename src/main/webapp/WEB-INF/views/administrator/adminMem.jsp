@@ -20,7 +20,7 @@
 				margin: 50 auto;
 				cursor: pointer;
 			}
-			.change{ margin: 0; padding: 0; width: 60px; height: 20px; float: left; cursor: pointer; }
+			.change{ margin: 10; padding: 0; width: 60px; height: 20px; float: left; cursor: pointer; }
 			
 			.Member_List_wrap{clear:both; margin-top:50px auto; border:1px solid #ddd;}
 			.Member_List_wrap div{height: 100% auto; background:#fff; line-height:100px; text-align:center;}
@@ -32,7 +32,7 @@
 			.Member_Detaile_Info{position: relative; top: 0;right: 0;bottom: 0;left: 0;line-height: 100%; margin: 0 auto; width: 800px;}
 			.Member_Detaile_Info ul{float: left; width: 33.3%; text-align: left; vertical-align: middle;}
 
-			.Sort_Menu{text-align: right; margin: 0; padding: 0; height: 20px; cursor: pointer; float: right;}
+			.Sort_Menu{text-align: right; margin: 10; padding: 0; height: 20px; cursor: pointer; float: right;}
 		</style>
 		<link href="../css/style.css" rel="stylesheet" type="text/css">
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
