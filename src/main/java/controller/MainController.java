@@ -82,7 +82,7 @@ public class MainController extends BaseController {
 						boardList = mainDao.getPageListByCategoryId(categoryIdList);
 					}
 				} else { 
-					model.addAttribute("error", "noCategory");
+					model.addAttribute("sortError", "noCategory");
 					if(secretBoardNumList.size() != 0){
 						boardList = mainDao.getPageListByExBoardNum(secretBoardNumList);
 					} else {
@@ -97,7 +97,7 @@ public class MainController extends BaseController {
 					}else {
 						boardList = mainDao.getPageListByIdList(idList);}
 				} else {
-					model.addAttribute("error", "noFollow");
+					model.addAttribute("sortError", "noFollow");
 					if(secretBoardNumList.size() != 0){
 						boardList = mainDao.getPageListByExBoardNum(secretBoardNumList);
 					} else {
@@ -130,7 +130,7 @@ public class MainController extends BaseController {
 							boardList = mainDao.getPageListByIdList(idList);
 						}
 					} else {
-						model.addAttribute("error", "noCategoryFollow");
+						model.addAttribute("sortError", "noCategoryFollow");
 						if(secretBoardNumList.size() != 0){
 							boardList = mainDao.getPageListByExBoardNum(secretBoardNumList);
 						} else {

@@ -12,13 +12,13 @@
 <title>메인페이지</title>
 <script>
 $(window).load(function(){
-	if("${error}"=="noCategory") {
+	if("${sortError}"=="noCategory") {
 		alert("설정된 카테고리가 없습니다.");
 	}
-	if("${error}"=="noFollow") {
+	if("${sortError}"=="noFollow") {
 		alert("팔로우하는 리뷰어가 없습니다.");
 	}
-	if("${error}"=="noCategoryFollow") {
+	if("${sortError}"=="noCategoryFollow") {
 		alert("설정된 카테고리와 팔로우하는 리뷰어가 없습니다.");
 	}
 });

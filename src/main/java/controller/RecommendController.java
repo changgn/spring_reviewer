@@ -40,13 +40,14 @@ public class RecommendController extends BaseController {
 				recommendDao.insertRecommend(command);
 				memberDao.updateIncreaseRecommendNum(writer);
 				
-				NoticeCommand noticeCommand = new NoticeCommand("recommend",id,writer,board_num);
-				List<NoticeCommand> noticeList = noticeDao.getListByBoard(noticeCommand);
-				if(noticeList.size() != 0) {
-					noticeDao.removeByBoard(noticeCommand);
-				}
-				noticeDao.insert(noticeCommand);
-				
+				if(id != writer) {
+					NoticeCommand noticeCommand = new NoticeCommand("recommend",id,writer,board_num);
+					List<NoticeCommand> noticeList = noticeDao.getListByBoard(noticeCommand);
+					if(noticeList.size() != 0) {
+						noticeDao.removeByBoard(noticeCommand);
+					}
+					noticeDao.insert(noticeCommand);
+				}				
 				jso.put("recommendFlag", "recommend");
 			}
 			

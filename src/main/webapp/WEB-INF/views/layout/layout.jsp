@@ -26,8 +26,7 @@
 						var noReadNoticeCount = args.noReadNoticeCount;
 						$("#notice_count").text(noReadNoticeCount);
 					}
-				    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
-				    	alert(e.responseText);
+				    ,error:function(e) {
 				    }
 				});
 			}
