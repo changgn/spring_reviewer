@@ -9,6 +9,9 @@
 	<insert id="add2" parameterType="command.NoticeCommand">
 		insert into notice values(SEQ_notice_notice_num.NEXTVAL,#{kind},#{id},#{targetid},null,sysdate,0)
 	</insert>
+	<delete id="remove">
+		delete from notice where id=targetid
+	</delete>
 	<delete id="removeByBoard" parameterType="command.NoticeCommand">
 		delete from notice where kind=#{kind} AND id=#{id} AND targetid=#{targetid} AND board_num=#{board_num}
 	</delete>

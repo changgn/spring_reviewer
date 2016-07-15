@@ -6,7 +6,6 @@
 <html>
 <head>
 <title>검색</title>
-
 <script src="/script/history.js"></script>
 <script src="/script/search.js"></script>
 </head>
@@ -362,6 +361,9 @@
 				</c:if>
 				<c:if test="${searchCount!=0}">
 					<div id="search_result">
+						<c:forEach var="category" items="${categoryList}">
+							<div id='added_${category.category_id}' class='added_ctgry size_long'><h1 class='text_sub'>${category.group1}, ${category.group2}, ${category.group3}</h1></div>
+						</c:forEach>
 						<c:forEach var="board" items="${allBoardList}">
 							<div id="content_${board.board.board_num}" class="content_wrap">
 								<div class="content_first">	
