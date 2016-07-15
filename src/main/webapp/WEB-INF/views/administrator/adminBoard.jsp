@@ -95,32 +95,32 @@
 				});
 			});
 			$(function(){
-				$(".Board_Simple_Info").mouseover(function(e){
+				$(".Board_Simple_Info").mouseover(function(){
 					var board_num = $(this).attr("title");
 					var css_board_num = $("#css_" + board_num);
 					css_board_num.css("background-color", '#EAEAEA');
 				});
-				$(".content").mouseover(function(e){
+				$(".content").mouseover(function(){
 					var board_num = $(this).attr("title");
 					var css_board_num = $("#css_" + board_num);
 					css_board_num.css("background-color", '#EAEAEA');
 				});
-				$(".delete").mouseover(function(e){
+				$(".delete").mouseover(function(){
 					var board_num = $(this).attr("title");
 					var css_board_num = $("#css_" + board_num);
 					css_board_num.css("background-color", '#EAEAEA');
 				});
-				$(".Board_Simple_Info").mouseout(function(e){
+				$(".Board_Simple_Info").mouseout(function(){
 					var board_num = $(this).attr("title");
 					var css_board_num = $("#css_" + board_num);
 					css_board_num.css("background-color", '#FFFFFF');
 				});
-				$(".content").mouseout(function(e){
+				$(".content").mouseout(function(){
 					var board_num = $(this).attr("title");
 					var css_board_num = $("#css_" + board_num);
 					css_board_num.css("background-color", '#FFFFFF');
 				});
-				$(".delete").mouseout(function(e){
+				$(".delete").mouseout(function(){
 					var board_num = $(this).attr("title");
 					var css_board_num = $("#css_" + board_num);
 					css_board_num.css("background-color", '#FFFFFF');
@@ -131,7 +131,7 @@
 		  			$(location).attr("href", "/content/contentForm.do?board_num=" + $(this).attr("id"));
 		  		}); 
 		    	$(".delete").click(function(){
-		    		$(locateion).attr("href", "/content/deleteContent.do?board_num" + $(this).attr("title") + "&id=" + $(this).attr("id"));
+		    		$(location).attr("href", "/content/deleteContent.do?board_num=" + $(this).attr("title") + "&id=" + $(this).attr("id"));
 		    	});
 		    	$(".Title").click(function(){
 		  			$(location).attr("href", "/administrator/adminBoard.do");
