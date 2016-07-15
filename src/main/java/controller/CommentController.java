@@ -33,13 +33,13 @@ public class CommentController extends BaseController{
 
 		int check = commentDao.insert(command);
 		if(check>0) {
-			System.out.println("�뙎湲� ���옣 �셿猷�");
 			BoardCommand board = boardDao.selectContent(board_num);
 			String writer = board.getId();
-			NoticeCommand noticeCommand = new NoticeCommand("comment",id,writer,board_num);
-			noticeDao.insert(noticeCommand);
+			if(id != writer) {
+				NoticeCommand noticeCommand = new NoticeCommand("comment",id,writer,board_num);
+				noticeDao.insert(noticeCommand);
+			}
 		} else {
-			System.out.println("�뙎湲� ���옣 �떎�뙣");
 		}
 		
 		int commetNum = commentDao.getRecentCommentNum();
