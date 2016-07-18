@@ -204,7 +204,7 @@
 	<body>
 		<div class="boardListBody">
 			<div class="Title">
-				게시글 (${listcount})
+				게시글 관리 (${listcount})
 			</div>
 			<span class="change">
 				회원 <img src="../image/change_icon.png">
