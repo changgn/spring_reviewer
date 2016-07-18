@@ -24,7 +24,9 @@
 					,dataType:"json"
 					,success:function(args){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
 						var noReadNoticeCount = args.noReadNoticeCount;
-						$("#notice_count").text(noReadNoticeCount);
+						if(noReadNoticeCount != 0) {
+							$("#notice_count").text(noReadNoticeCount);
+						}
 					}
 				    ,error:function(e) {
 				    }
@@ -129,8 +131,9 @@
 							var noticeList = args.noticeList;
 							var dateList = args.dateList;
 							var noReadNoticeCount = args.noReadNoticeCount;
-							$("#notice_count").text(noReadNoticeCount);
-							
+							if(noReadNoticeCount != 0) {
+								$("#notice_count").text(noReadNoticeCount);
+							}
 							for(var idx=0; idx<noticeList.length; idx++) {
 								view += '<li id="' + noticeList[idx].notice_num + '" class="li_notice">';
 							
@@ -250,8 +253,8 @@
 			<c:if test="${login_status==0 || login_status==1}">
 			<a class="btn_gnb btn_notice_toggle" href="#" onclick="event.preventDefault();">
 				<span id="btn_notice">알림버튼</span>
-				<c:if test="${(login_status==0 || login_status==1) && noReadNoticeCount!=0}">
-					<span id="notice_count">${noReadNoticeCount}</span>
+				<c:if test="${login_status==0 || login_status==1}">
+					<span id="notice_count"></span>
 				</c:if>
 			</a> 
 			</c:if>
